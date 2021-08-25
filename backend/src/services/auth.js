@@ -25,10 +25,11 @@ const getCurrentUser = async ({ username, studentnumber, name }) => {
 }
 
 const checkAuth = async (req) => {
-  const { uid, schacpersonaluniquecode, displayname } = req.headers
-  const studentnumber = schacpersonaluniquecode && schacpersonaluniquecode.length !== 0
+  const { uid, schacpersonaluniquecode, displayname, hypersonstudentid } = req.headers
+  
+  const studentnumber = hypersonstudentid || (schacpersonaluniquecode && schacpersonaluniquecode.length !== 0
     ? schacpersonaluniquecode.split(':')[6]
-    : null
+    : null)
 
   try {
     const person = await getCurrentUser({ username: uid, studentnumber, name: displayname })
