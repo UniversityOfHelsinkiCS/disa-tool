@@ -43,7 +43,7 @@
     "redux-thunk": "^2.3.0",
     "semantic-ui-css": "^2.3.2",
     "semantic-ui-react": "^0.81.1",
-    "url-parse": "^1.4.3"
+    "url-parse": "^1.5.2"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.15.0",
