@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { func, shape, arrayOf, string } from 'prop-types'
 import { Accordion, Grid, Icon, Table } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 
 class CsvTable extends Component {
   state = {

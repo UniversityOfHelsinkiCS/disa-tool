@@ -1,20 +1,21 @@
 import React from 'react'
 import { List } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import DeleteForm from '../../../utils/components/DeleteForm'
 import AddToCourseForm from './AddToCourseForm'
 import RoleButtons from './RoleButtons'
 
 const RoleList = (props) => {
   const { user, deleteRole, changeRole } = props
-  const translate = id => props.translate(`Admin.AdminPage.${id}`)
+
+  const {t} = useTranslation('Admin.AdminPage')
 
 
   return (
     <List divided>
       <List.Item>
-        <List.Header>{translate('course_roles')}</List.Header>
+        <List.Header>{t('course_roles')}</List.Header>
       </List.Item>
       {user.course_people.map(ucp => (
         <List.Item key={ucp.id}>
@@ -22,11 +23,11 @@ const RoleList = (props) => {
             <div>
               <DeleteForm
                 onExecute={deleteRole(user.id, ucp.course_instance_id)}
-                header={translate('delete_header')}
+                header={t('delete_header')}
                 prompt={[
-                  translate('delete_prompt_1'),
+                  t('delete_prompt_1'),
                   user.name,
-                  translate('delete_prompt_2'),
+                  t('delete_prompt_2'),
                   ucp.course_instance.name
                 ]}
               />
@@ -40,7 +41,7 @@ const RoleList = (props) => {
                 role={ucp.role}
                 id={user.id}
                 roles={['STUDENT', 'TEACHER']}
-                buttonTexts={[translate('student_button'), translate('teacher_button')]}
+                buttonTexts={[t('student_button'), t('teacher_button')]}
               />
             </div>
           </List.Content>
@@ -61,11 +62,11 @@ const RoleList = (props) => {
             role={user.role}
             id={user.id}
             roles={['STUDENT', 'TEACHER']}
-            buttonTexts={[translate('student_button'), translate('teacher_button')]}
+            buttonTexts={[t('student_button'), t('teacher_button')]}
           />
         </List.Content>
         <List.Content>
-          {translate('global_role_label')}
+          {t('global_role_label')}
         </List.Content>
       </List.Item>
     </List>
@@ -79,4 +80,4 @@ RoleList.propTypes = {
   translate: PropTypes.func.isRequired
 }
 
-export default withLocalize(RoleList)
+export default RoleList

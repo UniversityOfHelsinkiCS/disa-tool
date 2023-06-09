@@ -3,7 +3,7 @@ import { number, func } from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Accordion, Button, Table, Icon } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { responseProp } from '../propTypes'
 
 const findVerificationGrade = (verification, categoryName) => {

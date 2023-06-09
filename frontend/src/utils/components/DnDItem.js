@@ -74,16 +74,16 @@ const defineItem = (type, config = {}) => {
     target = true,
     source = true
   } = config
-  const targetFunction = target ? component => useDrop(
+  useDrag({
+    type,
+    item: config.dragSpec || dragSpec,
+    collect: config.dragCollect || dragCollect
+  })
+  useDrop(
     type,
     config.dropSpec || dropSpec,
     config.dropCollect || dropCollect
-  )(component) : dummyFunc
-  const sourceFunction = source ? component => useDrag(
-    type,
-    config.dragSpec || dragSpec,
-    config.dragCollect || dragCollect
-  )(component) : dummyFunc
+  )
   return targetFunction(sourceFunction(DnDItem))
 }
 

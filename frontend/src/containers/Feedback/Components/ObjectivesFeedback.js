@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Table } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { objectiveGrades } from '../../SelfAssessmentForm/utils'
 import MathJaxText from '../../../utils/components/MathJaxText'
 

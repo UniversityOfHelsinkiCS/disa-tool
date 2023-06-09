@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Button } from 'semantic-ui-react'
 import { selectAll, deselectAll } from '../actions/selfAssesmentList'
 

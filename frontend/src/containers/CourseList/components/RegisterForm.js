@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../utils/asyncAction'

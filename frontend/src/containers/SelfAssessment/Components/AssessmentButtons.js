@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Form } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 
 const AssessmentButtons = (props) => {
   const { onClick, value } = props

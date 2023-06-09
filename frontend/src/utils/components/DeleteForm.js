@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Button } from 'semantic-ui-react'
 
 import ModalForm from './ModalForm'
@@ -33,4 +33,4 @@ DeleteForm.propTypes = {
   translate: PropTypes.func.isRequired
 }
 
-export default withLocalize(DeleteForm)
+export default DeleteForm

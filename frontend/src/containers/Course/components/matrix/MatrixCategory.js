@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Table, Segment, Header } from 'semantic-ui-react'
 
 import asyncAction from '../../../../utils/asyncAction'
@@ -104,4 +104,4 @@ const mapDispatchToProps = dispatch => ({
   moveCategory: asyncAction(editCategory, dispatch)
 })
 
-export default withLocalize(connect(null, mapDispatchToProps)(MatrixCategory))
+export default connect(null, mapDispatchToProps)(MatrixCategory)

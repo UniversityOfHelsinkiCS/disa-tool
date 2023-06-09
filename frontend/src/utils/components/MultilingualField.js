@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Form, Segment, Label, Input, Button } from 'semantic-ui-react'
 
 export class MultilingualField extends Component {
@@ -153,4 +153,4 @@ MultilingualField.defaultProps = {
   required: false
 }
 
-export default withLocalize(MultilingualField)
+export default MultilingualField

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Accordion, Card, Icon, Progress } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 
 const findVerificationGrade = (verification, categoryName) => {
   if (!verification) return null

@@ -3,7 +3,7 @@ import {  Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Menu, Dropdown, Input } from 'semantic-ui-react'
 import { func, shape, number } from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 
 import { logoutAction } from '../../actions/actions'
@@ -149,4 +149,4 @@ Nav.propTypes = {
   setActiveLanguage: func.isRequired
 }
 
-export default withLocalize(connect(mapStateToProps, { dispatchLogout: logoutAction })(Nav))
+export default connect(mapStateToProps, { dispatchLogout: logoutAction })(Nav)

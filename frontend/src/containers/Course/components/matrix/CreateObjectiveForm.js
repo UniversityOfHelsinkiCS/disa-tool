@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -72,4 +72,4 @@ const mapDispatchToProps = dispatch => ({
   addObjective: asyncAction(addObjective, dispatch)
 })
 
-export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(CreateObjectiveForm))
+export default connect(mapStateToProps, mapDispatchToProps)(CreateObjectiveForm)

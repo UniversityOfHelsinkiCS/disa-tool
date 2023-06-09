@@ -1,23 +1,17 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { LocalizeProvider } from 'react-localize-redux'
 import { Modal, Form, Divider, Button } from 'semantic-ui-react'
 
 import LocalizeWrapper from '../../containers/Localize/LocalizeWrapper'
 
-class ModalForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      expanded: false
-    }
-  }
+const ModalForm = (props) => {
+  const [expanded, setExpanded] = React.useState(false)
 
-  componentDidUpdate(oldProps, oldState) {
+  useEffect(() => {
     if (oldProps.expanded === null) {
       if (!oldState.expanded && this.state.expanded) this.props.onOpen()
     } else if (!oldState.expanded && this.props.expanded) this.props.onOpen()
-  }
+  },[])
 
   expand = () => this.setState({ expanded: true })
 
@@ -45,7 +39,7 @@ class ModalForm extends Component {
     key: i
   }))
 
-  render() {
+
     const style = this.props.trigger.props.style || {}
     // TODO: Apply trigger margin as margin in this div.
     const trigger = (
@@ -82,7 +76,7 @@ class ModalForm extends Component {
       </Modal>
     )
   }
-}
+
 
 /**
  * Import this function, call it and pass the result as the actions prop to ModalForm.

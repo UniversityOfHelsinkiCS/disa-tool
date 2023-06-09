@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { renderToStaticMarkup } from 'react-dom/server'
 
 import translation from '../../translation'
@@ -64,4 +64,4 @@ LocalizeWrapper.propTypes = {
   translate: PropTypes.func.isRequired
 }
 
-export default withLocalize(LocalizeWrapper)
+export default LocalizeWrapper

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Popup } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'

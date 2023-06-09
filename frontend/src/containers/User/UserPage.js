@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { redirect, Link, useParams } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
 import { Accordion, Dimmer, Header, Grid, Item, Loader, Button } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 
 import {
   getUserCoursesAction,

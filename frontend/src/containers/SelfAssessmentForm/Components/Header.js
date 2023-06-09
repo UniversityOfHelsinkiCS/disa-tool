@@ -1,5 +1,5 @@
 import React from 'react'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form, Button } from 'semantic-ui-react'

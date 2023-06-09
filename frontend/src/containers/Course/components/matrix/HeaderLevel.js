@@ -1,7 +1,7 @@
 import React from 'react'
 import { shape, bool, func, number } from 'prop-types'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Table, Header, Segment } from 'semantic-ui-react'
 
 import asyncAction from '../../../../utils/asyncAction'
@@ -75,4 +75,4 @@ const mapDispatchToProps = dispatch => ({
   moveLevel: asyncAction(editLevel, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(withLocalize(HeaderLevel))
+export default connect(null, mapDispatchToProps)(HeaderLevel)

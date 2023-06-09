@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Container, Segment, Loader, Header } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 import './grades.css'
@@ -73,4 +73,4 @@ const mapDispatchToProps = dispatch => ({
   getGrades: asyncAction(getGrades, dispatch)
 })
 
-export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(EditGradesTab))
+export default connect(mapStateToProps, mapDispatchToProps)(EditGradesTab)

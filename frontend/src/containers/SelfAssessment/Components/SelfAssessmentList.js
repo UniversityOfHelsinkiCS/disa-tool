@@ -1,6 +1,6 @@
 import React from 'react'
 import { List } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
 const SelfAssessmentList = (props) => {

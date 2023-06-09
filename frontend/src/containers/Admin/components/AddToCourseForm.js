@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Button, Dropdown, Form, Label } from 'semantic-ui-react'
 import asyncAction from '../../../utils/asyncAction'
 
@@ -181,4 +181,4 @@ const mapDispatchToProps = dispatch => ({
   addPersonToCourse: asyncAction(addPersonToCourse, dispatch)
 })
 
-export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(AddToCourseForm))
+export default connect(mapStateToProps, mapDispatchToProps)(AddToCourseForm)

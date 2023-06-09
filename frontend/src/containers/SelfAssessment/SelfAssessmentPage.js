@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { Container, Loader } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { redirect } from 'react-router'
 import { useParams } from 'react-router-dom'

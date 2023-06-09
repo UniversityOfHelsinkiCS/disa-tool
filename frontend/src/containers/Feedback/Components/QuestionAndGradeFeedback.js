@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Card } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 
 export const QuestionAndGradeFeedback = (props) => {
   const { openQuestionResponses, finalGradeResponse, overallVerification, teacher } = props

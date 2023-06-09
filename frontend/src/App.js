@@ -3,7 +3,6 @@ import { ErrorBoundary } from 'react-error-boundary'
 
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { LocalizeProvider } from 'react-localization'
 import * as Sentry from '@sentry/browser'
 
 import { getUserAction } from './actions/actions'
@@ -11,11 +10,14 @@ import { getUser } from './api/persons'
 import Nav from './containers/Nav/navbar'
 import Main from './containers/Main/main'
 import LocalizeWrapper from './containers/Localize/LocalizeWrapper'
+import './i18n';
 
 function App({ user }) {
   const [sessionAliveInterval, setSessionAliveInterval] = useState(null)
 
+
   useEffect(() => {
+    getUserAction()
     const tempAliveInterval = setInterval(async () => {
       try {
         await getUser()
@@ -29,7 +31,7 @@ function App({ user }) {
         setSessionAliveInterval(null)
       }
     }
-  })
+  },[])
 
   const onErrorHandler = (err) => {
     Sentry.configureScope((context) => {

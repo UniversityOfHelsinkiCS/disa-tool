@@ -2,7 +2,7 @@ import { Form, Card, Grid, Dropdown, Accordion, Icon, Message } from 'semantic-u
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import {
   gradeCategoryAction,
   textfieldResponseAction,

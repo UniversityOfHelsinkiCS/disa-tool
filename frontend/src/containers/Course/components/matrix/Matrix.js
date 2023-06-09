@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Table } from 'semantic-ui-react'
 
 import './matrix.css'
@@ -134,4 +134,4 @@ const mapStateToProps = (state, ownProps) => ({
   )
 })
 
-export default withLocalize(connect(mapStateToProps, null)(Matrix))
+export default connect(mapStateToProps, null)(Matrix)

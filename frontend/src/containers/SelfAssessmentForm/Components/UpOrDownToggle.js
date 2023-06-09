@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Icon, Popup } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { toggleUp, toggleDown } from '../actions/selfAssesment'
 
 const UpOrDownToggle = (props) => {

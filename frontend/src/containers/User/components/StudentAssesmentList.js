@@ -1,7 +1,7 @@
 import React from 'react'
 import { arrayOf, shape, func } from 'prop-types'
 import { Link } from 'react-router-dom'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Label, List } from 'semantic-ui-react'
 import { orderBy } from 'lodash'
 

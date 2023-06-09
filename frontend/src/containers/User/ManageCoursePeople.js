@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { arrayOf, func, shape } from 'prop-types'
 import { Accordion, Button, Dropdown, Icon, List } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 
 import { findPeople } from '../../api/persons'
 import { updateCoursePersonsAction, deleteCoursePersonAction } from '../../actions/actions'

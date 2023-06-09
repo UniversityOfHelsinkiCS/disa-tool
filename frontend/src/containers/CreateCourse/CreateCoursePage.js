@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { redirect } from 'react-router-dom'
 import { Form, Button, Segment, Header } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'

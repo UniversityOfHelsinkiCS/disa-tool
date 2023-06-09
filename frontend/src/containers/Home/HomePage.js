@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Grid, Header } from 'semantic-ui-react'
 
 export const HomePage = (props) => {
@@ -50,4 +50,4 @@ HomePage.propTypes = {
   translate: PropTypes.func.isRequired
 }
 
-export default withLocalize(HomePage)
+export default HomePage

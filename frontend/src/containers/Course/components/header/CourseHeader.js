@@ -1,7 +1,7 @@
 import React from 'react'
 import { number, shape, string, bool, func } from 'prop-types'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Button, Segment, Header } from 'semantic-ui-react'
 import './header.css'
@@ -46,4 +46,4 @@ const mapStateToProps = (state, ownProps) => ({
   course: ownProps.instance || state.course.course
 })
 
-export default withLocalize(connect(mapStateToProps, null)(CourseHeader))
+export default connect(mapStateToProps, null)(CourseHeader)

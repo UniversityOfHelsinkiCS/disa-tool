@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { arrayOf, string, func } from 'prop-types'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Button } from 'semantic-ui-react'
 import { CSVLink } from 'react-csv'
 import { responseProp } from '../propTypes'

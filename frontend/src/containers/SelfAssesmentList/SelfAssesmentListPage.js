@@ -1,7 +1,7 @@
 import React, { useState, Fragment, useEffect } from 'react'
 import { number, string, arrayOf, shape, func } from 'prop-types'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Link, Routes, Route } from 'react-router-dom'
 import { Container, Loader, Button, Icon, Segment, Header, Table } from 'semantic-ui-react'
 

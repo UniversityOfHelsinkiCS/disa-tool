@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Table, Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -55,4 +55,4 @@ const mapDispatchToProps = dispatch => ({
   addCategory: asyncAction(addCategory, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(withLocalize(CreateCategoryForm))
+export default connect(null, mapDispatchToProps)(CreateCategoryForm)

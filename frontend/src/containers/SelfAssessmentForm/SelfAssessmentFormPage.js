@@ -12,7 +12,7 @@ import {
   Segment
 } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import FeedbackPage from '../Feedback/FeedbackPage'
 import { getCourseInstance } from '../../api/courses'
 import { getCourseData } from '../../api/categories'

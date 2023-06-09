@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import { arrayOf, string, number, bool, func } from 'prop-types'
 import { Header, Pagination, Segment, Form, Button, Message } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import _ from 'lodash'
 import ResponseTable, { calculateDifference } from './ResponseTable'
 import { responseProp } from '../propTypes'

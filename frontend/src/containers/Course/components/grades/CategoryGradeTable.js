@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { arrayOf, func, number, shape } from 'prop-types'
 import { Button, Container, Segment, Header, Table, Input } from 'semantic-ui-react'
 
@@ -143,6 +143,6 @@ CategoryGradeTable.propTypes = {
   translate: func.isRequired
 }
 
-export default withLocalize(connect(null, {
+export default connect(null, {
   dispatchUpdateCategoryGrades: updateCategoryGradesAction
-})(CategoryGradeTable))
+})(CategoryGradeTable)

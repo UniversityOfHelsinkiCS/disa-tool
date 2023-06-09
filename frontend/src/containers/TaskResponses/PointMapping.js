@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Input, List } from 'semantic-ui-react'
 import { func, shape } from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 
 class PointMapping extends Component {
   state = {

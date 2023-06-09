@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Button, Form, Input, Label, Dropdown } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -11,13 +11,8 @@ import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 import InfoBox from '../../../../utils/components/InfoBox'
 
-class CreateGradeForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      values: {}
-    }
-  }
+const CreateGradeForm = (props) => {
+  const [values, setValues] = useState({})
 
   addGradeSubmit = e => this.props.addGrade({
     eng_name: e.target.eng_name.value,
@@ -38,7 +33,7 @@ class CreateGradeForm extends Component {
 
   translate = id => this.props.translate(`Course.grades.CreateGradeForm.${id}`)
 
-  render() {
+
     const label = {
       name: this.translate('grade'),
       skill_level: this.translate('skill_level'),
@@ -94,7 +89,6 @@ class CreateGradeForm extends Component {
       </div>
     )
   }
-}
 
 CreateGradeForm.propTypes = {
   levels: PropTypes.arrayOf(PropTypes.shape({
@@ -114,4 +108,4 @@ const mapDispatchToProps = dispatch => ({
   addGrade: asyncAction(addGrade, dispatch)
 })
 
-export default withLocalize(connect(null, mapDispatchToProps)(CreateGradeForm))
+export default connect(null, mapDispatchToProps)(CreateGradeForm)

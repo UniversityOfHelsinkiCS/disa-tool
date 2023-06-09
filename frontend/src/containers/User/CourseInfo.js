@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { arrayOf, bool, func, number, shape, string } from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Button, Grid, Header, List, Icon } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 
 import LinkExportList from './components/LinkExportList'
 import Conditional from '../../utils/components/Conditional'

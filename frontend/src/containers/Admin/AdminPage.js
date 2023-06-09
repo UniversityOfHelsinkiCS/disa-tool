@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next';
 import { Container, Form, Button, Icon, Loader, Grid, Accordion, Pagination } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
 
@@ -9,26 +9,21 @@ import { adminGetUsers, adminChangeGlobalRole } from './actions/persons'
 import { adminChangeCourseRole, removeCoursePerson } from './actions/coursePersons'
 import RoleList from './components/RoleList'
 
-class AdminPage extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      getAll: false,
-      loading: false,
-      activeIndex: -1,
-      activePage: 1,
-      crash: false
-    }
-  }
+const AdminPage = (props) => {
+const [getAll, setGetAll] = useState(false)
+const [loading, setLoading] = useState(false)
+const [activeIndex, setActiveIndex] = useState(-1)
+const [activePage, setActivePage] = useState(1)
+const [crash, setCrash] = useState(false)
 
   chaosMonkey = () => {
-    this.setState({ crash: true })
+    setCrash(true)
   }
 
   handleSubmit = async (event) => {
     const studentInfo = event.target.userInfo.value
-    if (!this.state.getAll && studentInfo === '') {
-      await this.props.dispatchToast({
+    if (!state.getAll && studentInfo === '') {
+      await props.dispatchToast({
         type: '',
         payload: {
           toast: 'Syötä hakuparametri tai valitse kaikki',
@@ -37,26 +32,22 @@ class AdminPage extends React.Component {
       })
       return
     }
-    this.setState({
-      loading: true
+    setLoading(true)
+    await props.adminGetUsers({
+      studentInfo: state.getAll ? undefined : studentInfo,
+      getAll: state.getAll
     })
-    await this.props.adminGetUsers({
-      studentInfo: this.state.getAll ? undefined : studentInfo,
-      getAll: this.state.getAll
-    })
-    this.setState({ loading: false, activePage: 1 })
+    setActivePage(1)
+    setLoading(false)
   }
 
-  handleClick = (e, titleProps) => {
+  handleClick = (e, {titleProps,activeIndex}) => {
     const { index } = titleProps
-    const { activeIndex } = this.state
     const newIndex = activeIndex === index ? -1 : index
-    this.setState({ activeIndex: newIndex })
+    setActiveIndex(newIndex)
   }
 
-  handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
-
-  toggleEdit = () => this.setState({ edit: !this.state.edit })
+  handlePaginationChange = (e, { activePage }) => setActivePage(activePage)
 
   changeRole = async (personId, courseInstanceId, role) => {
     if (courseInstanceId) {
@@ -77,9 +68,8 @@ class AdminPage extends React.Component {
 
   translate = id => this.props.translate(`Admin.AdminPage.${id}`)
 
-  render() {
+
     if (this.state.crash) throw new Error('Ooh aah, error')
-    const { activeIndex, activePage } = this.state
     return (
       <Container style={{ paddingTop: '100px' }} >
         <Grid divided="vertically">
@@ -150,7 +140,6 @@ class AdminPage extends React.Component {
       </Container>
     )
   }
-}
 
 AdminPage.propTypes = {
   dispatchToast: PropTypes.func.isRequired,
@@ -177,4 +166,4 @@ const mapDispatchToProps = dispatch => ({
   removeCoursePerson: asyncAction(removeCoursePerson, dispatch)
 })
 
-export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(AdminPage))
+export default connect(mapStateToProps, mapDispatchToProps)(AdminPage)

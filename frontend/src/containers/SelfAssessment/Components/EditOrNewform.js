@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Dropdown, Form } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import AssessmentButtons from './AssessmentButtons'
 import SelfAssessmentList from './SelfAssessmentList'
 

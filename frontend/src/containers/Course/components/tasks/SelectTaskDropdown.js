@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Header, Dropdown } from 'semantic-ui-react'
 import _ from 'lodash'
 import { editTask } from '../../actions/tasks'

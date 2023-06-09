@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Header, Menu } from 'semantic-ui-react'
 import { arrayOf, shape, func } from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { orderBy } from 'lodash'
 
 const renderCourseMenuItem = (course, activeCourse, handleChange) => (

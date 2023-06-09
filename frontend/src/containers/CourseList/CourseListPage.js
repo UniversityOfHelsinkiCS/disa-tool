@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { orderBy } from 'lodash'
 import { Button, Header, List, Grid, Dropdown, Icon, Message, Form } from 'semantic-ui-react'
