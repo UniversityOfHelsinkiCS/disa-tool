@@ -1,4 +1,4 @@
-import * as types from '../../../redux/action_types'
+import types from '../../../redux/action_types'
 import { changeCourseRole, deleteCP } from '../../../api/coursePersons'
 import apiPromise from '../../../utils/apiPromise'
 

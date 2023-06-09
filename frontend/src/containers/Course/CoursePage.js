@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
+import { Route, Routes, redirect } from 'react-router-dom'
 import { Loader } from 'semantic-ui-react'
-import { DragDropContext } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
+import { DndContext } from 'react-dnd'
+import {HTML5Backend} from 'react-dnd-html5-backend'
 
 import asyncAction from '../../utils/asyncAction'
 import { getCourseData, resetCourse } from './actions/course'
@@ -15,36 +15,36 @@ import EditGradesTab from './components/grades/EditGradesTab'
 import Navbar from './components/navbar/Navbar'
 import CourseHeader from './components/header/CourseHeader'
 
-export class CoursePage extends Component {
-  componentDidMount() {
-    this.props.getCourseData({
-      id: this.props.match.params.id
+const CoursePage = (props) => {
+   
+  useEffect(() => {
+    props.getCourseData({
+      id: props.match.params.id
     })
-  }
+    return () => {
+      props.resetCourse()
+    }
+  })
 
-  componentWillUnmount() {
-    this.props.resetCourse()
-  }
-
-  render() {
     if (this.props.loading) {
       return <Loader active />
     }
+
     return (
       <div className="CoursePage">
         <CourseHeader />
         <Navbar matchUrl={this.props.match.url} pathname={this.props.location.pathname} />
-        <Switch>
+        <Routes>
           <Route path={`${this.props.match.url}/matrix`} render={() => <EditMatrixTab courseId={this.props.match.params.id} />} />
           <Route path={`${this.props.match.url}/types`} render={() => <EditTypesTab courseId={this.props.match.params.id} />} />
           <Route path={`${this.props.match.url}/tasks`} render={() => <EditTasksTab courseId={this.props.match.params.id} />} />
           <Route path={`${this.props.match.url}/grades`} render={() => <EditGradesTab courseId={this.props.match.params.id} />} />
-          <Route component={() => <Redirect to={`${this.props.match.url}/matrix`} />} />
-        </Switch>
+          <Route component={redirect(`${props.match.url}/matrix`)} />
+        </Routes>
       </div>
     )
   }
-}
+
 
 CoursePage.propTypes = {
   match: PropTypes.shape({
@@ -78,6 +78,6 @@ const mapDispatchToProps = dispatch => ({
   resetCourse: resetCourse(dispatch)
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)((
-  DragDropContext(HTML5Backend)(CoursePage)
-)))
+export default connect(mapStateToProps, mapDispatchToProps)((
+  DndContext(HTML5Backend)(CoursePage)
+))

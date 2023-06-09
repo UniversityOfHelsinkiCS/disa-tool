@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { connect } from 'react-redux'
-import { Redirect, Prompt } from 'react-router'
-import { Link } from 'react-router-dom'
+import { redirect } from 'react-router'
+import Prompt from '../../utils/components/Prompt'
+import { Link, useParams } from 'react-router-dom'
 import {
   Button,
   Loader,
@@ -38,91 +39,96 @@ import './Components/selfAssesment.css'
 
 import { validationErrors, gradeOptions } from './utils'
 
-export class SelfAssessmentFormPage extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      redirect: false,
-      preview: this.props.preview,
-      grades: []
-    }
-  }
+const SelfAssessmentFormPage = (props) =>   {
+  const params = useParams()
+  const [state, setState] = useState({redirectBool: false,
+    preview: props.preview,
+    grades: []})
 
-  async componentDidMount() {
-    const { courseInstanceId, type, selfAssessmentId } = this.props.match.params
-    if (this.props.edit) {
-      if (this.props.new) {
-        // Get assessment type and course instance id from params
-
-        // Fetch the required data for self assessment
-        // courseData includes all objectives and categories related to course
-        // course info includes the names in eng, fin and swe
-
-        const courseData = await getCourseData(courseInstanceId)
-        const courseInfo = await getCourseInstance(courseInstanceId)
-
-        // dispatch the call to reducer to generate the required form data with given parameters
-        this.props.dispatchInitNewFormAction({
-          courseData: courseData.data,
-          courseInfo: courseInfo.data.data,
-          type
-        })
-      } else {
-        // Fetch the selfassesment data by given id
-        await this.props.dispatchGetSelfAssessmentAction(selfAssessmentId)
-      }
-    } else {
-      // Fetch the data of the self assessment
-      // and fetch or create a self assessment response for the user
-      await this.props.dispatchGetSelfAssessmentAction(selfAssessmentId)
-      await this.props.dispatchGetAssessmentResponseAction(selfAssessmentId)
-    }
-    if (!this.props.role) {
-      const id = courseInstanceId || this.props.formData.course_instance_id
-      await this.props.dispatchGetCourseInstanceData(id)
+    const propsNew = async () => {
+       // Get assessment type and course instance id from params
+  
+          // Fetch the required data for self assessment
+          // courseData includes all objectives and categories related to course
+          // course info includes the names in eng, fin and swe
+  
+          const courseData = await getCourseData(courseInstanceId)
+          const courseInfo = await getCourseInstance(courseInstanceId)
+  
+          // dispatch the call to reducer to generate the required form data with given parameters
+          props.dispatchInitNewFormAction({
+            courseData: courseData.data,
+            courseInfo: courseInfo.data.data,
+            type
+          })
     }
 
-    if (this.props.formData) {
-      // Fetch the grades for the course
-      const grades = await gradeOptions(this.props.formData.course_instance_id)
-      this.setState({ grades })
-    } else {
-      this.props.dispatchToast({
-        type: '',
-        payload: {
-          toast: this.props.translate('SelfAssessmentForm.SelfAssessmentFormPage.defineMatrixFirstError'),
-          type: 'error'
+    const asyncFunction = async() => {
+      const { courseInstanceId, type, selfAssessmentId } = match.params
+      if (props.edit) {
+        if (props.new) {
+          propsNew()
+        } else {
+          // Fetch the selfassesment data by given id
+          await props.dispatchGetSelfAssessmentAction(selfAssessmentId)
         }
-      })
-    }
-  }
+      } else {
+        // Fetch the data of the self assessment
+        // and fetch or create a self assessment response for the user
+        await props.dispatchGetSelfAssessmentAction(selfAssessmentId)
+        await props.dispatchGetAssessmentResponseAction(selfAssessmentId)
+      }
+      if (!props.role) {
+        const id = courseInstanceId || props.formData.course_instance_id
+        await props.dispatchGetCourseInstanceData(id)
+      }
+  
+      if (props.formData) {
+        // Fetch the grades for the course
+        const grades = await gradeOptions(props.formData.course_instance_id)
+        setState({ grades })
+      } else {
+        props.dispatchToast({
+          type: '',
+          payload: {
+            toast: props.translate('SelfAssessmentForm.SelfAssessmentFormPage.defineMatrixFirstError'),
+            type: 'error'
+          }
+        })
+      }
 
-  componentWillUnmount() {
-    if (this.props.error) {
-      this.props.dispatchClearError()
     }
-    this.props.dispatchClearValidation()
-    this.props.dispatchClearAssessmentAction()
-  }
+
+    useEffect(() => {
+      asyncFunction()
+      return() => {
+        if (props.error) {
+          props.dispatchClearError()
+        }
+        props.dispatchClearValidation()
+        props.dispatchClearAssessmentAction()
+      }
+    },[])
+
   handleSubmit = async () => {
-    const { formData } = this.props
-    this.setState({ redirect: true })
-    await this.props.dispatchCreateFormAction(formData)
+    const { formData } = props
+    setState({...state, redirectBool: true })
+    await props.dispatchCreateFormAction(formData)
   }
 
   handleUpdate = async () => {
-    const { formData } = this.props
-    this.setState({ redirect: true })
-    await this.props.dispatchUpdateSelfAssessmentAction(formData)
+    const { formData } = props
+    setState({...state, redirect: true })
+    await props.dispatchUpdateSelfAssessmentAction(formData)
   }
 
-  close = () => this.props.dispatchCloseModalAction()
+  close = () => props.dispatchCloseModalAction()
 
   checkResponseErrors = async () => {
-    await this.props.dispatchValidation(this.props.assessmentResponse)
+    await props.dispatchValidation(props.assessmentResponse)
     window.scrollTo(0, 0)
-    if (this.props.formErrors) {
-      await this.props.dispatchToast({
+    if (props.formErrors) {
+      await props.dispatchToast({
         type: '',
         payload: {
           toast: validationErrors[localStorage.getItem('lang')],
@@ -135,44 +141,88 @@ export class SelfAssessmentFormPage extends React.Component {
   }
 
   handleResponse = async (e, { modal }) => {
-    const error = await this.checkResponseErrors()
+    const error = await checkResponseErrors()
 
     if (error) {
       return
     }
 
-    if (this.props.softErrors && !modal) {
+    if (props.softErrors && !modal) {
       return
     }
-    this.setState({ redirect: true })
-    await this.props.dispatchCreateSelfAssessmentResponseAction({
-      ...this.props.assessmentResponse,
-      finalHeaders: this.props.formData.structure.headers.grade
+    setState({...state, redirect: true} )
+    await props.dispatchCreateSelfAssessmentResponseAction({
+      ...props.assessmentResponse,
+      finalHeaders: props.formData.structure.headers.grade
     })
-    await this.props.dispatchClearValidation()
+    await props.dispatchClearValidation()
   }
 
-  togglePreview = () => {
-    this.setState({ preview: !this.state.preview })
+  const togglePreview = () => {
+    setState({ preview: !state.preview })
   }
 
-  renderForm = () => {
+    const { courseInstanceId } = params
+    if (
+      redirectBool ||
+      props.error ||
+      ((props.new || props.edit) && props.notTeacher)
+    ) {
+      return redirect("/user")
+    }
+
+    if (
+      props.assessmentResponse.existingAnswer &&
+      !props.formData.open
+    ) {
+      return (
+        <FeedbackPage
+          assessmentResponse={props.assessmentResponse}
+          assessmentInfo={props.formData}
+        />
+      )
+    }
+
+    const renderContent = () => {
+      if (!props.formData) {
+        return redirect("/user/course/${courseInstanceId}")
+      }
+      if (Object.keys(props.formData).length > 0 && (Object.keys(props.assessmentResponse).length > 0 || props.edit) && props.role) {
+        return renderForm()
+      }
+      return <Loader active>Loading</Loader>
+    }
+
+    return (
+      <div>
+        <Prompt
+          when={props.unsavedChanges}
+          message={props.translate(
+            'SelfAssessmentForm.SelfAssessmentFormPage.prompt'
+          )}
+        />
+        {renderContent()}
+      </div>
+    )
+  }
+
+  const RenderForm = () => {
     let submitFunction = null
-    const { formData, edit, responseErrors, assessmentResponse } = this.props
+    const { formData, edit, responseErrors, assessmentResponse } = props
     const { existingAnswer } = assessmentResponse
     const { displayCoursename } = formData.structure
-    const { preview, grades } = this.state
+    const { preview, grades } = state
     const translate = (translateId) =>
-      this.props.translate(
+      props.translate(
         `SelfAssessmentForm.SelfAssessmentFormPage.${translateId}`
       )
 
     if (!edit) {
-      submitFunction = this.handleResponse
-    } else if (this.props.new) {
-      submitFunction = this.handleSubmit
+      submitFunction = handleResponse
+    } else if (props.new) {
+      submitFunction = handleSubmit
     } else {
-      submitFunction = this.handleUpdate
+      submitFunction = handleUpdate
     }
     return (
       <div>
@@ -181,7 +231,7 @@ export class SelfAssessmentFormPage extends React.Component {
             <Header as="h1" textAlign="center">
               <Button
                 as={Link}
-                to={`/user/course/${this.props.courseInstance.id}`}
+                to={`/user/course/${props.courseInstance.id}`}
                 basic
                 floated="left"
                 color="blue"
@@ -193,25 +243,25 @@ export class SelfAssessmentFormPage extends React.Component {
           </Segment>
 
           <AssessmentMessage
-            preview={this.state.preview}
+            preview={state.preview}
             open={formData.open}
             edit={edit}
             existingAnswer={existingAnswer}
             translate={translate}
           />
 
-          <Modal size="small" open={this.props.softErrors} onClose={this.close}>
+          <Modal size="small" open={props.softErrors} onClose={close}>
             <Modal.Header>{translate('modalHeader')}</Modal.Header>
             <Modal.Content>
               <p>{translate('modalContent1')} .</p>
               <p>{translate('modalContent2')}?</p>
             </Modal.Content>
             <Modal.Actions>
-              <Button onClick={() => this.close()} negative>
+              <Button onClick={() => close()} negative>
                 {translate('modalButton2')}
               </Button>
               <Button
-                onClick={this.handleResponse}
+                onClick={handleResponse}
                 positive
                 modal="modal"
                 icon="checkmark"
@@ -222,19 +272,19 @@ export class SelfAssessmentFormPage extends React.Component {
           </Modal>
 
           {edit && (
-            <Button color="teal" onClick={this.togglePreview}>
-              {this.state.preview
+            <Button color="teal" onClick={togglePreview}>
+              {state.preview
                 ? translate('editButton')
                 : translate('previewButton')}
             </Button>
           )}
-          {this.state.preview || (!formData.open && !edit) ? null : (
+          {state.preview || (!formData.open && !edit) ? null : (
             <Button
               positive
               style={{ marginBottom: '25px' }}
               onClick={submitFunction}
             >
-              {!this.props.edit || this.props.new
+              {!props.edit || props.new
                 ? translate('saveButton')
                 : translate('updateButton')}
             </Button>
@@ -250,19 +300,19 @@ export class SelfAssessmentFormPage extends React.Component {
           />
 
           {edit && (
-            <Button color="teal" onClick={this.togglePreview}>
-              {this.state.preview
+            <Button color="teal" onClick={togglePreview}>
+              {state.preview
                 ? translate('editButton')
                 : translate('previewButton')}
             </Button>
           )}
-          {this.state.preview || (!formData.open && !edit) ? null : (
+          {state.preview || (!formData.open && !edit) ? null : (
             <Button
               positive
               style={{ marginBottom: '25px' }}
               onClick={submitFunction}
             >
-              {!this.props.edit || this.props.new
+              {!props.edit || props.new
                 ? translate('saveButton')
                 : translate('updateButton')}
             </Button>
@@ -271,52 +321,6 @@ export class SelfAssessmentFormPage extends React.Component {
       </div>
     )
   }
-
-  render() {
-    const { courseInstanceId } = this.props.match.params
-    if (
-      this.state.redirect ||
-      this.props.error ||
-      ((this.props.new || this.props.edit) && this.props.notTeacher)
-    ) {
-      return <Redirect to="/user" />
-    }
-
-    if (
-      this.props.assessmentResponse.existingAnswer &&
-      !this.props.formData.open
-    ) {
-      return (
-        <FeedbackPage
-          assessmentResponse={this.props.assessmentResponse}
-          assessmentInfo={this.props.formData}
-        />
-      )
-    }
-
-    const renderContent = () => {
-      if (!this.props.formData) {
-        return <Redirect to={`/user/course/${courseInstanceId}`} />
-      }
-      if (Object.keys(this.props.formData).length > 0 && (Object.keys(this.props.assessmentResponse).length > 0 || this.props.edit) && this.props.role) {
-        return this.renderForm()
-      }
-      return <Loader active>Loading</Loader>
-    }
-
-    return (
-      <div>
-        <Prompt
-          when={this.props.unsavedChanges}
-          message={this.props.translate(
-            'SelfAssessmentForm.SelfAssessmentFormPage.prompt'
-          )}
-        />
-        {renderContent()}
-      </div>
-    )
-  }
-}
 
 const mapStateToProps = (state) => ({
   formData: state.selfAssesment.createForm,

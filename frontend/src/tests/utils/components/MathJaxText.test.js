@@ -1,5 +1,5 @@
 import React from 'react'
-import MathJax from 'react-mathjax'
+import {MathJax} from 'better-react-mathjax'
 import MathJaxText from '../../../utils/components/MathJaxText'
 import { findText } from '../../testUtils'
 

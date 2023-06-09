@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze'
 import typeReducer from '../../redux/type'
-import * as types from '../../redux/action_types'
+import types from '../../redux/action_types'
 
 const INITIAL_STATE = {
   headers: []

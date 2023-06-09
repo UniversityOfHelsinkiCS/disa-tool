@@ -1,4 +1,4 @@
-import * as types from '../../redux/action_types'
+import types from '../../redux/action_types'
 
 describe('Redux action types', () => {
   it('export names match type strings.', () => {

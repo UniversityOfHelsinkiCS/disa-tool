@@ -7,7 +7,7 @@ const webpack = require('webpack')
 
 module.exports = {
   mode: 'production',
-  entry: ['babel-polyfill', './src/index.js'],
+  entry: ['core-js', './src/index.js'],
   output: {
     filename: '[name]-[hash].bundle.js',
     chunkFilename: '[name]-[id]-[hash].bundle.js',

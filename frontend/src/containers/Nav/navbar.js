@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { withRouter, Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import {  Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Menu, Dropdown, Input } from 'semantic-ui-react'
 import { func, shape, number } from 'prop-types'
@@ -15,62 +15,50 @@ const languageOptions = [
   { key: 'eng', value: 'eng', text: 'English' }
 ]
 
-class Nav extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      activeItem: 'home',
-      language: 'fin'
-    }
-  }
+const Nav = (props) => {
 
-  componentDidMount = async () => {
-    const language = getLanguage()
-    const path = await window.location.pathname.split('/')
-    if (path.length > 1 && path[1].length > 0) {
-      await this.setState({ activeItem: path[1] })
-    }
-    if (language) {
-      this.setState({ language })
-    }
-  }
+    const [state, setState] = useState({activeItem: 'home',language: 'fin'})
+    
 
-  componentDidUpdate = async () => {
-    const path = await window.location.pathname.split('/')
-    const item = path[1]
-    if (item && item !== this.state.activeItem) {
-      await this.setState({ activeItem: item })
-    }
-  }
+    useEffect(() => {
+      const language = getLanguage()
+      const path = window.location.pathname.split('/')
+      if (path.length > 1 && path[1].length > 0) {
+         setState({ activeItem: path[1] })
+      }
+      if (language) {
+        setState({ language })
+      }
+    })
 
-  handleClick = (e, { name }) => {
+  const handleClick = (e, { name }) => {
     if (name === 'logout') {
-      this.props.dispatchLogout(this.translate('logout_success'))
+      props.dispatchLogout(translate('logout_success'))
     }
-    this.setState({ activeItem: name })
+    setState({ activeItem: name })
   }
 
-  changeLanguage = async (e, { value }) => {
-    await this.setState({ language: value })
-    saveLanguage(this.state.language)
-    this.props.setActiveLanguage(this.state.language)
+  const changeLanguage = async (e, { value }) => {
+    setState({ language: value })
+    saveLanguage(state.language)
+    props.setActiveLanguage(state.language)
     window.location.reload()
   }
 
-  translate = id => this.props.translate(`Nav.navbar.${id}`)
+  const translate = id => props.translate(`Nav.navbar.${id}`)
 
-  logout = async () => {
+  const logout = async () => {
     const returnUrl = window.location.origin
     const response = await axios.delete('/api/logout/shibboleth', { data: { returnUrl } })
     window.location = response.data.logoutUrl
   }
 
-  handleFakeUser = ({ target }) => {
+  const handleFakeUser = ({ target }) => {
     window.localStorage.setItem('fakeShibbo', target.value)
   }
 
-  render() {
-    const { activeItem, language } = this.state
+
+    const { activeItem, language } = state
     return (
       <nav>
         <Menu tabular>
@@ -80,46 +68,46 @@ class Nav extends Component {
             to="/"
             name="home"
             active={activeItem === 'home'}
-            onClick={this.handleClick}
+            onClick={handleClick}
           >
-            {this.translate('home')}
+            {translate('home')}
           </Menu.Item>
-          {this.props.user.id ?
+          {props.user.id ?
             <Menu.Item
               as={Link}
               to="/user"
               name="user"
               active={activeItem === 'user'}
-              onClick={this.handleClick}
+              onClick={handleClick}
             >
-              {this.translate('user')}
+              {translate('user')}
             </Menu.Item> : undefined}
           <Menu.Item
             as={Link}
             to="/courses"
             name="courses"
             active={activeItem === 'courses'}
-            onClick={this.handleClick}
+            onClick={handleClick}
           >
-            {this.translate('courses')}
+            {translate('courses')}
           </Menu.Item>
           <Menu.Menu position="right">
             <Menu.Item>
               <Dropdown
                 options={languageOptions}
                 value={language}
-                onChange={this.changeLanguage}
+                onChange={changeLanguage}
               />
             </Menu.Item>
-            {this.props.user.role === 'ADMIN' ?
+            {props.user.role === 'ADMIN' ?
               <Menu.Item
                 as={Link}
                 to="/admin"
                 name="admin"
                 active={activeItem === 'admin'}
-                onClick={this.handleClick}
+                onClick={handleClick}
               >
-                {this.translate('admin')}
+                {translate('admin')}
               </Menu.Item>
               :
               null
@@ -127,22 +115,22 @@ class Nav extends Component {
             <Menu.Item
               name="logout"
               active={activeItem === 'logout'}
-              onClick={this.logout}
+              onClick={logout}
             >
-              {this.translate('logout')}
+              {translate('logout')}
             </Menu.Item> :
             {process.env.NODE_ENV === 'development' ?
               <Menu.Item >
                 <Input
                   defaultValue={window.localStorage.getItem('fakeShibbo')}
-                  onChange={this.handleFakeUser}
+                  onChange={handleFakeUser}
                 />
               </Menu.Item> : null}
           </Menu.Menu>
         </Menu>
       </nav >
     )
-  }
+  
 }
 
 const mapStateToProps = state => ({
@@ -161,4 +149,4 @@ Nav.propTypes = {
   setActiveLanguage: func.isRequired
 }
 
-export default withLocalize(withRouter(connect(mapStateToProps, { dispatchLogout: logoutAction })(Nav)))
+export default withLocalize(connect(mapStateToProps, { dispatchLogout: logoutAction })(Nav))

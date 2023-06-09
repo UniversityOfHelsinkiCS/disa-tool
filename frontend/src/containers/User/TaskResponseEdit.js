@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Prompt } from 'react-router'
+import Prompt from '../../utils/components/Prompt'
 import { Accordion, Button, Grid, Segment } from 'semantic-ui-react'
 
 import UploadResponsesPage from '../TaskResponses/UploadResponsesPage'

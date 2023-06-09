@@ -1,4 +1,4 @@
-import * as types from '../../../redux/action_types'
+import types from '../../../redux/action_types'
 import { addObjective, removeObjective, addType, removeType, create, remove, edit, editObjectives } from '../../../api/tasks'
 import apiPromise from '../../../utils/apiPromise'
 

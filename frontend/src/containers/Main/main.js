@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react'
+import React, {  useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withRouter, Switch, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
-import MathJax from 'react-mathjax'
+import {MathJax} from 'better-react-mathjax'
 import 'react-toastify/dist/ReactToastify.css'
 
 import HomePage from '../Home/HomePage'
@@ -45,13 +45,13 @@ class Keygen {
 
 const keygen = new Keygen()
 
-class Main extends PureComponent {
-  // TODO: Remove componentWillReceiveProps
-  componentWillReceiveProps(newProps) {
-    if (this.props.toast !== newProps.toast) {
+const Main = (props) =>  {
+
+  useEffect(() =>{
+    if (props.toast !== newProps.toast) {
       toast(newProps.toast.message, newProps.toast.options)
     }
-  }
+  })
 
   userRoutes = [
     <Route exact path="/selfassessment/edit/:selfAssessmentId" render={({ match }) => <SelfAssessmentFormPage edit match={match} />} key={keygen.user()} />,
@@ -78,7 +78,7 @@ class Main extends PureComponent {
     <Route exact path="/" component={HomePage} key={keygen.anonymous()} />
   ]
 
-  render() {
+
     return (
       <main>
         <ToastContainer
@@ -87,14 +87,13 @@ class Main extends PureComponent {
           hideProgressBar
         />
         <MathJaxProvider>
-          <Switch>
-            {this.anonymousRoutes}
-            {this.userRoutes}
-          </Switch>
+          <Routes>
+            {anonymousRoutes}
+            {userRoutes}
+          </Routes>
         </MathJaxProvider>
       </main>
     )
-  }
 }
 
 Main.propTypes = {

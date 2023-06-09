@@ -1,4 +1,4 @@
-import * as types from '../../../redux/action_types'
+import types from '../../../redux/action_types'
 
 export const selectResponse = dispatch => response => dispatch({
   type: types.SELF_ASSESMENT_LIST_SELECT_RESPONSE,

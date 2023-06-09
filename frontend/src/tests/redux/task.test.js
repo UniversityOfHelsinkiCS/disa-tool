@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze'
 import taskReducer from '../../redux/task'
-import * as types from '../../redux/action_types'
+import types from '../../redux/action_types'
 
 const INITIAL_STATE = {
   tasks: [],

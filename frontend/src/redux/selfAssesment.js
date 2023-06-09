@@ -1,4 +1,4 @@
-import * as types from './action_types'
+import types from './action_types'
 import { initForm, initResponseForm, respond } from '../utils/reduxHelpers/selfAssesment'
 
 const INITIAL_STATE = {

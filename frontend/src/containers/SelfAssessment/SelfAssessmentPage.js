@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { Container, Loader } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-router'
+import { redirect } from 'react-router'
+import { useParams } from 'react-router-dom'
 import EditOrNewForm from './Components/EditOrNewform'
 
 import {
@@ -14,29 +15,34 @@ import {
 } from '../../actions/actions'
 
 
-export class SelfAssessmentPage extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      new: false,
+const SelfAssessmentPage = (props) => {
+  const params = useParams()
+  const [state, setState] = useState({
+    new: false,
       type: '',
       edit: false,
       courseInstanceId: '',
-      assessmentId: ''
+      assessmentId: ''})
+
+    const getCourseInstanceData = async (props) => {
+      if (!props.role) {
+        await props.dispatchGetCourseInstanceData(params.courseId)
+      }
     }
-  }
-  async componentDidMount() {
-    if (!this.props.role) {
-      await this.props.dispatchGetCourseInstanceData(this.props.match.params.courseId)
+
+    useEffect(() => {
+      if (!props.role) {
+        getCourseInstanceData() 
+      }
+      props.dispatchGetUsercourses()
+    props.dispatchGetUserSelfAssessments()
+
+    return() => {
+      if (this.props.error) {
+        this.props.dispatchClearError()
+      }
     }
-    this.props.dispatchGetUsercourses()
-    this.props.dispatchGetUserSelfAssessments()
-  }
-  async componentWillUnmount() {
-    if (this.props.error) {
-      this.props.dispatchClearError()
-    }
-  }
+    }, [])
 
   createOrEdit = async (e, { id, assessment }) => {
     if (assessment) {
@@ -45,17 +51,17 @@ export class SelfAssessmentPage extends React.Component {
       this.setState({ edit: true, assessmentId: id })
     }
   }
-  render() {
+
     const { role } = this.props
     if (this.props.error || (this.props.role && this.props.role !== 'TEACHER')) {
-      return <Redirect to="/user" />
+      return redirect("/user/")
     }
     if (this.state.new) {
-      return <Redirect to={`/selfassessment/create/${this.state.courseInstanceId}/${this.state.type}`} />
+     return redirect(`/selfassessment/create/${this.state.courseInstanceId}/${this.state.type}`)
     }
 
     if (this.state.edit) {
-      return <Redirect to={`/selfassessment/edit/${this.state.assessmentId}`} />
+      return redirect(`/selfassessment/edit/${this.state.assessmentId}`)
     }
 
     return (
@@ -65,18 +71,18 @@ export class SelfAssessmentPage extends React.Component {
             <Loader active />
             :
             <EditOrNewForm
-              courses={this.props.courses}
-              dropDownCourse={this.props.courseDropdownOptions}
-              selectedCourse={this.props.match.params.courseId}
-              selfAssessments={this.props.selfAssessments}
-              handleSubmit={this.createOrEdit}
+              courses={props.courses}
+              dropDownCourse={props.courseDropdownOptions}
+              selectedCourse={props.match.params.courseId}
+              selfAssessments={props.selfAssessments}
+              handleSubmit={createOrEdit}
             />
           }
         </div>
       </Container>
     )
   }
-}
+
 
 const createOptions = (data) => {
   const options = []

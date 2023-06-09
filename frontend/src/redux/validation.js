@@ -1,4 +1,4 @@
-import * as types from './action_types'
+import types from './action_types'
 import { checkResponseErrors } from '../utils/reduxHelpers/validation'
 
 const INITIAL_STATE = {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Popup } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
-import ReactMarkdown from 'react-markdown/with-html'
+import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 

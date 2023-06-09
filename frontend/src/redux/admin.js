@@ -1,5 +1,5 @@
 
-import * as types from './action_types'
+import types from './action_types'
 
 const INITIAL_STATE = {
   users: []

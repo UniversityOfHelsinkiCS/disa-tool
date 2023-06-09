@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import MathJax from 'react-mathjax'
+import {MathJax} from 'better-react-mathjax'
 
 const splitContent = (content, delimiter) => {
   const chunks = content

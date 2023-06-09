@@ -1,6 +1,6 @@
 import React from 'react'
 import { func, bool, node } from 'prop-types'
-import { DropTarget, DragSource } from 'react-dnd'
+import { useDrop,useDrag } from 'react-dnd'
 
 const dummyFunc = component => component
 
@@ -74,12 +74,12 @@ const defineItem = (type, config = {}) => {
     target = true,
     source = true
   } = config
-  const targetFunction = target ? component => DropTarget(
+  const targetFunction = target ? component => useDrop(
     type,
     config.dropSpec || dropSpec,
     config.dropCollect || dropCollect
   )(component) : dummyFunc
-  const sourceFunction = source ? component => DragSource(
+  const sourceFunction = source ? component => useDrag(
     type,
     config.dragSpec || dragSpec,
     config.dragCollect || dragCollect

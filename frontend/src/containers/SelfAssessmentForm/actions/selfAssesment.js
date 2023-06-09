@@ -1,51 +1,51 @@
-import * as types from '../../../redux/action_types'
+import types from '../../../redux/action_types'
 
-export const toggleTextField = id => (dispatch) => {
+export const toggleTextField = (id) => (dispatch) => {
   dispatch({
     type: types.TOGGLE_TEXT_FIELD,
-    payload: id
+    payload: id,
   })
 }
 
-export const initNewFormAction = data => (dispatch) => {
+export const initNewFormAction = (data) => (dispatch) => {
   dispatch({
     type: types.INIT_NEW_FORM,
-    payload: data
+    payload: data,
   })
 }
 
-export const toggleUp = id => (dispatch) => {
+export const toggleUp = (id) => (dispatch) => {
   dispatch({
     type: types.TOGGLE_UP,
-    payload: id
+    payload: id,
   })
 }
 
-export const toggleDown = id => (dispatch) => {
+export const toggleDown = (id) => (dispatch) => {
   dispatch({
     type: types.TOGGLE_DOWN,
-    payload: id
+    payload: id,
   })
 }
 
-export const addOpenQuestion = questionData => (dispatch) => {
+export const addOpenQuestion = (questionData) => (dispatch) => {
   dispatch({
     type: types.ADD_OPEN_QUESTION,
-    payload: questionData
+    payload: questionData,
   })
 }
 
-export const removeOpenQuestion = id => (dispatch) => {
+export const removeOpenQuestion = (id) => (dispatch) => {
   dispatch({
     type: types.REMOVE_OPEN_QUESTION,
-    payload: id
+    payload: id,
   })
 }
 
-export const changeTextField = data => (dispatch) => {
+export const changeTextField = (data) => (dispatch) => {
   dispatch({
     type: types.CHANGE_TEXT_FIELD,
-    payload: data
+    payload: data,
 
   })
 }
@@ -53,83 +53,83 @@ export const changeTextField = data => (dispatch) => {
 export const toggleFormPartAction = (id, type) => (dispatch) => {
   dispatch({
     type: types.TOGGLE_FORM_PART,
-    payload: { id, type }
+    payload: { id, type },
   })
 }
 
-export const changeHeaderAction = data => (dispatch) => {
+export const changeHeaderAction = (data) => (dispatch) => {
   dispatch({
     type: types.CHANGE_HEADER,
-    payload: data
+    payload: data,
   })
 }
 
-export const editFormAction = data => (dispatch) => {
+export const editFormAction = (data) => (dispatch) => {
   dispatch({
     type: types.INIT_EDIT_FORM,
-    payload: data
+    payload: data,
   })
 }
 
-export const openQuestionResponseAction = data => (dispatch) => {
+export const openQuestionResponseAction = (data) => (dispatch) => {
   dispatch({
     type: types.OPEN_QUESTION_RESPONSE,
-    payload: data
+    payload: data,
   })
 }
 
-export const gradeCategoryAction = data => (dispatch) => {
+export const gradeCategoryAction = (data) => (dispatch) => {
   dispatch({
     type: types.GRADE_CATEGORY_RESPONSE,
-    payload: data
+    payload: data,
   })
 }
 
-export const gradeObjectiveAction = data => (dispatch) => {
+export const gradeObjectiveAction = (data) => (dispatch) => {
   dispatch({
     type: types.GRADE_OBJECTIVE_RESPONSE,
-    payload: data
+    payload: data,
   })
 }
 
-export const textfieldResponseAction = data => (dispatch) => {
+export const textfieldResponseAction = (data) => (dispatch) => {
   dispatch({
     type: types.TEXTFIELD_RESPONSE,
-    payload: data
+    payload: data,
   })
 }
 
-export const validationAction = data => (dispatch) => {
+export const validationAction = (data) => (dispatch) => {
   dispatch({
     type: types.VALIDATE_RESPONSE,
-    payload: data
+    payload: data,
   })
 }
 
-export const clearErrorAction = data => (dispatch) => {
+export const clearErrorAction = (data) => (dispatch) => {
   dispatch({
     type: types.CLEAR_RESPONSE_ERROR,
-    payload: data
+    payload: data,
   })
 }
 
 export const clearValidationAction = () => (dispatch) => {
   dispatch({
     type: types.CLEAR_VALIDATION,
-    payload: null
+    payload: null,
   })
 }
 
 export const closeModalAction = () => (dispatch) => {
   dispatch({
     type: types.CLOSE_MODAL,
-    payload: null
+    payload: null,
   })
 }
 
 export const clearAssessmentAction = () => (dispatch) => {
   dispatch({
     type: types.CLEAR_ASSESSMENT,
-    payload: null
+    payload: null,
   })
 }

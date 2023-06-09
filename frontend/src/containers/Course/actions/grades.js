@@ -1,4 +1,4 @@
-import * as types from '../../../redux/action_types'
+import types from '../../../redux/action_types'
 import { getByCourse, create, remove, edit } from '../../../api/grades'
 import apiPromise from '../../../utils/apiPromise'
 

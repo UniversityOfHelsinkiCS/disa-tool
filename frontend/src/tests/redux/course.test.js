@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze'
 import courseReducer from '../../redux/course'
-import * as types from '../../redux/action_types'
+import types from '../../redux/action_types'
 
 const INITIAL_STATE = {
   editing: false,
