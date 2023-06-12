@@ -9,7 +9,7 @@ import Conditional from '../../utils/components/Conditional'
 import InfoBox from '../../utils/components/InfoBox'
 
 export const CourseInfo = (props) => {
-    const t = (id) => props.translate(`UserPage.CourseInfo.${id}`)
+    const { t } = useTranslation(`UserPage.CourseInfo`)
     const { course } = props
 
     return (
@@ -143,4 +143,4 @@ CourseInfo.defaultProps = {
     teachers: [],
 }
 
-export default withLocalize(CourseInfo)
+export default CourseInfo

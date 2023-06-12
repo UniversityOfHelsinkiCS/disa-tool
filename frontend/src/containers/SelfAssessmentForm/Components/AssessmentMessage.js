@@ -7,21 +7,21 @@ const AssessmentMessage = (props) => {
     if (preview && !edit) {
         return (
             <Message style={{ textAlign: 'center' }} color="green">
-                {translate('reviewMessage')}
+                {t('reviewMessage')}
             </Message>
         )
     }
     if (preview) {
         return (
             <Message style={{ textAlign: 'center' }} color="green">
-                {translate('previewMessage')}
+                {t('previewMessage')}
             </Message>
         )
     }
     if (!open && !edit) {
         return (
             <Message style={{ textAlign: 'center' }} color="grey">
-                {translate('notOpenMessage')}
+                {t('notOpenMessage')}
             </Message>
         )
     }
@@ -29,7 +29,7 @@ const AssessmentMessage = (props) => {
     if (open && existingAnswer) {
         return (
             <Message style={{ textAlign: 'center' }} color="green">
-                {translate('existingResponse')}
+                {t('existingResponse')}
             </Message>
         )
     }

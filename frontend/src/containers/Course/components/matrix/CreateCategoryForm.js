@@ -21,16 +21,15 @@ export class CreateCategoryForm extends Component {
         })
     }
 
-    translate = (id) =>
-        this.props.translate(`Course.matrix.CreateCategoryForm.${id}`)
+    translate = (id) => this.props.t(`Course.matrix.CreateCategoryForm.${id}`)
 
     render() {
-        const contentPrompt = this.translate('prompt_1')
+        const contentPrompt = t('prompt_1')
         return (
             <Table.Row className="CreateCategoryForm">
                 <Table.Cell colSpan={this.props.colSpan}>
                     <ModalForm
-                        header={this.translate('header')}
+                        header={t('header')}
                         trigger={
                             <Button
                                 basic
@@ -44,7 +43,7 @@ export class CreateCategoryForm extends Component {
                         <p>{contentPrompt}.</p>
                         <MultilingualField
                             field="name"
-                            fieldDisplay={this.translate('name')}
+                            fieldDisplay={t('name')}
                         />
                     </ModalForm>
                 </Table.Cell>

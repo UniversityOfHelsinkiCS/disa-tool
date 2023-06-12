@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
 
 export const Navbar = (props) => {
-    const translate = (id) => props.translate(`Course.navbar.Navbar.${id}`)
+    const translate = (id) => props.t(`Course.navbar.Navbar.${id}`)
+    const { t } = useTranslation()
+    const pathName = useLocation().pathname
     return (
         <nav className="Navbar">
             <Menu pointing>
@@ -13,33 +15,33 @@ export const Navbar = (props) => {
                     className="matrixLink"
                     as={Link}
                     to={`${props.matchUrl}/matrix`}
-                    active={props.pathname.includes('matrix')}
+                    active={pathName.includes('matrix')}
                 >
-                    <span>{translate('matrix')}</span>
+                    <span>{t('matrix')}</span>
                 </Menu.Item>
                 <Menu.Item
                     className="tasksLink"
                     as={Link}
                     to={`${props.matchUrl}/tasks`}
-                    active={props.pathname.includes('tasks')}
+                    active={pathName.includes('tasks')}
                 >
-                    <span>{translate('tasks')}</span>
+                    <span>{t('tasks')}</span>
                 </Menu.Item>
                 <Menu.Item
                     className="typesLink"
                     as={Link}
                     to={`${props.matchUrl}/types`}
-                    active={props.pathname.includes('types')}
+                    active={pathName.includes('types')}
                 >
-                    <span>{translate('types')}</span>
+                    <span>{t('types')}</span>
                 </Menu.Item>
                 <Menu.Item
                     className="gradesLink"
                     as={Link}
                     to={`${props.matchUrl}/grades`}
-                    active={props.pathname.includes('grades')}
+                    active={pathName.includes('grades')}
                 >
-                    <span>{translate('grades')}</span>
+                    <span>{t('grades')}</span>
                 </Menu.Item>
             </Menu>
         </nav>
@@ -52,4 +54,4 @@ Navbar.propTypes = {
     translate: PropTypes.func.isRequired,
 }
 
-export default withLocalize(Navbar)
+export default Navbar

@@ -14,6 +14,7 @@ module.exports = {
             jsx: true,
         },
         ecmaVersion: 'latest',
+        sourceType: 'module',
     },
     plugins: ['react', 'react-hooks'],
     settings: {

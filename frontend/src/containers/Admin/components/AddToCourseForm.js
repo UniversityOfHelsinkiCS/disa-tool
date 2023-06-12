@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -14,134 +14,125 @@ import { addPersonToCourse } from '../actions/coursePersons'
 
 import ModalForm, { saveActions } from '../../../utils/components/ModalForm'
 
-class AddToCourseForm extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            role: 'STUDENT',
-        }
+const AddToCourseForm = (props) => {
+    const [role, setRole] = useState('STUDENT')
+    const { t } = useTranslation()
+
+    const onModalOpen = () => {
+        props.getAllCourses()
+        props.selectInstance(null)
     }
 
-    onModalOpen = () => {
-        this.props.getAllCourses()
-        this.props.selectInstance(null)
-    }
-
-    addToCourseSubmit = () => {
-        if (!this.props.selectedInstance) return
-        this.props.addPersonToCourse({
-            courseInstanceId: this.props.selectedInstance.id,
-            personId: this.props.person.id,
-            role: this.state.role,
-            course_instance: { name: this.props.selectedInstance.name },
+    const addToCourseSubmit = () => {
+        if (!props.selectedInstance) return
+        props.addPersonToCourse({
+            courseInstanceId: props.selectedInstance.id,
+            personId: props.person.id,
+            role: role,
+            course_instance: { name: props.selectedInstance.name },
         })
     }
 
-    changeCourse = (e, { value }) => {
-        if (value && value !== this.props.selectedCourse) {
-            this.props.selectCourse(value)
-            this.props.selectInstance(undefined)
-            this.props.getInstancesOfCourse(value)
+    const changeCourse = (e, { value }) => {
+        if (value && value !== props.selectedCourse) {
+            props.selectCourse(value)
+            props.selectInstance(undefined)
+            props.getInstancesOfCourse(value)
         }
     }
 
-    changeInstance = (e, { value }) => this.props.selectInstance(value)
+    const changeInstance = (e, { value }) => props.selectInstance(value)
 
-    changeRole = (role) => () => this.setState({ role })
+    const changeRole = (role) => () => setRole(role)
 
-    translate = (id) => this.props.translate(`Admin.AddToCourseForm.${id}`)
+    const contentPrompt = [
+        t('prompt_1'),
+        props.person.name,
+        t('prompt_2'),
+    ].join(' ')
+    const actions = saveActions(t)
+    if (!props.selectedInstance) {
+        const index = actions.findIndex((action) => !action.props.type)
+        actions[index] = React.cloneElement(actions[index], {
+            disabled: true,
+        })
+    }
 
-    render() {
-        const contentPrompt = [
-            this.translate('prompt_1'),
-            this.props.person.name,
-            this.translate('prompt_2'),
-        ].join(' ')
-        const actions = saveActions(this.translate)
-        if (!this.props.selectedInstance) {
-            const index = actions.findIndex((action) => !action.props.type)
-            actions[index] = React.cloneElement(actions[index], {
-                disabled: true,
-            })
-        }
-        return (
-            <div className="AddToCourseForm">
-                <ModalForm
-                    header={this.translate('header')}
-                    trigger={
-                        <Button color="blue">
-                            {this.translate('trigger')}
+    //     translate = (id) => this.props.t(`Admin.AddToCourseForm.${id}`)
+
+    return (
+        <div className="AddToCourseForm">
+            <ModalForm
+                header={t('header')}
+                trigger={<Button color="blue">{t('trigger')}</Button>}
+                onOpen={onModalOpen}
+                actions={actions}
+                onSubmit={addToCourseSubmit}
+            >
+                <p>{contentPrompt}.</p>
+                <Form.Field inline>
+                    <Label>{t('course')}</Label>
+                    <Dropdown
+                        selection
+                        fluid
+                        onChange={changeCourse}
+                        value={
+                            props.selectedCourse
+                                ? props.selectedCourse.id
+                                : undefined
+                        }
+                        options={props.courses.map((course) => ({
+                            key: course.id,
+                            text: course.name,
+                            value: course.id,
+                        }))}
+                    />
+                </Form.Field>
+                <Form.Field inline disabled={!props.selectedCourse}>
+                    <Label>{t('instance')}</Label>
+                    <Dropdown
+                        selection
+                        fluid
+                        onChange={changeInstance}
+                        value={
+                            props.selectedInstance
+                                ? props.selectedInstance.id
+                                : undefined
+                        }
+                        options={props.instances.map((instance) => ({
+                            key: instance.id,
+                            text: instance.name,
+                            value: instance.id,
+                        }))}
+                    />
+                </Form.Field>
+                <Form.Field>
+                    <Button.Group>
+                        <Button
+                            type="button"
+                            onClick={changeRole('STUDENT')}
+                            inverted={role !== 'STUDENT'}
+                            color="green"
+                        >
+                            {t('student_button')}
                         </Button>
-                    }
-                    onOpen={this.onModalOpen}
-                    actions={actions}
-                    onSubmit={this.addToCourseSubmit}
-                >
-                    <p>{contentPrompt}.</p>
-                    <Form.Field inline>
-                        <Label>{this.translate('course')}</Label>
-                        <Dropdown
-                            selection
-                            fluid
-                            onChange={this.changeCourse}
-                            value={
-                                this.props.selectedCourse
-                                    ? this.props.selectedCourse.id
-                                    : undefined
-                            }
-                            options={this.props.courses.map((course) => ({
-                                key: course.id,
-                                text: course.name,
-                                value: course.id,
-                            }))}
-                        />
-                    </Form.Field>
-                    <Form.Field inline disabled={!this.props.selectedCourse}>
-                        <Label>{this.translate('instance')}</Label>
-                        <Dropdown
-                            selection
-                            fluid
-                            onChange={this.changeInstance}
-                            value={
-                                this.props.selectedInstance
-                                    ? this.props.selectedInstance.id
-                                    : undefined
-                            }
-                            options={this.props.instances.map((instance) => ({
-                                key: instance.id,
-                                text: instance.name,
-                                value: instance.id,
-                            }))}
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <Button.Group>
-                            <Button
-                                type="button"
-                                onClick={this.changeRole('STUDENT')}
-                                inverted={this.state.role !== 'STUDENT'}
-                                color="green"
-                            >
-                                {this.translate('student_button')}
-                            </Button>
-                            <Button
-                                type="button"
-                                onClick={this.changeRole('TEACHER')}
-                                inverted={this.state.role !== 'TEACHER'}
-                                color="green"
-                            >
-                                {this.translate('teacher_button')}
-                            </Button>
-                        </Button.Group>
-                    </Form.Field>
-                </ModalForm>
-            </div>
-        )
-    }
+                        <Button
+                            type="button"
+                            onClick={changeRole('TEACHER')}
+                            inverted={role !== 'TEACHER'}
+                            color="green"
+                        >
+                            {t('teacher_button')}
+                        </Button>
+                    </Button.Group>
+                </Form.Field>
+            </ModalForm>
+        </div>
+    )
 }
 
 AddToCourseForm.propTypes = {
-    translate: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
     person: PropTypes.shape({
         id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,

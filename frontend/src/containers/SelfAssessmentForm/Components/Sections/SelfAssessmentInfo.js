@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -9,108 +9,92 @@ import Header from '../Header'
 import { changeTextField } from '../../actions/selfAssesment'
 import InfoBox from '../../../../utils/components/InfoBox'
 
-class SelfAssessmentInfo extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            values: {},
-            editInstructions: false,
-        }
-    }
+const SelfAssessmentInfo = (props) => {
+    const [editInstructions, setEditInstructions] = useState(false)
+    const [values, setValues] = useState({})
 
-    handleChange = (e, { id }) => {
-        const oldValue = this.state.values
+    const handleChange = (e, { id }) => {
+        const oldValue = values
         oldValue[id] = e.target.value
-        this.setState({ values: oldValue })
+        setValues(oldValue)
     }
-    toggleInstructions = () => {
-        const { values } = this.state
-        this.props.dispatchTextFieldChange({ values, type: 'instructions' })
-        this.setState({
-            editInstructions: !this.state.editInstructions,
-            values: {},
-        })
+    const toggleInstructions = () => {
+        props.dispatchTextFieldChange({ values, type: 'instructions' })
+        setEditInstructions(!editInstructions)
+        setValues({})
     }
 
-    toggleHeader = (values) => {
-        this.props.dispatchTextFieldChange({ values, type: 'name' })
+    const toggleHeader = (values) => {
+        props.dispatchTextFieldChange({ values, type: 'name' })
     }
 
-    render() {
-        const translate = (id) =>
-            this.props.translate(`SelfAssessmentForm.Sections.${id}`)
+    const { t } = useTranslation(`SelfAssessmentForm.Sections`)
 
-        const { formData } = this.props
-        const { structure } = formData
-        const { formInfo } = structure
-        const instructions = formInfo.filter((d) =>
-            d.type.includes('instruction')
-        )
-        const names = formInfo.filter((d) => d.type.includes('name'))
-        const { values } = this.state
-        const { edit } = this.props
+    const { formData } = props
+    const { structure } = props.formData
+    const { formInfo } = structure
+    const instructions = formInfo.filter((d) => d.type.includes('instruction'))
+    const names = formInfo.filter((d) => d.type.includes('name'))
+    const { edit } = props
 
-        return (
-            <Form style={{ padding: '20px' }}>
-                <Form.Field>
-                    <Header
-                        name={formData.name}
-                        edit={edit}
-                        editButton
-                        headers={names}
-                        dispatchChange={this.toggleHeader}
-                    />
-                </Form.Field>
-                <Form.Field>
-                    <Card centered fluid>
-                        <Card.Content>
+    return (
+        <Form style={{ padding: '20px' }}>
+            <Form.Field>
+                <Header
+                    name={formData.name}
+                    edit={edit}
+                    editButton
+                    headers={names}
+                    dispatchChange={toggleHeader}
+                />
+            </Form.Field>
+            <Form.Field>
+                <Card centered fluid>
+                    <Card.Content>
+                        {edit && (
+                            <InfoBox
+                                translationid="SelfAssessmentInstructionsEdit"
+                                buttonProps={{ floated: 'right' }}
+                            />
+                        )}
+                        <Card.Header style={{ textAlign: 'center' }}>
+                            {formData.instructions.header}
                             {edit && (
-                                <InfoBox
-                                    translationid="SelfAssessmentInstructionsEdit"
-                                    buttonProps={{ floated: 'right' }}
-                                />
+                                <Button
+                                    style={{ marginLeft: '10px' }}
+                                    onClick={toggleInstructions}
+                                >
+                                    {!editInstructions
+                                        ? t('buttonEdit')
+                                        : t('buttonSave')}
+                                </Button>
                             )}
-                            <Card.Header style={{ textAlign: 'center' }}>
-                                {formData.instructions.header}
-                                {edit && (
-                                    <Button
-                                        style={{ marginLeft: '10px' }}
-                                        onClick={this.toggleInstructions}
+                        </Card.Header>
+                        {!editInstructions ? (
+                            <Card.Description>
+                                <ReactMarkdown>
+                                    {formData.instructions.value}
+                                </ReactMarkdown>
+                            </Card.Description>
+                        ) : (
+                            instructions.map((d) => (
+                                <Form.Field key={d.id}>
+                                    <label>{d.prefix}</label>
+                                    <TextArea
+                                        autoHeight
+                                        id={d.id}
+                                        onChange={handleChange}
                                     >
-                                        {!this.state.editInstructions
-                                            ? translate('buttonEdit')
-                                            : translate('buttonSave')}
-                                    </Button>
-                                )}
-                            </Card.Header>
-                            {!this.state.editInstructions ? (
-                                <Card.Description>
-                                    <ReactMarkdown>
-                                        {formData.instructions.value}
-                                    </ReactMarkdown>
-                                </Card.Description>
-                            ) : (
-                                instructions.map((d) => (
-                                    <Form.Field key={d.id}>
-                                        <label>{d.prefix}</label>
-                                        <TextArea
-                                            autoHeight
-                                            id={d.id}
-                                            onChange={this.handleChange}
-                                        >
-                                            {values[d.id]
-                                                ? values[d.id]
-                                                : d.value}
-                                        </TextArea>
-                                    </Form.Field>
-                                ))
-                            )}
-                        </Card.Content>
-                    </Card>
-                </Form.Field>
-            </Form>
-        )
-    }
+                                        {values[d.id] ? values[d.id] : d.value}
+                                    </TextArea>
+                                </Form.Field>
+                            ))
+                        )}
+                    </Card.Content>
+                </Card>
+            </Form.Field>
+        </Form>
+    )
 }
 
 SelfAssessmentInfo.propTypes = {
@@ -119,6 +103,8 @@ SelfAssessmentInfo.propTypes = {
         structure: PropTypes.shape({
             formInfo: PropTypes.arrayOf(PropTypes.shape()),
         }),
+        instructions: PropTypes.shape(),
+        name: PropTypes.string,
     }),
     edit: PropTypes.bool.isRequired,
     translate: PropTypes.func.isRequired,
@@ -137,6 +123,4 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(changeTextField(type, value)),
 })
 
-export default withLocalize(
-    connect(null, mapDispatchToProps)(SelfAssessmentInfo)
-)
+export default connect(null, mapDispatchToProps)(SelfAssessmentInfo)

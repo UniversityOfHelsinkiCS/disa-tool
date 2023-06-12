@@ -16,8 +16,7 @@ const TeacherAssesmentList = ({
     translate: baseTranslate,
     deleteSelfAssesment,
 }) => {
-    const translate = (id) =>
-        baseTranslate(`UserPage.TeacherAssesmentList.${id}`)
+    const { t } = useTranslation(`UserPage.TeacherAssesmentList`)
     return (
         <List selection divided size="big">
             {orderBy(assesments, 'name').map((assesment) => (
@@ -57,9 +56,7 @@ const TeacherAssesmentList = ({
                                         />
                                     </div>
                                 }
-                                content={translate(
-                                    'cannot_edit_open_assessment'
-                                )}
+                                content={t('cannot_edit_open_assessment')}
                             />
                         </Conditional>
                         <Conditional visible={!assesment.open}>
@@ -75,11 +72,8 @@ const TeacherAssesmentList = ({
                         </Conditional>
                         <DeleteForm
                             onExecute={() => deleteSelfAssesment(assesment.id)}
-                            header={translate('delete_header')}
-                            prompt={[
-                                translate('delete_prompt_1'),
-                                assesment.name,
-                            ]}
+                            header={t('delete_header')}
+                            prompt={[t('delete_prompt_1'), assesment.name]}
                             translate={baseTranslate}
                         />
                     </List.Content>
@@ -87,7 +81,7 @@ const TeacherAssesmentList = ({
                         <Button.Group size="small">
                             <Button
                                 name="assessmentHidden"
-                                content={translate('hidden')}
+                                content={t('hidden')}
                                 size="small"
                                 value={assesment.id}
                                 onClick={toggleAssessment}
@@ -96,7 +90,7 @@ const TeacherAssesmentList = ({
                             <Button.Or />
                             <Button
                                 name="assessmentOpen"
-                                content={translate('open')}
+                                content={t('open')}
                                 size="small"
                                 value={assesment.id}
                                 onClick={toggleAssessment}
@@ -105,7 +99,7 @@ const TeacherAssesmentList = ({
                             <Button.Or />
                             <Button
                                 name="assessmentShown"
-                                content={translate('closed')}
+                                content={t('closed')}
                                 size="small"
                                 value={assesment.id}
                                 onClick={toggleAssessment}
@@ -117,8 +111,8 @@ const TeacherAssesmentList = ({
                             color={assesment.show_feedback ? 'green' : 'red'}
                             content={
                                 assesment.show_feedback
-                                    ? translate('feedback_open')
-                                    : translate('feedback_closed')
+                                    ? t('feedback_open')
+                                    : t('feedback_closed')
                             }
                             size="small"
                             value={assesment.id}
@@ -143,7 +137,4 @@ const mapDispatchToProps = (dispatch) => ({
     deleteSelfAssesment: asyncAction(removeSelfAssesment, dispatch),
 })
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(withLocalize(TeacherAssesmentList))
+export default connect(null, mapDispatchToProps)(TeacherAssesmentList)

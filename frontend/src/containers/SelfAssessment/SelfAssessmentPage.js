@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Loader } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { redirect } from 'react-router'
 import { useParams } from 'react-router-dom'
@@ -38,35 +37,32 @@ const SelfAssessmentPage = (props) => {
         props.dispatchGetUserSelfAssessments()
 
         return () => {
-            if (this.props.error) {
-                this.props.dispatchClearError()
+            if (props.error) {
+                props.dispatchClearError()
             }
         }
     }, [])
 
-    createOrEdit = async (e, { id, assessment }) => {
+    const createOrEdit = async (e, { id, assessment }) => {
         if (assessment) {
-            this.setState({ new: true, courseInstanceId: id, type: assessment })
+            setState({ new: true, courseInstanceId: id, type: assessment })
         } else {
-            this.setState({ edit: true, assessmentId: id })
+            setState({ edit: true, assessmentId: id })
         }
     }
 
-    const { role } = this.props
-    if (
-        this.props.error ||
-        (this.props.role && this.props.role !== 'TEACHER')
-    ) {
+    const { role } = props
+    if (props.error || (props.role && props.role !== 'TEACHER')) {
         return redirect('/user/')
     }
-    if (this.state.new) {
+    if (state.new) {
         return redirect(
-            `/selfassessment/create/${this.state.courseInstanceId}/${this.state.type}`
+            `/selfassessment/create/${state.courseInstanceId}/${state.type}`
         )
     }
 
-    if (this.state.edit) {
-        return redirect(`/selfassessment/edit/${this.state.assessmentId}`)
+    if (state.edit) {
+        return redirect(`/selfassessment/edit/${state.assessmentId}`)
     }
 
     return (
@@ -138,6 +134,4 @@ SelfAssessmentPage.defaultProps = {
     error: false,
 }
 
-export default withLocalize(
-    connect(mapStateToProps, mapDispatchToProps)(SelfAssessmentPage)
-)
+export default connect(mapStateToProps, mapDispatchToProps)(SelfAssessmentPage)

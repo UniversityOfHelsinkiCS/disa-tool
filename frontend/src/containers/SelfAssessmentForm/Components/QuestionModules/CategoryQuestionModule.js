@@ -7,7 +7,7 @@ import {
     Icon,
     Message,
 } from 'semantic-ui-react'
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -18,48 +18,42 @@ import {
 } from '../../actions/selfAssesment'
 import MatrixPage from '../../../Course/MatrixPage'
 
-export class CategoryQuestionModule extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            showMatrix: false,
-            value: null,
-        }
-    }
+const CategoryQuestionModule = (props) => {
+    const [state, setState] = useState({ showMatrix: false, value: null })
 
-    handleDropdownChange = (e, { value }) => {
-        const { final } = this.props
-        const { id } = this.props.data
-        const gradeName = this.props.grades.find((g) => g.value === value).text
-        this.props.dispatchGradeCategoryAction({
+    const handleDropdownChange = (e, { value }) => {
+        const { final } = props
+        const { id } = props.data
+        const gradeName = props.grades.find((g) => g.value === value).text
+        props.dispatchGradeCategoryAction({
             id,
             value,
             name: gradeName,
             final,
         })
-        this.setState({ value })
-        this.props.dispatchClearErrorAction({
+        setState({ ...state, value: value })
+        props.dispatchClearErrorAction({
             type: final ? 'finalGErrors' : 'qModErrors',
             errorType: 'grade',
             id,
         })
     }
 
-    handleTextFieldOnBlur = (e) => {
-        const { final } = this.props
-        const { id } = this.props.data
-        this.props.dispatchTextfieldResponseAction({
+    const handleTextFieldOnBlur = (e) => {
+        const { final } = props
+        const { id } = props.data
+        props.dispatchTextfieldResponseAction({
             id,
             value: e.target.value,
             final,
         })
     }
 
-    handleTextFieldChange = () => {
-        const { final, responseTextError } = this.props
-        const { id } = this.props.data
+    const handleTextFieldChange = () => {
+        const { final, responseTextError } = props
+        const { id } = props.data
         if (responseTextError) {
-            this.props.dispatchClearErrorAction({
+            props.dispatchClearErrorAction({
                 type: final ? 'finalGErrors' : 'qModErrors',
                 errorType: 'responseText',
                 id,
@@ -67,192 +61,168 @@ export class CategoryQuestionModule extends React.Component {
         }
     }
 
-    render() {
-        const {
-            edit,
-            final,
-            responseTextError,
-            gradeError,
-            courseInstanceId,
-            grades,
-            existingAnswer,
-        } = this.props
-        const { name, textFieldOn, id } = this.props.data
-        const matchingResponse = final
-            ? existingAnswer
-            : existingAnswer.find((answer) => answer.id === id)
-        const { grade, responseText } = matchingResponse || {}
+    const {
+        edit,
+        final,
+        responseTextError,
+        gradeError,
+        courseInstanceId,
+        grades,
+        existingAnswer,
+    } = props
+    const { name, textFieldOn, id } = props.data
+    const matchingResponse = final
+        ? existingAnswer
+        : existingAnswer.find((answer) => answer.id === id)
+    const { grade, responseText } = matchingResponse || {}
 
-        const existingGrade = grades.find((g) => g.value === grade)
-        const translate = (translateId) =>
-            this.props.translate(
-                `SelfAssessmentForm.QuestionModules.CategoryQuestionModule.${translateId}`
-            )
+    const existingGrade = grades.find((g) => g.value === grade)
+    const { t } = useTranslation(
+        `SelfAssessmentForm.QuestionModules.CategoryQuestionModule`
+    )
 
-        return (
-            <div className="CategoryQuestion">
-                <Form
-                    error={
-                        gradeError !== undefined ||
-                        responseTextError !== undefined
-                    }
-                >
-                    <Form.Field>
-                        <div>
-                            <Card fluid>
-                                <Card.Content>
-                                    <Card.Header>
-                                        {name}
-                                        {!final && (
-                                            <Accordion
-                                                style={{ marginTop: '10px' }}
-                                                fluid
-                                                styled
+    return (
+        <div className="CategoryQuestion">
+            <Form
+                error={
+                    gradeError !== undefined || responseTextError !== undefined
+                }
+            >
+                <Form.Field>
+                    <div>
+                        <Card fluid>
+                            <Card.Content>
+                                <Card.Header>
+                                    {name}
+                                    {!final && (
+                                        <Accordion
+                                            style={{ marginTop: '10px' }}
+                                            fluid
+                                            styled
+                                        >
+                                            <Accordion.Title
+                                                active={state.showMatrix}
+                                                onClick={() =>
+                                                    setState({
+                                                        showMatrix:
+                                                            !state.showMatrix,
+                                                    })
+                                                }
                                             >
-                                                <Accordion.Title
-                                                    active={
-                                                        this.state.showMatrix
-                                                    }
-                                                    onClick={() =>
-                                                        this.setState({
-                                                            showMatrix:
-                                                                !this.state
-                                                                    .showMatrix,
-                                                        })
-                                                    }
-                                                >
-                                                    <Icon name="dropdown" />
-                                                    {translate('matrix')}
-                                                </Accordion.Title>
-                                                <Accordion.Content
-                                                    active={
-                                                        this.state.showMatrix
-                                                    }
-                                                >
-                                                    <MatrixPage
-                                                        courseId={
-                                                            courseInstanceId
-                                                        }
-                                                        hideHeader
-                                                        categoryId={id}
-                                                    />
-                                                </Accordion.Content>
-                                            </Accordion>
-                                        )}
-                                    </Card.Header>
+                                                <Icon name="dropdown" />
+                                                {t('matrix')}
+                                            </Accordion.Title>
+                                            <Accordion.Content
+                                                active={state.showMatrix}
+                                            >
+                                                <MatrixPage
+                                                    courseId={courseInstanceId}
+                                                    hideHeader
+                                                    categoryId={id}
+                                                />
+                                            </Accordion.Content>
+                                        </Accordion>
+                                    )}
+                                </Card.Header>
 
-                                    <Grid
-                                        verticalAlign="middle"
-                                        padded
-                                        columns={3}
-                                    >
-                                        <Grid.Row>
-                                            <Form.Field width={10}>
-                                                <Grid.Column>
+                                <Grid verticalAlign="middle" padded columns={3}>
+                                    <Grid.Row>
+                                        <Form.Field width={10}>
+                                            <Grid.Column>
+                                                <div>
+                                                    <label>
+                                                        {' '}
+                                                        {t('assessment')}
+                                                    </label>
+                                                    <Dropdown
+                                                        className="gradeDropdown"
+                                                        style={{
+                                                            marginLeft: '20px',
+                                                        }}
+                                                        placeholder={t(
+                                                            'gradeSelect'
+                                                        )}
+                                                        selection
+                                                        options={grades}
+                                                        error={
+                                                            gradeError !==
+                                                            undefined
+                                                        }
+                                                        onChange={
+                                                            !edit
+                                                                ? handleDropdownChange
+                                                                : null
+                                                        }
+                                                        value={
+                                                            existingGrade
+                                                                ? existingGrade.value
+                                                                : state.value
+                                                        }
+                                                    />
+                                                </div>
+                                                <Message
+                                                    error
+                                                    content={
+                                                        gradeError
+                                                            ? gradeError.error
+                                                            : null
+                                                    }
+                                                />
+                                            </Grid.Column>
+                                        </Form.Field>
+                                        <Grid.Column />
+                                    </Grid.Row>
+
+                                    <Grid.Row>
+                                        <Form.Field width={10}>
+                                            <Grid.Column>
+                                                {textFieldOn ? (
                                                     <div>
-                                                        <label>
-                                                            {' '}
-                                                            {translate(
-                                                                'assessment'
-                                                            )}
-                                                        </label>
-                                                        <Dropdown
-                                                            className="gradeDropdown"
-                                                            style={{
-                                                                marginLeft:
-                                                                    '20px',
-                                                            }}
-                                                            placeholder={translate(
-                                                                'gradeSelect'
-                                                            )}
-                                                            selection
-                                                            options={grades}
+                                                        <Form.TextArea
+                                                            autoHeight
                                                             error={
-                                                                gradeError !==
+                                                                responseTextError !==
                                                                 undefined
+                                                            }
+                                                            label={t('basis')}
+                                                            placeholder={t(
+                                                                'writeBasis'
+                                                            )}
+                                                            onBlur={
+                                                                !edit
+                                                                    ? handleTextFieldOnBlur
+                                                                    : undefined
                                                             }
                                                             onChange={
                                                                 !edit
-                                                                    ? this
-                                                                          .handleDropdownChange
-                                                                    : null
+                                                                    ? handleTextFieldChange
+                                                                    : undefined
                                                             }
-                                                            value={
-                                                                existingGrade
-                                                                    ? existingGrade.value
-                                                                    : this.state
-                                                                          .value
+                                                            defaultValue={
+                                                                responseText
+                                                            }
+                                                        />
+                                                        <Message
+                                                            error
+                                                            content={
+                                                                responseTextError
+                                                                    ? responseTextError.error
+                                                                    : null
                                                             }
                                                         />
                                                     </div>
-                                                    <Message
-                                                        error
-                                                        content={
-                                                            gradeError
-                                                                ? gradeError.error
-                                                                : null
-                                                        }
-                                                    />
-                                                </Grid.Column>
-                                            </Form.Field>
-                                            <Grid.Column />
-                                        </Grid.Row>
-
-                                        <Grid.Row>
-                                            <Form.Field width={10}>
-                                                <Grid.Column>
-                                                    {textFieldOn ? (
-                                                        <div>
-                                                            <Form.TextArea
-                                                                autoHeight
-                                                                error={
-                                                                    responseTextError !==
-                                                                    undefined
-                                                                }
-                                                                label={translate(
-                                                                    'basis'
-                                                                )}
-                                                                placeholder={translate(
-                                                                    'writeBasis'
-                                                                )}
-                                                                onBlur={
-                                                                    !edit
-                                                                        ? this
-                                                                              .handleTextFieldOnBlur
-                                                                        : undefined
-                                                                }
-                                                                onChange={
-                                                                    !edit
-                                                                        ? this
-                                                                              .handleTextFieldChange
-                                                                        : undefined
-                                                                }
-                                                                defaultValue={
-                                                                    responseText
-                                                                }
-                                                            />
-                                                            <Message
-                                                                error
-                                                                content={
-                                                                    responseTextError
-                                                                        ? responseTextError.error
-                                                                        : null
-                                                                }
-                                                            />
-                                                        </div>
-                                                    ) : null}
-                                                </Grid.Column>
-                                            </Form.Field>
-                                        </Grid.Row>
-                                    </Grid>
-                                </Card.Content>
-                            </Card>
-                        </div>
-                    </Form.Field>
-                </Form>
-            </div>
-        )
-    }
+                                                ) : null}
+                                            </Grid.Column>
+                                        </Form.Field>
+                                    </Grid.Row>
+                                </Grid>
+                            </Card.Content>
+                        </Card>
+                    </div>
+                </Form.Field>
+            </Form>
+        </div>
+    )
 }
 
 CategoryQuestionModule.defaultProps = {
@@ -309,6 +279,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatchClearErrorAction: (data) => dispatch(clearErrorAction(data)),
 })
 
-export default withLocalize(
-    connect(mapStateToProps, mapDispatchToProps)(CategoryQuestionModule)
-)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CategoryQuestionModule)

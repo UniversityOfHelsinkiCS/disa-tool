@@ -9,8 +9,10 @@ import { removeType, editType } from '../../actions/types'
 import { addTypeToTask, removeTypeFromTask } from '../../actions/tasks'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditTypeForm from './EditTypeForm'
-import dndItem, { defaults } from '../../../../utils/components/DnDItem'
-
+import dndItem, {
+    defaults,
+} from '../../../../utils/components/react-dnd/DnDItem'
+/*
 export const dropSpec = {
     ...defaults.dropSpec,
     drop: (props, monitor) => {
@@ -38,7 +40,8 @@ export const dropSpec = {
         )
     },
 }
-
+*/
+/*
 const DnDItem = dndItem('type', {
     dropSpec,
     dragSpec: {
@@ -49,7 +52,7 @@ const DnDItem = dndItem('type', {
         }),
     },
 })
-
+*/
 export class Type extends Component {
     toggleType = () => {
         if (this.props.activeTaskId) {
@@ -60,7 +63,7 @@ export class Type extends Component {
         }
     }
 
-    translate = (id) => this.props.translate(`Course.types.Type.${id}`)
+    translate = (id) => this.props.t(`Course.types.Type.${id}`)
 
     render() {
         const { activeTaskId, active, type, slots, moveType, headerId } =
@@ -91,10 +94,10 @@ export class Type extends Component {
                                     this.props.removeType({ id: type.id })
                                 }
                                 prompt={[
-                                    this.translate('delete_prompt_1'),
+                                    t('delete_prompt_1'),
                                     `"${type.name}"`,
                                 ]}
-                                header={this.translate('delete_header')}
+                                header={t('delete_header')}
                             />
                         </div>
                     </div>
@@ -153,4 +156,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     moveType: asyncAction(editType, dispatch),
 })
 
-export default withLocalize(connect(null, mapDispatchToProps)(Type))
+export default connect(null, mapDispatchToProps)(Type)

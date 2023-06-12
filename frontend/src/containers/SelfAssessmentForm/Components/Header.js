@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -6,85 +6,66 @@ import { Form, Button } from 'semantic-ui-react'
 import MultiLangInput from './MultiLangInput'
 import { changeHeaderAction } from '../actions/selfAssesment'
 
-class Header extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            editHeaders: false,
-            changedHeaders: {},
-        }
-    }
+const Header = (props) => {
+    const [editHeaders, setEditHeaders] = useState(false)
+    const [changedHeaders, setChangedHeaders] = useState({})
+    const { t } = useTranslation(`SelfAssessmentForm.Header`)
+    const { name, edit, headers, style, editButton } = props
 
-    toggleEdit = () => {
-        const { changedHeaders } = this.state
-        const { headerType } = this.props
-        this.props.dispatchChange //eslint-disable-line
-            ? this.props.dispatchChange(changedHeaders)
-            : this.props.dispatchHeaderChange({
+    const toggleEdit = () => {
+        const { headerType } = props
+        props.dispatchChange //eslint-disable-line
+            ? props.dispatchChange(changedHeaders)
+            : props.dispatchHeaderChange({
                   changedHeaders,
                   headerType,
               })
-        this.setState({ editHeaders: !this.state.editHeaders })
+        setChangedHeaders(!editHeaders)
     }
 
-    changeHeader = (id, value) => {
-        const oldState = this.state.changedHeaders
+    const changeHeader = (id, value) => {
+        const oldState = changedHeaders
         oldState[id] = value
-        this.setState({ editHeaders: oldState })
+        setEditHeaders(oldState)
     }
 
-    render() {
-        const translate = (id) =>
-            this.props.translate(`SelfAssessmentForm.Header.${id}`)
-        const { name, edit, headers, style, editButton } = this.props
-        const { editHeaders } = this.state
-
-        const header = editButton ? (
-            <div>
-                {name}
-                {edit && (
-                    <Button
-                        className="editHeadersButton"
-                        onClick={this.toggleEdit}
-                        style={{ marginLeft: '10px' }}
-                    >
-                        {editHeaders
-                            ? translate('buttonSave')
-                            : translate('buttonEdit')}
-                    </Button>
-                )}
-            </div>
-        ) : (
-            name
-        )
-
-        const headerEditForm = editHeaders && (
-            <div
-                style={{
-                    marginBottom: '10px',
-                }}
-            >
-                <Form>
-                    <MultiLangInput
-                        headers={headers}
-                        handleChange={this.changeHeader}
-                    />
-                </Form>
-            </div>
-        )
-
-        return (
-            <div>
-                <h3
-                    style={this.props.style ? style : null}
-                    className="cardHead"
+    const header = editButton ? (
+        <div>
+            {name}
+            {edit && (
+                <Button
+                    className="editHeadersButton"
+                    onClick={toggleEdit}
+                    style={{ marginLeft: '10px' }}
                 >
-                    {header}
-                </h3>
-                {headerEditForm}
-            </div>
-        )
-    }
+                    {editHeaders ? t('buttonSave') : t('buttonEdit')}
+                </Button>
+            )}
+        </div>
+    ) : (
+        name
+    )
+
+    const headerEditForm = editHeaders && (
+        <div
+            style={{
+                marginBottom: '10px',
+            }}
+        >
+            <Form>
+                <MultiLangInput headers={headers} handleChange={changeHeader} />
+            </Form>
+        </div>
+    )
+
+    return (
+        <div>
+            <h3 style={props.style ? style : null} className="cardHead">
+                {header}
+            </h3>
+            {headerEditForm}
+        </div>
+    )
 }
 
 const mapDispatchToProps = (dispatch) => ({
@@ -111,4 +92,4 @@ Header.propTypes = {
     editButton: PropTypes.bool,
 }
 
-export default withLocalize(connect(null, mapDispatchToProps)(Header))
+export default connect(null, mapDispatchToProps)(Header)

@@ -93,7 +93,7 @@ class EditTaskObjectivesForm extends Component {
         }
     }
     translate = (id) =>
-        this.props.translate(`Course.tasks.EditTaskObjectivesForm.${id}`)
+        this.props.t(`Course.tasks.EditTaskObjectivesForm.${id}`)
 
     render() {
         return (
@@ -101,10 +101,7 @@ class EditTaskObjectivesForm extends Component {
                 <Modal
                     open={this.state.expanded}
                     trigger={
-                        <Button
-                            basic
-                            content={this.translate('edit_multipliers_button')}
-                        />
+                        <Button basic content={t('edit_multipliers_button')} />
                     }
                     onSubmit={this.editTaskObjectivesSubmit}
                     onOpen={this.loadDetails}
@@ -122,20 +119,20 @@ class EditTaskObjectivesForm extends Component {
                                         onClick={() =>
                                             this.setState({ detailed: false })
                                         }
-                                        content={this.translate('all')}
+                                        content={t('all')}
                                         color={
                                             this.state.detailed
                                                 ? undefined
                                                 : 'blue'
                                         }
                                     />
-                                    <Button.Or text={this.translate('or')} />
+                                    <Button.Or text={t('or')} />
                                     <Button
                                         type="button"
                                         onClick={() =>
                                             this.setState({ detailed: true })
                                         }
-                                        content={this.translate('detailed')}
+                                        content={t('detailed')}
                                         color={
                                             this.state.detailed
                                                 ? 'blue'
@@ -156,13 +153,9 @@ class EditTaskObjectivesForm extends Component {
                                             changeMultiplier={
                                                 this.changeMultiplier
                                             }
-                                            defaultText={this.translate(
-                                                'default'
-                                            )}
-                                            orText={this.translate('or')}
-                                            modifyText={this.translate(
-                                                'modify'
-                                            )}
+                                            defaultText={t('default')}
+                                            orText={t('or')}
+                                            modifyText={t('modify')}
                                         />
                                     ) : null
                                 )
@@ -172,10 +165,10 @@ class EditTaskObjectivesForm extends Component {
                                     defaultInd={0}
                                     changeMultiplier={this.changeMultiplier}
                                     changeModified={this.changeModified}
-                                    allText={this.translate('all')}
-                                    defaultText={this.translate('default')}
-                                    modifyText={this.translate('modify')}
-                                    orText={this.translate('or')}
+                                    allText={t('all')}
+                                    defaultText={t('default')}
+                                    modifyText={t('modify')}
+                                    orText={t('or')}
                                 />
                             )}
                             <Button
@@ -183,14 +176,14 @@ class EditTaskObjectivesForm extends Component {
                                 color="green"
                                 style={{ margin: '0px 15px 0px 15px' }}
                             >
-                                {this.translate('save')}
+                                {t('save')}
                             </Button>
                             <Button
                                 type="cancel"
                                 style={{ margin: '0px 15px 0px 15px' }}
                                 onClick={this.collapse}
                             >
-                                {this.translate('cancel')}
+                                {t('cancel')}
                             </Button>
                         </Form>
                     </Modal.Content>
@@ -271,6 +264,7 @@ const mapDispatchToProps = (dispatch) => ({
     objectivesDetails,
 })
 
-export default withLocalize(
-    connect(mapStateToProps, mapDispatchToProps)(EditTaskObjectivesForm)
-)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(EditTaskObjectivesForm)

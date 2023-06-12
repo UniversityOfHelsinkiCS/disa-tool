@@ -7,9 +7,7 @@ import { toggleUp, toggleDown } from '../actions/selfAssesment'
 
 const UpOrDownToggle = (props) => {
     const { id } = props
-    const translate = (translateId) =>
-        props.translate(`SelfAssessmentForm.UpOrDownToggle.${translateId}`)
-
+    const { t } = useTranslation(`SelfAssessmentForm.UpOrDownToggle`)
     return (
         <div>
             <Popup
@@ -21,7 +19,7 @@ const UpOrDownToggle = (props) => {
                         onClick={() => props.dispatchDown(id)}
                     />
                 }
-                content={translate('downButton')}
+                content={t('downButton')}
             />
             <Popup
                 trigger={
@@ -32,7 +30,7 @@ const UpOrDownToggle = (props) => {
                         onClick={() => props.dispatchUp(id)}
                     />
                 }
-                content={translate('upButton')}
+                content={t('upButton')}
             />
         </div>
     )
@@ -50,4 +48,4 @@ const mapDispatchToProps = (dispatch) => ({
     dispatchDown: (id) => dispatch(toggleDown(id)),
 })
 
-export default withLocalize(connect(null, mapDispatchToProps)(UpOrDownToggle))
+export default connect(null, mapDispatchToProps)(UpOrDownToggle)

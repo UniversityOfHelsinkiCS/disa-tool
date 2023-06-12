@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 const AssessmentButtons = (props) => {
+    const { t } = useTranslation()
     const { onClick, value } = props
-    const translate = (id) =>
-        props.translate(`SelfAssessment.AssessmentButtons.${id}`)
+    const translate = (id) => t(`SelfAssessment.AssessmentButtons.${id}`)
     return (
         <div>
             <Form.Field>
@@ -44,4 +44,4 @@ AssessmentButtons.propTypes = {
     value: PropTypes.number,
 }
 
-export default withLocalize(AssessmentButtons)
+export default AssessmentButtons

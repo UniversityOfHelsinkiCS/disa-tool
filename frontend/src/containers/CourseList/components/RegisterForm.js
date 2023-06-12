@@ -12,7 +12,7 @@ import {
 } from '../actions/coursePersons'
 
 const RegisterForm = (props) => {
-    const translate = (id) => props.translate(`CourseList.RegisterForm.${id}`)
+    const translate = (id) => props.t(`CourseList.RegisterForm.${id}`)
 
     if (props.user.id) {
         return (
@@ -27,9 +27,7 @@ const RegisterForm = (props) => {
                 inverted
                 color="blue"
             >
-                {props.registered
-                    ? translate('unregister')
-                    : translate('register')}
+                {props.registered ? t('unregister') : t('register')}
             </Button>
         )
     }
@@ -42,7 +40,7 @@ const RegisterForm = (props) => {
             inverted
             color="blue"
         >
-            {`${translate('register')} (${translate('require_login')})`}
+            {`${t('register')} (${t('require_login')})`}
         </Button>
     )
 }
@@ -72,6 +70,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         : asyncAction(registerToCourse, dispatch),
 })
 
-export default withLocalize(
-    connect(mapStateToProps, mapDispatchToProps)(RegisterForm)
-)
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm)

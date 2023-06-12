@@ -9,9 +9,9 @@ import { removeHeader, editHeader } from '../../actions/types'
 import Typelist from './Typelist'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditHeaderForm from './EditHeaderForm'
-import dndItem from '../../../../utils/components/DnDItem'
+import dndItem from '../../../../utils/components/react-dnd/DnDItem'
 
-const DnDItem = dndItem('type_header')
+//const DnDItem = dndItem('type_header')
 
 export const TypeHeader = (props) => {
     const { header, activeTask, editing, moveHeader, slots } = props
@@ -21,7 +21,7 @@ export const TypeHeader = (props) => {
             activeMap[type] = true
         })
     }
-    const translate = (id) => props.translate(`Course.types.TypeHeader.${id}`)
+    const translate = (id) => props.t(`Course.types.TypeHeader.${id}`)
     const content = (
         <Segment className="TypeHeader">
             <div className="flexContainer">
@@ -37,10 +37,10 @@ export const TypeHeader = (props) => {
                                     props.removeHeader({ id: header.id })
                                 }
                                 prompt={[
-                                    translate('delete_prompt_1'),
+                                    t('delete_prompt_1'),
                                     `"${props.header.name}"`,
                                 ]}
-                                header={translate('delete_header')}
+                                header={t('delete_header')}
                             />
                         </div>
                     </div>
@@ -94,4 +94,4 @@ const mapDispatchToProps = (dispatch) => ({
     moveHeader: asyncAction(editHeader, dispatch),
 })
 
-export default withLocalize(connect(null, mapDispatchToProps)(TypeHeader))
+export default connect(null, mapDispatchToProps)(TypeHeader)

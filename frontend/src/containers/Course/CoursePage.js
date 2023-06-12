@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Route, Routes, redirect } from 'react-router-dom'
 import { Loader } from 'semantic-ui-react'
-import { DndContext } from 'react-dnd'
+import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
 import asyncAction from '../../utils/asyncAction'
@@ -31,38 +31,48 @@ const CoursePage = (props) => {
 
     return (
         <div className="CoursePage">
-            <CourseHeader />
-            <Navbar
-                matchUrl={this.props.match.url}
-                pathname={this.props.location.pathname}
-            />
-            <Routes>
-                <Route
-                    path={`${this.props.match.url}/matrix`}
-                    render={() => (
-                        <EditMatrixTab courseId={this.props.match.params.id} />
-                    )}
+            <DndProvider backend={HTML5Backend}>
+                <CourseHeader />
+                <Navbar
+                    matchUrl={this.props.match.url}
+                    pathname={this.props.location.pathname}
                 />
-                <Route
-                    path={`${this.props.match.url}/types`}
-                    render={() => (
-                        <EditTypesTab courseId={this.props.match.params.id} />
-                    )}
-                />
-                <Route
-                    path={`${this.props.match.url}/tasks`}
-                    render={() => (
-                        <EditTasksTab courseId={this.props.match.params.id} />
-                    )}
-                />
-                <Route
-                    path={`${this.props.match.url}/grades`}
-                    render={() => (
-                        <EditGradesTab courseId={this.props.match.params.id} />
-                    )}
-                />
-                <Route component={redirect(`${props.match.url}/matrix`)} />
-            </Routes>
+                <Routes>
+                    <Route
+                        path={`${this.props.match.url}/matrix`}
+                        render={() => (
+                            <EditMatrixTab
+                                courseId={this.props.match.params.id}
+                            />
+                        )}
+                    />
+                    <Route
+                        path={`${this.props.match.url}/types`}
+                        render={() => (
+                            <EditTypesTab
+                                courseId={this.props.match.params.id}
+                            />
+                        )}
+                    />
+                    <Route
+                        path={`${this.props.match.url}/tasks`}
+                        render={() => (
+                            <EditTasksTab
+                                courseId={this.props.match.params.id}
+                            />
+                        )}
+                    />
+                    <Route
+                        path={`${this.props.match.url}/grades`}
+                        render={() => (
+                            <EditGradesTab
+                                courseId={this.props.match.params.id}
+                            />
+                        )}
+                    />
+                    <Route component={redirect(`${props.match.url}/matrix`)} />
+                </Routes>
+            </DndProvider>
         </div>
     )
 }
@@ -99,7 +109,4 @@ const mapDispatchToProps = (dispatch) => ({
     resetCourse: resetCourse(dispatch),
 })
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(DndContext(HTML5Backend)(CoursePage))
+export default connect(mapStateToProps, mapDispatchToProps)(CoursePage)

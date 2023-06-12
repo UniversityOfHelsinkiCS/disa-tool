@@ -14,10 +14,9 @@ const EditCategorymodule = (props) => {
     const { name, textFieldOn, id, includedInAssesment } = props.data
     const { final } = props
     const { headers } = props.data
-    const translate = (translateId) =>
-        props.translate(
-            `SelfAssessmentForm.QuestionModules.EditCategoryModule.${translateId}`
-        )
+    const { t } = useTranslation(
+        `SelfAssessmentForm.QuestionModules.EditCategoryModule`
+    )
 
     return (
         <div>
@@ -37,7 +36,7 @@ const EditCategorymodule = (props) => {
                         style={{ marginTop: '10px' }}
                         defaultChecked={textFieldOn}
                         onChange={() => props.dispatchTextFieldOnOff(id)}
-                        label={translate('label')}
+                        label={t('label')}
                         disabled={!includedInAssesment}
                     />
                 </Grid.Column>
@@ -53,8 +52,8 @@ const EditCategorymodule = (props) => {
                         }
                     >
                         {includedInAssesment
-                            ? translate('includedButton')
-                            : translate('notIncludedButton')}
+                            ? t('includedButton')
+                            : t('notIncludedButton')}
                     </Button>
                 </Grid.Column>
                 <Grid.Column verticalAlign="middle">
@@ -90,6 +89,4 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(toggleFormPartAction(id, type)),
 })
 
-export default withLocalize(
-    connect(null, mapDispatchToProps)(EditCategorymodule)
-)
+export default connect(null, mapDispatchToProps)(EditCategorymodule)

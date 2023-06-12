@@ -1,146 +1,142 @@
-import React, { Component } from 'react'
+import React, { useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { Form, Segment, Label, Input, Button } from 'semantic-ui-react'
 
-export class MultilingualField extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            multilingual: false,
-            values: this.props.values,
-        }
-    }
+const MultilingualField = (props) => {
+    const [multilingual, setMultilingual] = useState(values)
+    const { values, fieldDisplay, field } = props
 
-    componentWillReceiveProps(newProps) {
-        if (newProps.values !== this.props.values) {
-            this.setState({
-                values: newProps.values,
-                multilingual:
-                    newProps.values.eng !== newProps.values.fin ||
-                    newProps.values.fin !== newProps.values.swe,
+    const memoizedValues = useMemo(() => {
+        if (values !== values) {
+            const multilingualFromProps =
+                values.eng !== multilingual.values.fin ||
+                values.fin !== multilingual.values.swe
+            setMultilingual({
+                values: values,
+                multilingual: multilingualFromProps,
             })
         }
-    }
+    }, [values])
 
-    changeValue = (key) =>
+    const changeValue = (key) =>
         key === 'all'
             ? (e) =>
-                  this.setState({
+                  setMultilingual({
                       values: {
                           eng: e.target.value,
                           fin: e.target.value,
                           swe: e.target.value,
                       },
+                      ...multilingual,
                   })
             : (e) =>
-                  this.setState({
-                      values: {
-                          ...this.state.values,
-                          [key]: e.target.value,
-                      },
+                  setMultilingual({
+                      ...multilingual,
+                      values: { key: e.target.value },
                   })
 
-    allValue = () => {
-        if (this.state.values.eng !== '') {
-            return this.state.values.eng
+    const allValue = () => {
+        if (values.eng !== '') {
+            return values.eng
         }
-        if (this.state.values.fin !== '') {
-            return this.state.values.fin
+        if (values.fin !== '') {
+            return values.fin
         }
-        return this.state.values.swe
+        return values.swe
     }
 
-    translate = (id) =>
-        this.props.translate(`utils.components.MultilingualField.${id}`)
+    const { t } = useTranslation(`utils.components.MultilingualField`)
 
-    render() {
-        const { required } = this.props
-        return (
-            <Form.Field className="MultilingualField">
-                <div style={{ display: 'flex' }}>
-                    <div style={{ flexGrow: 1 }}>
-                        <Label style={{ fontSize: '18px' }}>
-                            {this.props.fieldDisplay}
-                        </Label>
-                    </div>
-                    <Button.Group>
-                        <Button
-                            type="button"
-                            toggle
-                            active={!this.state.multilingual}
-                            onClick={() =>
-                                this.setState({ multilingual: false })
-                            }
-                        >
-                            {this.translate('monolingual')}
-                        </Button>
-                        <Button.Or text={this.translate('or')} />
-                        <Button
-                            type="button"
-                            toggle
-                            active={this.state.multilingual}
-                            onClick={() =>
-                                this.setState({ multilingual: true })
-                            }
-                        >
-                            {this.translate('multilingual')}
-                        </Button>
-                    </Button.Group>
+    const { required } = props
+    return (
+        <Form.Field className="MultilingualField">
+            <div style={{ display: 'flex' }}>
+                <div style={{ flexGrow: 1 }}>
+                    <Label style={{ fontSize: '18px' }}>{fieldDisplay}</Label>
                 </div>
-                {!this.state.multilingual ? (
+                <Button.Group>
+                    <Button
+                        type="button"
+                        toggle
+                        active={!multilingual}
+                        onClick={() =>
+                            setMultilingual({
+                                ...multilingual,
+                                multilingual: false,
+                            })
+                        }
+                    >
+                        {t('monolingual')}
+                    </Button>
+                    <Button.Or text={t('or')} />
+                    <Button
+                        type="button"
+                        toggle
+                        active={multilingual}
+                        onClick={() =>
+                            setMultilingual({
+                                ...multilingual,
+                                multilingual: true,
+                            })
+                        }
+                    >
+                        {t('multilingual')}
+                    </Button>
+                </Button.Group>
+            </div>
+            {!multilingual ? (
+                <Input
+                    name="all"
+                    type="text"
+                    fluid
+                    value={allValue()}
+                    onChange={changeValue('all')}
+                    required={required}
+                />
+            ) : null}
+            <Segment
+                style={{
+                    marginTop: '0px',
+                    display: multilingual ? 'block' : 'none',
+                }}
+            >
+                <Form.Field>
+                    <Label>english</Label>
                     <Input
-                        name="all"
+                        name={`eng_${field}`}
                         type="text"
                         fluid
-                        value={this.allValue()}
-                        onChange={this.changeValue('all')}
-                        required={required}
+                        value={memoizedValues.eng}
+                        onChange={changeValue('eng')}
+                        required={multilingual && required}
                     />
-                ) : null}
-                <Segment
-                    style={{
-                        marginTop: '0px',
-                        display: this.state.multilingual ? 'block' : 'none',
-                    }}
-                >
-                    <Form.Field>
-                        <Label>english</Label>
-                        <Input
-                            name={`eng_${this.props.field}`}
-                            type="text"
-                            fluid
-                            value={this.state.values.eng}
-                            onChange={this.changeValue('eng')}
-                            required={this.state.multilingual && required}
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <Label>suomi</Label>
-                        <Input
-                            name={`fin_${this.props.field}`}
-                            type="text"
-                            fluid
-                            value={this.state.values.fin}
-                            onChange={this.changeValue('fin')}
-                            required={this.state.multilingual && required}
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <Label>svenska</Label>
-                        <Input
-                            name={`swe_${this.props.field}`}
-                            type="text"
-                            fluid
-                            value={this.state.values.swe}
-                            onChange={this.changeValue('swe')}
-                            required={this.state.multilingual && required}
-                        />
-                    </Form.Field>
-                </Segment>
-            </Form.Field>
-        )
-    }
+                </Form.Field>
+                <Form.Field>
+                    <Label>suomi</Label>
+                    <Input
+                        name={`fin_${field}`}
+                        type="text"
+                        fluid
+                        value={memoizedValues.fin}
+                        onChange={changeValue('fin')}
+                        required={multilingual && required}
+                    />
+                </Form.Field>
+                <Form.Field>
+                    <Label>svenska</Label>
+                    <Input
+                        name={`swe_${field}`}
+                        type="text"
+                        fluid
+                        value={memoizedValues.swe}
+                        onChange={changeValue('swe')}
+                        required={multilingual && required}
+                    />
+                </Form.Field>
+            </Segment>
+        </Form.Field>
+    )
 }
 
 MultilingualField.propTypes = {

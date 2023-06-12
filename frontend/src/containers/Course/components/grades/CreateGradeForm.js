@@ -35,21 +35,20 @@ const CreateGradeForm = (props) => {
                 },
             })
 
-    translate = (id) =>
-        this.props.translate(`Course.grades.CreateGradeForm.${id}`)
+    translate = (id) => this.props.t(`Course.grades.CreateGradeForm.${id}`)
 
     const label = {
-        name: this.translate('grade'),
-        skill_level: this.translate('skill_level'),
-        needed_for_grade: this.translate('needed_for_grade'),
-        prerequisite: this.translate('prerequisite'),
+        name: t('grade'),
+        skill_level: t('skill_level'),
+        needed_for_grade: t('needed_for_grade'),
+        prerequisite: t('prerequisite'),
     }
     return (
         <div className="CreateGradeForm">
             <ModalForm
                 header={
                     <Fragment>
-                        {this.translate('header')}
+                        {t('header')}
                         <InfoBox
                             translateFunc={this.props.translate}
                             translationid="AddGradeModal"

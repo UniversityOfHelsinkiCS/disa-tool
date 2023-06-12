@@ -52,14 +52,13 @@ class EditObjectiveForm extends Component {
         })
     }
 
-    translate = (id) =>
-        this.props.translate(`Course.matrix.EditObjectiveForm.${id}`)
+    translate = (id) => this.props.t(`Course.matrix.EditObjectiveForm.${id}`)
 
     render() {
         return (
             <div className="EditObjectiveForm">
                 <ModalForm
-                    header={this.translate('header')}
+                    header={t('header')}
                     trigger={
                         <Button
                             basic
@@ -75,7 +74,7 @@ class EditObjectiveForm extends Component {
                 >
                     <MultilingualField
                         field="name"
-                        fieldDisplay={this.translate('name')}
+                        fieldDisplay={t('name')}
                         values={this.state.values.name}
                     />
                 </ModalForm>

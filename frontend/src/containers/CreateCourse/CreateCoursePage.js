@@ -25,24 +25,23 @@ const CreateCoursePage = (props) => {
             .then(() => setRedirectBool(true))
     }
 
-    const translate = (id) =>
-        props.translate(`CreateCourse.CreateCoursePage.${id}`)
+    const translate = (id) => props.t(`CreateCourse.CreateCoursePage.${id}`)
 
     if (redirectBool) {
         return redirect('/courses')
     }
 
     const label = {
-        name: translate('name'),
+        name: t('name'),
     }
     return (
         <div className="CreateCoursePage">
             <Segment className="formContainer" basic padded>
-                <Header>{translate('createCourse')}</Header>
+                <Header>{t('createCourse')}</Header>
                 <Form onSubmit={createCourseSubmit}>
                     <MultilingualField field="name" fieldDisplay={label.name} />
                     <Button type="submit" color="green">
-                        {translate('create')}
+                        {t('create')}
                     </Button>
                 </Form>
             </Segment>
@@ -59,4 +58,4 @@ const mapDispatchToProps = (dispatch) => ({
     createCourse: asyncAction(props.createCourse, dispatch),
 })
 
-export default withLocalize(connect(null, mapDispatchToProps)(CreateCoursePage))
+export default connect(null, mapDispatchToProps)(CreateCoursePage)

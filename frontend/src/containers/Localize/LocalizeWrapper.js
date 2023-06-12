@@ -47,7 +47,7 @@ class LocalizeWrapper extends PureComponent {
                     path.splice(path.length - 3, 1)
                 else path[path.length - 2] = 'common'
         }
-        return this.props.translate(path.join('.'))
+        return this.props.t(path.join('.'))
     }
 
     render() {

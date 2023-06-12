@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Routes, Route } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
-import { MathJax } from 'better-react-mathjax'
+import { MathJax, MathJaxContext } from 'better-react-mathjax'
 import 'react-toastify/dist/ReactToastify.css'
 
 import HomePage from '../Home/HomePage'
@@ -19,10 +19,6 @@ import UploadResponsesPage from '../TaskResponses/UploadResponsesPage'
 import SelfAssesmentListPage from '../SelfAssesmentList/SelfAssesmentListPage'
 import RegisterRedirect from '../CourseList/components/RegisterRedirect'
 import CourseTasksPage from '../Course/CourseTasksPage'
-
-class MathJaxProvider extends MathJax.Provider {
-    hasNodes = true
-}
 
 class Keygen {
     constructor() {
@@ -46,13 +42,15 @@ class Keygen {
 const keygen = new Keygen()
 
 const Main = (props) => {
+    const [toastState, setToastState] = useState({ message: '', options: {} })
     useEffect(() => {
-        if (props.toast !== newProps.toast) {
-            toast(newProps.toast.message, newProps.toast.options)
+        if (toastState !== props.toast) {
+            toast(props.toast.message, props.toast.options)
         }
-    })
+        setToastState(props.toast)
+    }, [props.toast])
 
-    userRoutes = [
+    const userRoutes = [
         <Route
             exact
             path="/selfassessment/edit/:selfAssessmentId"
@@ -140,7 +138,7 @@ const Main = (props) => {
         <Route component={HomePage} key={keygen.user()} />,
     ]
 
-    anonymousRoutes = [
+    const anonymousRoutes = [
         <Route
             path="/courses/matrix/:id"
             component={MatrixPage}
@@ -162,12 +160,12 @@ const Main = (props) => {
                 autoClose={5000}
                 hideProgressBar
             />
-            <MathJaxProvider>
+            <MathJaxContext>
                 <Routes>
                     {anonymousRoutes}
                     {userRoutes}
                 </Routes>
-            </MathJaxProvider>
+            </MathJaxContext>
         </main>
     )
 }
@@ -187,4 +185,4 @@ const mapStateToProps = (state) => ({
     user: state.user,
 })
 
-export default withRouter(connect(mapStateToProps, null)(Main))
+export default connect(mapStateToProps, null)(Main)

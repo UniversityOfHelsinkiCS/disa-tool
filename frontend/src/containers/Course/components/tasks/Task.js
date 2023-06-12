@@ -13,7 +13,7 @@ import EditTaskObjectivesForm from './EditTaskObjectivesForm'
 import { getCourseInstanceDataAction } from '../../../../actions/actions'
 
 export class Task extends Component {
-    translate = (id) => this.props.translate(`Course.tasks.Task.${id}`)
+    translate = (id) => this.props.t(`Course.tasks.Task.${id}`)
 
     render() {
         return (
@@ -41,10 +41,10 @@ export class Task extends Component {
                                         })
                                 }}
                                 prompt={[
-                                    this.translate('delete_prompt_1'),
+                                    t('delete_prompt_1'),
                                     `"${this.props.task.name}"`,
                                 ]}
-                                header={this.translate('delete_header')}
+                                header={t('delete_header')}
                             />
                         </Grid.Column>
                     </Grid.Row>
@@ -54,11 +54,11 @@ export class Task extends Component {
                                 content={this.props.task.description}
                             />
                             <p>
-                                <b>{this.translate('info')}: </b>
+                                <b>{t('info')}: </b>
                                 {this.props.task.info}
                             </p>
                             <p>
-                                <b>{this.translate('max_points')}: </b>
+                                <b>{t('max_points')}: </b>
                                 {this.props.task.max_points}
                             </p>
                         </Grid.Column>
@@ -100,4 +100,4 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(getCourseInstanceDataAction(courseId)),
 })
 
-export default withLocalize(connect(null, mapDispatchToProps)(Task))
+export default connect(null, mapDispatchToProps)(Task)

@@ -23,21 +23,20 @@ export class CreateTypeForm extends Component {
         })
     }
 
-    translate = (id) =>
-        this.props.translate(`Course.types.CreateTypeForm.${id}`)
+    translate = (id) => this.props.t(`Course.types.CreateTypeForm.${id}`)
 
     render() {
-        const contentPrompt = this.translate('prompt_1')
+        const contentPrompt = t('prompt_1')
         const label = {
-            name: this.translate('name'),
-            multiplier: this.translate('multiplier'),
+            name: t('name'),
+            multiplier: t('multiplier'),
         }
         return (
             <div className="CreateTypeForm">
                 <ModalForm
                     header={
                         <Fragment>
-                            {this.translate('header')}
+                            {t('header')}
                             <InfoBox
                                 translateFunc={this.props.translate}
                                 translationid="AddTypeModal"
@@ -85,4 +84,4 @@ const mapDispatchToProps = (dispatch) => ({
     addType: asyncAction(addType, dispatch),
 })
 
-export default withLocalize(connect(null, mapDispatchToProps)(CreateTypeForm))
+export default connect(null, mapDispatchToProps)(CreateTypeForm)

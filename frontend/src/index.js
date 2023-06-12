@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import 'semantic-ui-css/semantic.min.css'
@@ -21,11 +21,12 @@ try {
     console.log(e) // eslint-disable-line
 }
 
-ReactDOM.render(
+const container = document.getElementById('app')
+const root = createRoot(container) // createRoot(container!) if you use TypeScript
+root.render(
     <Provider store={store}>
         <BrowserRouter>
             <App />
         </BrowserRouter>
-    </Provider>,
-    document.getElementById('app')
+    </Provider>
 )

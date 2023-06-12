@@ -31,30 +31,26 @@ export class CreateInstanceForm extends Component {
         })
     }
 
-    translate = (id) =>
-        this.props.translate(`CourseList.CreateInstanceForm.${id}`)
+    translate = (id) => this.props.t(`CourseList.CreateInstanceForm.${id}`)
 
     render() {
-        const contentPrompt = this.translate('prompt_1')
+        const contentPrompt = t('prompt_1')
         return (
             <div className="CreateInstanceForm">
                 <ModalForm
-                    header={this.translate('header')}
+                    header={t('header')}
                     trigger={
                         <span>
                             <Icon name="add" />
-                            {this.translate('trigger')}
+                            {t('trigger')}
                         </span>
                     }
                     onSubmit={this.addInstanceSubmit}
                 >
                     <p>{contentPrompt}.</p>
-                    <MultilingualField
-                        field="name"
-                        fieldDisplay={this.translate('name')}
-                    />
+                    <MultilingualField field="name" fieldDisplay={t('name')} />
                     <Form.Field>
-                        <Label>{this.translate('dropdown_label')}</Label>
+                        <Label>{t('dropdown_label')}</Label>
                         <Dropdown
                             selection
                             name="instance_to_copy"
@@ -75,15 +71,13 @@ export class CreateInstanceForm extends Component {
                                     {
                                         key: 0,
                                         value: 0,
-                                        text: this.translate(
-                                            'dropdown_null_value'
-                                        ),
+                                        text: t('dropdown_null_value'),
                                     },
                                 ])}
                         />
                     </Form.Field>
                     <Button type="submit" color="green">
-                        {this.translate('save')}
+                        {t('save')}
                     </Button>
                 </ModalForm>
             </div>
@@ -112,6 +106,4 @@ const mapDispatchToProps = (dispatch) => ({
     addInstance: asyncAction(addInstance, dispatch),
 })
 
-export default withLocalize(
-    connect(mapStateToProps, mapDispatchToProps)(CreateInstanceForm)
-)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateInstanceForm)

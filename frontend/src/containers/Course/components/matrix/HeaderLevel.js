@@ -8,12 +8,11 @@ import asyncAction from '../../../../utils/asyncAction'
 import { removeLevel, editLevel } from '../../actions/levels'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditLevelForm from './EditLevelForm'
-import dndItem from '../../../../utils/components/DnDItem'
 
-const DnDItem = dndItem('skill_level')
+//const DnDItem = dndItem('skill_level')
 
 const HeaderLevel = (props) => {
-    const translate = (id) => props.translate(`Course.matrix.HeaderLevel.${id}`)
+    const { t } = useTranslation(`Course.matrix.HeaderLevel`)
     const { level, editing, moveLevel, slots } = props
     const cellContent = (
         <div className="flexContainer">
@@ -30,11 +29,8 @@ const HeaderLevel = (props) => {
                             onExecute={() =>
                                 props.removeLevel({ id: level.id })
                             }
-                            prompt={[
-                                translate('delete_prompt_1'),
-                                `"${level.name}"`,
-                            ]}
-                            header={translate('delete_header')}
+                            prompt={[t('delete_prompt_1'), `"${level.name}"`]}
+                            header={t('delete_header')}
                         />
                     </div>
                 </div>

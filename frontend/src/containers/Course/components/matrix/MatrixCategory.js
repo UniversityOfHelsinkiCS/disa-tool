@@ -9,13 +9,11 @@ import MatrixLevel from './MatrixLevel'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import { removeCategory, editCategory } from '../../actions/categories'
 import EditCategoryForm from './EditCategoryForm'
-import dndItem from '../../../../utils/components/DnDItem'
 
-const DnDItem = dndItem('category')
+//const DnDItem = dndItem('category')
 
 export const MatrixCategory = (props) => {
-    const translate = (id) =>
-        props.translate(`Course.matrix.MatrixCategory.${id}`)
+    const { t } = useTranslation(`Course.matrix.MatrixCategory`)
     const cellContent = (
         <div>
             <Header>{props.category.name}</Header>
@@ -30,10 +28,10 @@ export const MatrixCategory = (props) => {
                                 props.removeCategory({ id: props.category.id })
                             }
                             prompt={[
-                                translate('delete_prompt_1'),
+                                t('delete_prompt_1'),
                                 `"${props.category.name}"`,
                             ]}
-                            header={translate('delete_header')}
+                            header={t('delete_header')}
                         />
                     </div>
                 </div>

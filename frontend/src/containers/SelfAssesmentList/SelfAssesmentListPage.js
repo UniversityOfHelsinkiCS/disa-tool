@@ -1,8 +1,9 @@
 import React, { useState, Fragment, useEffect } from 'react'
 import { number, string, arrayOf, shape, func } from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Link, Routes, Route } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { Link, Routes, Route, useParams } from 'react-router-dom'
 import {
     Container,
     Loader,
@@ -29,6 +30,7 @@ const SelfAssesmentListPage = (props) => {
     const [updating, setUpdating] = useState(false)
     const [successful, setSuccessful] = useState(0)
     const [unSuccessful, setUnSuccessful] = useState(0)
+    const { t } = useTranslation()
 
     const awaitFunction = async () => {
         const [responsesResponse, selfAssesmentResponse] = await Promise.all([
@@ -43,13 +45,12 @@ const SelfAssesmentListPage = (props) => {
         setLoading(false)
     }
 
-    useEffect(async () => {
+    useEffect(() => {
         awaitFunction()
         return props.dispatchReset()
     }, [])
 
-    const translate = (id) =>
-        props.translate(`SelfAssessmentList.SelfAssessmentListPage.${id}`)
+    //  const translate = (id) => props.t(`SelfAssessmentList.SelfAssessmentListPage.${id}`)
 
     const regenarateFeedback = async () => {
         setLoading(true)
@@ -77,7 +78,7 @@ const SelfAssesmentListPage = (props) => {
         setUpdating(false)
     }
 
-    renderUpdating = () => (
+    const renderUpdating = () => (
         <Segment>
             {' '}
             success: {successful}, fail: {unSuccessful}{' '}
@@ -93,7 +94,7 @@ const SelfAssesmentListPage = (props) => {
                             <Table.Body>
                                 <LinkExport
                                     style={{ flexShrink: 1 }}
-                                    title={`${translate('link')}: `}
+                                    title={`${t('link')}: `}
                                     url={`/selfassessment/response/${props.selfAssesmentId}`}
                                 />
                             </Table.Body>
@@ -110,15 +111,16 @@ const SelfAssesmentListPage = (props) => {
                         </Header>
                     </Segment>
                 </Segment.Group>
-                <Switch>
+                <Routes>
                     <Route
                         exact
                         path={`/selfassessment/list/${props.selfAssesmentId}`}
                         element={
                             <RenderList
                                 updating={updating}
-                                selectedResponses={selectedResponses}
-                                responses={responses}
+                                regenarateFeedback={regenarateFeedback}
+                                renderUpdating={renderUpdating}
+                                loading={loading}
                             ></RenderList>
                         }
                     />
@@ -127,34 +129,36 @@ const SelfAssesmentListPage = (props) => {
                         path={`/selfassessment/list/${props.selfAssesmentId}/:id`}
                         element={<RenderResponse></RenderResponse>}
                     />
-                </Switch>
+                </Routes>
             </Container>
         </div>
     )
 }
 
 const RenderList = (props) => {
-    const { updating } = props
-    const { responses, selectedResponses } = props
+    const { updating, renderUpdating, regenarateFeedback, loading } = props
+    const responses = useSelector((state) => state.selfAssesmentList.responses)
+    const selectedResponses = useSelector(
+        (state) => state.selfAssesmentList.selectedResponses
+    )
+    const { t } = useTranslation()
     const notSelected = responses.filter(
         (r) => !selectedResponses.find((sr) => sr === r)
     )
     return (
         <Fragment>
             {updating ? renderUpdating() : null}
-            {this.state.loading ? (
+            {loading ? (
                 <Loader active />
             ) : (
                 <Fragment>
                     <ResponseList
-                        header={translate('selected_header')}
+                        header={t('selected_header')}
                         subheader={`${selectedResponses.length} / ${responses.length}`}
-                        responses={selectedResponses}
-                        selected
                         regenarateFeedback={regenarateFeedback}
                     />
                     <ResponseList
-                        header={translate('non-selected_header')}
+                        header={t('non-selected_header')}
                         responses={notSelected}
                     />
                 </Fragment>
@@ -164,16 +168,19 @@ const RenderList = (props) => {
 }
 
 const RenderResponse = (props) => {
-    const { activeResponse, selfAssesmentId, responses, selectedResponses } =
-        props
-    const paramId = Number(props.match.params.id)
+    const { activeResponse, selfAssesmentId } = props
+    const responses = useSelector((state) => state.selfAssesmentList.responses)
+
+    const params = useParams()
+    const paramId = Number(params.id)
     const foundActiveResponse =
         activeResponse || responses.find((e) => e.id === paramId)
+    const { t } = useTranslation()
     if (foundActiveResponse == null) return <Loader active />
     const backButton = (
         <Button as={Link} to={`/selfassessment/list/${selfAssesmentId}`} basic>
             <Icon name="angle double left" />
-            <span>{this.translate('back')}</span>
+            <span>{t('back')}</span>
         </Button>
     )
     return (
@@ -213,6 +220,16 @@ SelfAssesmentListPage.propTypes = {
     dispatchReset: func.isRequired,
     activeResponse: responseProp,
 }
+RenderList.propTypes = {
+    updating: PropTypes.object,
+    renderUpdating: PropTypes.object,
+    regenarateFeedback: PropTypes.object,
+    loading: PropTypes.bool,
+}
+RenderResponse.propTypes = {
+    activeResponse: responseProp,
+    selfAssesmentId: PropTypes.number,
+}
 
 SelfAssesmentListPage.defaultProps = {
     selfAssesmentName: '',
@@ -232,8 +249,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatchReset: reset(dispatch),
 })
 
-export default withLocalize(
-    withRouter(
-        connect(mapStateToProps, mapDispatchToProps)(SelfAssesmentListPage)
-    )
-)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SelfAssesmentListPage)

@@ -1,56 +1,54 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Modal, Form, Divider, Button } from 'semantic-ui-react'
 
-import LocalizeWrapper from '../../containers/Localize/LocalizeWrapper'
-
 const ModalForm = (props) => {
-    const [expanded, setExpanded] = React.useState(false)
+    const [expanded, setExpanded] = useState(false)
 
     useEffect(() => {
+        // eslint-disable-next-line no-undef
         if (oldProps.expanded === null) {
-            if (!oldState.expanded && this.state.expanded) this.props.onOpen()
-        } else if (!oldState.expanded && this.props.expanded)
-            this.props.onOpen()
-    }, [])
+            // eslint-disable-next-line no-undef
+            if (!oldState.expanded && state.expanded) props.onOpen()
+            // eslint-disable-next-line no-undef
+        } else if (!oldState.expanded && props.expanded) props.onOpen()
+    }, [props])
 
-    expand = () => this.setState({ expanded: true })
+    const expand = () => setExpanded(true)
 
-    collapse = () => {
-        this.props.onClose()
-        this.setState({
-            expanded: false,
-        })
+    const collapse = () => {
+        props.onClose()
+        setExpanded(false)
     }
 
-    handleSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault()
-        this.props.onSubmit(e)
-        this.collapse()
+        props.onSubmit(e)
+        collapse()
     }
 
-    actionHandlers = {
-        cancel: this.collapse,
+    const actionHandlers = {
+        cancel: collapse,
     }
 
-    mapAction = (button, i) =>
+    const mapAction = (button, i) =>
         button.props.type
             ? React.cloneElement(button, {
-                  onClick: this.actionHandlers[button.props.type],
+                  onClick: actionHandlers[button.props.type],
                   key: i,
               })
             : React.cloneElement(button, {
                   key: i,
               })
 
-    const style = this.props.trigger.props.style || {}
+    const style = props.trigger.props.style || {}
     // TODO: Apply trigger margin as margin in this div.
     const trigger = (
         <div
-            onClick={this.expand}
+            onClick={expand}
             style={{ margin: 'auto', display: 'inline-block' }}
         >
-            {React.cloneElement(this.props.trigger, {
+            {React.cloneElement(props.trigger, {
                 style: { ...style, margin: '0px' }, // We need to eliminate margin to make the div no larger than trigger.
             })}
         </div>
@@ -60,27 +58,19 @@ const ModalForm = (props) => {
     return (
         <Modal
             trigger={trigger}
-            open={
-                this.props.expanded === null
-                    ? this.state.expanded
-                    : this.props.expanded
-            }
-            onClose={this.collapse}
+            open={props.expanded === null ? expanded : props.expanded}
+            onClose={collapse}
         >
-            <Modal.Header>{this.props.header}</Modal.Header>
+            <Modal.Header>{props.header}</Modal.Header>
             <Modal.Content>
-                <Form onSubmit={this.handleSubmit} loading={this.props.loading}>
-                    <LocalizeProvider>
-                        <LocalizeWrapper>
-                            {this.props.children || this.props.content}
-                            {this.props.actions.length > 0 ? (
-                                <div>
-                                    <Divider />
-                                    {this.props.actions.map(this.mapAction)}
-                                </div>
-                            ) : null}
-                        </LocalizeWrapper>
-                    </LocalizeProvider>
+                <Form onSubmit={handleSubmit} loading={props.loading}>
+                    {props.children || props.content}
+                    {props.actions.length > 0 ? (
+                        <div>
+                            <Divider />
+                            {props.actions.map(mapAction)}
+                        </div>
+                    ) : null}
                 </Form>
             </Modal.Content>
         </Modal>
@@ -90,16 +80,26 @@ const ModalForm = (props) => {
 /**
  * Import this function, call it and pass the result as the actions prop to ModalForm.
  * Renders default "save" and "cancel buttons".
- * @param {function} translate
+ * @param {function} t
  */
-export const saveActions = (translate) => [
-    <Button color="green" style={{ margin: '0px 15px 0px 15px' }}>
-        {translate('save')}
-    </Button>,
-    <Button type="cancel" style={{ margin: '0px 15px 0px 15px' }}>
-        {translate('cancel')}
-    </Button>,
-]
+export const saveActions = (t) => {
+    return [
+        <Button
+            key="save-green-1"
+            color="green"
+            style={{ margin: '0px 15px 0px 15px' }}
+        >
+            {t('save')}
+        </Button>,
+        <Button
+            key="cancel-1"
+            type="cancel"
+            style={{ margin: '0px 15px 0px 15px' }}
+        >
+            {t('cancel')}
+        </Button>,
+    ]
+}
 
 ModalForm.propTypes = {
     trigger: PropTypes.element.isRequired,

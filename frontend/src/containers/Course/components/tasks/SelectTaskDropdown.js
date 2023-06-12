@@ -5,10 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { Header, Dropdown } from 'semantic-ui-react'
 import _ from 'lodash'
 import { editTask } from '../../actions/tasks'
-import dndItem from '../../../../utils/components/DnDItem'
+import dndItem from '../../../../utils/components/react-dnd/DnDItem'
 import asyncAction from '../../../../utils/asyncAction'
 
-const DnDItem = dndItem('task')
+//const DnDItem = dndItem('task')
 
 const searchFilter = (options, query) => {
     const re = new RegExp(_.escapeRegExp(query), 'i')
@@ -16,8 +16,7 @@ const searchFilter = (options, query) => {
 }
 
 const SelectTaskDropdown = (props) => {
-    const translate = (id) =>
-        props.translate(`Course.tasks.SelectTaskDropDown.${id}`)
+    const translate = (id) => props.t(`Course.tasks.SelectTaskDropDown.${id}`)
 
     const tasks = props.tasks.sort((a, b) => a.order - b.order)
 
@@ -61,7 +60,7 @@ const SelectTaskDropdown = (props) => {
                             value: task.id,
                         }))
                     )}
-                    placeholder={translate('placeholder')}
+                    placeholder={t('placeholder')}
                     scrolling
                     search={searchFilter}
                     selectOnBlur={false}
@@ -100,7 +99,4 @@ const mapDispatchToProps = (dispatch) => ({
     moveTask: asyncAction(editTask, dispatch),
 })
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(withLocalize(SelectTaskDropdown))
+export default connect(null, mapDispatchToProps)(SelectTaskDropdown)

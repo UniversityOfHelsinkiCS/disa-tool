@@ -4,17 +4,17 @@ import { useTranslation } from 'react-i18next'
 import { Grid, Header } from 'semantic-ui-react'
 
 export const HomePage = (props) => {
-    const translate = (id) => props.translate(`Home.HomePage.${id}`)
+    const translate = (id) => props.t(`Home.HomePage.${id}`)
 
     return (
         <Grid container>
             <Grid.Row>
                 <Grid.Column>
-                    <Header as="h1">{translate('header1')}</Header>
+                    <Header as="h1">{t('header1')}</Header>
                     <p>
-                        <span>{translate('introduction')} </span>
+                        <span>{t('introduction')} </span>
                         <a href="mailto:grp-toska@helsinki.fi">
-                            {translate('developers')}
+                            {t('developers')}
                         </a>
                         .
                     </p>
@@ -22,28 +22,28 @@ export const HomePage = (props) => {
             </Grid.Row>
             <Grid.Row>
                 <Grid.Column>
-                    <Header as="h2" content={translate('student_header')} />
-                    <p>{translate('student_info')}</p>
+                    <Header as="h2" content={t('student_header')} />
+                    <p>{t('student_info')}</p>
 
-                    <Header as="h2" content={translate('teacher_header')} />
-                    <p>{translate('teacher_info')}</p>
+                    <Header as="h2" content={t('teacher_header')} />
+                    <p>{t('teacher_info')}</p>
 
-                    <Header as="h2" content={translate('background_header')} />
+                    <Header as="h2" content={t('background_header')} />
                     <p>
-                        <span>{translate('background_info_1_1')}</span>
-                        <a href={translate('background_link_1_href')}>
-                            {translate('background_link_1')}
+                        <span>{t('background_info_1_1')}</span>
+                        <a href={t('background_link_1_href')}>
+                            {t('background_link_1')}
                         </a>
-                        <span>{translate('background_info_1_2')}</span>
+                        <span>{t('background_info_1_2')}</span>
                     </p>
                     <p>
-                        <span>{translate('background_info_2_1')}</span>
-                        <a href={translate('background_link_2_1')}>(HYPE)</a>
-                        <span>{translate('background_info_2_2')}</span>
-                        <a href={translate('background_link_2_2_href')}>
-                            {translate('background_link_2_2')}
+                        <span>{t('background_info_2_1')}</span>
+                        <a href={t('background_link_2_1')}>(HYPE)</a>
+                        <span>{t('background_info_2_2')}</span>
+                        <a href={t('background_link_2_2_href')}>
+                            {t('background_link_2_2')}
                         </a>
-                        .<span>{translate('background_info_2_3')}</span>
+                        .<span>{t('background_info_2_3')}</span>
                     </p>
                 </Grid.Column>
             </Grid.Row>

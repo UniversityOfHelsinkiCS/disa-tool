@@ -61,14 +61,14 @@ export class EditCourseForm extends Component {
         })
     }
 
-    translate = (id) => this.props.translate(`CourseList.EditCourseForm.${id}`)
+    translate = (id) => this.props.t(`CourseList.EditCourseForm.${id}`)
 
     render() {
-        const contentPrompt = this.translate('renameCourse')
+        const contentPrompt = t('renameCourse')
         return (
             <div className="EditCourseForm">
                 <ModalForm
-                    header={this.translate('rename')}
+                    header={t('rename')}
                     trigger={
                         <Button
                             style={{ margin: '10px' }}
@@ -78,7 +78,7 @@ export class EditCourseForm extends Component {
                             basic
                             compact
                         >
-                            {this.translate('rename_trigger')}
+                            {t('rename_trigger')}
                         </Button>
                     }
                     onSubmit={this.editCourseSubmit}
@@ -89,7 +89,7 @@ export class EditCourseForm extends Component {
                     <p>{contentPrompt}.</p>
                     <MultilingualField
                         field="name"
-                        fieldDisplay={this.translate('name')}
+                        fieldDisplay={t('name')}
                         values={this.state.values.name}
                     />
                 </ModalForm>
@@ -109,4 +109,4 @@ const mapDispatchToProps = (dispatch) => ({
     editCourse: asyncAction(editCourse, dispatch),
 })
 
-export default withLocalize(connect(null, mapDispatchToProps)(EditCourseForm))
+export default connect(null, mapDispatchToProps)(EditCourseForm)

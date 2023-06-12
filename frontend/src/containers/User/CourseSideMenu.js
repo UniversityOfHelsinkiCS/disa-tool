@@ -20,8 +20,8 @@ const renderCourseMenuItem = (course, activeCourse, handleChange) => (
     </Menu.Item>
 )
 
-const CourseSideMenu = ({ courses, activeCourse, handleChange, translate }) => {
-    const t = (id) => translate(`UserPage.CourseSideMenu.${id}`)
+const CourseSideMenu = ({ courses, activeCourse, handleChange }) => {
+    const { t } = useTranslation(`UserPage.CourseSideMenu`)
     const coursesSorted = orderBy(courses, 'name')
     const activeCourses = coursesSorted.filter((course) => course.active)
     const closedCourses = coursesSorted.filter((course) => !course.active)
@@ -54,4 +54,4 @@ CourseSideMenu.propTypes = {
     translate: func.isRequired,
 }
 
-export default withLocalize(CourseSideMenu)
+export default CourseSideMenu

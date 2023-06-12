@@ -41,11 +41,10 @@ import { validationErrors, gradeOptions } from './utils'
 
 const SelfAssessmentFormPage = (props) => {
     const params = useParams()
-    const [state, setState] = useState({
-        redirectBool: false,
-        preview: props.preview,
-        grades: [],
-    })
+    const { t } = useTranslation()
+    const [preview, setPreview] = useState(false)
+    const [grades, setGrades] = useState([])
+    const [redirectBool, setRedirectBool] = useState(false)
 
     const propsNew = async () => {
         // Get assessment type and course instance id from params
@@ -61,12 +60,12 @@ const SelfAssessmentFormPage = (props) => {
         props.dispatchInitNewFormAction({
             courseData: courseData.data,
             courseInfo: courseInfo.data.data,
-            type,
+            type: params.type,
         })
     }
 
-    const asyncFunction = async () => {
-        const { courseInstanceId, type, selfAssessmentId } = match.params
+    const asyncFunction = async (props) => {
+        const { courseInstanceId, selfAssessmentId } = params
         if (props.edit) {
             if (props.new) {
                 propsNew()
@@ -88,12 +87,12 @@ const SelfAssessmentFormPage = (props) => {
         if (props.formData) {
             // Fetch the grades for the course
             const grades = await gradeOptions(props.formData.course_instance_id)
-            setState({ grades })
+            setGrades(grades)
         } else {
             props.dispatchToast({
                 type: '',
                 payload: {
-                    toast: props.translate(
+                    toast: t(
                         'SelfAssessmentForm.SelfAssessmentFormPage.defineMatrixFirstError'
                     ),
                     type: 'error',
@@ -113,21 +112,21 @@ const SelfAssessmentFormPage = (props) => {
         }
     }, [])
 
-    handleSubmit = async () => {
+    const handleSubmit = async () => {
         const { formData } = props
-        setState({ ...state, redirectBool: true })
+        setRedirectBool(true)
         await props.dispatchCreateFormAction(formData)
     }
 
-    handleUpdate = async () => {
+    const handleUpdate = async () => {
         const { formData } = props
-        setState({ ...state, redirect: true })
+        setRedirectBool(true)
         await props.dispatchUpdateSelfAssessmentAction(formData)
     }
 
-    close = () => props.dispatchCloseModalAction()
+    const close = () => props.dispatchCloseModalAction()
 
-    checkResponseErrors = async () => {
+    const checkResponseErrors = async () => {
         await props.dispatchValidation(props.assessmentResponse)
         window.scrollTo(0, 0)
         if (props.formErrors) {
@@ -143,7 +142,7 @@ const SelfAssessmentFormPage = (props) => {
         return false
     }
 
-    handleResponse = async (e, { modal }) => {
+    const handleResponse = async (e, { modal }) => {
         const error = await checkResponseErrors()
 
         if (error) {
@@ -153,7 +152,7 @@ const SelfAssessmentFormPage = (props) => {
         if (props.softErrors && !modal) {
             return
         }
-        setState({ ...state, redirect: true })
+        setRedirectBool(true)
         await props.dispatchCreateSelfAssessmentResponseAction({
             ...props.assessmentResponse,
             finalHeaders: props.formData.structure.headers.grade,
@@ -162,7 +161,7 @@ const SelfAssessmentFormPage = (props) => {
     }
 
     const togglePreview = () => {
-        setState({ preview: !state.preview })
+        setPreview(!preview)
     }
 
     const { courseInstanceId } = params
@@ -192,7 +191,17 @@ const SelfAssessmentFormPage = (props) => {
             (Object.keys(props.assessmentResponse).length > 0 || props.edit) &&
             props.role
         ) {
-            return renderForm()
+            return (
+                <RenderForm
+                    togglePreview={togglePreview}
+                    handleResponse={handleResponse}
+                    handleSubmit={handleSubmit}
+                    handleUpdate={handleUpdate}
+                    preview={preview}
+                    grades={grades}
+                    close={close}
+                ></RenderForm>
+            )
         }
         return <Loader active>Loading</Loader>
     }
@@ -201,25 +210,34 @@ const SelfAssessmentFormPage = (props) => {
         <div>
             <Prompt
                 when={props.unsavedChanges}
-                message={props.translate(
-                    'SelfAssessmentForm.SelfAssessmentFormPage.prompt'
-                )}
+                message={t('SelfAssessmentForm.SelfAssessmentFormPage.prompt')}
             />
             {renderContent()}
         </div>
     )
 }
 
-const RenderForm = () => {
+const RenderForm = (props) => {
     let submitFunction = null
-    const { formData, edit, responseErrors, assessmentResponse } = props
+    const {
+        formData,
+        edit,
+        responseErrors,
+        assessmentResponse,
+        handleResponse,
+        handleSubmit,
+        handleUpdate,
+        togglePreview,
+        preview,
+        grades,
+    } = props
     const { existingAnswer } = assessmentResponse
     const { displayCoursename } = formData.structure
-    const { preview, grades } = state
-    const translate = (translateId) =>
-        props.translate(
-            `SelfAssessmentForm.SelfAssessmentFormPage.${translateId}`
-        )
+    const translate = useTranslation(
+        `SelfAssessmentForm.SelfAssessmentFormPage`
+    )
+
+    const { courseInstanceId } = useParams()
 
     if (!edit) {
         submitFunction = handleResponse
@@ -235,7 +253,7 @@ const RenderForm = () => {
                     <Header as="h1" textAlign="center">
                         <Button
                             as={Link}
-                            to={`/user/course/${props.courseInstance.id}`}
+                            to={`/user/course/${courseInstanceId}`}
                             basic
                             floated="left"
                             color="blue"
@@ -247,7 +265,7 @@ const RenderForm = () => {
                 </Segment>
 
                 <AssessmentMessage
-                    preview={state.preview}
+                    preview={preview}
                     open={formData.open}
                     edit={edit}
                     existingAnswer={existingAnswer}
@@ -277,12 +295,12 @@ const RenderForm = () => {
 
                 {edit && (
                     <Button color="teal" onClick={togglePreview}>
-                        {state.preview
+                        {preview
                             ? translate('editButton')
                             : translate('previewButton')}
                     </Button>
                 )}
-                {state.preview || (!formData.open && !edit) ? null : (
+                {preview || (!formData.open && !edit) ? null : (
                     <Button
                         positive
                         style={{ marginBottom: '25px' }}
@@ -305,12 +323,12 @@ const RenderForm = () => {
 
                 {edit && (
                     <Button color="teal" onClick={togglePreview}>
-                        {state.preview
+                        {preview
                             ? translate('editButton')
                             : translate('previewButton')}
                     </Button>
                 )}
-                {state.preview || (!formData.open && !edit) ? null : (
+                {preview || (!formData.open && !edit) ? null : (
                     <Button
                         positive
                         style={{ marginBottom: '25px' }}
@@ -412,6 +430,24 @@ SelfAssessmentFormPage.propTypes = {
     preview: PropTypes.bool,
 }
 
-export default withLocalize(
-    connect(mapStateToProps, mapDispatchToProps)(SelfAssessmentFormPage)
-)
+RenderForm.propTypes = {
+    preview: PropTypes.bool,
+    formData: PropTypes.shape(),
+    new: PropTypes.bool,
+    edit: PropTypes.bool.isRequired,
+    softErrors: PropTypes.bool,
+    responseErrors: PropTypes.shape(),
+    assessmentResponse: PropTypes.shape({
+        existingAnswer: PropTypes.bool,
+    }).isRequired,
+    handleResponse: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    handleUpdate: PropTypes.func.isRequired,
+    togglePreview: PropTypes.func.isRequired,
+    grades: PropTypes.shape(),
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SelfAssessmentFormPage)

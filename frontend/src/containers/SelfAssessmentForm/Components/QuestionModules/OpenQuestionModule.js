@@ -21,10 +21,9 @@ import {
 const OpenQuestionModule = (props) => {
     const { edit, responseTextError, existingAnswer } = props
     const { id, name } = props.data
-    const translate = (translateId) =>
-        props.translate(
-            `SelfAssessmentForm.QuestionModules.OpenQuestionModule.${translateId}`
-        )
+    const { t } = useTranslation(
+        `SelfAssessmentForm.QuestionModules.OpenQuestionModule`
+    )
 
     const handleTextAreaBlur = (e) =>
         props.dispatchopenQuestionResponseAction({ id, value: e.target.value }) //eslint-disable-line
@@ -52,9 +51,7 @@ const OpenQuestionModule = (props) => {
                                             error={
                                                 responseTextError !== undefined
                                             }
-                                            placeholder={translate(
-                                                'placeholder'
-                                            )}
+                                            placeholder={t('placeholder')}
                                             onBlur={
                                                 !edit
                                                     ? handleTextAreaBlur
@@ -86,21 +83,17 @@ const OpenQuestionModule = (props) => {
                                     <Grid.Column>
                                         {edit ? (
                                             <ModalForm
-                                                header={translate(
-                                                    'modalHeader'
-                                                )}
+                                                header={t('modalHeader')}
                                                 content={
                                                     <div>
                                                         <p>
-                                                            {translate(
+                                                            {t(
                                                                 'modalConfirmation'
                                                             )}
                                                             : {name}?
                                                         </p>
                                                         <Button color="red">
-                                                            {translate(
-                                                                'modalCancel'
-                                                            )}
+                                                            {t('modalCancel')}
                                                         </Button>
                                                         <Button
                                                             color="green"
@@ -124,9 +117,7 @@ const OpenQuestionModule = (props) => {
                                                                 color="red"
                                                             />
                                                         }
-                                                        content={translate(
-                                                            'popup'
-                                                        )}
+                                                        content={t('popup')}
                                                     />
                                                 }
                                             />
@@ -168,6 +159,4 @@ const mapDispatchToProps = (dispatch) => ({
     dispatchClearErrorAction: (data) => dispatch(clearErrorAction(data)),
 })
 
-export default withLocalize(
-    connect(null, mapDispatchToProps)(OpenQuestionModule)
-)
+export default connect(null, mapDispatchToProps)(OpenQuestionModule)

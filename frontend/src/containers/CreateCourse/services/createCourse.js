@@ -11,6 +11,4 @@ const createCourse = (data) =>
         })
     })
 
-module.exports = {
-    createCourse,
-}
+export default createCourse

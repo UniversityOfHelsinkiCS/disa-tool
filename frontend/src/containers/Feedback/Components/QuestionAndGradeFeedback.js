@@ -10,14 +10,12 @@ export const QuestionAndGradeFeedback = (props) => {
         overallVerification,
         teacher,
     } = props
-    const translate = (id) =>
-        props.translate(`FeedbackPage.QuestionAndGradeFeedback.${id}`)
+    const { t } = useTranslation()
+    const translate = (id) => t(`FeedbackPage.QuestionAndGradeFeedback.${id}`)
 
     return (
         <div style={{ marginTop: '50px' }}>
-            {openQuestionResponses.length > 0 ? (
-                <h2>{translate('header')}</h2>
-            ) : null}
+            {openQuestionResponses.length > 0 ? <h2>{t('header')}</h2> : null}
             {openQuestionResponses.map((openQ) => (
                 <Card key={openQ.id} fluid color="red">
                     <Card.Content>
@@ -26,7 +24,7 @@ export const QuestionAndGradeFeedback = (props) => {
                         </Card.Header>
                         <Card.Description textAlign="center">
                             <div>
-                                <h5>{translate('response')}:</h5>
+                                <h5>{t('response')}:</h5>
                                 <p>{openQ.responseText}</p>
                             </div>
                         </Card.Description>
@@ -36,7 +34,7 @@ export const QuestionAndGradeFeedback = (props) => {
 
             {Object.keys(finalGradeResponse).length > 1 ? (
                 <div>
-                    <h2>{translate('selfAssessedGrade')}</h2>
+                    <h2>{t('selfAssessedGrade')}</h2>
                     <Card key={finalGradeResponse.name} fluid color="red">
                         <Card.Content>
                             <Card.Header textAlign="center">
@@ -44,13 +42,13 @@ export const QuestionAndGradeFeedback = (props) => {
                             </Card.Header>
                             <Card.Description textAlign="center">
                                 <h4>
-                                    {translate('selfAssessedGrade')}:{' '}
+                                    {t('selfAssessedGrade')}:{' '}
                                     {finalGradeResponse.grade_name ||
                                         finalGradeResponse.grade}
                                     {teacher && overallVerification && (
                                         <Fragment>
                                             <br />
-                                            {translate('machineGrade')}:{' '}
+                                            {t('machineGrade')}:{' '}
                                             {overallVerification.minGrade} -{' '}
                                             {overallVerification.maxGrade}
                                         </Fragment>
@@ -82,8 +80,11 @@ QuestionAndGradeFeedback.propTypes = {
     openQuestionResponses: PropTypes.arrayOf(PropTypes.shape()),
     finalGradeResponse: PropTypes.shape(),
     translate: PropTypes.func.isRequired,
-    overallVerification: PropTypes.shape({}),
+    overallVerification: PropTypes.shape({
+        minGrade: PropTypes.string,
+        maxGrade: PropTypes.string,
+    }),
     teacher: PropTypes.bool,
 }
 
-export default withLocalize(QuestionAndGradeFeedback)
+export default QuestionAndGradeFeedback

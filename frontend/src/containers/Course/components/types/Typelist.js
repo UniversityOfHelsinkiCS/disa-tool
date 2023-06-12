@@ -5,9 +5,9 @@ import { connect } from 'react-redux'
 import Type, { dropSpec } from './Type'
 import CreateTypeForm from './CreateTypeForm'
 import { editType } from '../../actions/types'
-import dndItem from '../../../../utils/components/DnDItem'
+import dndItem from '../../../../utils/components/react-dnd/DnDItem'
 import asyncAction from '../../../../utils/asyncAction'
-
+/*
 const DnDItem = dndItem('type', {
     dropSpec: {
         drop: (props, monitor) => {
@@ -20,7 +20,7 @@ const DnDItem = dndItem('type', {
         },
     },
 })
-
+*/
 export const Typelist = (props) => {
     const types = props.types.sort((a, b) => a.order - b.order)
     let newOrder = 1

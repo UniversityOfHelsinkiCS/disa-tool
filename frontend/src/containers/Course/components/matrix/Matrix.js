@@ -19,7 +19,7 @@ export const Matrix = (props) => {
             activeMap[objective.id] = true
         })
     }
-    const translate = (id) => props.translate(`Course.matrix.Matrix.${id}`)
+    const translate = (id) => props.t(`Course.matrix.Matrix.${id}`)
     const categories = props.categories.sort((a, b) => a.order - b.order)
     let newCategoryOrder = 1
     const categoriesNode = categories.map((category, index, categoryArray) => {
@@ -79,17 +79,13 @@ export const Matrix = (props) => {
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell rowSpan={2}>
-                        <span className="capitalize">
-                            {translate('category')}
-                        </span>
+                        <span className="capitalize">{t('category')}</span>
                     </Table.HeaderCell>
                     <Table.HeaderCell
                         colSpan={levels.length + props.editing}
                         textAlign="center"
                     >
-                        <span className="capitalize">
-                            {translate('skill_levels')}
-                        </span>
+                        <span className="capitalize">{t('skill_levels')}</span>
                     </Table.HeaderCell>
                 </Table.Row>
                 <Table.Row>

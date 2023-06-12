@@ -60,15 +60,14 @@ export class EditInstanceForm extends Component {
         })
     }
 
-    translate = (id) =>
-        this.props.translate(`CourseList.EditInstanceForm.${id}`)
+    translate = (id) => this.props.t(`CourseList.EditInstanceForm.${id}`)
 
     render() {
-        const contentPrompt = this.translate('prompt_1')
+        const contentPrompt = t('prompt_1')
         return (
             <div className="EditInstanceForm">
                 <ModalForm
-                    header={this.translate('header')}
+                    header={t('header')}
                     trigger={
                         <Button
                             type="button"
@@ -85,7 +84,7 @@ export class EditInstanceForm extends Component {
                     <p>{contentPrompt}.</p>
                     <MultilingualField
                         field="name"
-                        fieldDisplay={this.translate('name')}
+                        fieldDisplay={t('name')}
                         values={this.state.values.name}
                     />
                 </ModalForm>
@@ -104,4 +103,4 @@ const mapDispatchToProps = (dispatch) => ({
     editInstance: asyncAction(editInstance, dispatch),
 })
 
-export default withLocalize(connect(null, mapDispatchToProps)(EditInstanceForm))
+export default connect(null, mapDispatchToProps)(EditInstanceForm)

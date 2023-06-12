@@ -1,13 +1,13 @@
 import React from 'react'
 import { arrayOf, shape, func } from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Label, List } from 'semantic-ui-react'
 import { orderBy } from 'lodash'
 
-const StudentAssesmentList = ({ assesments, translate: baseTranslate }) => {
-    const translate = (id) =>
-        baseTranslate(`UserPage.StudentAssesmentList.${id}`)
+const StudentAssesmentList = ({ assesments }) => {
+    const id = useParams().id
+    const translate = useTranslation(`UserPage.StudentAssesmentList.${id}`)
     return (
         <List selection divided size="big">
             {orderBy(assesments, 'name').map((assesment) =>
@@ -54,4 +54,4 @@ StudentAssesmentList.propTypes = {
     translate: func.isRequired,
 }
 
-export default withLocalize(StudentAssesmentList)
+export default StudentAssesmentList

@@ -21,15 +21,14 @@ export class CreateLevelForm extends Component {
         })
     }
 
-    translate = (id) =>
-        this.props.translate(`Course.matrix.CreateLevelForm.${id}`)
+    translate = (id) => this.props.t(`Course.matrix.CreateLevelForm.${id}`)
 
     render() {
-        const contentPrompt = this.translate('prompt_1')
+        const contentPrompt = t('prompt_1')
         return (
             <Table.HeaderCell className="CreateLevelForm">
                 <ModalForm
-                    header={this.translate('header')}
+                    header={t('header')}
                     trigger={
                         <Button
                             basic
@@ -41,10 +40,7 @@ export class CreateLevelForm extends Component {
                     onSubmit={this.addLevelSubmit}
                 >
                     <p>{contentPrompt}.</p>
-                    <MultilingualField
-                        field="name"
-                        fieldDisplay={this.translate('name')}
-                    />
+                    <MultilingualField field="name" fieldDisplay={t('name')} />
                 </ModalForm>
             </Table.HeaderCell>
         )

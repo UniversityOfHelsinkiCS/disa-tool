@@ -29,97 +29,94 @@ import CourseInfo from './CourseInfo'
 import Conditional from '../../utils/components/Conditional'
 import InfoBox from '../../utils/components/InfoBox'
 
-const UserPage = () => {
-    const [state, setState] = useState({
-        loading: false,
-        selectedType: undefined,
-        mounted: false,
-    })
+const UserPage = (props) => {
+    const [mounted, setMounted] = useState(false)
+    // eslint-disable-next-line no-unused-vars
+    const [selectedType, setSelectedType] = useState(undefined)
+    const [loading, setLoading] = useState(false)
     const params = useParams()
+    const { t } = useTranslation(`UserPage.common`)
 
     useEffect(() => {
         const onMount = async () => {
             const { activeCourse } = props
             const { courseId } = params
 
-            await props.dispatchGetUserCourses()
-            props.dispatchGetUserSelfAssesments()
+            await getUserCoursesAction()
+            getUserSelfAssesments()
             if (
                 courseId &&
                 (!activeCourse.id || activeCourse.id !== courseId) &&
-                !state.loading
+                !loading
             ) {
                 if (mounted) {
-                    setState({ ...state, loading: true })
-                    props.dispatchGetCourseInstanceData(courseId).then(() => {
+                    setLoading(true)
+                    getCourseInstanceDataAction(courseId).then(() => {
                         if (mounted) {
-                            setState({ ...state, loading: false })
+                            setLoading(false)
                         }
                     })
                 }
             }
         }
-        mounted = true
+        setMounted(true)
         onMount()
 
         return () => {
             const { course_id: courseId, id, status } = props.activeCourse
-            if (state.cancelablePromise) {
-                state.cancelablePromise.cancel()
-            }
+            //       if (cancelablePromise) { REMOVE THIS?
+            //           cancelablePromise.cancel()
+            //       }
             if (
                 status === 403 &&
                 props.match.params.courseId &&
                 courseId &&
                 id
             ) {
-                props.dispatchResetCourseInstance()
+                resetCourseInstanceAction()
             }
-            mounted = false
+            setMounted(false)
         }
     }, [])
 
-    t = (id) => props.translate(`UserPage.common.${id}`)
-
-    handleActivityToggle = async () => {
-        const { activeCourse } = props
-        props
-            .dispatchToggleActivity(activeCourse.id)
-            .then((res) => console.log(res))
+    const handleActivityToggle = async () => {
+        const { activeCourse } = toggleCourseActivityAction(
+            activeCourse.id
+        ).then((res) => console.log(res))
     }
 
-    handleClick = async (e, { course }) => {
+    const handleClick = async (e, { course }) => {
         // setState({ activeCourse: course })
         // Fetch all relevant course information: tasks with responses & assessments with responses.
-        if (!state.loading && props.match.params.courseId) {
-            setState({ ...state, loading: true })
-            await props.dispatchGetCourseInstanceData(course.id)
-            setState({ ...state, loading: false })
+        if (!loading && params.courseId) {
+            setLoading(true)
+            await getCourseInstanceDataAction(course.id)
+            setLoading(false)
         }
     }
 
-    toggleAssessment = (e, { value }) => {
+    const toggleAssessment = (e, { value }) => {
         switch (e.target.name) {
             case 'assessmentHidden':
-                props.dispatchSetAssessmentStatus(value, [
+                setAssessmentStatusAction(value, [
                     { name: 'open', value: false },
                     { name: 'active', value: false },
                 ])
                 break
             case 'assessmentShown':
-                props.dispatchSetAssessmentStatus(value, [
+                setAssessmentStatusAction(value, [
                     { name: 'open', value: false },
                     { name: 'active', value: true },
                 ])
                 break
             case 'assessmentOpen':
-                props.dispatchSetAssessmentStatus(value, [
+                setAssessmentStatusAction(value, [
                     { name: 'open', value: true },
                     { name: 'active', value: true },
                 ])
                 break
             case 'feedbackOpen':
-                props.dispatchToggleAssessment(value, 'show_feedback')
+                toggleAssessmentAction(value, 'show_feedback')
                 break
             default:
                 console.log('Something went wrong here now')
@@ -127,33 +124,31 @@ const UserPage = () => {
     }
 
     const { activeCourse, courses, user } = props
-    const { selectedType, loading } = state
     const { self_assessments: assessments, tasks } = activeCourse
-    if (!props.match.params.courseId && activeCourse.id) {
-        return <Redirect to={`/user/course/${activeCourse.id}`} />
+    if (!params.courseId && activeCourse.id) {
+        return redirect(`/user/course/${activeCourse.id}`)
     }
     const { course_id: courseId, id, status } = activeCourse
     if (status === 403 && props.match.params.courseId && courseId && id) {
-        return <Redirect to={`/courses?course=${courseId}&instance=${id}`} />
+        return redirect(`/courses?course=${courseId}&instance=${id}`)
     }
     const isTeacher = activeCourse.courseRole === 'TEACHER'
     const isGlobalTeacher = user.role === 'TEACHER' || user.role === 'ADMIN'
-    const students =
+    /* const students =
         activeCourse.id && isTeacher
             ? activeCourse.people.filter(
                   (person) =>
                       person.course_instances[0].course_person.role !==
                       'TEACHER'
               )
-            : []
+            : []*/
     const teachers = activeCourse.id
         ? activeCourse.people.filter(
               (person) =>
                   person.course_instances[0].course_person.role === 'TEACHER'
           )
         : []
-    // console.log(activeCourse)
-    // console.log(props.match.params.courseId)
+
     return (
         <Grid padded="horizontally">
             <Dimmer active={loading} inverted>
@@ -184,7 +179,7 @@ const UserPage = () => {
                                     course={activeCourse}
                                     toggleActivation={handleActivityToggle}
                                     teachers={teachers}
-                                    deleteTeacher={handleTeacherRemoving}
+                                    //           deleteTeacher={handleTeacherRemoving}
                                     isTeacher={isTeacher}
                                     isGlobalTeacher={isGlobalTeacher}
                                 />
@@ -307,13 +302,6 @@ const UserPage = () => {
     )
 }
 
-const mapStateToProps = (state) => ({
-    user: state.user,
-    courses: state.courses,
-    selfAssesments: state.selfAssesment.userSelfAssesments,
-    activeCourse: state.instance,
-})
-
 UserPage.propTypes = {
     user: shape({
         name: string,
@@ -325,18 +313,11 @@ UserPage.propTypes = {
         })
     ),
     activeCourse: shape(),
-    dispatchGetCourseInstanceData: func.isRequired,
     match: shape({
         params: shape({
             courseId: string,
         }).isRequired,
     }).isRequired,
-    dispatchGetUserCourses: func.isRequired,
-    dispatchGetUserSelfAssesments: func.isRequired,
-    dispatchToggleActivity: func.isRequired,
-    dispatchToggleAssessment: func.isRequired,
-    dispatchSetAssessmentStatus: func.isRequired,
-    dispatchResetCourseInstance: func.isRequired,
     translate: func.isRequired,
 }
 
@@ -345,14 +326,4 @@ UserPage.defaultProps = {
     activeCourse: { tasks: [], self_assessments: [], people: [] },
 }
 
-export default withLocalize(
-    connect(mapStateToProps, {
-        dispatchGetUserCourses: getUserCoursesAction,
-        dispatchGetUserSelfAssesments: getUserSelfAssesments,
-        dispatchGetCourseInstanceData: getCourseInstanceDataAction,
-        dispatchToggleActivity: toggleCourseActivityAction,
-        dispatchToggleAssessment: toggleAssessmentAction,
-        dispatchSetAssessmentStatus: setAssessmentStatusAction,
-        dispatchResetCourseInstance: resetCourseInstanceAction,
-    })(UserPage)
-)
+export default UserPage

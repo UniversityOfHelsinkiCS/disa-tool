@@ -24,7 +24,7 @@ export class EditTasksTab extends Component {
         this.props.changeActive(value)
     }
 
-    translate = (id) => this.props.translate(`Course.tasks.EditTasksTab.${id}`)
+    translate = (id) => this.props.t(`Course.tasks.EditTasksTab.${id}`)
 
     render() {
         return (
@@ -74,7 +74,7 @@ export class EditTasksTab extends Component {
                                 </span>
                                 {this.props.activeTask ? (
                                     <TypesDisplay
-                                        defaultText={this.translate('default')}
+                                        defaultText={t('default')}
                                         defaultMultiplier={
                                             this.props.activeTask
                                                 .defaultMultiplier
@@ -92,7 +92,7 @@ export class EditTasksTab extends Component {
                     </SingleAccordion>
                 </Container>
                 <Container>
-                    <SingleAccordion title={this.translate('matrix')}>
+                    <SingleAccordion title={t('matrix')}>
                         <div style={{ overflowX: 'auto' }}>
                             <Matrix editing={false} showDetails />
                         </div>
@@ -127,6 +127,4 @@ const mapStateToProps = (state) => ({
             : state.task.tasks.find((task) => task.id === state.task.active),
 })
 
-export default withLocalize(
-    connect(mapStateToProps, { changeActive })(EditTasksTab)
-)
+export default connect(mapStateToProps, { changeActive })(EditTasksTab)

@@ -7,8 +7,7 @@ import { Button, Segment, Header } from 'semantic-ui-react'
 import './header.css'
 
 export const CourseHeader = (props) => {
-    const translate = (id) =>
-        props.translate(`Course.header.CourseHeader.${id}`)
+    const translate = (id) => props.t(`Course.header.CourseHeader.${id}`)
 
     return (
         <div className="CourseHeader">
@@ -22,7 +21,7 @@ export const CourseHeader = (props) => {
                             color="blue"
                             floated="left"
                             icon="backward"
-                            content={translate('back_button')}
+                            content={t('back_button')}
                         />
                     ) : null}
                     {props.course.name}

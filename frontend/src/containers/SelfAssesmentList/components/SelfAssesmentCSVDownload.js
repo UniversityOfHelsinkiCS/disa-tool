@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { useState } from 'react'
 import { arrayOf, string, func } from 'prop-types'
 import { connect } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -83,42 +83,33 @@ const formatToCsv = (responses) => {
     return formatted
 }
 
-class SelfAssesmentCSVDownload extends PureComponent {
-    constructor(props) {
-        super(props)
-        this.state = {
-            data: '',
-        }
-    }
+const SelfAssesmentCSVDownload = (props) => {
+    const [data, setData] = useState('')
+    const { t } = useTranslation()
 
-    translate = (id) =>
-        this.props.translate(
-            `SelfAssessmentList.SelfAssesmentCSVDownload.${id}`
-        )
+    const translate = (id) =>
+        t(`SelfAssessmentList.SelfAssesmentCSVDownload.${id}`)
 
-    prepare = async () => {
-        const { responses } = this.props
-        await this.setState({
+    const prepare = async () => {
+        const { responses } = props
+        await setData({
             data: formatToCsv(responses),
         })
     }
 
-    render() {
-        const { data } = this.state
-        const { filePrefix, responses } = this.props
-        return (
-            <Button
-                disabled={responses.length === 0}
-                as={CSVLink}
-                onClick={this.prepare}
-                basic
-                color="green"
-                content={this.translate('download_csv')}
-                filename={`${filePrefix}_responses.csv`}
-                data={data}
-            />
-        )
-    }
+    const { filePrefix, responses } = props
+    return (
+        <Button
+            disabled={responses.length === 0}
+            as={CSVLink}
+            onClick={prepare}
+            basic
+            color="green"
+            content={translate('download_csv')}
+            filename={`${filePrefix}_responses.csv`}
+            data={data}
+        />
+    )
 }
 
 SelfAssesmentCSVDownload.propTypes = {
@@ -136,6 +127,4 @@ const mapStateToProps = (state) => ({
     responses: state.selfAssesmentList.selectedResponses,
 })
 
-export default withLocalize(
-    connect(mapStateToProps, null)(SelfAssesmentCSVDownload)
-)
+export default connect(mapStateToProps, null)(SelfAssesmentCSVDownload)

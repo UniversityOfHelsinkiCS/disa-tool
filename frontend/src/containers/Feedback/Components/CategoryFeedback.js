@@ -13,12 +13,12 @@ const findVerificationGrade = (verification, categoryName) => {
     return category.earnedGrade.name
 }
 export const CategoryFeedback = (props) => {
+    const { t } = useTranslation()
     const { questionModuleResponses, feedback, verification } = props
-    const translate = (id) =>
-        props.translate(`FeedbackPage.CategoryFeedback.${id}`)
+    const translate = (id) => t(`FeedbackPage.CategoryFeedback.${id}`)
     return (
         <div>
-            {props.teacher ? null : <h2>{translate('message')}</h2>}
+            {props.teacher ? null : <h2>{t('message')}</h2>}
             {feedback ? (
                 <Card fluid color="yellow">
                     <Card.Content>
@@ -170,4 +170,4 @@ CategoryFeedback.propTypes = {
     verification: PropTypes.shape({}),
 }
 
-export default withLocalize(CategoryFeedback)
+export default CategoryFeedback

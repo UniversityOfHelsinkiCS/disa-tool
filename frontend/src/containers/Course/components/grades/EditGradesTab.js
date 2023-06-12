@@ -21,8 +21,7 @@ class EditGradesTab extends Component {
         }
     }
 
-    translate = (id) =>
-        this.props.translate(`Course.grades.EditGradesTab.${id}`)
+    translate = (id) => this.props.t(`Course.grades.EditGradesTab.${id}`)
 
     render() {
         const { courseId, grades, levels, categories, loading } = this.props
@@ -35,7 +34,7 @@ class EditGradesTab extends Component {
                             translationid="EditGradesPage"
                             buttonProps={{ floated: 'right' }}
                         />
-                        <Header as="h1" content={this.translate('header')} />
+                        <Header as="h1" content={t('header')} />
                         <Gradelist grades={grades} levels={levels} />
                     </Segment>
                     <CategoryGradeTable

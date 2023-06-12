@@ -52,14 +52,13 @@ class EditHeaderForm extends Component {
         })
     }
 
-    translate = (id) =>
-        this.props.translate(`Course.types.EditHeaderForm.${id}`)
+    translate = (id) => this.props.t(`Course.types.EditHeaderForm.${id}`)
 
     render() {
         return (
             <div className="EditHeaderForm">
                 <ModalForm
-                    header={this.translate('header')}
+                    header={t('header')}
                     trigger={
                         <Button
                             basic
@@ -75,7 +74,7 @@ class EditHeaderForm extends Component {
                 >
                     <MultilingualField
                         field="name"
-                        fieldDisplay={this.translate('name')}
+                        fieldDisplay={t('name')}
                         values={this.state.values.name}
                     />
                 </ModalForm>
@@ -96,4 +95,4 @@ const mapDispatchToProps = (dispatch) => ({
     headerDetails,
 })
 
-export default withLocalize(connect(null, mapDispatchToProps)(EditHeaderForm))
+export default connect(null, mapDispatchToProps)(EditHeaderForm)

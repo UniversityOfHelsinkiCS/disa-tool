@@ -59,18 +59,18 @@ export class EditTypeForm extends Component {
         })
     }
 
-    translate = (id) => this.props.translate(`Course.types.EditTypeForm.${id}`)
+    translate = (id) => this.props.t(`Course.types.EditTypeForm.${id}`)
 
     render() {
-        const contentPrompt = this.translate('prompt_1')
+        const contentPrompt = t('prompt_1')
         const label = {
-            name: this.translate('name'),
-            multiplier: this.translate('multiplier'),
+            name: t('name'),
+            multiplier: t('multiplier'),
         }
         return (
             <div className="EditTypeForm">
                 <ModalForm
-                    header={this.translate('header')}
+                    header={t('header')}
                     trigger={
                         <Button
                             basic
@@ -128,4 +128,4 @@ const mapDispatchToProps = (dispatch) => ({
     details,
 })
 
-export default withLocalize(connect(null, mapDispatchToProps)(EditTypeForm))
+export default connect(null, mapDispatchToProps)(EditTypeForm)

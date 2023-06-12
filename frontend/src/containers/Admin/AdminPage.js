@@ -27,14 +27,15 @@ const AdminPage = (props) => {
     const [activeIndex, setActiveIndex] = useState(-1)
     const [activePage, setActivePage] = useState(1)
     const [crash, setCrash] = useState(false)
+    const { t } = useTranslation()
 
-    chaosMonkey = () => {
+    const chaosMonkey = () => {
         setCrash(true)
     }
 
-    handleSubmit = async (event) => {
+    const handleSubmit = async (event) => {
         const studentInfo = event.target.userInfo.value
-        if (!state.getAll && studentInfo === '') {
+        if (!getAll && studentInfo === '') {
             await props.dispatchToast({
                 type: '',
                 payload: {
@@ -46,71 +47,66 @@ const AdminPage = (props) => {
         }
         setLoading(true)
         await props.adminGetUsers({
-            studentInfo: state.getAll ? undefined : studentInfo,
-            getAll: state.getAll,
+            studentInfo: getAll ? undefined : studentInfo,
+            getAll: getAll,
         })
         setActivePage(1)
         setLoading(false)
     }
 
-    handleClick = (e, { titleProps, activeIndex }) => {
+    const handleClick = (e, { titleProps, activeIndex }) => {
         const { index } = titleProps
         const newIndex = activeIndex === index ? -1 : index
         setActiveIndex(newIndex)
     }
 
-    handlePaginationChange = (e, { activePage }) => setActivePage(activePage)
+    const handlePaginationChange = (e, { activePage }) =>
+        setActivePage(activePage)
 
-    changeRole = async (personId, courseInstanceId, role) => {
+    const changeRole = async (personId, courseInstanceId, role) => {
         if (courseInstanceId) {
-            await this.props.adminChangeCourseRole({
+            await props.adminChangeCourseRole({
                 personId,
                 courseInstanceId,
                 role,
             })
         } else {
-            await this.props.adminChangeGlobalRole({ personId, role })
+            await props.adminChangeGlobalRole({ personId, role })
         }
     }
 
-    deleteRole = (personId, courseInstanceId) => () =>
-        this.props.removeCoursePerson({
+    const deleteRole = (personId, courseInstanceId) => () =>
+        props.removeCoursePerson({
             id: personId,
             course_instance_id: courseInstanceId,
         })
 
-    translate = (id) => this.props.translate(`Admin.AdminPage.${id}`)
+    const translate = (id) => t(`Admin.AdminPage.${id}`)
 
-    if (this.state.crash) throw new Error('Ooh aah, error')
+    if (crash) throw new Error('Ooh aah, error')
     return (
         <Container style={{ paddingTop: '100px' }}>
             <Grid divided="vertically">
                 <Grid.Row columns={2}>
                     <Grid.Column width={8}>
-                        <Form onSubmit={this.handleSubmit}>
-                            <h2>{this.translate('header')}</h2>
+                        <Form onSubmit={handleSubmit}>
+                            <h2>{t('header')}</h2>
 
                             <Form.Field width={8}>
                                 <input
                                     name="userInfo"
-                                    disabled={this.state.getAll}
-                                    placeholder={`(${this.translate(
-                                        'search_placeholder'
-                                    )})`}
+                                    disabled={getAll}
+                                    placeholder={`(${t('search_placeholder')})`}
                                 />
                             </Form.Field>
                             <Form.Checkbox
                                 name="getAll"
-                                onChange={() =>
-                                    this.setState({
-                                        getAll: !this.state.getAll,
-                                    })
-                                }
-                                label={this.translate('get_all')}
+                                onChange={() => setGetAll((prev) => !prev)}
+                                label={t('get_all')}
                             />
                             <Button>
                                 <Icon name="search" />
-                                {this.translate('search_button')}
+                                {t('search_button')}
                             </Button>
                         </Form>
                     </Grid.Column>
@@ -118,11 +114,10 @@ const AdminPage = (props) => {
 
                 <Grid.Row>
                     <Grid.Column width={10}>
-                        {this.state.loading && <Loader active />}
-
-                        {this.props.users.length > 0 && (
+                        {loading && <Loader active />}
+                        {props.users.length > 0 && (
                             <Accordion fluid styled>
-                                {this.props.users
+                                {props.users
                                     .slice(
                                         (activePage - 1) * 20,
                                         activePage * 20
@@ -132,7 +127,7 @@ const AdminPage = (props) => {
                                             <Accordion.Title
                                                 active={activeIndex === u.id}
                                                 index={u.id}
-                                                onClick={this.handleClick}
+                                                onClick={handleClick}
                                             >
                                                 <Icon name="dropdown" />
                                                 {u.name}
@@ -141,12 +136,10 @@ const AdminPage = (props) => {
                                                 active={activeIndex === u.id}
                                             >
                                                 <RoleList
-                                                    translate={
-                                                        this.props.translate
-                                                    }
+                                                    translate={translate}
                                                     user={u}
-                                                    deleteRole={this.deleteRole}
-                                                    changeRole={this.changeRole}
+                                                    deleteRole={deleteRole}
+                                                    changeRole={changeRole}
                                                 />
                                             </Accordion.Content>
                                         </div>
@@ -159,23 +152,17 @@ const AdminPage = (props) => {
                 <Grid.Row>
                     <Grid.Column width={5} />
                     <Grid.Column width={8}>
-                        {this.props.users.length > 20 ? (
+                        {props.users.length > 20 ? (
                             <Pagination
                                 activePage={activePage}
-                                onPageChange={this.handlePaginationChange}
-                                totalPages={Math.ceil(
-                                    this.props.users.length / 20
-                                )}
+                                onPageChange={handlePaginationChange}
+                                totalPages={Math.ceil(props.users.length / 20)}
                             />
                         ) : null}
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
-            <Button
-                content="Do not press!"
-                color="red"
-                onClick={this.chaosMonkey}
-            />
+            <Button content="Do not press!" color="red" onClick={chaosMonkey} />
         </Container>
     )
 }

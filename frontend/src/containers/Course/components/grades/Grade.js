@@ -8,14 +8,14 @@ import asyncAction from '../../../../utils/asyncAction'
 import { removeGrade, editGrade } from '../../actions/grades'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditGradeForm from './EditGradeForm'
-import dndItem from '../../../../utils/components/DnDItem'
+import DnDItem from '../../../../utils/components/react-dnd/DnDItem'
 
-const DnDItem = dndItem('grade')
+//const DnDItem = dndItem('grade')
 
 const parseName = (object) => (object ? object.name : null)
 
 const Grade = (props) => {
-    const translate = (id) => props.translate(`Course.grades.Grade.${id}`)
+    const { t } = useTranslation(`Course.grades.Grade`)
     return (
         <DnDItem
             element={props.grade}
@@ -29,7 +29,7 @@ const Grade = (props) => {
                         <Grid.Row>
                             <Grid.Column width={5}>
                                 <p>
-                                    <span>{translate('skill_level')}</span>
+                                    <span>{t('skill_level')}</span>
                                     <span>: </span>
                                     <strong>
                                         {parseName(
@@ -44,7 +44,7 @@ const Grade = (props) => {
                             </Grid.Column>
                             <Grid.Column width={4}>
                                 <p>
-                                    <span>{translate('needed_for_grade')}</span>
+                                    <span>{t('needed_for_grade')}</span>
                                     <span>: </span>
                                     <strong>
                                         {props.grade.needed_for_grade * 100}%
@@ -53,7 +53,7 @@ const Grade = (props) => {
                             </Grid.Column>
                             <Grid.Column width={5}>
                                 <p>
-                                    <span>{translate('prerequisite')}</span>
+                                    <span>{t('prerequisite')}</span>
                                     <span>: </span>
                                     <strong>
                                         {parseName(
@@ -85,9 +85,9 @@ const Grade = (props) => {
                                                     id: props.grade.id,
                                                 })
                                             }
-                                            header={translate('delete_header')}
+                                            header={t('delete_header')}
                                             prompt={[
-                                                translate('delete_prompt_1'),
+                                                t('delete_prompt_1'),
                                                 props.grade.name,
                                             ]}
                                         />

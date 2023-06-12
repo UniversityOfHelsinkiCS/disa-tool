@@ -9,17 +9,19 @@ import { getUserAction } from './actions/actions'
 import { getUser } from './api/persons'
 import Nav from './containers/Nav/navbar'
 import Main from './containers/Main/main'
-import LocalizeWrapper from './containers/Localize/LocalizeWrapper'
 import './i18n'
 
-function App({ user }) {
+function App() {
     const [sessionAliveInterval, setSessionAliveInterval] = useState(null)
+    const [user, setUser] = useState({})
 
     useEffect(() => {
-        getUserAction()
+        const userData = getUserAction()
+        setUser(userData)
         const tempAliveInterval = setInterval(async () => {
             try {
                 await getUser()
+                // eslint-disable-next-line no-empty
             } catch (e) {}
         }, 60 * 1000)
         setSessionAliveInterval(tempAliveInterval)
@@ -30,7 +32,7 @@ function App({ user }) {
                 setSessionAliveInterval(null)
             }
         }
-    }, [])
+    }, [sessionAliveInterval])
 
     const onErrorHandler = (err) => {
         Sentry.configureScope((context) => {
@@ -40,21 +42,14 @@ function App({ user }) {
     }
 
     return (
-        <ErrorBoundary onError={onErrorHandler}>
-            <LocalizeProvider>
-                <LocalizeWrapper>
-                    <Nav />
-                    <Main />
-                </LocalizeWrapper>
-            </LocalizeProvider>
+        <ErrorBoundary
+            fallbackRender={<div>error</div>}
+            onError={onErrorHandler}
+        >
+            <Nav />
+            <Main />
         </ErrorBoundary>
     )
-}
-
-App.propTypes = {
-    user: PropTypes.shape({ name: PropTypes.string, id: PropTypes.number })
-        .isRequired,
-    getUserAction: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = ({ user }) => ({ user })

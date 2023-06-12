@@ -4,11 +4,11 @@ import { connect } from 'react-redux'
 import { Table } from 'semantic-ui-react'
 
 import CreateObjectiveForm from './CreateObjectiveForm'
-import MatrixObjective, { dropSpec } from './MatrixObjective'
-import dndItem from '../../../../utils/components/DnDItem'
+import MatrixObjective from './MatrixObjective'
+import dndItem from '../../../../utils/components/react-dnd/DnDItem'
 import { editObjective } from '../../actions/objectives'
 import asyncAction from '../../../../utils/asyncAction'
-
+/*
 const DnDItem = dndItem('objective', {
     source: false,
     dropSpec: {
@@ -25,7 +25,7 @@ const DnDItem = dndItem('objective', {
         },
     },
 })
-
+*/
 export const MatrixLevel = (props) => {
     const objectives = props.level.objectives.sort((a, b) => a.order - b.order)
     let newOrder = 1

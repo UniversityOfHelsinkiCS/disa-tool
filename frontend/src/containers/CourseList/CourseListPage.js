@@ -70,7 +70,7 @@ class CourseListPage extends Component {
         this.props.selectInstance(Number(data.value))
     }
 
-    translate = (id) => this.props.translate(`CourseList.CourseListPage.${id}`)
+    translate = (id) => this.props.t(`CourseList.CourseListPage.${id}`)
 
     render() {
         const courseOptions = orderBy(
@@ -126,9 +126,7 @@ class CourseListPage extends Component {
                                     }
                                     options={courseOptions}
                                     onChange={this.handleChange}
-                                    placeholder={this.translate(
-                                        'course_select_placeholder'
-                                    )}
+                                    placeholder={t('course_select_placeholder')}
                                     selectOnBlur={false}
                                     selectOnNavigation={false}
                                 />
@@ -147,7 +145,7 @@ class CourseListPage extends Component {
                                         icon
                                         basic
                                     >
-                                        {this.translate('create_trigger')}
+                                        {t('create_trigger')}
                                         <Icon name="add" color="green" />
                                     </Button>
                                     <Conditional
@@ -209,22 +207,16 @@ class CourseListPage extends Component {
                                             <Header.Subheader
                                                 style={{ display: 'inline' }}
                                             >
-                                                {this.translate('state')}{' '}
+                                                {t('state')}{' '}
                                             </Header.Subheader>
                                             {this.props.selectedInstance
                                                 .active ? (
                                                 <span>
-                                                    <b>
-                                                        {this.translate('open')}
-                                                    </b>
+                                                    <b>{t('open')}</b>
                                                 </span>
                                             ) : (
                                                 <span>
-                                                    <b>
-                                                        {this.translate(
-                                                            'closed'
-                                                        )}
-                                                    </b>
+                                                    <b>{t('closed')}</b>
                                                 </span>
                                             )}
                                         </Header>
@@ -235,7 +227,7 @@ class CourseListPage extends Component {
                                             }
                                         >
                                             <Message info>
-                                                {this.translate('you_are')}
+                                                {t('you_are')}
                                             </Message>
                                         </Conditional>
                                         <List>
@@ -252,9 +244,7 @@ class CourseListPage extends Component {
                                                         as={Link}
                                                         to={`/user/course/${this.props.selectedInstance.id}`}
                                                     >
-                                                        {this.translate(
-                                                            'coursepage_button'
-                                                        )}
+                                                        {t('coursepage_button')}
                                                     </Button>
                                                 </Conditional>
                                             </List.Item>
@@ -265,9 +255,7 @@ class CourseListPage extends Component {
                                                     to={`/courses/matrix/${this.props.selectedInstance.id}`}
                                                     color="blue"
                                                     basic
-                                                    content={this.translate(
-                                                        'course_matrix'
-                                                    )}
+                                                    content={t('course_matrix')}
                                                 />
                                             </List.Item>
                                             <Conditional
@@ -300,14 +288,12 @@ class CourseListPage extends Component {
                                     </div>
                                 ) : (
                                     <Message info>
-                                        {this.translate('instance_prompt')}
+                                        {t('instance_prompt')}
                                     </Message>
                                 )}
                             </div>
                         ) : (
-                            <Message info>
-                                {this.translate('course_prompt')}
-                            </Message>
+                            <Message info>{t('course_prompt')}</Message>
                         )}
                     </Grid.Column>
                 </Grid.Row>
@@ -377,6 +363,4 @@ const mapDispatchToProps = (dispatch) => ({
     selectInstance: selectInstance(dispatch),
 })
 
-export default withLocalize(
-    connect(mapStateToProps, mapDispatchToProps)(CourseListPage)
-)
+export default connect(mapStateToProps, mapDispatchToProps)(CourseListPage)

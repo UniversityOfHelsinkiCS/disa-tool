@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { arrayOf, func, number, shape } from 'prop-types'
@@ -14,13 +14,11 @@ import {
 import { updateCategoryGradesAction } from '../../../../actions/actions'
 import InfoBox from '../../../../utils/components/InfoBox'
 
-export class CategoryGradeTable extends Component {
-    state = {
-        updatedGrades: [],
-    }
+const CategoryGradeTable = (props) => {
+    const [updatedGrades, setUpdatedGrades] = useState([])
+    const { t } = useTranslation()
 
-    findValue = (categoryId, grade) => {
-        const { updatedGrades } = this.state
+    const findValue = (categoryId, grade) => {
         const updated = updatedGrades.find(
             (ug) => ug.gradeId === grade.id && ug.categoryId === categoryId
         )
@@ -36,8 +34,7 @@ export class CategoryGradeTable extends Component {
         return null
     }
 
-    findName = (categoryId, grade) => {
-        const { updatedGrades } = this.state
+    const findName = (categoryId, grade) => {
         const updated = updatedGrades.find(
             (ug) => ug.gradeId === grade.id && ug.categoryId === categoryId
         )
@@ -53,15 +50,15 @@ export class CategoryGradeTable extends Component {
         return null
     }
 
-    changeValue = (e) => {
-        const updatedGrades = [...this.state.updatedGrades]
+    const changeValue = (e) => {
+        const updatedGrades = [...updatedGrades]
         const categoryGradeId = Number(e.target.name)
         const categoryGradeValue = Number(e.target.value)
         const updated = updatedGrades.find((ug) => ug.id === categoryGradeId)
         if (!updated) {
             let original = {}
-            for (let i = 0; i < this.props.grades.length; i += 1) {
-                const grade = this.props.grades[i]
+            for (let i = 0; i < props.grades.length; i += 1) {
+                const grade = props.grades[i]
                 const categoryGrade = grade.category_grades.find(
                     (cg) => cg.id === categoryGradeId
                 )
@@ -75,105 +72,96 @@ export class CategoryGradeTable extends Component {
                 categoryId: original.category_id,
                 neededForGrade: categoryGradeValue,
             })
-            this.setState({ updatedGrades })
+            setUpdatedGrades(updatedGrades)
         } else {
             updated.neededForGrade = categoryGradeValue
-            this.setState({ updatedGrades })
+            setUpdatedGrades(updatedGrades)
         }
     }
 
-    cancelChanges = () => this.setState({ updatedGrades: [] })
+    const cancelChanges = () => setUpdatedGrades([])
 
-    submitChanges = () => {
-        this.props.dispatchUpdateCategoryGrades({
-            courseId: this.props.courseId,
-            categoryGrades: this.state.updatedGrades,
+    const submitChanges = () => {
+        props.dispatchUpdateCategoryGrades({
+            courseId: props.courseId,
+            categoryGrades: updatedGrades,
         })
-        this.setState({ updatedGrades: [] })
+        setUpdatedGrades([])
     }
 
-    translate = (id) =>
-        this.props.translate(`Course.grades.CategoryGradeTable.${id}`)
+    // const t = (id) => props.t(`Course.grades.CategoryGradeTable.${id}`)
 
-    render() {
-        return (
-            <Container>
-                <Segment>
-                    <InfoBox
-                        translationid="EditCategoryGradesPage"
-                        buttonProps={{ floated: 'right' }}
-                    />
-                    <Header as="h3" content={this.translate('header')} />
-                    <Button
-                        color="green"
-                        content={this.translate('save')}
-                        onClick={this.submitChanges}
-                    />
-                    <Button
-                        color="red"
-                        content={this.translate('cancel_button')}
-                        onClick={this.cancelChanges}
-                    />
-                    <Table definition>
-                        <Table.Header>
-                            <Table.Row>
-                                <Table.HeaderCell>
-                                    {this.translate('header_cell')}
+    return (
+        <Container>
+            <Segment>
+                <InfoBox
+                    translationid="EditCategoryGradesPage"
+                    buttonProps={{ floated: 'right' }}
+                />
+                <Header as="h3" content={t('header')} />
+                <Button
+                    color="green"
+                    content={t('save')}
+                    onClick={submitChanges}
+                />
+                <Button
+                    color="red"
+                    content={t('cancel_button')}
+                    onClick={cancelChanges}
+                />
+                <Table definition>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>
+                                {t('header_cell')}
+                            </Table.HeaderCell>
+                            {props.grades.map((grade) => (
+                                <Table.HeaderCell key={grade.id}>
+                                    {grade.name}
                                 </Table.HeaderCell>
-                                {this.props.grades.map((grade) => (
-                                    <Table.HeaderCell key={grade.id}>
-                                        {grade.name}
-                                    </Table.HeaderCell>
-                                ))}
-                            </Table.Row>
-                        </Table.Header>
-                        <Table.Body>
-                            {this.props.categories.map((category) => (
-                                <Table.Row key={category.id}>
-                                    <Table.Cell>{category.name}</Table.Cell>
-                                    {this.props.grades.map((grade) => (
-                                        <Table.Cell
-                                            key={this.findName(
+                            ))}
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {props.categories.map((category) => (
+                            <Table.Row key={category.id}>
+                                <Table.Cell>{category.name}</Table.Cell>
+                                {props.grades.map((grade) => (
+                                    <Table.Cell
+                                        key={findName(category.id, grade)}
+                                    >
+                                        <Input
+                                            type="number"
+                                            max="1"
+                                            min="0"
+                                            name={findName(category.id, grade)}
+                                            placeholder="0"
+                                            step="0.05"
+                                            value={findValue(
                                                 category.id,
                                                 grade
                                             )}
-                                        >
-                                            <Input
-                                                type="number"
-                                                max="1"
-                                                min="0"
-                                                name={this.findName(
-                                                    category.id,
-                                                    grade
-                                                )}
-                                                placeholder="0"
-                                                step="0.05"
-                                                value={this.findValue(
-                                                    category.id,
-                                                    grade
-                                                )}
-                                                onChange={this.changeValue}
-                                            />
-                                        </Table.Cell>
-                                    ))}
-                                </Table.Row>
-                            ))}
-                        </Table.Body>
-                    </Table>
-                    <Button
-                        color="green"
-                        content={this.translate('save')}
-                        onClick={this.submitChanges}
-                    />
-                    <Button
-                        color="red"
-                        content={this.translate('cancel_button')}
-                        onClick={this.cancelChanges}
-                    />
-                </Segment>
-            </Container>
-        )
-    }
+                                            onChange={changeValue}
+                                        />
+                                    </Table.Cell>
+                                ))}
+                            </Table.Row>
+                        ))}
+                    </Table.Body>
+                </Table>
+                <Button
+                    color="green"
+                    content={t('save')}
+                    onClick={submitChanges}
+                />
+                <Button
+                    color="red"
+                    content={t('cancel_button')}
+                    onClick={cancelChanges}
+                />
+            </Segment>
+        </Container>
+    )
 }
 
 CategoryGradeTable.defaultProps = {
@@ -186,7 +174,7 @@ CategoryGradeTable.propTypes = {
     courseId: number.isRequired,
     grades: arrayOf(shape()),
     dispatchUpdateCategoryGrades: func.isRequired,
-    translate: func.isRequired,
+    t: func.isRequired,
 }
 
 export default connect(null, {

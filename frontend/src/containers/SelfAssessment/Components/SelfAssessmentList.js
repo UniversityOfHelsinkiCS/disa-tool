@@ -5,12 +5,11 @@ import PropTypes from 'prop-types'
 
 const SelfAssessmentList = (props) => {
     const { selfAssessments, onClick } = props
-    const translate = (id) =>
-        props.translate(`SelfAssessment.SelfAssessmentList.${id}`)
+    const { t } = useTranslation(`SelfAssessment.SelfAssessmentList`)
 
     return (
         <List animated selection>
-            <List.Header>{translate('header')}</List.Header>
+            <List.Header>{t('header')}</List.Header>
             {selfAssessments.map((sa) => (
                 <List.Item key={sa.id} id={sa.id} onClick={onClick}>
                     {sa.name}
@@ -25,4 +24,4 @@ SelfAssessmentList.propTypes = {
     onClick: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
 }
-export default withLocalize(SelfAssessmentList)
+export default SelfAssessmentList

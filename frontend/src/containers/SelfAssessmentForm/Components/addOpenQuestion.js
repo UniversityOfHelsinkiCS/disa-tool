@@ -8,8 +8,7 @@ import { addOpenQuestion } from '../actions/selfAssesment'
 import MultilingualField from '../../../utils/components/MultilingualField'
 
 const AddOpenQuestion = (props) => {
-    const translate = (id) =>
-        props.translate(`SelfAssessmentForm.addOpenQuestion.${id}`)
+    const { t } = useTranslation(`SelfAssessmentForm.addOpenQuestion`)
 
     const createQuestion = (e) =>
         props.dispatchAddOpenQuestion({
@@ -20,18 +19,18 @@ const AddOpenQuestion = (props) => {
 
     return (
         <ModalForm
-            header={translate('addButton')}
+            header={t('addButton')}
             trigger={
                 <span>
-                    <Button positive>{translate('addButton')}</Button>
+                    <Button positive>{t('addButton')}</Button>
                 </span>
             }
-            actions={saveActions(translate)}
+            actions={saveActions(t)}
             onSubmit={createQuestion}
         >
             <MultilingualField
                 field="name"
-                fieldDisplay={translate('questionDisplay')}
+                fieldDisplay={t('questionDisplay')}
             />
         </ModalForm>
     )
@@ -47,4 +46,4 @@ AddOpenQuestion.propTypes = {
     translate: PropTypes.func.isRequired,
 }
 
-export default withLocalize(connect(null, mapDispatchToProps)(AddOpenQuestion))
+export default connect(null, mapDispatchToProps)(AddOpenQuestion)

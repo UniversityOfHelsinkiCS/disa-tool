@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -11,77 +11,64 @@ import { editCategory } from '../../actions/categories'
 import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
-class EditCategoryForm extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            loading: true,
-            values: {
-                name: {
-                    eng: '',
-                    fin: '',
-                    swe: '',
-                },
-            },
-        }
-    }
+const EditCategoryForm = (props) => {
+    const { t } = useTranslation()
+    const [loading, setLoading] = useState(true)
+    const [values, setValues] = useState({
+        eng: '',
+        fin: '',
+        swe: '',
+    })
 
-    editCategorySubmit = (e) =>
-        this.props.editCategory({
-            id: this.props.categoryId,
+    const editCategorySubmit = (e) =>
+        editCategory({
+            id: props.categoryId,
             eng_name: e.target.eng_name.value,
             fin_name: e.target.fin_name.value,
             swe_name: e.target.swe_name.value,
         })
 
-    loadDetails = async () => {
+    const loadDetails = async () => {
         const categoryDetails = (
-            await this.props.details({
-                id: this.props.categoryId,
+            await details({
+                id: props.categoryId,
             })
         ).data.data
-        this.setState({
-            loading: false,
-            values: {
-                name: {
-                    eng: categoryDetails.eng_name,
-                    fin: categoryDetails.fin_name,
-                    swe: categoryDetails.swe_name,
-                },
-            },
+        setLoading(false)
+        setValues({
+            eng: categoryDetails.eng_name,
+            fin: categoryDetails.fin_name,
+            swe: categoryDetails.swe_name,
         })
     }
 
-    translate = (id) =>
-        this.props.translate(`Course.matrix.EditCategoryForm.${id}`)
+    const translate = (id) => t(`Course.matrix.EditCategoryForm.${id}`)
 
-    render() {
-        return (
-            <div className="EditCategoryForm">
-                <ModalForm
-                    header={this.translate('header')}
-                    trigger={
-                        <Button
-                            basic
-                            circular
-                            onClick={this.loadDetails}
-                            icon={{ name: 'edit' }}
-                            size="mini"
-                        />
-                    }
-                    actions={saveActions(this.translate)}
-                    onSubmit={this.editCategorySubmit}
-                    loading={this.state.loading}
-                >
-                    <MultilingualField
-                        field="name"
-                        fieldDisplay={this.translate('name')}
-                        values={this.state.values.name}
+    return (
+        <div className="EditCategoryForm">
+            <ModalForm
+                header={t('header')}
+                trigger={
+                    <Button
+                        basic
+                        circular
+                        onClick={loadDetails}
+                        icon={{ name: 'edit' }}
+                        size="mini"
                     />
-                </ModalForm>
-            </div>
-        )
-    }
+                }
+                actions={saveActions(translate)}
+                onSubmit={editCategorySubmit}
+                loading={loading}
+            >
+                <MultilingualField
+                    field="name"
+                    fieldDisplay={t('name')}
+                    values={values}
+                />
+            </ModalForm>
+        </div>
+    )
 }
 
 EditCategoryForm.propTypes = {

@@ -9,27 +9,25 @@ const InfoBox = ({
     translationid,
     buttonProps,
     popupProps,
-    translate,
-    translateFunc,
     user,
     courseInstance,
     useCourseRole,
 }) => {
-    // modals cannot use translate, so they must pass translate as translateFunc prop to InfoBox
-    const translationFunction = translateFunc || translate
+    const { t } = useTranslation()
 
     const isTeacher = useCourseRole
-        ? courseInstance.courseRole === 'TEACHER'
+        ? // eslint-disable-next-line react/prop-types
+          courseInstance.courseRole === 'TEACHER'
         : user.role === 'TEACHER'
     const isAdmin = user.role === 'ADMIN'
     const isStudent = !isTeacher && !isAdmin
 
     const translateidStudent = `InfoBox.${translationid}.Student`
     const translateidTeacher = `InfoBox.${translationid}.Teacher`
-    const textStudent = translationFunction(translateidStudent, null, {
+    const textStudent = t(translateidStudent, null, {
         renderInnerHtml: false,
     })
-    const textTeacher = translationFunction(translateidTeacher, null, {
+    const textTeacher = t(translateidTeacher, null, {
         renderInnerHtml: false,
     })
 
@@ -68,7 +66,9 @@ InfoBox.propTypes = {
 InfoBox.defaultProps = {
     buttonProps: {},
     popupProps: {},
-    courseInstance: {},
+    courseInstance: {
+        courseRole: '',
+    },
     translateFunc: null,
     useCourseRole: false,
 }
@@ -78,4 +78,4 @@ const mapStatetoProps = (state) => ({
     courseInstance: state.instance,
 })
 
-export default withLocalize(connect(mapStatetoProps)(InfoBox))
+export default connect(mapStatetoProps)(InfoBox)

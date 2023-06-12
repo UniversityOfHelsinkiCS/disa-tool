@@ -7,8 +7,7 @@ import MathJaxText from '../../../utils/components/MathJaxText'
 
 export const ObjectivesFeedback = (props) => {
     const { objectives, teacher } = props
-    const translate = (id) =>
-        props.translate(`FeedbackPage.ObjectivesFeedback.${id}`)
+    const translate = (id) => props.t(`FeedbackPage.ObjectivesFeedback.${id}`)
 
     const deepCalculations = (data) => {
         let assesmentGrade = null
@@ -22,13 +21,13 @@ export const ObjectivesFeedback = (props) => {
         }
         if (assesmentGrade > 0) {
             if (assesmentGrade > 1) {
-                const wut = translate('objectiveAssessment.good')
+                const wut = t('objectiveAssessment.good')
                 return wut
             }
-            const wut = translate('objectiveAssessment.decent')
+            const wut = t('objectiveAssessment.decent')
             return wut
         }
-        const wut = translate('objectiveAssessment.poor')
+        const wut = t('objectiveAssessment.poor')
         return wut
     }
 
@@ -36,7 +35,7 @@ export const ObjectivesFeedback = (props) => {
 
     return (
         <div>
-            {teacher ? null : <h2>{translate('message')}</h2>}
+            {teacher ? null : <h2>{t('message')}</h2>}
             {Object.keys(objectives).map((objective) => (
                 <div key={objective}>
                     <p>{objective.id}</p>
@@ -57,10 +56,10 @@ export const ObjectivesFeedback = (props) => {
                             </Table.Row>
                             <Table.Row>
                                 <Table.HeaderCell>
-                                    {translate('objective')}
+                                    {t('objective')}
                                 </Table.HeaderCell>
                                 <Table.HeaderCell>
-                                    {translate('assessment')}
+                                    {t('assessment')}
                                 </Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
@@ -95,4 +94,4 @@ ObjectivesFeedback.propTypes = {
     objectives: PropTypes.shape(),
     translate: PropTypes.func.isRequired,
 }
-export default withLocalize(ObjectivesFeedback)
+export default ObjectivesFeedback

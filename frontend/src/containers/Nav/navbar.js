@@ -8,6 +8,7 @@ import axios from 'axios'
 
 import { logoutAction } from '../../actions/actions'
 import { getLanguage, saveLanguage } from '../../utils/utils'
+import { t } from 'i18next'
 
 const languageOptions = [
     { key: 'fin', value: 'fin', text: 'Suomi' },
@@ -31,7 +32,7 @@ const Nav = (props) => {
 
     const handleClick = (e, { name }) => {
         if (name === 'logout') {
-            props.dispatchLogout(translate('logout_success'))
+            logoutAction(t('logout_success'))
         }
         setState({ activeItem: name })
     }
@@ -43,7 +44,7 @@ const Nav = (props) => {
         window.location.reload()
     }
 
-    const translate = (id) => props.translate(`Nav.navbar.${id}`)
+    const translate = (id) => props.t(`Nav.navbar.${id}`)
 
     const logout = async () => {
         const returnUrl = window.location.origin
@@ -69,7 +70,7 @@ const Nav = (props) => {
                     active={activeItem === 'home'}
                     onClick={handleClick}
                 >
-                    {translate('home')}
+                    {t('home')}
                 </Menu.Item>
                 {props.user.id ? (
                     <Menu.Item
@@ -79,7 +80,7 @@ const Nav = (props) => {
                         active={activeItem === 'user'}
                         onClick={handleClick}
                     >
-                        {translate('user')}
+                        {t('user')}
                     </Menu.Item>
                 ) : undefined}
                 <Menu.Item
@@ -89,7 +90,7 @@ const Nav = (props) => {
                     active={activeItem === 'courses'}
                     onClick={handleClick}
                 >
-                    {translate('courses')}
+                    {t('courses')}
                 </Menu.Item>
                 <Menu.Menu position="right">
                     <Menu.Item>
@@ -107,7 +108,7 @@ const Nav = (props) => {
                             active={activeItem === 'admin'}
                             onClick={handleClick}
                         >
-                            {translate('admin')}
+                            {t('admin')}
                         </Menu.Item>
                     ) : null}
                     <Menu.Item
@@ -115,7 +116,7 @@ const Nav = (props) => {
                         active={activeItem === 'logout'}
                         onClick={logout}
                     >
-                        {translate('logout')}
+                        {t('logout')}
                     </Menu.Item>{' '}
                     :
                     {process.env.NODE_ENV === 'development' ? (

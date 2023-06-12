@@ -74,13 +74,13 @@ export class EditTaskForm extends Component {
         })
     }
 
-    translate = (id) => this.props.translate(`Course.tasks.EditTaskForm.${id}`)
+    translate = (id) => this.props.t(`Course.tasks.EditTaskForm.${id}`)
 
     render() {
-        const contentPrompt = this.translate('prompt_1')
+        const contentPrompt = t('prompt_1')
         const label = {
-            name: this.translate('name'),
-            description: this.translate('description'),
+            name: t('name'),
+            description: t('description'),
             info: 'info',
             maxPoints: 'max points',
         }
@@ -89,12 +89,12 @@ export class EditTaskForm extends Component {
                 <Grid.Column>
                     <div className="EditTaskForm">
                         <ModalForm
-                            header={this.translate('header')}
+                            header={t('header')}
                             trigger={
                                 <Button
                                     basic
                                     className="editTaskButton"
-                                    content={this.translate('trigger')}
+                                    content={t('trigger')}
                                     onClick={this.loadDetails}
                                 />
                             }
@@ -167,4 +167,4 @@ const mapDispatchToProps = (dispatch) => ({
     details,
 })
 
-export default withLocalize(connect(null, mapDispatchToProps)(EditTaskForm))
+export default connect(null, mapDispatchToProps)(EditTaskForm)

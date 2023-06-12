@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -22,8 +22,9 @@ import { taskDetails } from '../../../../api/objectives'
 import EditObjectiveForm from './EditObjectiveForm'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import MathJaxText from '../../../../utils/components/MathJaxText'
-import dndItem, { defaults } from '../../../../utils/components/DnDItem'
 
+import DnDItem from '../../../../utils/components/react-dnd/DnDItem'
+/*
 export const dropSpec = {
     ...defaults.dropSpec,
     drop: (props, monitor) => {
@@ -50,8 +51,8 @@ export const dropSpec = {
         })
     },
 }
-
-const DnDItem = dndItem('objective', {
+*/
+/*const DnDItem = dndItem('objective', {
     dropSpec,
     dragSpec: {
         ...defaults.dragSpec,
@@ -63,219 +64,177 @@ const DnDItem = dndItem('objective', {
         }),
     },
 })
+*/
+const MatrixObjective = (props) => {
+    const [state, setState] = useState({
+        triggered: false,
+        loading: true,
+        cumulative_multiplier: 0,
+        tasks: [],
+    })
 
-export class MatrixObjective extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            triggered: false,
-            loading: true,
-            cumulative_multiplier: 0,
-            tasks: [],
-        }
-    }
-
-    componentDidUpdate(oldProps) {
-        if (oldProps.lastMultiplierUpdate !== this.props.lastMultiplierUpdate) {
-            if (this.state.triggered) {
-                this.reset()
-            }
-        }
-    }
-
-    reset() {
-        this.setState({
-            triggered: false,
-            loading: true,
-        })
-    }
-
-    toggleObjective = () => {
-        if (this.props.activeTaskId !== null) {
-            this.props.toggleObjective({
-                objective_id: this.props.objective.id,
-                task_id: this.props.activeTaskId,
+    const toggleObjective = () => {
+        if (props.activeTaskId !== null) {
+            props.toggleObjective({
+                objective_id: props.objective.id,
+                task_id: props.activeTaskId,
             })
         }
     }
 
-    loadDetails = async () => {
-        if (this.state.triggered) {
+    const loadDetails = async () => {
+        if (state.triggered) {
             return
         }
-        this.setState({
-            triggered: true,
-        })
+        setState({ ...state, triggered: true })
         const objectiveDetails = (
-            await this.props.taskDetails({ id: this.props.objective.id })
+            await props.taskDetails({ id: props.objective.id })
         ).data.data
         let cumMultiplier = 0
         objectiveDetails.tasks.forEach((task) => {
             cumMultiplier += task.multiplier
         })
-        this.setState({
+        setState({
             cumulative_multiplier: cumMultiplier,
             tasks: objectiveDetails.tasks,
             loading: false,
         })
     }
 
-    translate = (id) =>
-        this.props.translate(`Course.matrix.MatrixObjective.${id}`)
+    const { t } = useTranslation(`Course.matrix.MatrixObjective`)
 
-    render() {
-        const content = (
-            <div className="flexContainer">
-                <div className="objectiveBlock flexContainer">
-                    {this.props.showDetails ? (
-                        <Button
-                            className="objectiveButton"
-                            toggle
-                            active={this.props.active}
-                            compact
-                            basic
-                            fluid
-                            style={{
-                                borderRadius: '0px',
-                                cursor: this.props.activeTaskId
-                                    ? undefined
-                                    : 'default',
-                            }}
-                            onClick={this.toggleObjective}
-                        >
-                            <MathJaxText content={this.props.objective.name} />
-                        </Button>
-                    ) : (
-                        <Segment
-                            className="objectiveSegment"
-                            style={{ borderRadius: '0px' }}
-                        >
-                            <MathJaxText content={this.props.objective.name} />
-                        </Segment>
-                    )}
-                    {this.props.showDetails ? (
-                        <div>
-                            <Popup
-                                trigger={
-                                    <Label
-                                        size="large"
-                                        circular
-                                        content={
-                                            this.props.objective.task_count
-                                        }
-                                        onMouseOver={this.loadDetails}
-                                        onFocus={this.loadDetails}
-                                        style={{
-                                            color:
-                                                this.props.objective
-                                                    .task_count === 0
-                                                    ? 'red'
-                                                    : undefined,
-                                        }}
-                                    />
-                                }
-                                content={
-                                    this.state.loading ? (
-                                        <Loader active inline />
-                                    ) : (
-                                        <div>
-                                            <div>
-                                                <span>
-                                                    {this.translate(
-                                                        'cumulative'
-                                                    )}
-                                                </span>
-                                                <Label>
-                                                    <strong>
-                                                        {this.state.cumulative_multiplier.toFixed(
-                                                            2
-                                                        )}
-                                                    </strong>
-                                                </Label>
-                                            </div>
-                                            <Header>
-                                                <span className="capitalize">
-                                                    {this.translate('tasks')}
-                                                </span>
-                                            </Header>
-                                            <Grid>
-                                                {this.state.tasks.map(
-                                                    (task) => (
-                                                        <Grid.Row
-                                                            key={task.name}
-                                                        >
-                                                            <Grid.Column
-                                                                width={12}
-                                                            >
-                                                                <span>
-                                                                    {task.name}
-                                                                </span>
-                                                            </Grid.Column>
-                                                            <Grid.Column
-                                                                width={4}
-                                                                textAlign="left"
-                                                            >
-                                                                <Label>
-                                                                    {Number(
-                                                                        task.multiplier
-                                                                    ).toFixed(
-                                                                        2
-                                                                    )}
-                                                                </Label>
-                                                            </Grid.Column>
-                                                        </Grid.Row>
-                                                    )
-                                                )}
-                                            </Grid>
-                                        </div>
-                                    )
-                                }
-                            />
-                        </div>
-                    ) : null}
-                </div>
-                {this.props.editing ? (
-                    <div className="removeBlock">
-                        <EditObjectiveForm
-                            style={{ margin: '5px auto 5px auto' }}
-                            objectiveId={this.props.objective.id}
-                        />
-                        <DeleteForm
-                            style={{ margin: '5px auto 5px auto' }}
-                            onExecute={() =>
-                                this.props.removeObjective({
-                                    id: this.props.objective.id,
-                                })
+    const content = (
+        <div className="flexContainer">
+            <div className="objectiveBlock flexContainer">
+                {props.showDetails ? (
+                    <Button
+                        className="objectiveButton"
+                        toggle
+                        active={props.active}
+                        compact
+                        basic
+                        fluid
+                        style={{
+                            borderRadius: '0px',
+                            cursor: props.activeTaskId ? undefined : 'default',
+                        }}
+                        onClick={toggleObjective}
+                    >
+                        <MathJaxText content={props.objective.name} />
+                    </Button>
+                ) : (
+                    <Segment
+                        className="objectiveSegment"
+                        style={{ borderRadius: '0px' }}
+                    >
+                        <MathJaxText content={props.objective.name} />
+                    </Segment>
+                )}
+                {props.showDetails ? (
+                    <div>
+                        <Popup
+                            trigger={
+                                <Label
+                                    size="large"
+                                    circular
+                                    content={props.objective.task_count}
+                                    onMouseOver={loadDetails}
+                                    onFocus={loadDetails}
+                                    style={{
+                                        color:
+                                            props.objective.task_count === 0
+                                                ? 'red'
+                                                : undefined,
+                                    }}
+                                />
                             }
-                            prompt={[
-                                this.translate('delete_prompt_1'),
-                                `"${this.props.objective.name}"`,
-                            ]}
-                            header={this.translate('delete_header')}
+                            content={
+                                state.loading ? (
+                                    <Loader active inline />
+                                ) : (
+                                    <div>
+                                        <div>
+                                            <span>{t('cumulative')}</span>
+                                            <Label>
+                                                <strong>
+                                                    {state.cumulative_multiplier.toFixed(
+                                                        2
+                                                    )}
+                                                </strong>
+                                            </Label>
+                                        </div>
+                                        <Header>
+                                            <span className="capitalize">
+                                                {t('tasks')}
+                                            </span>
+                                        </Header>
+                                        <Grid>
+                                            {state.tasks.map((task) => (
+                                                <Grid.Row key={task.name}>
+                                                    <Grid.Column width={12}>
+                                                        <span>{task.name}</span>
+                                                    </Grid.Column>
+                                                    <Grid.Column
+                                                        width={4}
+                                                        textAlign="left"
+                                                    >
+                                                        <Label>
+                                                            {Number(
+                                                                task.multiplier
+                                                            ).toFixed(2)}
+                                                        </Label>
+                                                    </Grid.Column>
+                                                </Grid.Row>
+                                            ))}
+                                        </Grid>
+                                    </div>
+                                )
+                            }
                         />
                     </div>
                 ) : null}
             </div>
-        )
-        if (this.props.editing) {
-            return (
-                <div className="MatrixObjective">
-                    <DnDItem
-                        element={{
-                            ...this.props.objective,
-                            category_id: this.props.categoryId,
-                            skill_level_id: this.props.skillLevelId,
-                        }}
-                        mover={this.props.moveObjective}
-                        slots={this.props.slots}
-                    >
-                        {content}
-                    </DnDItem>
+            {props.editing ? (
+                <div className="removeBlock">
+                    <EditObjectiveForm
+                        style={{ margin: '5px auto 5px auto' }}
+                        objectiveId={props.objective.id}
+                    />
+                    <DeleteForm
+                        style={{ margin: '5px auto 5px auto' }}
+                        onExecute={() =>
+                            props.removeObjective({
+                                id: props.objective.id,
+                            })
+                        }
+                        prompt={[
+                            t('delete_prompt_1'),
+                            `"${props.objective.name}"`,
+                        ]}
+                        header={t('delete_header')}
+                    />
                 </div>
-            )
-        }
-        return <div className="MatrixObjective">{content}</div>
+            ) : null}
+        </div>
+    )
+    if (props.editing) {
+        return (
+            <div className="MatrixObjective">
+                <DnDItem
+                    element={{
+                        ...props.objective,
+                        category_id: props.categoryId,
+                        skill_level_id: props.skillLevelId,
+                    }}
+                    mover={props.moveObjective}
+                    slots={props.slots}
+                >
+                    {content}
+                </DnDItem>
+            </div>
+        )
     }
+    return <div className="MatrixObjective">{content}</div>
 }
 
 MatrixObjective.propTypes = {
