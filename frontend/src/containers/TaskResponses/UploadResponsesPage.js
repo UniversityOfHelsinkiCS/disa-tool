@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Grid, Input, Message, Dropdown } from 'semantic-ui-react'
 import Papa from 'papaparse'
-
+import { useParams } from 'react-router'
 import { getByCourse } from '../../api/types'
 import PointMapping from './PointMapping'
 import CsvTable from './CsvTable'
 import CsvTaskMapping from './CsvTaskMapping'
 import InfoBox from '../../utils/components/InfoBox'
 
-export class UploadResponsesPage extends Component {
-    state = {
+const UploadResponsesPage = (props) => {
+    const [state, setState] = useState({
         activeType: 0,
         csv: undefined,
         csvMappings: {},
@@ -18,34 +18,34 @@ export class UploadResponsesPage extends Component {
         pointsMapping: {},
         responsesCreated: false,
         types: [{ id: 0, text: 'Kaikki' }],
-    }
+    })
+    const params = useParams()
 
-    clearAll = () => {
-        this.setState({ csv: undefined, csvMappings: {}, pointsMapping: {} })
+    const clearAll = () => {
+        setState({ csv: undefined, csvMappings: {}, pointsMapping: {} })
         const fileInput = window.document.getElementsByName('fileInput')[0]
         fileInput.value = null
     }
 
-    loadTypes = () =>
-        getByCourse({ id: this.props.activeCourse.id }).then((response) =>
-            this.setState({
-                types: this.state.types.concat(response.data.data),
+    const loadTypes = () =>
+        getByCourse({ id: params.activeCourse.id }).then((response) =>
+            setState({
+                types: state.types.concat(response.data.data),
             })
         )
 
-    loadFile = async (e) => {
-        const typePromise = this.loadTypes()
+    const loadFile = async (e) => {
+        const typePromise = loadTypes()
         const { files } = e.target
         Papa.parse(files[0], {
             complete: (results) =>
-                this.setState({ csv: results }, () => this.mapCsvToTasks()),
+                setState({ csv: results }, () => mapCsvToTasks()),
         })
         await typePromise
     }
 
-    mapCsvToTasks = () => {
-        const { csv } = this.state
-        const { activeCourse } = this.props
+    const mapCsvToTasks = () => {
+        const activeCourse = params.activeCourse
         const headers = csv.data[0]
         const suggestions = {}
         headers.forEach((header, i) => {
@@ -61,40 +61,40 @@ export class UploadResponsesPage extends Component {
         const studentHeader = headers.findIndex((header) =>
             header.includes('Opiskelijanumero')
         )
-        this.setState({ csvMappings: suggestions, studentHeader })
+        setState({ csvMappings: suggestions, studentHeader })
     }
 
-    handleMapTask = (e, { value, suggestion }) => {
-        const mappings = { ...this.state.csvMappings }
-        const task = this.props.activeCourse.tasks.find((t) => t.id === value)
+    const handleMapTask = (e, { value, suggestion }) => {
+        const mappings = { ...state.csvMappings }
+        const task = activeCourse.tasks.find((t) => t.id === value)
         mappings[suggestion].task = task
-        this.setState({ csvMappings: mappings })
+        setState({ csvMappings: mappings })
     }
 
-    toggleCsvHeader = (e, { value }) => {
-        const mappings = { ...this.state.csvMappings }
+    const toggleCsvHeader = (e, { value }) => {
+        const mappings = { ...state.csvMappings }
         mappings[value].active = !mappings[value].active
-        this.setState({ csvMappings: mappings })
+        setState({ csvMappings: mappings })
     }
 
-    handleChange = (e, { name, value }) => {
-        this.setState({ [name]: value })
+    const handleChange = (e, { name, value }) => {
+        setState({ [name]: value })
     }
 
-    addPointMapping = (key, value) => {
-        const { pointsMapping } = this.state
-        this.setState({
+    const addPointMapping = (key, value) => {
+        const { pointsMapping } = state
+        setState({
             pointsMapping: { ...pointsMapping, [key]: Number(value) },
         })
     }
 
-    removePointMapping = (e, { value }) => {
-        const mappings = { ...this.state.pointsMapping }
+    const removePointMapping = (e, { value }) => {
+        const mappings = { ...state.pointsMapping }
         delete mappings[value]
-        this.setState({ pointsMapping: mappings })
+        setState({ pointsMapping: mappings })
     }
 
-    createNewStudent = (studentnumber) => {
+    const createNewStudent = (studentnumber) => {
         const number =
             String(studentnumber)[0] === '0'
                 ? studentnumber
@@ -102,9 +102,9 @@ export class UploadResponsesPage extends Component {
         return { id: number, studentnumber: number, task_responses: [] }
     }
 
-    createResponseData = () => {
-        const { csv, csvMappings, studentHeader, pointsMapping } = this.state
-        const { activeCourse } = this.props
+    const createResponseData = () => {
+        const { csv, csvMappings, studentHeader, pointsMapping } = state
+        const activeCourse = params.activeCourse
         const students = csv.data
         const tasks = Object.keys(csvMappings).filter(
             (task) => csvMappings[task].active
@@ -115,7 +115,7 @@ export class UploadResponsesPage extends Component {
             const student =
                 activeCourse.people.find((person) =>
                     person.studentnumber.includes(String(row[studentHeader]))
-                ) || this.createNewStudent(String(row[studentHeader]))
+                ) || createNewStudent(String(row[studentHeader]))
             if (student && row.length > 1) {
                 const studentTasks = tasks.map((task) => {
                     const response = {
@@ -156,142 +156,114 @@ export class UploadResponsesPage extends Component {
                 )
             }
         }
-        this.props.updateHandler(updatedTasks)
-        this.setState({ responsesCreated: true })
+        props.updateHandler(updatedTasks)
+        setState({ responsesCreated: true })
     }
 
-    removeMessage = () => this.setState({ responsesCreated: false })
+    const removeMessage = () => setState({ ...state, responsesCreated: false })
 
-    render() {
-        const {
-            csv,
-            csvMappings,
-            studentHeader,
-            pointsMapping,
-            responsesCreated,
-            types,
-            activeType,
-        } = this.state
-        const { activeCourse } = this.props
-        return !activeCourse.id ? (
-            <h1>Loading</h1>
-        ) : (
-            <Grid container>
-                <Grid.Row>
-                    <Grid.Column>
-                        <h3>
-                            Valitse ladattava csv-tiedosto
-                            <InfoBox
-                                translationid="TaskCSVUpload"
-                                buttonProps={{ floated: 'right' }}
+    const activeCourse = params.activeCourse
+
+    return !activeCourse.id ? (
+        <h1>Loading</h1>
+    ) : (
+        <Grid container>
+            <Grid.Row>
+                <Grid.Column>
+                    <h3>
+                        Valitse ladattava csv-tiedosto
+                        <InfoBox
+                            translationid="TaskCSVUpload"
+                            buttonProps={{ floated: 'right' }}
+                        />
+                    </h3>
+                    <Input
+                        name="fileInput"
+                        type="file"
+                        accept=".csv"
+                        onChange={loadFile}
+                    />
+                    <Button
+                        basic
+                        color="red"
+                        content="tyhjennä valinta"
+                        onClick={clearAll}
+                    />
+                </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+                <Grid.Column>
+                    {state.csv ? (
+                        <div style={{ marginBottom: '10px' }}>
+                            <span>Tehtävien tyyppi: </span>
+                            <Dropdown
+                                name="type"
+                                selection
+                                value={state.activeType}
+                                options={state.types.map((type) => ({
+                                    key: type.id,
+                                    text: type.text,
+                                    value: type.id,
+                                }))}
+                                onChange={(e, { value }) =>
+                                    setState({ activeType: value })
+                                }
                             />
-                        </h3>
-                        <Input
-                            name="fileInput"
-                            type="file"
-                            accept=".csv"
-                            onChange={this.loadFile}
-                        />
-                        <Button
-                            basic
-                            color="red"
-                            content="tyhjennä valinta"
-                            onClick={this.clearAll}
-                        />
-                    </Grid.Column>
-                </Grid.Row>
-                <Grid.Row>
-                    <Grid.Column>
-                        {csv ? (
-                            <div style={{ marginBottom: '10px' }}>
-                                <span>Tehtävien tyyppi: </span>
-                                <Dropdown
-                                    name="type"
-                                    selection
-                                    value={activeType}
-                                    options={types.map((type) => ({
-                                        key: type.id,
-                                        text: type.text,
-                                        value: type.id,
-                                    }))}
-                                    onChange={(e, { value }) =>
-                                        this.setState({ activeType: value })
-                                    }
-                                />
-                                <h4>Opiskelijanumerot sarakkeessa: </h4>
-                                <Dropdown
-                                    name="studentHeader"
-                                    value={studentHeader}
-                                    scrolling
-                                    placeholder="Valitse opiskelijanumeroiden sarake"
-                                    options={Object.keys(csvMappings).map(
-                                        (key) => ({
-                                            key,
-                                            text: csvMappings[key].csv,
-                                            value: Number(key),
-                                        })
-                                    )}
-                                    onChange={this.handleChange}
-                                />
-                            </div>
-                        ) : undefined}
-                        <CsvTaskMapping
-                            activeCourse={activeCourse}
-                            activeType={activeType}
-                            csv={csv}
-                            csvMappings={csvMappings}
-                            handleMapTask={this.handleMapTask}
-                            toggleCsvHeader={this.toggleCsvHeader}
-                        />
-                    </Grid.Column>
-                </Grid.Row>
-                <Grid.Row>
-                    {csv ? (
-                        <Grid.Column>
-                            <PointMapping
-                                pointsMapping={pointsMapping}
-                                addPointMapping={this.addPointMapping}
-                                removePointMapping={this.removePointMapping}
+                            <h4>Opiskelijanumerot sarakkeessa: </h4>
+                            <Dropdown
+                                name="studentHeader"
+                                value={state.studentHeader}
+                                scrolling
+                                placeholder="Valitse opiskelijanumeroiden sarake"
+                                options={Object.keys(state.csvMappings).map(
+                                    (key) => ({
+                                        key,
+                                        text: state.csvMappings[key].csv,
+                                        value: Number(key),
+                                    })
+                                )}
+                                onChange={handleChange}
                             />
-                        </Grid.Column>
+                        </div>
                     ) : undefined}
-                </Grid.Row>
-                <Grid.Row>
+                    <CsvTaskMapping
+                        activeCourse={activeCourse}
+                        activeType={state.activeType}
+                        csv={state.csv}
+                        csvMappings={state.csvMappings}
+                        handleMapTask={handleMapTask}
+                        toggleCsvHeader={toggleCsvHeader}
+                    />
+                </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+                {state.csv ? (
                     <Grid.Column>
-                        <h3>Luo palautukset</h3>
-                        <Button onClick={this.createResponseData}>
-                            Luo palautukset
-                        </Button>
-                        {responsesCreated ? (
-                            <Message positive onDismiss={this.removeMessage}>
-                                Vastaukset luotu, ole hyvä ja tarkista ne
-                                tehtävätaulukosta ennen tallentamista.
-                            </Message>
-                        ) : undefined}
+                        <PointMapping
+                            pointsMapping={state.pointsMapping}
+                            addPointMapping={addPointMapping}
+                            removePointMapping={removePointMapping}
+                        />
                     </Grid.Column>
-                </Grid.Row>
-                {csv ? <CsvTable csv={csv} /> : undefined}
-            </Grid>
-        )
-    }
-}
-
-UploadResponsesPage.propTypes = {
-    activeCourse: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        tasks: PropTypes.arrayOf(
-            PropTypes.shape({
-                id: PropTypes.number.isRequired,
-                name: PropTypes.string.isRequired,
-            })
-        ),
-        people: PropTypes.arrayOf(
-            PropTypes.shape({
-                studentnumber: PropTypes.string,
-            })
-        ),
-    }).isRequired,
-    updateHandler: PropTypes.func.isRequired,
+                ) : undefined}
+            </Grid.Row>
+            <Grid.Row>
+                <Grid.Column>
+                    <h3>Luo palautukset</h3>
+                    <Button onClick={createResponseData}>
+                        Luo palautukset
+                    </Button>
+                    {state.responsesCreated ? (
+                        <Message positive onDismiss={removeMessage}>
+                            Vastaukset luotu, ole hyvä ja tarkista ne
+                            tehtävätaulukosta ennen tallentamista.
+                        </Message>
+                    ) : undefined}
+                </Grid.Column>
+            </Grid.Row>
+            {state.csv ? <CsvTable csv={state.csv} /> : undefined}
+        </Grid>
+    )
 }
 
 export default UploadResponsesPage

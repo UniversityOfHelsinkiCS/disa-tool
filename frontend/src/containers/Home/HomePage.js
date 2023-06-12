@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Grid, Header } from 'semantic-ui-react'
 
 export const HomePage = (props) => {
-    const translate = (id) => props.t(`Home.HomePage.${id}`)
+    const { t } = useTranslation(`Home.HomePage`)
 
     return (
         <Grid container>

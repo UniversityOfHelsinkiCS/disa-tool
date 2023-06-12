@@ -12,7 +12,7 @@ const ModalForm = (props) => {
             if (!oldState.expanded && state.expanded) props.onOpen()
             // eslint-disable-next-line no-undef
         } else if (!oldState.expanded && props.expanded) props.onOpen()
-    }, [props])
+    }, [])
 
     const expand = () => setExpanded(true)
 

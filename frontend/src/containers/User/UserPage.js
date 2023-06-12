@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { redirect, Link, useParams } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
 import {
@@ -34,15 +34,25 @@ const UserPage = (props) => {
     // eslint-disable-next-line no-unused-vars
     const [selectedType, setSelectedType] = useState(undefined)
     const [loading, setLoading] = useState(false)
+    const user = useSelector((state) => state.user)
+    const courseInstance = useSelector((state) => state.courseInstance)
+    const activeCourse = courseInstance.activeCourse
     const params = useParams()
-    const { t } = useTranslation(`UserPage.common`)
+    const dispatch = useDispatch()
+    const { t } = useTranslation(`translation`, {
+        keyPrefix: `UserPage.common`,
+    })
+    console.log(t('self_assessments'))
+
+    dispatch(getUserCoursesAction())
+    getUserCoursesAction()
 
     useEffect(() => {
+        dispatch(getUserCoursesAction())
         const onMount = async () => {
-            const { activeCourse } = props
             const { courseId } = params
 
-            await getUserCoursesAction()
+            dispatch(getUserCoursesAction())
             getUserSelfAssesments()
             if (
                 courseId &&
@@ -67,12 +77,7 @@ const UserPage = (props) => {
             //       if (cancelablePromise) { REMOVE THIS?
             //           cancelablePromise.cancel()
             //       }
-            if (
-                status === 403 &&
-                props.match.params.courseId &&
-                courseId &&
-                id
-            ) {
+            if (status === 403 && params.courseId && courseId && id) {
                 resetCourseInstanceAction()
             }
             setMounted(false)
@@ -123,7 +128,6 @@ const UserPage = (props) => {
         }
     }
 
-    const { activeCourse, courses, user } = props
     const { self_assessments: assessments, tasks } = activeCourse
     if (!params.courseId && activeCourse.id) {
         return redirect(`/user/course/${activeCourse.id}`)
@@ -303,27 +307,16 @@ const UserPage = (props) => {
 }
 
 UserPage.propTypes = {
-    user: shape({
-        name: string,
-    }).isRequired,
     courses: arrayOf(
         shape({
             id: number.isRequired,
             name: string.isRequired,
         })
     ),
-    activeCourse: shape(),
-    match: shape({
-        params: shape({
-            courseId: string,
-        }).isRequired,
-    }).isRequired,
-    translate: func.isRequired,
 }
 
 UserPage.defaultProps = {
     courses: [],
-    activeCourse: { tasks: [], self_assessments: [], people: [] },
 }
 
 export default UserPage

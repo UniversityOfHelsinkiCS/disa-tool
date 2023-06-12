@@ -23,7 +23,7 @@ const CoursePage = (props) => {
         return () => {
             props.resetCourse()
         }
-    })
+    }, [])
 
     if (this.props.loading) {
         return <Loader active />

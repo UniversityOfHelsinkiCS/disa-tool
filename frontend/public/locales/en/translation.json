@@ -1,0 +1,508 @@
+{
+    "common": {
+        "save": "Save",
+        "name": "Name",
+        "skill_levels": "skill levels",
+        "category": "category",
+        "objective": "objective",
+        "tasks": "tasks",
+        "or": "or",
+        "cancel": "Cancel",
+        "open": "open",
+        "closed": "closed",
+        "course_matrix": "Course-objective matrix"
+    },
+    "InfoBox": {
+        "EditGradesPage": {
+            "Teacher": "Here you'll define the grades for the course. The 'required completion' fields in the list refer to the requirements of the final grade of the course. In the lower table you can edit grading criteria by category. If you do, remember to press the Save button when you're done."
+        },
+        "CoursesPage": {
+            "Teacher": "Here you can add a course"
+        }
+    },
+    "nav": {
+        "navbar": {
+            "logout": "Log out",
+            "logout_success": "You have logged out successfully",
+            "admin": "Admin",
+            "courses": "Courses",
+            "user": "Personal page",
+            "home": "DISA-tool"
+        }
+    },
+    "Admin": {
+        "common": {
+            "student_button": "Student",
+            "teacher_button": "Teacher"
+        },
+        "AddToCourseForm": {
+            "header": "Register user to a course",
+
+            "prompt_1": "Register user",
+            "prompt_2": "to a new course instance",
+
+            "trigger": "Add to a new course",
+            "course": "course",
+            "instance": "course instance"
+        },
+        "AdminPage": {
+            "delete_header": "Remove user from course",
+
+            "delete_prompt_1": "Really remove user",
+            "delete_prompt_2": "from course instance",
+            "header": "Manage users",
+            "search_button": "Search",
+            "get_all": "Get all users",
+            "course_roles": "Course roles",
+            "global_role_label": "GLOBAL ROLE",
+            "search_placeholder": "Search by name or student number"
+        }
+    },
+    "Home": {
+        "HomePage": {
+            "header1": "Welcome to the DISA-tool",
+
+            "introduction": "Teachers and students can create and inspect course learning objectives using the DISA-tool as well as evaluate and track the completion of those objectives. The software is a work in progress in trial use. As such some issues may come up. You can report any issues to your course teachers or straight to",
+
+            "developers": "the developers",
+            "student_header": "For students",
+            "student_info": "When logged in you'll be able to register to courses. When registered, you can view your task performance and submit course self-asseessments.",
+
+            "teacher_header": "For teachers",
+            "teacher_info": "If you wish to use the tool on your course, please ask an administrator to add you as a teacher. Afterwards, you can create objectives and tasks for your course. You can also inspect the progress of your students and give them self-asseessments to fill out.",
+
+            "background_header": "Background",
+            "background_info_1_1": "DISA-tool was started due to ",
+
+            "background_link_1": "a study on self-asseessments",
+
+            "background_link_1_href": "https://tuhat.helsinki.fi/portal/en/projects/digital-selfassessm(384b2b6c-1992-48cd-aa60-0e9169c2efe9).html",
+
+            "background_info_1_2": " conducted by the mathematics and statistics faculty. The study found that both learning objective matrices and self-asseessment exercises have positive effects on the learning strategies and motivation of students as well as their view of their own abilities.",
+
+            "background_info_2_1": "The Centre for University Teaching and Learning ",
+
+            "background_link_2_1": "https://www.helsinki.fi/en/centre-for-university-teaching-and-learning-hype",
+
+            "background_info_2_2": " and ",
+            "background_link_2_2": "the Faculty of Educational Sciences",
+
+            "background_link_2_2_href": "https://www.helsinki.fi/en/faculty-of-educational-sciences",
+
+            "background_info_2_3": " are a part of the study. DISA-tool is developed by the University of Helsinki Faculty of Computer Science Software Development Academy (TOSKA) with the support of the University of Helsinki."
+        }
+    },
+    "Course": {
+        "common": {
+            "types": "Types",
+            "matrix": "Matrix"
+        },
+        "header": {
+            "CourseHeader": {
+                "back_button": "Back to course page"
+            }
+        },
+        "navbar": {
+            "Navbar": {
+                "tasks": "Tasks",
+                "grades": "Grading criteria"
+            }
+        },
+        "grades": {
+            "common": {
+                "grade": "Grade",
+                "skill_level": "Skill level",
+                "needed_for_grade": "Required completion level",
+
+                "prerequisite": "Prerequisite grade for earning this grade"
+            },
+            "CategoryGradeTable": {
+                "header": "Edit grades by category",
+
+                "header_cell": "Grade/Category",
+                "cancel_button": "Undo changes"
+            },
+            "CreateGradeForm": {
+                "header": "Create a new grade"
+            },
+            "EditGradeForm": {
+                "header": "Edit grade"
+            },
+            "EditGradesTab": {
+                "header": "Create and modify the grading criteria"
+            },
+            "Grade": {
+                "delete_header": "Delete grade",
+                "delete_prompt_1": "Are you sure you want to remove the grade"
+            }
+        },
+        "matrix": {
+            "CreateCategoryForm": {
+                "header": "Create a new category",
+                "prompt_1": "Create a new category"
+            },
+            "CreateLevelForm": {
+                "header": "Create a new skill level",
+                "prompt_1": "Create a new skill level"
+            },
+            "CreateObjectiveForm": {
+                "header": "Create a new objective",
+                "prompt_1": "Add a new objective to category",
+
+                "prompt_2": "and level"
+            },
+            "EditCategoryForm": {
+                "header": "Edit category"
+            },
+            "EditLevelForm": {
+                "header": "Edit skill level"
+            },
+            "EditObjectiveForm": {
+                "header": "Edit objective"
+            },
+            "Matrix": {},
+            "HeaderLevel": {
+                "delete_header": "Delete skill level",
+                "delete_prompt_1": "Warning! Deleting a skill level will also delete grades attached to it. Really remove skill level"
+            },
+            "MatrixCategory": {
+                "delete_header": "Delete category",
+                "delete_prompt_1": "Really remove category"
+            },
+            "MatrixObjective": {
+                "delete_header": "Delete objective",
+                "delete_prompt_1": "Really remove objective",
+                "cumulative": "Cumulative multiplier: "
+            }
+        },
+        "tasks": {
+            "common": {
+                "default": "Default Multiplier",
+                "description": "description",
+                "edit_multipliers_button": "Edit multipliers"
+            },
+            "AddTaskForm": {
+                "header": "Add new task",
+                "prompt_1": "Add a new task to the course"
+            },
+            "EditTaskForm": {
+                "header": "Edit task",
+                "prompt_1": "Edit task",
+                "trigger": "Edit task"
+            },
+            "EditTaskObjectivesForm": {
+                "header": "Edit multipliers",
+                "detailed": "Individual",
+                "all": "All",
+                "modify": "Modify"
+            },
+            "SelectTaskDropDown": {
+                "placeholder": "Select a task here"
+            },
+            "Task": {
+                "delete_header": "Delete task",
+                "delete_prompt_1": "Really remove task",
+
+                "max_points": "Maximum points",
+                "info": "Additional info about task"
+            }
+        },
+        "types": {
+            "common": {
+                "multiplier": "multiplier"
+            },
+            "CreateHeaderForm": {
+                "header": "Add new type header",
+                "prompt_1": "Add new type header"
+            },
+            "CreateTypeForm": {
+                "header": "Add new type",
+                "prompt_1": "Add new type"
+            },
+            "EditHeaderForm": {
+                "header": "Edit type header"
+            },
+            "EditTypeForm": {
+                "header": "Edit type",
+                "prompt_1": "Edit type"
+            },
+            "Type": {
+                "delete_header": "Delete type",
+                "delete_prompt_1": "Really remove type"
+            },
+            "TypeHeader": {
+                "delete_header": "Delete type header",
+                "delete_prompt_1": "Really remove type header"
+            }
+        }
+    },
+    "CreateCourse": {
+        "CreateCoursePage": {
+            "createCourse": "Create a new course",
+            "create": "Create"
+        }
+    },
+    "CourseList": {
+        "CreateInstanceForm": {
+            "header": "Create a new course instance",
+
+            "prompt_1": "Create a new course instance",
+
+            "trigger": "Create a new instance of this course",
+
+            "dropdown_label": "Optionally choose a previous course instance to copy as a base.",
+
+            "dropdown_null_value": "No base"
+        },
+        "EditInstanceForm": {
+            "header": "Edit course instance",
+            "prompt_1": "Edit course instance"
+        },
+        "EditCourseForm": {
+            "rename_trigger": "Rename",
+            "renameCourse": "Rename this course",
+            "rename": "Rename the course"
+        },
+        "RegisterForm": {
+            "unregister": "Undo registration",
+            "register": "Register",
+            "require_login": "requires login"
+        },
+        "CourseListPage": {
+            "create_trigger": "Add",
+            "state": "This course is currently"
+        },
+        "you_are": "You are on the course",
+        "coursepage_button": "To course page",
+        "instance_prompt": "Now, choose a course instance.",
+
+        "course_prompt": "First",
+        "course_select_placeholder": "choose course..."
+    },
+    "SelfAssessment": {
+        "SelfAssessmentList": {
+            "header": "Self-asseessments of the selected course - click to edit"
+        },
+        "AssessmentButtons": {
+            "categoryButton": "Category based self-asseessment",
+
+            "objectiveButton": "Objective based self-asseessment"
+        }
+    },
+    "FeedbackPage": {
+        "common": {
+            "selfAssessedGrade": "Self Assessed grade",
+
+            "machineGrade": "Machine Review"
+        },
+        "CategoryFeedback": {
+            "message": "You've already responded to this assessment. You can see your responses below",
+
+            "general_feedback": "General feedback",
+            "explanation": "explanation",
+            "feedback": "Feedback"
+        },
+        "ObjectivesFeedback": {
+            "message": "You've already responded to this assessment. You can see your responses below",
+
+            "objective": "Objective",
+            "assessment": "Your assessment",
+            "objectiveAssessment": {
+                "good": "I know the the objectives of this category well",
+
+                "decent": "Osaan osion tavoitteet kohtalaisesti",
+
+                "poor": "Vielä selkeästi kehitettävää osion tavoitteiden suhteen"
+            }
+        },
+        "QuestionAndGradeFeedback": {
+            "header": "Open questions",
+            "response": "Response",
+            "grade": "Grade",
+            "explanation": "explanation"
+        }
+    },
+    "SelfAssessmentForm": {
+        "SelfAssessmentFormPage": {
+            "reviewMessage": "You're now reviewing the assessment. To edit it, first open it in the edit mode.",
+
+            "previewMessage": "You're now in preview mode. To save the assessment, return to the edit mode",
+
+            "notOpenMessage": "The self-asseessment is not open for answering yet.",
+
+            "existingResponse": "You've already responded to the assessment. The assessment is still open, so you can edit your responses.",
+
+            "modalHeader": "Save you response",
+            "modalContent1": "You have empty explanation text fields",
+
+            "modalContent2": "Do you wish to save your response despite this",
+
+            "modalButton1": "Save",
+            "modalButton2": "Cancel",
+            "editButton": "Edit",
+            "previewButton": "Preview",
+            "saveButton": "Save",
+            "updateButton": "Save changes",
+            "prompt": "You have unsaved changes. Are you sure you want to exit?",
+
+            "back_button": "Back to course page",
+            "defineMatrixFirstError": "Define course-objective matrix first"
+        },
+        "QuestionModules": {
+            "CategoryQuestionModule": {
+                "matrix": "Skill level matrix",
+                "assessment": "Assess your skills by grade",
+                "gradeSelect": "Select a grade",
+                "basis": "Explanation for grade",
+                "writeBasis": "Write an explanation for your grade"
+            },
+            "EditCategoryModule": {
+                "label": "Explanation for grade",
+                "includedButton": "Included in assessment",
+
+                "notIncludedButton": "Not included in assessment"
+            },
+            "OpenQuestionModule": {
+                "placeholder": "Write your response here",
+
+                "modalHeader": "Remove open question",
+                "modalConfirmation": "Do you wish to remove the open question",
+
+                "modalCancel": "Cancel",
+                "popup": "Remove the open question from here"
+            }
+        },
+        "UpOrDownToggle": {
+            "downButton": "Move category down",
+            "upButton": "Move category up"
+        },
+        "addOpenQuestion": {
+            "addButton": "Add open question",
+            "questionDisplay": "Question"
+        },
+        "Header": {
+            "buttonSave": "Save",
+            "buttonEdit": "Edit"
+        },
+        "Sections": {
+            "buttonSave": "Save",
+            "buttonEdit": "Edit"
+        }
+    },
+    "UserPage": {
+        "common": {
+            "hello": "Hello",
+            "tasks": "Tasks",
+            "self_assessments": "Self-asseessments",
+            "open_task_list": "Look at tasks",
+            "create_self_assessment_target": "Create objective based assessment",
+            "create_self_assessment_category": "Create category based assessment",
+            "no_course_selected": "No course selected"
+        },
+        "CourseSideMenu": {
+            "active_courses": "Open courses",
+            "closed_courses": "Closed courses"
+        },
+        "CourseInfo": {
+            "edit_self_assessments": "Edit self-asseessments",
+            "edit_course": "Edit course",
+            "close_course": "Course open",
+            "manage_course_people_tasks": "Manage course people and tasks",
+            "start_course": "Course closed",
+            "course_teachers": "Course teachers",
+            "this_course_is": "This course is ",
+            "Links": {
+                "course_links": "Show course links",
+                "registration": "Registration: ",
+                "matrix": "Matrix: ",
+                "close": "Close",
+                "course_page": "Course page"
+            }
+        },
+        "ManageCoursePeople": {
+            "add_a_user": "Add a user to the course",
+
+            "add_teacher": "Add teacher",
+            "select_teacher": "Select teacher(s)",
+
+            "add_student": "Add student to course",
+
+            "search_student": "Search people outside of course",
+
+            "teacher": "Teacher",
+            "student": "Student",
+            "manage_course_people": "Manage people on course",
+
+            "remove_from_course": "Remove from course"
+        },
+        "UploadResponses": {
+            "CsvTable": {
+                "look_at_csv": "Inspect csv file contents"
+            },
+            "PointMapping": {
+                "point_mapping_text": "Add here all non-numeric values and map them to numeric values",
+
+                "key": "name",
+                "value": "points",
+                "add": "add"
+            }
+        },
+        "StudentAssesmentList": {
+            "open": "open",
+            "answered": "answered",
+            "unanswered": "unanswered"
+        },
+        "TeacherAssesmentList": {
+            "open": "open",
+            "visible": "visible",
+            "hidden": "hidden",
+            "preview": "preview",
+            "feedback_open": "feedback visible",
+            "feedback_closed": "no feedback",
+            "delete_header": "Remove self-asseessment",
+
+            "delete_prompt_1": "Really remove self-asseessment",
+
+            "cannot_edit_open_assessment": "You can not edit open self-asseessment. Close or hide it first."
+        }
+    },
+    "SelfAssessmentList": {
+        "SelfAssessmentListPage": {
+            "back": "Back",
+            "inspect": "Inspect",
+            "self_assessment": "Self-asseessment",
+            "machine_review": "Machine Review",
+            "difference": "Difference",
+            "final_grade": "Final Grade",
+            "link": "Link to assessment form",
+            "generate_feedback": "Regenerate feedbacks",
+
+            "selected_header": "Selected self-asseessments",
+
+            "non-selected_header": "Non-selected self-asseessments"
+        },
+        "ResponseList": {
+            "Filter": "Filter by name or student number",
+
+            "SelectWarning": "Select students first"
+        },
+        "SelectionButtons": {
+            "select": "select all",
+            "deselect": "remove selections"
+        },
+        "SelfAssesmentCSVDownload": {
+            "download_csv": "Download responses as csv"
+        }
+    },
+    "utils": {
+        "components": {
+            "DeleteForm": {
+                "remove": "Remove"
+            },
+            "MultilingualField": {
+                "monolingual": "Monolingual",
+                "multilingual": "Multilingual"
+            }
+        }
+    }
+}

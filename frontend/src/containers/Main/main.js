@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Routes, Route } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
-import { MathJax, MathJaxContext } from 'better-react-mathjax'
+import { MathJaxContext } from 'better-react-mathjax'
 import 'react-toastify/dist/ReactToastify.css'
 
 import HomePage from '../Home/HomePage'
@@ -48,109 +48,115 @@ const Main = (props) => {
             toast(props.toast.message, props.toast.options)
         }
         setToastState(props.toast)
-    }, [props.toast])
+    }, [])
 
     const userRoutes = [
         <Route
             exact
             path="/selfassessment/edit/:selfAssessmentId"
-            render={({ match }) => (
-                <SelfAssessmentFormPage edit match={match} />
-            )}
+            element={<SelfAssessmentFormPage edit />}
             key={keygen.user()}
         />,
         <Route
             exact
             path="/selfassessment/preview/:selfAssessmentId"
-            render={({ match }) => (
-                <SelfAssessmentFormPage preview edit={false} match={match} />
-            )}
+            element={<SelfAssessmentFormPage preview edit={false} />}
             key={keygen.user()}
         />,
         <Route
             exact
             path="/selfassessment/create/:courseInstanceId/:type"
-            render={({ match }) => (
-                <SelfAssessmentFormPage edit new match={match} />
-            )}
+            element={<SelfAssessmentFormPage edit new />}
             key={keygen.user()}
         />,
         <Route
             exact
             path="/selfassessment/response/:selfAssessmentId"
-            render={({ match }) => (
-                <SelfAssessmentFormPage edit={false} match={match} />
-            )}
+            element={<SelfAssessmentFormPage edit={false} />}
             key={keygen.user()}
         />,
         <Route
             path="/selfassessment/list/:selfAssesmentId"
-            render={({ match }) => (
-                <SelfAssesmentListPage
-                    selfAssesmentId={Number(match.params.selfAssesmentId)}
-                />
-            )}
+            element={<SelfAssesmentListPage />}
             key={keygen.user()}
         />,
         <Route
             exact
             path="/selfassessment/:courseId"
-            component={SelfAssessmentPage}
+            element={<SelfAssessmentPage></SelfAssessmentPage>}
             key={keygen.user()}
         />,
         <Route
             path="/selfassessment"
-            component={SelfAssessmentPage}
+            element={<SelfAssessmentPage></SelfAssessmentPage>}
             key={keygen.user()}
         />,
         <Route
             exact
             path="/user/course/:courseId"
-            component={UserPage}
+            element={<UserPage></UserPage>}
             key={keygen.user()}
         />,
         <Route
             exact
             path="/user/course/:courseId/tasksAndPeople"
-            component={CourseTasksPage}
+            element={<CourseTasksPage></CourseTasksPage>}
             key={keygen.user()}
         />,
-        <Route exact path="/user" component={UserPage} key={keygen.user()} />,
-        <Route path="/course/:id" component={CoursePage} key={keygen.user()} />,
+        <Route
+            exact
+            path="/user"
+            element={<UserPage></UserPage>}
+            key={keygen.user()}
+        />,
+        <Route
+            path="/course/:id"
+            element={<CoursePage></CoursePage>}
+            key={keygen.user()}
+        />,
         <Route
             path="/tasks-responses/upload/:courseId"
-            component={UploadResponsesPage}
+            element={<UploadResponsesPage></UploadResponsesPage>}
             key={keygen.user()}
         />,
         <Route
             exact
             path="/courses/create"
-            component={CreateCoursePage}
+            element={<CreateCoursePage></CreateCoursePage>}
             key={keygen.user()}
         />,
-        <Route path="/admin" component={AdminPage} key={keygen.user()} />,
+        <Route
+            path="/admin"
+            element={<AdminPage></AdminPage>}
+            key={keygen.user()}
+        />,
         <Route
             exact
             path="/courses/register"
-            component={RegisterRedirect}
+            element={<RegisterRedirect></RegisterRedirect>}
             key={keygen.user()}
         />,
-        <Route component={HomePage} key={keygen.user()} />,
+        <Route element={<HomePage></HomePage>} key={keygen.user()} />,
     ]
 
     const anonymousRoutes = [
         <Route
             path="/courses/matrix/:id"
-            component={MatrixPage}
+            element={<MatrixPage></MatrixPage>}
             key={keygen.anonymous()}
         />,
         <Route
             exact
             path="/courses"
-            component={CourseListPage}
+            element={<CourseListPage></CourseListPage>}
             key={keygen.anonymous()}
         />,
-        <Route exact path="/" component={HomePage} key={keygen.anonymous()} />,
+        <Route
+            exact
+            path="/"
+            element={<HomePage></HomePage>}
+            key={keygen.anonymous()}
+        />,
     ]
 
     return (

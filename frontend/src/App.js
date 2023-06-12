@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import * as Sentry from '@sentry/browser'
 
 import { getUserAction } from './actions/actions'
@@ -14,9 +14,11 @@ import './i18n'
 function App() {
     const [sessionAliveInterval, setSessionAliveInterval] = useState(null)
     const [user, setUser] = useState({})
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        const userData = getUserAction()
+        const userData = dispatch(getUserAction())
+        console.log(userData)
         setUser(userData)
         const tempAliveInterval = setInterval(async () => {
             try {
@@ -32,7 +34,7 @@ function App() {
                 setSessionAliveInterval(null)
             }
         }
-    }, [sessionAliveInterval])
+    }, [])
 
     const onErrorHandler = (err) => {
         Sentry.configureScope((context) => {

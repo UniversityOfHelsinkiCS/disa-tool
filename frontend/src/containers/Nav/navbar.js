@@ -8,8 +8,6 @@ import axios from 'axios'
 
 import { logoutAction } from '../../actions/actions'
 import { getLanguage, saveLanguage } from '../../utils/utils'
-import { t } from 'i18next'
-
 const languageOptions = [
     { key: 'fin', value: 'fin', text: 'Suomi' },
     { key: 'swe', value: 'swe', text: 'Svenska', disabled: true },
@@ -18,7 +16,9 @@ const languageOptions = [
 
 const Nav = (props) => {
     const [state, setState] = useState({ activeItem: 'home', language: 'fin' })
-
+    const { t, i18n } = useTranslation('translation', {
+        keyPrefix: 'nav.navbar',
+    })
     useEffect(() => {
         const language = getLanguage()
         const path = window.location.pathname.split('/')
@@ -28,7 +28,7 @@ const Nav = (props) => {
         if (language) {
             setState({ language })
         }
-    })
+    }, [])
 
     const handleClick = (e, { name }) => {
         if (name === 'logout') {
@@ -40,11 +40,9 @@ const Nav = (props) => {
     const changeLanguage = async (e, { value }) => {
         setState({ language: value })
         saveLanguage(state.language)
-        props.setActiveLanguage(state.language)
+        i18n.changeLanguage(value)
         window.location.reload()
     }
-
-    const translate = (id) => props.t(`Nav.navbar.${id}`)
 
     const logout = async () => {
         const returnUrl = window.location.origin
@@ -139,15 +137,9 @@ const mapStateToProps = (state) => ({
     user: state.user,
 })
 
-const mapDispatchToProps = (dispatch) => ({
-    dispatchLogout: () => dispatch(logoutAction()),
-})
-
 Nav.propTypes = {
     dispatchLogout: func.isRequired,
     user: shape({ id: number }).isRequired,
-    translate: func.isRequired,
-    setActiveLanguage: func.isRequired,
 }
 
 export default connect(mapStateToProps, { dispatchLogout: logoutAction })(Nav)
