@@ -4,34 +4,36 @@ import Matrix from '../../../../../containers/Course/components/matrix/Matrix'
 import Headerlist from '../../../../../containers/Course/components/types/Headerlist'
 
 describe('EditTasksTab component', () => {
-  let wrapper
-  let changeActive
+    let wrapper
+    let changeActive
 
-  beforeEach(() => {
-    changeActive = jest.fn()
-    wrapper = shallow(<EditTasksTab
-      courseId={1}
-      changeActive={changeActive}
-      tasks={[]}
-      translate={() => ''}
-    />)
-  })
+    beforeEach(() => {
+        changeActive = jest.fn()
+        wrapper = shallow(
+            <EditTasksTab
+                courseId={1}
+                changeActive={changeActive}
+                tasks={[]}
+                translate={() => ''}
+            />
+        )
+    })
 
-  it('renders.', () => {
-    expect(wrapper.find('.EditTasksTab').exists()).toEqual(true)
-  })
+    it('renders.', () => {
+        expect(wrapper.find('.EditTasksTab').exists()).toEqual(true)
+    })
 
-  it('renders a Matrix component.', () => {
-    expect(wrapper.find(Matrix).exists()).toEqual(true)
-  })
+    it('renders a Matrix component.', () => {
+        expect(wrapper.find(Matrix).exists()).toEqual(true)
+    })
 
-  it('renders Headerlist component.', () => {
-    expect(wrapper.find(Headerlist).exists()).toEqual(true)
-  })
+    it('renders Headerlist component.', () => {
+        expect(wrapper.find(Headerlist).exists()).toEqual(true)
+    })
 
-  it('calls changeActive on unmount.', () => {
-    expect(changeActive).not.toHaveBeenCalled()
-    wrapper.unmount()
-    expect(changeActive).toHaveBeenCalledWith(null)
-  })
+    it('calls changeActive on unmount.', () => {
+        expect(changeActive).not.toHaveBeenCalled()
+        wrapper.unmount()
+        expect(changeActive).toHaveBeenCalledWith(null)
+    })
 })

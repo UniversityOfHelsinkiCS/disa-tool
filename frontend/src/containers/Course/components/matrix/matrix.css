@@ -1,42 +1,43 @@
 .addObjectiveButton {
-  width: 150px;
-  height: 50px;
+    width: 150px;
+    height: 50px;
 }
 
 .textInput {
-  margin-right: 12px;
+    margin-right: 12px;
 }
 
 .flexContainer {
-  display: flex;
+    display: flex;
 }
 
 .flexGrower {
-  flex-grow: 1;
-  width: 100%;
+    flex-grow: 1;
+    width: 100%;
 }
 
 .paddedBlock {
-  display: inline-block;
-  padding: 0px 5px 0px 5px;
+    display: inline-block;
+    padding: 0px 5px 0px 5px;
 }
 
 .capitalize {
-  text-transform: capitalize;
+    text-transform: capitalize;
 }
 
 .objectiveControlButton {
-  margin: 10px;
+    margin: 10px;
 }
 
 @keyframes appear {
-  from {
-    opacity: 0;
-  }
-  to {}
+    from {
+        opacity: 0;
+    }
+    to {
+    }
 }
 
 .appearAnimation {
-  animation-name: appear;
-  animation-duration: 0.6s;
+    animation-name: appear;
+    animation-duration: 0.6s;
 }

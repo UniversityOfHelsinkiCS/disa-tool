@@ -13,66 +13,81 @@ import Conditional from '../../utils/components/Conditional'
 import { getCourseInstanceDataAction } from '../../actions/actions'
 
 class MatrixPage extends Component {
-  componentDidMount = () => {
-    this.props.updateCourseInfo(this.props.courseId)
-    this.props.getMatrix({
-      id: this.props.courseId
-    })
-  }
-
-  componentWillUnmount() {
-    this.props.resetCourse()
-  }
-
-  render() {
-    if (this.props.loading) {
-      return (<Loader active />)
+    componentDidMount = () => {
+        this.props.updateCourseInfo(this.props.courseId)
+        this.props.getMatrix({
+            id: this.props.courseId,
+        })
     }
-    return (
-      <div className="MatrixPage">
-        {this.props.hideHeader ? null : <CourseHeader renderReturnLink={false} />}
-        <Conditional visible={this.props.isTeacher}>
-          <Button as={Link} to={`/course/${this.props.courseId}/matrix`} fluid style={{ marginBottom: '10px' }}>Edit matrix</Button>
-        </Conditional>
-        <Container>
-          <Segment style={{ overflowX: 'auto', padding: 0 }}>
-            <div style={{ padding: '1em' }}>
-              <Matrix courseId={this.props.courseId} editing={false} categoryId={this.props.categoryId} />
+
+    componentWillUnmount() {
+        this.props.resetCourse()
+    }
+
+    render() {
+        if (this.props.loading) {
+            return <Loader active />
+        }
+        return (
+            <div className="MatrixPage">
+                {this.props.hideHeader ? null : (
+                    <CourseHeader renderReturnLink={false} />
+                )}
+                <Conditional visible={this.props.isTeacher}>
+                    <Button
+                        as={Link}
+                        to={`/course/${this.props.courseId}/matrix`}
+                        fluid
+                        style={{ marginBottom: '10px' }}
+                    >
+                        Edit matrix
+                    </Button>
+                </Conditional>
+                <Container>
+                    <Segment style={{ overflowX: 'auto', padding: 0 }}>
+                        <div style={{ padding: '1em' }}>
+                            <Matrix
+                                courseId={this.props.courseId}
+                                editing={false}
+                                categoryId={this.props.categoryId}
+                            />
+                        </div>
+                    </Segment>
+                </Container>
             </div>
-          </Segment>
-        </Container>
-      </div>
-    )
-  }
+        )
+    }
 }
 
-
 MatrixPage.defaultProps = {
-  hideHeader: false,
-  categoryId: null
+    hideHeader: false,
+    categoryId: null,
 }
 
 MatrixPage.propTypes = {
-  courseId: PropTypes.number.isRequired,
-  getMatrix: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  resetCourse: PropTypes.func.isRequired,
-  hideHeader: PropTypes.bool,
-  categoryId: PropTypes.number,
-  updateCourseInfo: PropTypes.func.isRequired,
-  isTeacher: PropTypes.bool.isRequired
+    courseId: PropTypes.number.isRequired,
+    getMatrix: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
+    resetCourse: PropTypes.func.isRequired,
+    hideHeader: PropTypes.bool,
+    categoryId: PropTypes.number,
+    updateCourseInfo: PropTypes.func.isRequired,
+    isTeacher: PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  loading: state.course.loading,
-  courseId: ownProps.match ? Number(ownProps.match.params.id) : ownProps.courseId,
-  isTeacher: state.instance.courseRole === 'TEACHER'
+    loading: state.course.loading,
+    courseId: ownProps.match
+        ? Number(ownProps.match.params.id)
+        : ownProps.courseId,
+    isTeacher: state.instance.courseRole === 'TEACHER',
 })
 
-const mapDispatchToProps = dispatch => ({
-  getMatrix: asyncAction(getMatrix, dispatch),
-  resetCourse: resetCourse(dispatch),
-  updateCourseInfo: courseId => dispatch(getCourseInstanceDataAction(courseId))
+const mapDispatchToProps = (dispatch) => ({
+    getMatrix: asyncAction(getMatrix, dispatch),
+    resetCourse: resetCourse(dispatch),
+    updateCourseInfo: (courseId) =>
+        dispatch(getCourseInstanceDataAction(courseId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MatrixPage)

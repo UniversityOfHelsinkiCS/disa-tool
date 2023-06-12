@@ -1,59 +1,59 @@
 .Tasklist {
-  width: 100%;
-  text-align: center;
+    width: 100%;
+    text-align: center;
 }
 
 .Task {
-  width: 100%;
+    width: 100%;
 }
 
 .AddTaskForm {
-  text-align: center;
+    text-align: center;
 }
 
 .addTaskButton {
-  width: 62px;
-  height: 62px;
+    width: 62px;
+    height: 62px;
 }
 
 .flexContainer {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .centerAlign {
-  align-items: center;
+    align-items: center;
 }
 
 .flexGrower {
-  flex-grow: 1;
+    flex-grow: 1;
 }
 
 .flexBlock {
-  display: inline-block;
+    display: inline-block;
 }
 
 .multiplierInput {
-  width: 100px !important;
+    width: 100px !important;
 }
 
 .nowrap {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 
 .taskControlButton {
-  margin: 10px;
+    margin: 10px;
 }
 
 .MatrixObjective {
-  margin: 5px 0px 5px 0px;
+    margin: 5px 0px 5px 0px;
 }
 
 .squareBottom {
-  border-bottom-right-radius: 0px !important;
-  border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
 }
 
 .square {
-  border-radius: 0px !important;
+    border-radius: 0px !important;
 }

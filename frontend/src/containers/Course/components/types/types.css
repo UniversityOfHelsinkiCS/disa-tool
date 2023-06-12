@@ -1,56 +1,58 @@
 .flexContainer {
-  display: flex;
+    display: flex;
 }
 
 .TypeHeader {
-  display: inline-block;
+    display: inline-block;
 }
 
 .typeHeaderHeader {
-  text-align: center;
-  display: inline-block;
-  width: 100%;
-  flex-grow: 1;
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+    flex-grow: 1;
 }
 
 .Headerlist {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .Type {
-  padding-top: 5px !important;
-  padding-bottom: 5px !important;
-  margin: 0px !important;
-  border-radius: 0px !important;
-  display: flex;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    margin: 0px !important;
+    border-radius: 0px !important;
+    display: flex;
 }
 
 .CreateTypeForm {
-  text-align: center;
-  margin-top: 7px;
-  flex-grow: 1;
+    text-align: center;
+    margin-top: 7px;
+    flex-grow: 1;
 }
 
 .addTypeButton {
-  width: 200px;
+    width: 200px;
 }
 
 .headerBlock {
-  min-width: 100px;
-  display: inline-block;
-  flex-grow: 1;
+    min-width: 100px;
+    display: inline-block;
+    flex-grow: 1;
 }
 
-.editBlock, .removeBlock, .multiplierBlock {
-  display: inline-block;
-  margin: 2px 0px 2px 5px !important;
+.editBlock,
+.removeBlock,
+.multiplierBlock {
+    display: inline-block;
+    margin: 2px 0px 2px 5px !important;
 }
 
 .CreateHeaderForm {
-  margin: 10px;
+    margin: 10px;
 }
 
 .addHeaderButton {
-  width: 200px;
+    width: 200px;
 }

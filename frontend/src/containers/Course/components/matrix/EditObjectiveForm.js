@@ -12,72 +12,88 @@ import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 class EditObjectiveForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: true,
-      values: {
-        name: {
-          eng: '',
-          fin: '',
-          swe: ''
+    constructor(props) {
+        super(props)
+        this.state = {
+            loading: true,
+            values: {
+                name: {
+                    eng: '',
+                    fin: '',
+                    swe: '',
+                },
+            },
         }
-      }
     }
-  }
 
-  editObjectiveSubmit = e => this.props.editObjective({
-    id: this.props.objectiveId,
-    eng_name: e.target.eng_name.value,
-    fin_name: e.target.fin_name.value,
-    swe_name: e.target.swe_name.value
-  })
+    editObjectiveSubmit = (e) =>
+        this.props.editObjective({
+            id: this.props.objectiveId,
+            eng_name: e.target.eng_name.value,
+            fin_name: e.target.fin_name.value,
+            swe_name: e.target.swe_name.value,
+        })
 
-  loadDetails = async () => {
-    const objectiveDetails = (await this.props.details({
-      id: this.props.objectiveId
-    })).data.data
-    this.setState({
-      loading: false,
-      values: {
-        name: {
-          eng: objectiveDetails.eng_name,
-          fin: objectiveDetails.fin_name,
-          swe: objectiveDetails.swe_name
-        }
-      }
-    })
-  }
+    loadDetails = async () => {
+        const objectiveDetails = (
+            await this.props.details({
+                id: this.props.objectiveId,
+            })
+        ).data.data
+        this.setState({
+            loading: false,
+            values: {
+                name: {
+                    eng: objectiveDetails.eng_name,
+                    fin: objectiveDetails.fin_name,
+                    swe: objectiveDetails.swe_name,
+                },
+            },
+        })
+    }
 
-  translate = id => this.props.translate(`Course.matrix.EditObjectiveForm.${id}`)
+    translate = (id) =>
+        this.props.translate(`Course.matrix.EditObjectiveForm.${id}`)
 
-  render() {
-    return (
-      <div className="EditObjectiveForm">
-        <ModalForm
-          header={this.translate('header')}
-          trigger={<Button basic circular onClick={this.loadDetails} icon={{ name: 'edit' }} size="mini" />}
-          actions={saveActions(this.translate)}
-          onSubmit={this.editObjectiveSubmit}
-          loading={this.state.loading}
-        >
-          <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />
-        </ModalForm>
-      </div>
-    )
-  }
+    render() {
+        return (
+            <div className="EditObjectiveForm">
+                <ModalForm
+                    header={this.translate('header')}
+                    trigger={
+                        <Button
+                            basic
+                            circular
+                            onClick={this.loadDetails}
+                            icon={{ name: 'edit' }}
+                            size="mini"
+                        />
+                    }
+                    actions={saveActions(this.translate)}
+                    onSubmit={this.editObjectiveSubmit}
+                    loading={this.state.loading}
+                >
+                    <MultilingualField
+                        field="name"
+                        fieldDisplay={this.translate('name')}
+                        values={this.state.values.name}
+                    />
+                </ModalForm>
+            </div>
+        )
+    }
 }
 
 EditObjectiveForm.propTypes = {
-  editObjective: PropTypes.func.isRequired,
-  objectiveId: PropTypes.number.isRequired,
-  details: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+    editObjective: PropTypes.func.isRequired,
+    objectiveId: PropTypes.number.isRequired,
+    details: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
 }
 
-const mapDispatchToProps = dispatch => ({
-  editObjective: asyncAction(editObjective, dispatch),
-  details
+const mapDispatchToProps = (dispatch) => ({
+    editObjective: asyncAction(editObjective, dispatch),
+    details,
 })
 
 export default connect(null, mapDispatchToProps)(EditObjectiveForm)

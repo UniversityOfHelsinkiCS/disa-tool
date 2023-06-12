@@ -11,49 +11,52 @@ import { createCourse } from './services/createCourse'
 
 import MultilingualField from '../../utils/components/MultilingualField'
 
-const CreateCoursePage = (props) =>  {
-  const [redirectBool, setRedirectBool] = useState(false)
+const CreateCoursePage = (props) => {
+    const [redirectBool, setRedirectBool] = useState(false)
 
-  const createCourseSubmit = (e) => {
-    e.preventDefault()
-    props.createCourse({
-      eng_name: e.target.eng_name.value,
-      fin_name: e.target.fin_name.value,
-      swe_name: e.target.swe_name.value
-    }).then(() => setRedirectBool( true ))
-  }
+    const createCourseSubmit = (e) => {
+        e.preventDefault()
+        props
+            .createCourse({
+                eng_name: e.target.eng_name.value,
+                fin_name: e.target.fin_name.value,
+                swe_name: e.target.swe_name.value,
+            })
+            .then(() => setRedirectBool(true))
+    }
 
-  const translate = id => props.translate(`CreateCourse.CreateCoursePage.${id}`)
-
+    const translate = (id) =>
+        props.translate(`CreateCourse.CreateCoursePage.${id}`)
 
     if (redirectBool) {
-      return redirect("/courses")
+        return redirect('/courses')
     }
 
     const label = {
-      name: translate('name')
+        name: translate('name'),
     }
     return (
-      <div className="CreateCoursePage">
-        <Segment className="formContainer" basic padded>
-          <Header>{translate('createCourse')}</Header>
-          <Form onSubmit={createCourseSubmit}>
-            <MultilingualField field="name" fieldDisplay={label.name} />
-            <Button type="submit" color="green">{translate('create')}</Button>
-          </Form>
-        </Segment>
-      </div>
+        <div className="CreateCoursePage">
+            <Segment className="formContainer" basic padded>
+                <Header>{translate('createCourse')}</Header>
+                <Form onSubmit={createCourseSubmit}>
+                    <MultilingualField field="name" fieldDisplay={label.name} />
+                    <Button type="submit" color="green">
+                        {translate('create')}
+                    </Button>
+                </Form>
+            </Segment>
+        </div>
     )
-  }
-
-
-CreateCoursePage.propTypes = {
-  createCourse: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = dispatch => ({
-  createCourse: asyncAction(props.createCourse, dispatch)
+CreateCoursePage.propTypes = {
+    createCourse: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    createCourse: asyncAction(props.createCourse, dispatch),
 })
 
 export default withLocalize(connect(null, mapDispatchToProps)(CreateCoursePage))

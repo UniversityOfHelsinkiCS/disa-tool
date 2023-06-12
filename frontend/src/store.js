@@ -20,36 +20,36 @@ import admin from './redux/admin'
 import selfAssesmentList from './redux/selfAssesmentList'
 
 const reducers = combineReducers({
-  task,
-  level,
-  category,
-  type,
-  course,
-  selfAssesment,
-  user: userReducer,
-  courses: userCoursesReducer,
-  instance: instanceReducer,
-  listCourses,
-  toast,
-  grade,
-  error,
-  admin,
-  validation,
-  selfAssesmentList
+    task,
+    level,
+    category,
+    type,
+    course,
+    selfAssesment,
+    user: userReducer,
+    courses: userCoursesReducer,
+    instance: instanceReducer,
+    listCourses,
+    toast,
+    grade,
+    error,
+    admin,
+    validation,
+    selfAssesmentList,
 })
 
 const rootReducer = (state, action) => {
-  if (action.type === 'USER_LOGOUT') {
-    const { toast } = state
-    state = undefined
-    state = { ...state, toast }
-  }
-  return reducers(state, action)
+    if (action.type === 'USER_LOGOUT') {
+        const { toast } = state
+        state = undefined
+        state = { ...state, toast }
+    }
+    return reducers(state, action)
 }
 
 const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(thunk))
+    rootReducer,
+    composeWithDevTools(applyMiddleware(thunk))
 )
 
 export default store

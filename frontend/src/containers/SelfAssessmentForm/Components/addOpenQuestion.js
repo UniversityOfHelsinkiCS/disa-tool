@@ -8,38 +8,43 @@ import { addOpenQuestion } from '../actions/selfAssesment'
 import MultilingualField from '../../../utils/components/MultilingualField'
 
 const AddOpenQuestion = (props) => {
-  const translate = id => props.translate(`SelfAssessmentForm.addOpenQuestion.${id}`)
+    const translate = (id) =>
+        props.translate(`SelfAssessmentForm.addOpenQuestion.${id}`)
 
-  const createQuestion = e =>
-    props.dispatchAddOpenQuestion({
-      eng_name: e.target.eng_name.value,
-      fin_name: e.target.fin_name.value,
-      swe_name: e.target.swe_name.value
-    })
+    const createQuestion = (e) =>
+        props.dispatchAddOpenQuestion({
+            eng_name: e.target.eng_name.value,
+            fin_name: e.target.fin_name.value,
+            swe_name: e.target.swe_name.value,
+        })
 
-  return (
-    <ModalForm
-      header={translate('addButton')}
-      trigger={<span><Button positive>{translate('addButton')}</Button></span>}
-      actions={saveActions(translate)}
-      onSubmit={createQuestion}
-    >
-      <MultilingualField
-        field="name"
-        fieldDisplay={translate('questionDisplay')}
-      />
-    </ModalForm>
-  )
+    return (
+        <ModalForm
+            header={translate('addButton')}
+            trigger={
+                <span>
+                    <Button positive>{translate('addButton')}</Button>
+                </span>
+            }
+            actions={saveActions(translate)}
+            onSubmit={createQuestion}
+        >
+            <MultilingualField
+                field="name"
+                fieldDisplay={translate('questionDisplay')}
+            />
+        </ModalForm>
+    )
 }
 
-const mapDispatchToProps = dispatch => ({
-  dispatchAddOpenQuestion: questionData =>
-    dispatch(addOpenQuestion(questionData))
+const mapDispatchToProps = (dispatch) => ({
+    dispatchAddOpenQuestion: (questionData) =>
+        dispatch(addOpenQuestion(questionData)),
 })
 
 AddOpenQuestion.propTypes = {
-  dispatchAddOpenQuestion: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+    dispatchAddOpenQuestion: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
 }
 
 export default withLocalize(connect(null, mapDispatchToProps)(AddOpenQuestion))

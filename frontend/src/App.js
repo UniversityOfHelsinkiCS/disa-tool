@@ -10,51 +10,51 @@ import { getUser } from './api/persons'
 import Nav from './containers/Nav/navbar'
 import Main from './containers/Main/main'
 import LocalizeWrapper from './containers/Localize/LocalizeWrapper'
-import './i18n';
+import './i18n'
 
 function App({ user }) {
-  const [sessionAliveInterval, setSessionAliveInterval] = useState(null)
+    const [sessionAliveInterval, setSessionAliveInterval] = useState(null)
 
+    useEffect(() => {
+        getUserAction()
+        const tempAliveInterval = setInterval(async () => {
+            try {
+                await getUser()
+            } catch (e) {}
+        }, 60 * 1000)
+        setSessionAliveInterval(tempAliveInterval)
 
-  useEffect(() => {
-    getUserAction()
-    const tempAliveInterval = setInterval(async () => {
-      try {
-        await getUser()
-      } catch (e) {}
-    }, 60 * 1000)
-    setSessionAliveInterval(tempAliveInterval)
+        return () => {
+            if (sessionAliveInterval !== null) {
+                clearInterval(sessionAliveInterval)
+                setSessionAliveInterval(null)
+            }
+        }
+    }, [])
 
-    return () => {
-      if (sessionAliveInterval !== null) {
-        clearInterval(sessionAliveInterval)
-        setSessionAliveInterval(null)
-      }
+    const onErrorHandler = (err) => {
+        Sentry.configureScope((context) => {
+            context.setUser({ id: user.id, username: user.name })
+        })
+        Sentry.captureException(err)
     }
-  },[])
 
-  const onErrorHandler = (err) => {
-    Sentry.configureScope((context) => {
-      context.setUser({ id: user.id, username: user.name })
-    })
-    Sentry.captureException(err)
-  }
-
-  return (
-    <ErrorBoundary onError={onErrorHandler}>
-      <LocalizeProvider>
-        <LocalizeWrapper>
-          <Nav />
-          <Main />
-        </LocalizeWrapper>
-      </LocalizeProvider>
-    </ErrorBoundary>
-  )
+    return (
+        <ErrorBoundary onError={onErrorHandler}>
+            <LocalizeProvider>
+                <LocalizeWrapper>
+                    <Nav />
+                    <Main />
+                </LocalizeWrapper>
+            </LocalizeProvider>
+        </ErrorBoundary>
+    )
 }
 
 App.propTypes = {
-  user: PropTypes.shape({ name: PropTypes.string, id: PropTypes.number }).isRequired,
-  getUserAction: PropTypes.func.isRequired,
+    user: PropTypes.shape({ name: PropTypes.string, id: PropTypes.number })
+        .isRequired,
+    getUserAction: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = ({ user }) => ({ user })

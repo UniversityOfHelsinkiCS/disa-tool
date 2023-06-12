@@ -1,97 +1,99 @@
 import React from 'react'
 import { func, bool, node } from 'prop-types'
-import { useDrop,useDrag } from 'react-dnd'
+import { useDrop, useDrag } from 'react-dnd'
 
-const dummyFunc = component => component
+const dummyFunc = (component) => component
 
 const DnDItem = ({
-  connectDropTarget,
-  connectDragSource,
-  isDragging,
-  children
-}) => (
-  connectDropTarget(connectDragSource((
-    <div style={{
-      opacity: isDragging ? 0 : 1,
-      cursor: 'move'
-      }}
-    >
-      {children}
-    </div>
-  )))
-)
+    connectDropTarget,
+    connectDragSource,
+    isDragging,
+    children,
+}) =>
+    connectDropTarget(
+        connectDragSource(
+            <div
+                style={{
+                    opacity: isDragging ? 0 : 1,
+                    cursor: 'move',
+                }}
+            >
+                {children}
+            </div>
+        )
+    )
 
 DnDItem.propTypes = {
-  connectDropTarget: func,
-  connectDragSource: func,
-  isDragging: bool,
-  children: node
+    connectDropTarget: func,
+    connectDragSource: func,
+    isDragging: bool,
+    children: node,
 }
 
 DnDItem.defaultProps = {
-  connectDropTarget: dummyFunc,
-  connectDragSource: dummyFunc,
-  isDragging: false
+    connectDropTarget: dummyFunc,
+    connectDragSource: dummyFunc,
+    isDragging: false,
 }
 
-const dropCollect = conn => ({
-  connectDropTarget: conn.dropTarget()
+const dropCollect = (conn) => ({
+    connectDropTarget: conn.dropTarget(),
 })
 
 const dragSpec = {
-  beginDrag: props => ({
-    id: props.element.id,
-    order: props.element.order
-  })
+    beginDrag: (props) => ({
+        id: props.element.id,
+        order: props.element.order,
+    }),
 }
 
 const dragCollect = (conn, monitor) => ({
-  connectDragSource: conn.dragSource(),
-  isDragging: monitor.isDragging()
+    connectDragSource: conn.dragSource(),
+    isDragging: monitor.isDragging(),
 })
 
 const dropSpec = {
-  drop: (props, monitor) => {
-    const drag = monitor.getItem()
-    const { element } = props
-    let slot
-    if (drag.order === element.order) {
-      slot = drag.order
-    } else if (drag.order > element.order) {
-      slot = props.slots.previous
-    } else {
-      slot = props.slots.next
-    }
-    props.mover({
-      id: drag.id,
-      order: slot
-    }, true)
-  }
+    drop: (props, monitor) => {
+        const drag = monitor.getItem()
+        const { element } = props
+        let slot
+        if (drag.order === element.order) {
+            slot = drag.order
+        } else if (drag.order > element.order) {
+            slot = props.slots.previous
+        } else {
+            slot = props.slots.next
+        }
+        props.mover(
+            {
+                id: drag.id,
+                order: slot,
+            },
+            true
+        )
+    },
 }
 
 const defineItem = (type, config = {}) => {
-  const {
-    target = true,
-    source = true
-  } = config
-  useDrag({
-    type,
-    item: config.dragSpec || dragSpec,
-    collect: config.dragCollect || dragCollect
-  })
-  useDrop(
-    type,
-    config.dropSpec || dropSpec,
-    config.dropCollect || dropCollect
-  )
-  return targetFunction(sourceFunction(DnDItem))
+    const { target = true, source = true } = config
+    useDrag({
+        type,
+        item: config.dragSpec || dragSpec,
+        collect: config.dragCollect || dragCollect,
+    })
+    useDrop(
+        type,
+        config.dropSpec || dropSpec,
+        config.dropCollect || dropCollect
+    )
+    return targetFunction(sourceFunction(DnDItem))
 }
 
 export const defaults = {
-  dropSpec,
-  dropCollect,
-  dragSpec,
-  dragCollect
+    dropSpec,
+    dropCollect,
+    dragSpec,
+    dragCollect,
 }
 
 export default defineItem
