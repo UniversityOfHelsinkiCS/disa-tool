@@ -2,7 +2,7 @@ FROM registry.access.redhat.com/ubi8/nodejs-10
 
 WORKDIR /opt/app-root/src
 
-COPY . .
+COPY --chmod=777 . .
 
 WORKDIR /opt/app-root/src/frontend
 
