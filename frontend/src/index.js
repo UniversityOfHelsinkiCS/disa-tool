@@ -7,7 +7,7 @@ import * as Sentry from '@sentry/browser'
 
 import App from './App'
 
-import store from './store'
+import store from './store/store'
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
