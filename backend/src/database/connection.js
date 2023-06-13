@@ -1,15 +1,9 @@
 const Sequelize = require('sequelize')
 const logger = require('../utils/logger')
-const { database, username, password, host, port, dialect } = require('../../conf-backend.js')
+const { DATABASE_URL } = require('../../conf-backend.js')
 require('pg').defaults.parseInt8 = true
 
-const sequelize = new Sequelize(database, username, password, {
-  host,
-  port,
-  dialect,
-  logging: false,
-  operatorsAliases: false
-})
+const sequelize = new Sequelize(DATABASE_URL, { logging: false })
 
 const syncDatabase = async () => {
   try {
