@@ -14,7 +14,7 @@ WORKDIR /opt/app-root/src/backend
 
 RUN rm -r /opt/app-root/src/frontend
 
-RUN SAML_VALIDATOR=libxml npm install
+RUN npm install
 
 EXPOSE 8000
 
