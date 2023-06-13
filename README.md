@@ -42,11 +42,7 @@ In folders frontend, backend and kurki, run `npm install` in separate terminal w
 In the backend folder, create a file called `.env` and add there these lines
 
 ```
-DB_NAME=disa_db
-DB_USER=disa
-DB_PASS=dev
-DB_HOST=localhost
-DB_PORT=5321
+DATABASE_URL=postgres://disa:dev@localhost:5321/disa_db
 KURKI_URL=http://localhost:3002
 SECRET=<your own personal super secret>
 NODE_ENV=development
