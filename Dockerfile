@@ -1,16 +1,18 @@
-FROM node:8.9.1
+FROM registry.access.redhat.com/ubi8/nodejs-10
 
-RUN mkdir -p /usr/src/app
-COPY . /usr/src/app
-WORKDIR /usr/src/app/frontend
+WORKDIR /opt/app-root/src
+
+COPY . .
+
+WORKDIR /opt/app-root/src/frontend
 
 RUN npm install
 
 RUN npm run build
 
-WORKDIR /usr/src/app/backend
+WORKDIR /opt/app-root/src/backend
 
-RUN rm -r /usr/src/app/frontend
+RUN rm -r /opt/app-root/src/frontend
 
 RUN SAML_VALIDATOR=libxml npm install
 
