@@ -21,11 +21,6 @@ const samldata = {
 const {
   NODE_ENV,
   DATABASE_URL,
-  LOG_HOSTNAME,
-  LOG_PORT,
-  LOG_HOST,
-  LOG_PROTOCOL,
-  LOG_PATH,
   FRONTEND_LOGIN,
   ENTITY_ID,
   ASSERT_ENDPOINT,
@@ -36,11 +31,6 @@ const {
 
 module.exports = {
   NODE_ENV,
-  LOG_HOSTNAME,
-  LOG_PORT,
-  LOG_HOST,
-  LOG_PROTOCOL,
-  LOG_PATH,
   dialect: 'postgres',
   DATABASE_URL,
   FRONTEND_LOGIN,
