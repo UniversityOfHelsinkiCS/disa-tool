@@ -8,7 +8,6 @@ export const selectCourse = dispatch => id => dispatch({
 })
 
 export const getAllCourses = () => new Promise((resolve) => {
-  console.log('getAllCourses')
   getCourses().then((response) => {
     resolve({
       type: types.COURSELIST_GET_COURSES,

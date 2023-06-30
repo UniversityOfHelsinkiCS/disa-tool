@@ -2,13 +2,23 @@ import { defineConfig } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import react from '@vitejs/plugin-react'
 
+const devPort = 8080
+const apiPort = 8000
+
 export default defineConfig({
   root: 'src',
   server: {
-    port: 8080,
+    port: devPort,
+    proxy: {
+      '/api': `http://localhost:${apiPort}`,
+      '/':    `http://localhost:${devPort}`
+
+    },
+    historyApiFallback: true
   },
   build: {
-    outDir: '../dist',
+    path: path.join(__dirname, '../dist'),
+    filename: 'index.js',
   },
   publicDir: '../public',
   rollupOptions: {
