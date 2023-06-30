@@ -23,7 +23,7 @@ axios.defaults.headers.common.credentials = 'same-origin'
 
 
 const getConfig = (params) => {
-  const fakeUser = window.localStorage.getItem('fakeShibbo')
+  const fakeUser = global.localStorage.getItem('fakeShibbo')
   const headers = fakeUser ? { uid: fakeUser } : {}
 
   return (
