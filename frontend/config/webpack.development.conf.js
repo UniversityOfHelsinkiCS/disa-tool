@@ -19,16 +19,9 @@ module.exports = {
     fallback: { 
       path: require.resolve("path-browserify") 
     },
-    alias: {
-      config$: './configs/app-config.js',
-      react: './vendor/react-master',
-    },
     extensions: ['.js', '.jsx'],
     modules: [
       'node_modules',
-      'bower_components',
-      'shared',
-      '/shared/vendor/modules',
     ],
   },
   module: {
@@ -46,8 +39,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [ 'css-loader']
-      },
+        use: [
+            'style-loader',
+            'css-loader', 
+        ],
+    }
     ]
   },
   plugins: [

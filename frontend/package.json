@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "description": "Frontend for DISA tool",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "build": "rimraf ../backend/dist && webpack --config ./config/webpack.production.conf.js",
     "start": "webpack-dev-server --config ./config/webpack.development.conf.js --hot",
@@ -89,7 +88,7 @@
       "\\.(css|less)$": "<rootDir>/src/__mocks__/styleMock.js"
     },
     "transform": {
-      "\\.[jt]sx?$": "babel-jest"
+      "\\.[jt]s?$": "babel-jest"
     },
     "setupFilesAfterEnv": [
       "<rootDir>/src/setupTests.js"
