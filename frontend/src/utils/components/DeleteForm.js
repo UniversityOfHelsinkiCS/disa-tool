@@ -16,7 +16,7 @@ export class DeleteForm extends Component {
         trigger={<Button negative basic circular icon={{ name: 'delete' }} size="mini" />}
         actions={[
           <Button negative style={{ margin: '0px 15px 0px 15px' }}>{this.translate('remove')}</Button>,
-          <Button type="cancel" style={{ margin: '0px 15px 0px 15px' }}>{this.translate('cancel')}</Button>
+          <Button type="reset" style={{ margin: '0px 15px 0px 15px' }}>{this.translate('cancel')}</Button>
         ]}
         onSubmit={this.props.onExecute}
       >

@@ -30,17 +30,13 @@ module.exports = {
         }
       },
       {
+        test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff2?)(\?v=\d+\.\d+\.\d+)?$/i,
+        type: 'asset/resource',
+      },
+      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2)$/,
-        use: 'file-loader?name=fonts/[name]-[hash].[ext]'
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg)$/,
-        use: 'file-loader?name=images/[name]-[hash].[ext]'
-      }
     ]
   },
   plugins: [
@@ -54,7 +50,10 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify('development')
       }
-    })
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
   ],
   devServer: {
     port: devPort,

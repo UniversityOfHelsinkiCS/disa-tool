@@ -78,7 +78,17 @@ When using backticks you can also use "quotes" and 'hyphens' in the text.
         "Here you can add a course",
         "Tästä voit lisätä kurssin"
       ]
-    }
+    },
+    "UserPageTasks": {
+      "Teacher": [
+        "English translation for teachers.",
+        "Suomenkielinen käännös opettajille."
+      ],
+      "Student": [
+        "English translation for students.",
+        "Suomenkielinen käännös opiskelijoille."
+      ]
+    },
   },
   "Nav": {
     "navbar": {

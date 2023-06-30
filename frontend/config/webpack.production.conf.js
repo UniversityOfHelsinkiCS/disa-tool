@@ -46,17 +46,13 @@ module.exports = {
         }
       },
       {
+        test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff2?)(\?v=\d+\.\d+\.\d+)?$/i,
+        type: 'asset/resource',
+      },
+      {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2)$/,
-        use: 'file-loader?name=fonts/[name]-[hash].[ext]'
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg)$/,
-        use: 'file-loader?name=images/[name]-[hash].[ext]'
-      }
     ]
   },
   plugins: [
@@ -66,6 +62,9 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name]-[hash].css',
       chunkFilename: '[name]-[id]-[hash].css'
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
     }),
     new webpack.DefinePlugin({
       CONFIG: {
