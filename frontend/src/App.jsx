@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { LocalizeProvider } from 'react-localize-redux'
+import { LocalizeProvider } from '@naartti/react-localize-redux'
 import * as Sentry from '@sentry/browser'
 
 import { getUserAction } from './actions/actions'
