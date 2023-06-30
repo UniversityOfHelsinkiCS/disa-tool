@@ -136,12 +136,12 @@ router.put('/details/:courseId', async (req, res) => {
     key: 'global_teacher',
     param: courseId
   }])
-  
+
   if (!isTeacher) {
     res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
     return
   }
-  const updatedCourse = await courseService.editCourse({id: courseId, eng_name, fin_name, swe_name})
+  const updatedCourse = await courseService.editCourse({ id: courseId, eng_name, fin_name, swe_name })
   res.status(200).json(updatedCourse)
 })
 
@@ -179,7 +179,6 @@ router.post('/create', async (req, res) => {
     }
   }
 })
-
 
 
 module.exports = router
