@@ -1,26 +1,40 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const webpack = require('webpack')
 
 
 module.exports = {
   mode: 'production',
-  entry: ['babel-polyfill', './src/index.js'],
+  entry: {
+    app: './src/index.js',
+  },
+  node: {
+    global: true
+  },
   output: {
     filename: '[name]-[hash].bundle.js',
     chunkFilename: '[name]-[id]-[hash].bundle.js',
     path: path.join(__dirname, '../../backend/dist'),
     publicPath: '/'
   },
+  resolve: {
+    fallback: { 
+      path: require.resolve("path-browserify") 
+    }
+  },
   optimization: {
-    splitChunks: {
-      chunks: 'all'
+    optimization: {
+      minimize: true,
+      splitChunks: {
+        chunks: 'all'
+      },
+      minimizer: [
+        new CssMinimizerPlugin(),new TerserPlugin()
+      ],
     },
-    minimizer: [
-      new OptimizeCSSAssetsPlugin({})
-    ]
   },
   module: {
     rules: [

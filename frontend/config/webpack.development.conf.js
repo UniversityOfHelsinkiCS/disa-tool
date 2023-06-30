@@ -1,17 +1,24 @@
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const devPort = 8080
 const apiPort = 8000
 
 module.exports = {
   mode: 'development',
-  entry: ['babel-polyfill', './src/index.js'],
+  entry: {
+    app: './src/index.js',
+  },
   output: {
     path: path.join(__dirname, './dist'),
     filename: 'index.js',
     publicPath: '/'
+  },
+  resolve: {
+    fallback: { 
+      path: require.resolve("path-browserify") 
+    }
   },
   module: {
     rules: [
