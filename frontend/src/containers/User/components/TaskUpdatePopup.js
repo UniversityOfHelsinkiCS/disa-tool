@@ -56,7 +56,7 @@ class TaskUpdatePopup extends Component {
             />
             <Button
               basic
-              name="cancel"
+              name="reset"
               size="tiny"
               color="red"
               content="peru muutokset"

@@ -66,7 +66,7 @@ class TaskResponseEdit extends Component {
         this.setState({ updatedTasks: filteredTasks, popUp: { show: false } })
         break
       }
-      case 'cancel': {
+      case 'reset': {
         const filteredTasks = this.state.updatedTasks.filter(et =>
           et.taskId !== task.taskId || et.personId !== task.personId)
         this.setState({ updatedTasks: filteredTasks, popUp: { show: false } })

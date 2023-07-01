@@ -65,7 +65,9 @@ class UserPage extends Component {
 
   handleActivityToggle = async () => {
     const { activeCourse } = this.props
-    this.props.dispatchToggleActivity(activeCourse.id).then(res => console.log(res))
+    this.props.dispatchToggleActivity(activeCourse.id)
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
   }
 
   handleClick = async (e, { course }) => {
