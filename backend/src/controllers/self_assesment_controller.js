@@ -111,16 +111,11 @@ router.get('/:selfAssesmentId', async (req, res) => {
     const { selfAssesmentId } = req.params
     const data = await selfAssesmentService.getOne(selfAssesmentId, req.lang)
     if (!data) {
-      console.log('wow4')
-      logger.info('wowJussi3')
       res.status(404).json({
         error: errors.notfound[req.lang]
       })
       return
     }
-    console.log('wow4')
-
-    logger.info('wowJussi3')
     res.status(200).json({
       message: messages.get[req.lang],
       data
@@ -131,8 +126,6 @@ router.get('/:selfAssesmentId', async (req, res) => {
         error
       })
     } else {
-      console.log('wow3')
-      logger.info('wowJussi4')
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })

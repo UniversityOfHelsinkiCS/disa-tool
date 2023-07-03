@@ -222,8 +222,6 @@ editRoutes(router, {
 
 router.get('/course/:id', async (req, res) => {
   try {
-    console.log('wowJussi4')
-    logger.info('wowJussi4')
     const data = await typeService.getByCourse(req.params.id, req.lang)
     res.status(200).json({
       message: messages.getByCourse[req.lang],

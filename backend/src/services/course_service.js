@@ -15,7 +15,7 @@ const getCourse = courseId => Course.findOne({ where: { id: courseId } })
 const editCourse = async ({ id, eng_name, fin_name, swe_name }) => {
   const response = await Course.update({
     eng_name: eng_name, fin_name: fin_name, swe_name: swe_name},
-    {returning: true, where: {id: id}
+    {returning: ['*'], where: {id: id}
   })
 
   return response[1]
@@ -123,7 +123,7 @@ const getInstanceWithRelatedData = (instanceId, lang, userId) => (
 
 const toggleActivity = async (id) => {
   const instance = await CourseInstance.findByPk(id)
-  return CourseInstance.update({ active: !instance.active }, { where: { id }, returning: true })
+  return CourseInstance.update({ active: !instance.active }, { where: { id }, returning: ['*'] })
     .then(res => res[1][0])
 }
 

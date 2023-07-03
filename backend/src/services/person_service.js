@@ -129,7 +129,7 @@ const addPersonsToCourseFromResponses = async (tasks, courseId) => {
       role: 'STUDENT',
       studentnumber: newPerson[0].studentnumber }
   }))
-  await CoursePerson.bulkCreate(coursePersons, { returning: true })
+  await CoursePerson.bulkCreate(coursePersons, { returning: ['*'] })
   return coursePersons
 }
 

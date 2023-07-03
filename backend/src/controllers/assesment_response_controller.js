@@ -17,10 +17,7 @@ router.get('/:selfAssesmentId', async (req, res) => {
   try {
     const { selfAssesmentId } = req.params
     const { user } = req
-    console.log('selfAssesmentId', selfAssesmentId)
-    console.log('user', user)
     const data = await assessmentResponseService.getOne(user, selfAssesmentId, req.lang)
-    console.log('data', data)
     if (!data) {
       return res.status(200).json({ data: {} })
     }
@@ -178,8 +175,6 @@ router.get('/self-assesment/:id', async (req, res) => {
       })
       return
     }
-    console.log('wow Jussi')
-    logger.info('wowJussi2')
     res.status(200).json({
       message: messages.getBySelfAssesment[req.lang],
       data
