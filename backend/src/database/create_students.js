@@ -1,4 +1,5 @@
-const faker = require('faker')
+const { faker } = require('@faker-js/faker')
+
 const { Person, CoursePerson } = require('./models')
 
 
@@ -8,7 +9,7 @@ const createStudentsOnCourse = async (studentNumbers, courseId) => {
     const find = await Person.findOne({ where: { studentnumber: number } })
     console.log(find)
     if (find) return find
-    const student = { name: faker.name.findName(), studentnumber: number, role: 'STUDENT' }
+    const student = { name: faker.person.findName(), studentnumber: number, role: 'STUDENT' }
     console.log(`creating ${student.name}`)
     return Person.create(student, { returning: true }).then(res => res).catch(e => console.log('I AM DYING', e))
   }))

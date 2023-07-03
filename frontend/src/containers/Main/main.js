@@ -62,7 +62,7 @@ class Main extends PureComponent {
     <Route exact path="/selfassessment/:courseId" component={SelfAssessmentPage} key={keygen.user()} />,
     <Route path="/selfassessment" component={SelfAssessmentPage} key={keygen.user()} />,
     <Route exact path="/user/course/:courseId" component={UserPage} key={keygen.user()} />,
-    <Route exact path="/user/course/:courseId/tasksAndPeople" component={() =>CourseTasksPage} key={keygen.user()} />,
+    <Route exact path="/user/course/:courseId/tasksAndPeople" component={CourseTasksPage} key={keygen.user()} />,
     <Route exact path="/user" component={UserPage} key={keygen.user()} />,
     <Route path="/course/:id" component={CoursePage} key={keygen.user()} />,
     <Route path="/tasks-responses/upload/:courseId" component={UploadResponsesPage} key={keygen.user()} />,
