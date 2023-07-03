@@ -8,15 +8,13 @@ const webpack = require('webpack')
 
 module.exports = {
   mode: 'production',
-  entry: {
-    app: './src/index.js',
-  },
+  entry: ["@babel/polyfill", './src/index.js'],
   node: {
     global: true
   },
   output: {
-    filename: '[name]-[hash].bundle.js',
-    chunkFilename: '[name]-[id]-[hash].bundle.js',
+    filename: '[name]-[fullhash].bundle.js',
+    chunkFilename: '[name]-[id]-[fullhash].bundle.js',
     path: path.join(__dirname, '../../backend/dist'),
     publicPath: '/'
   },
@@ -26,7 +24,6 @@ module.exports = {
     }
   },
   optimization: {
-    optimization: {
       minimize: true,
       splitChunks: {
         chunks: 'all'
@@ -34,7 +31,6 @@ module.exports = {
       minimizer: [
         new CssMinimizerPlugin(),new TerserPlugin()
       ],
-    },
   },
   module: {
     rules: [
@@ -60,8 +56,8 @@ module.exports = {
       template: './src/index.html'
     }),
     new MiniCssExtractPlugin({
-      filename: '[name]-[hash].css',
-      chunkFilename: '[name]-[id]-[hash].css'
+      filename: '[name]-[fullhash].css',
+      chunkFilename: '[name]-[id]-[fullhash].css'
     }),
     new webpack.ProvidePlugin({
       process: 'process/browser',

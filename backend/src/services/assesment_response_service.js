@@ -17,6 +17,7 @@ const logger = require('../utils/logger')
 
 
 const getOne = async (user, selfAssesmentId, lang) => {
+  console.log('assessment: ', user.id, selfAssesmentId, lang)
   const found = await AssessmentResponse.find({
     where: { person_id: user.id, self_assessment_id: selfAssesmentId }
   })

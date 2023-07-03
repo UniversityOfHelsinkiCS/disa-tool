@@ -30,8 +30,8 @@ router.post('/users', async (req, res) => {
     )
   } catch (error) {
     logger.error(error)
+    console.log('wow2')
     res.status(500).json({ toast: errors.unexpected.toast, error: errors.unexpected[req.lang] })
-    return
   }
 
   res.status(200).json(

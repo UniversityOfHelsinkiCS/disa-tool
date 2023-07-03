@@ -17,7 +17,10 @@ router.get('/:selfAssesmentId', async (req, res) => {
   try {
     const { selfAssesmentId } = req.params
     const { user } = req
+    console.log('selfAssesmentId', selfAssesmentId)
+    console.log('user', user)
     const data = await assessmentResponseService.getOne(user, selfAssesmentId, req.lang)
+    console.log('data', data)
     if (!data) {
       return res.status(200).json({ data: {} })
     }
@@ -31,13 +34,13 @@ router.get('/:selfAssesmentId', async (req, res) => {
     if (!await selfAssessmentService.isFeedbackActive(selfAssesmentId) && !isTeacher) {
       delete data.response.feedback
     }
-    res.status(200).json({ data })
+    return res.status(200).json({ data })
   } catch (error) {
+    console.log('data', error)
     logger.error(error)
-    res.status(500).json({
+    return res.status(500).json({
       error: errors.unexpected[req.lang]
     })
-    logger.error(error)
   }
 })
 
@@ -54,6 +57,7 @@ router.post('/', async (req, res) => {
       ]
     )
     if (!hasPrivilege) {
+      console.log('wow')
       res.status(403).json({
         toast: errors.unexpected.toast,
         error: errors.privilege[req.lang]
@@ -151,6 +155,10 @@ router.get('/self-assesment/:id', async (req, res) => {
   const assessmentResponses = await assessmentResponseService.getBySelfAssesment(req.params.id, req.lang)
   const courseInstanceId = await assessmentResponseService.getCourseInstanceId(req.params.id, assessmentResponses)
   const data = await assessmentResponseService.addGradesAndHeaders(assessmentResponses, courseInstanceId, req.lang)
+  logger.info(assessmentResponses)
+  logger.info(data)
+  logger.info(courseInstanceId)
+
   if (!courseInstanceId) {
     res.status(404).json({
       error: errors.notfound[req.lang],
@@ -170,6 +178,8 @@ router.get('/self-assesment/:id', async (req, res) => {
       })
       return
     }
+    console.log('wow Jussi')
+    logger.info('wowJussi2')
     res.status(200).json({
       message: messages.getBySelfAssesment[req.lang],
       data
@@ -181,6 +191,9 @@ router.get('/self-assesment/:id', async (req, res) => {
       })
       logger.error(e)
     } else {
+      logger.info(assessmentResponses)
+      logger.info(data)
+      logger.info(courseInstanceId)
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })

@@ -7,9 +7,7 @@ const apiPort = 8000
 
 module.exports = {
   mode: 'development',
-  entry: {
-    app: './src/index.js',
-  },
+  entry: ["@babel/polyfill", './src/index.js'],
   output: {
     path: path.join(__dirname, './dist'),
     filename: 'index.js',
@@ -69,5 +67,5 @@ module.exports = {
     },
     historyApiFallback: true
   },
-  devtool: 'eval-source-map'
+  devtool: 'source-map'
 }
