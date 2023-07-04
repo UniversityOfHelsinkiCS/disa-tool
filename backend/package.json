@@ -1,55 +1,57 @@
 {
-    "name": "backend",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "db:migrate": "sequelize db:migrate --migrations-path src/database/migrations --config conf-backend.js",
-        "db:rollback": "sequelize db:migrate:undo --migrations-path src/database/migrations --config conf-backend.js",
-        "test": "NODE_ENV=test node src/database/create_data.js; NODE_ENV=test jest",
-        "test-ci": "NODE_ENV=test node src/database/create_data.js; NODE_ENV=test jest --forceExit",
-        "lint": "eslint --ext .js src || true",
-        "lint-fix": "eslint --fix --ext .js src || true",
-        "start-dev": "nodemon index.js",
-        "start": "node --max_old_space_size=2000 index.js"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "@sentry/node": "^5.6.2",
-        "axios": "^0.18.1",
-        "body-parser": "^1.18.3",
-        "dotenv": "^6.0.0",
-        "express": "^4.16.3",
-        "faker": "^4.1.0",
-        "morgan": "^1.9.1",
-        "pg": "^7.12.1",
-        "pg-hstore": "^2.3.3",
-        "saml2-js": "^2.0.3",
-        "samlify": "^2.5.0-rc2",
-        "sequelize": "^5.22.5",
-        "sequelize-cli": "^4.1.1",
-        "unfuck-utf8-headers-middleware": "^1.0.1",
-        "winston": "^3.2.1",
-        "winston-gelf-transporter": "^1.0.2",
-        "xml2js": "^0.4.19",
-        "xmldom": "^0.1.27"
-    },
-    "devDependencies": {
-        "eslint": "^5.15.1",
-        "eslint-config-airbnb-base": "^13.0.0",
-        "eslint-config-standard": "^11.0.0",
-        "eslint-plugin-import": "^2.16.0",
-        "eslint-plugin-node": "^6.0.1",
-        "eslint-plugin-promise": "^3.8.0",
-        "eslint-plugin-standard": "^3.1.0",
-        "jest": "^23.6.0",
-        "nodemon": "^1.18.10",
-        "seedrandom": "^2.4.3",
-        "supertest": "^3.4.2"
-    },
-    "jest": {
-        "setupTestFrameworkScriptFile": "<rootDir>/src/tests/setupTests.js"
-    }
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "db:migrate": "sequelize db:migrate --migrations-path src/database/migrations --config conf-backend.js",
+    "db:rollback": "sequelize db:migrate:undo --migrations-path src/database/migrations --config conf-backend.js",
+    "test": "NODE_ENV=test node src/database/create_data.js; NODE_ENV=test jest",
+    "test-ci": "NODE_ENV=test node src/database/create_data.js; NODE_ENV=test jest --forceExit",
+    "lint": "eslint --ext .js src || true",
+    "lint-fix": "eslint --fix --ext .js src || true",
+    "start-dev": "nodemon index.js",
+    "start": "node --max_old_space_size=2000 index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sentry/node": "^5.6.2",
+    "axios": "^0.18.1",
+    "body-parser": "^1.18.3",
+    "dotenv": "^16.3.1",
+    "express": "^4.17.2",
+    "faker": "^5.5.3",
+    "morgan": "^1.9.1",
+    "pg": "^8.11.1",
+    "pg-hstore": "^2.3.3",
+    "saml2-js": "^2.0.3",
+    "samlify": "^2.5.0-rc2",
+    "sequelize": "^5.22.5",
+    "sequelize-cli": "^4.1.1",
+    "unfuck-utf8-headers-middleware": "^1.0.1",
+    "winston": "^3.2.1",
+    "winston-gelf-transporter": "^1.0.2",
+    "xml2js": "^0.4.19",
+    "xmldom": "^0.1.27"
+  },
+  "devDependencies": {
+    "eslint": "^5.15.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "jest": "^24.9.0",
+    "nodemon": "^1.18.10",
+    "seedrandom": "^2.4.3",
+    "supertest": "^3.4.2"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/tests/setupTests.js"
+    ]
+  }
 }
