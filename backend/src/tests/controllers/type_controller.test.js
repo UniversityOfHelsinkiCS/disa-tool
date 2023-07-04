@@ -36,12 +36,12 @@ describe('type_controller', () => {
         CoursePerson.create({
           role: 'TEACHER',
           course_instance_id: courseInstance.id,
-          person_id: 410
+          personId: 410
         }),
         CoursePerson.create({
           role: 'STUDENT',
           course_instance_id: courseInstance.id,
-          person_id: 370
+          personId: 370
         })
       ]).then(([typeHeader]) => {
         ids.typeHeader = typeHeader.id

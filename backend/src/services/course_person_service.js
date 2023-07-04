@@ -3,7 +3,7 @@ const { CoursePerson } = require('../database/models.js')
 const create = {
   prepare: (data, user) => CoursePerson.build({
     course_instance_id: data.course_instance_id,
-    person_id: user.id,
+    personId: user.id,
     role: 'STUDENT'
   }),
   execute: instance => instance.save(),
@@ -12,7 +12,7 @@ const create = {
     return {
       id: json.id,
       course_instance_id: json.course_instance_id,
-      person_id: json.person_id,
+      personId: json.personId,
       role: json.role
     }
   }
@@ -24,7 +24,7 @@ const deleteCourseperson = {
   prepare: (data, user) => CoursePerson.findOne({
     where: {
       course_instance_id: data.course_instance_id,
-      person_id: user.id
+      personId: user.id
     }
   }),
   value: (instance) => {
@@ -32,7 +32,7 @@ const deleteCourseperson = {
     return {
       id: json.id,
       course_instance_id: json.course_instance_id,
-      person_id: json.person_id,
+      personId: json.personId,
       role: json.role
     }
   },
@@ -45,7 +45,7 @@ const updateRole = async (data) => {
   try {
     [found, created] = await CoursePerson.findOrCreate({
       where: {
-        person_id: data.personId, course_instance_id: data.courseInstanceId
+        personId: data.personId, course_instance_id: data.courseInstanceId
       },
       defaults: {
         role: data.role

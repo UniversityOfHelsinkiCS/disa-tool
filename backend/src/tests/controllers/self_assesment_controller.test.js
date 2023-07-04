@@ -476,7 +476,7 @@ describe('self_assesment_controller', () => {
         ids.courseInstances = courseInstances.map(courseInstance => courseInstance.id)
         Promise.all([
           ...courseInstances.map(courseInstance => CoursePerson.create({
-            person_id: person.id,
+            personId: person.id,
             course_instance_id: courseInstance.id,
             role: 'STUDENT'
           })),

@@ -332,7 +332,7 @@ describe('course_instance_controller', () => {
         databaseExpectation.updatedAt = result.updatedAt
         options.route = `${options.route}/${ids.courseInstance}`
         CoursePerson.create({
-          person_id: 410,
+          personId: 410,
           course_instance_id: ids.courseInstance,
           role: 'TEACHER'
         }).then(() => done()).catch(done)

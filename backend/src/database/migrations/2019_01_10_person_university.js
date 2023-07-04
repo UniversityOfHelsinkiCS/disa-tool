@@ -22,7 +22,6 @@ module.exports = {
       Promise.all([
         queryInterface.addConstraint(
           'person',
-
           {
             type: 'unique',
             name: 'composite_unique_university_username',

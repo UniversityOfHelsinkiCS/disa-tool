@@ -18,7 +18,7 @@ const logger = require('../utils/logger')
 
 const getOne = async (user, selfAssesmentId, lang) => {
   const found = await AssessmentResponse.findOne({
-    where: { person_id: user.id, self_assessment_id: selfAssesmentId }
+    where: { personId: user.id, self_assessment_id: selfAssesmentId }
   })
   if (!found) return null
 
@@ -30,7 +30,7 @@ const getOne = async (user, selfAssesmentId, lang) => {
 }
 
 const create = async (user, selfAssesmentId, data) => AssessmentResponse.findOne({
-  where: { person_id: user.id, self_assessment_id: selfAssesmentId }
+  where: { personId: user.id, self_assessment_id: selfAssesmentId }
 }).then((found) => {
   /* Swap the final grade category headers to final grade 'main' header
     (from 'Anna itsellesi arvosana kurssista' => 'Loppuarvosana' etc)
@@ -44,13 +44,13 @@ const create = async (user, selfAssesmentId, data) => AssessmentResponse.findOne
     // filteredData.questionModuleResponses = f.response.assessmentType !== 'objectives'
     //   ? filteredData.questionModuleResponses.map(d => ({ ...d, grade: d.grade_id }))
     //   : filteredData.questionModuleResponses
-    const n = AssessmentResponse.build({ id: f.id, response: filteredData, self_assessment_id: f.self_assessment_id, person_id: f.person_id })
+    const n = AssessmentResponse.build({ id: f.id, response: filteredData, self_assessment_id: f.self_assessment_id, personId: f.personId })
     n.isNewRecord = false
     return n
   }
 
   return AssessmentResponse.build({
-    response: filteredData, self_assessment_id: selfAssesmentId, person_id: user.id
+    response: filteredData, self_assessment_id: selfAssesmentId, personId: user.id
   })
   // }
   // throw Error('Olet jo vastannut tähän itsearvioon!')
@@ -73,7 +73,7 @@ const verifyAssessmentGrade = async (response, lang) => {
       where: { course_instance_id: response.response.course_instance_id },
       include: CategoryGrade
     }),
-    TaskResponse.findAll({ where: { person_id: response.person_id } })
+    TaskResponse.findAll({ where: { personId: response.personId } })
   ])
   // go through each question field
   const earnedGrades = await Promise.all(response.response.questionModuleResponses.map(async (categoryResp) => {
@@ -381,7 +381,7 @@ const getCourseInstanceId = async (id, responses = []) => {
 
 const getBySelfAssesment = async (id) => {
   const responses = await AssessmentResponse.findAll({
-    attributes: ['id', 'response', 'person_id', 'self_assessment_id', 'updatedAt'],
+    attributes: ['id', 'response', 'personId', 'self_assessment_id', 'updatedAt'],
     include: [
       {
         model: Person,
@@ -447,7 +447,7 @@ const getGradesAndHeader = async (data, lang, grades) => {
 }
 
 const getResponseById = id => AssessmentResponse.findByPk(id, {
-  attributes: ['id', 'response', 'person_id', 'self_assessment_id', 'updatedAt'],
+  attributes: ['id', 'response', 'personId', 'self_assessment_id', 'updatedAt'],
   include: [
     {
       model: Person,

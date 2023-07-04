@@ -90,7 +90,7 @@ const getAssesmentsForCourse = (courseId, lang, userId) => (
   SelfAssessment.findAll({
     where: { course_instance_id: courseId },
     attributes: assessmentAttributes(lang),
-    include: { model: AssessmentResponse, where: { person_id: userId }, required: false }
+    include: { model: AssessmentResponse, where: { personId: userId }, required: false }
   })
 )
 

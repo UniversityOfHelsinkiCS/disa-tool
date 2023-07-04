@@ -82,12 +82,12 @@ describe('task_controller', () => {
         CoursePerson.create({
           role: 'TEACHER',
           course_instance_id: courseInstance.id,
-          person_id: 410
+          personId: 410
         }),
         CoursePerson.create({
           role: 'STUDENT',
           course_instance_id: courseInstance.id,
-          person_id: 370
+          personId: 370
         })
       ]).then(([typeHeader, category, skillLevel]) => {
         superIds.typeHeader = typeHeader.id
@@ -321,7 +321,7 @@ describe('task_controller', () => {
               id: expect.any(Number),
               points: data.tasks[0].points,
               task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
-              person_id: asymmetricMatcher(actual => actual === data.tasks[0].personId)
+              personId: asymmetricMatcher(actual => actual === data.tasks[0].personId)
             }
           ]
         }
@@ -333,7 +333,7 @@ describe('task_controller', () => {
           id: expect.any(Number),
           points: data.tasks[0].points,
           task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
-          person_id: asymmetricMatcher(actual => actual === data.tasks[0].personId)
+          personId: asymmetricMatcher(actual => actual === data.tasks[0].personId)
         },
         TaskResponse,
         {
@@ -380,7 +380,7 @@ describe('task_controller', () => {
             TaskResponse.create({
               points: 0,
               task_id: data.tasks[0].taskId,
-              person_id: data.tasks[0].personId
+              personId: data.tasks[0].personId
             }).then((trResult) => {
               data.tasks[0].responseId = trResult.get({ plain: true }).id
               databaseExpectation.createdAt = trResult.get({ plain: true }).createdAt
@@ -409,7 +409,7 @@ describe('task_controller', () => {
               id: asymmetricMatcher(actual => actual === data.tasks[0].responseId),
               points: data.tasks[0].points,
               task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
-              person_id: asymmetricMatcher(actual => actual === data.tasks[0].personId)
+              personId: asymmetricMatcher(actual => actual === data.tasks[0].personId)
             }
           ]
         }
@@ -421,7 +421,7 @@ describe('task_controller', () => {
           id: asymmetricMatcher(actual => actual === data.tasks[0].responseId),
           points: data.tasks[0].points,
           task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
-          person_id: asymmetricMatcher(actual => actual === data.tasks[0].personId),
+          personId: asymmetricMatcher(actual => actual === data.tasks[0].personId),
           createdAt: asymmetricMatcher(actual => !(
             actual > databaseExpectation.createdAt || actual < databaseExpectation.createdAt
           )),
@@ -487,7 +487,7 @@ describe('task_controller', () => {
               id: expect.any(Number),
               points: data.tasks[0].points,
               task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
-              person_id: expect.any(Number)
+              personId: expect.any(Number)
             }
           ]
         }
@@ -499,7 +499,7 @@ describe('task_controller', () => {
           id: expect.any(Number),
           points: data.tasks[0].points,
           task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
-          person_id: expect.any(Number)
+          personId: expect.any(Number)
         },
         TaskResponse,
         {
@@ -573,7 +573,7 @@ describe('task_controller', () => {
             data.tasks[0].taskId = result.get({ plain: true }).id
             CoursePerson.create({
               course_instance_id: 2,
-              person_id: 410,
+              personId: 410,
               role: 'TEACHER'
             }).then(() => done()).catch(done)
           }).catch(done)
@@ -583,7 +583,7 @@ describe('task_controller', () => {
           CoursePerson.destroy({
             where: {
               course_instance_id: 2,
-              person_id: 410,
+              personId: 410,
               role: 'TEACHER'
             }
           }).then(() => done()).catch(done)
@@ -765,7 +765,7 @@ describe('task_controller', () => {
     }
     const taskResponseData = {
       points: 2,
-      person_id: 370
+      personId: 370
     }
     const typeHeaderData = {
       eng_name: 'the',
@@ -819,7 +819,7 @@ describe('task_controller', () => {
             ids.type_header = typeHeader.id
             Promise.all([
               CoursePerson.create({
-                person_id: 370,
+                personId: 370,
                 course_instance_id: courseInstance.id,
                 role: 'STUDENT'
               }),

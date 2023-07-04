@@ -58,7 +58,7 @@ const getPeopleOnCourse = (courseId, tasks) => (
       {
         model: TaskResponse,
         separate: true,
-        where: { task_id: { [Op.in]: tasks } },
+        where: { task_idd: { [Op.in]: tasks } },
         required: false
       }
     ]
@@ -83,28 +83,37 @@ const updateOrCreatePersonsOnCourse = async (coursePersons) => {
   const newPeople = []
   const updatedPeople = []
   await Promise.all(coursePersons.map(async (cp) => {
-    const builtCP = await CoursePerson.findOrBuild(
-      { where: { person_id: cp.person_id, course_instance_id: cp.course_instance_id }
-      }).spread((coursePerson, created) => ({ coursePerson, created }))
-    builtCP.coursePerson.role = cp.role
-    await builtCP.coursePerson.save()
-    if (builtCP.created) {
-      const found = (await Person.findByPk(builtCP.coursePerson.person_id, {
+    const coursePersonFound = await CoursePerson.findOne(
+      { where: { personId: cp.personId, course_instance_id: cp.course_instance_id }
+      })
+    if (!coursePersonFound) {
+      const personFound = await Person.findOne({where: {id: cp.personId}})
+      if(!personFound) {
+        const error = {error: 'person not found'}
+        throw error
+      }
+      const coursePersonCreated = await CoursePerson.build({personId: cp.personId, course_instance_id: cp.course_instance_id})
+      coursePersonCreated.role = cp.role
+      await coursePersonCreated.save()
+
+      const found = await Person.findByPk(coursePersonCreated.personId, {
         include: [
-          { model: CourseInstance, where: { id: builtCP.coursePerson.course_instance_id } },
+          { model: CourseInstance, where: { id: coursePersonCreated.course_instance_id } },
           {
             model: TaskResponse,
             include: {
               model: Task,
-              where: { course_instance_id: builtCP.coursePerson.course_instance_id }
+              where: { course_instance_id: coursePersonCreated.course_instance_id }
             }
           }
-        ]
-      })).get({ plain: true })
+        ],
+        plain: true
+      })
       found.task_responses = found.task_responses.map(tr => ({ ...tr, task: undefined }))
       newPeople.push(found)
     } else {
-      updatedPeople.push(builtCP.coursePerson.get({ plain: true }))
+      await coursePersonFound.update({ role: cp.role })
+      updatedPeople.push(coursePersonFound)
     }
   }))
   return { newPeople, updatedPeople }
@@ -124,12 +133,12 @@ const addPersonsToCourseFromResponses = async (tasks, courseId) => {
       defaults: { name: 'NOT REGISTERED', role: 'STUDENT' }
     })
     return {
-      person_id: newPerson[0].id,
+      personId: newPerson[0].id,
       course_instance_id: courseId,
       role: 'STUDENT',
       studentnumber: newPerson[0].studentnumber }
   }))
-  await CoursePerson.bulkCreate(coursePersons, { returning: true })
+  await CoursePerson.bulkCreate(coursePersons, { returning: ['*'] })
   return coursePersons
 }
 

@@ -80,7 +80,7 @@ const getInstanceWithRelatedData = (instanceId, lang, userId) => (
       where: { course_instance_id: instanceId },
       attributes: taskAttributes(lang),
       include: [
-        { model: TaskResponse, where: { person_id: userId }, required: false },
+        { model: TaskResponse, where: { personId: userId }, required: false },
         { model: Type,
           attributes: typeAttributes(lang),
           include: {
@@ -98,7 +98,7 @@ const getInstanceWithRelatedData = (instanceId, lang, userId) => (
     {
       model: SelfAssessment,
       attributes: assessmentAttributes(lang),
-      include: { model: AssessmentResponse, where: { person_id: userId }, required: false }
+      include: { model: AssessmentResponse, where: { personId: userId }, required: false }
     },
     {
       model: Person,

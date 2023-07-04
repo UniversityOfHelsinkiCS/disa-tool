@@ -84,7 +84,7 @@ router.put('/course-role', async (req, res) => {
 })
 
 router.post('/delete', async (req, res) => {
-  // Body contains fields id (person_id) and course_instance_id
+  // Body contains fields id (personId) and course_instance_id
   const coursePerson = req.body
   if (!coursePerson.id || !coursePerson.course_instance_id) {
     res.status(400).json({

@@ -34,12 +34,12 @@ describe('skill level controller', () => {
           course_instance_id: courseInstance.id
         }),
         CoursePerson.create({
-          person_id: 370,
+          personId: 370,
           course_instance_id: courseInstance.id,
           role: 'STUDENT'
         }),
         CoursePerson.create({
-          person_id: 410,
+          personId: 410,
           course_instance_id: courseInstance.id,
           role: 'TEACHER'
         })

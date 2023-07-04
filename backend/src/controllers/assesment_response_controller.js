@@ -33,7 +33,6 @@ router.get('/:selfAssesmentId', async (req, res) => {
     }
     return res.status(200).json({ data })
   } catch (error) {
-    console.log('data', error)
     logger.error(error)
     return res.status(500).json({
       error: errors.unexpected[req.lang]
@@ -54,7 +53,6 @@ router.post('/', async (req, res) => {
       ]
     )
     if (!hasPrivilege) {
-      console.log('wow')
       res.status(403).json({
         toast: errors.unexpected.toast,
         error: errors.privilege[req.lang]

@@ -226,7 +226,7 @@ const copyCourseInstance = async (data, user, lang) => {
   const copy = built.find(table => table.model === CourseInstance).instances[0]
   await CoursePerson.create({
     course_instance_id: copy.dataValues.id,
-    person_id: user.id,
+    personId: user.id,
     role: 'TEACHER'
   })
   return create.value(copy, lang)
@@ -460,7 +460,7 @@ const create = {
   }),
   execute: (instance, user) => instance.save().then(result => CoursePerson.create({
     course_instance_id: result.dataValues.id,
-    person_id: user.id,
+    personId: user.id,
     role: 'TEACHER'
   })),
   value: (instance, lang) => {
