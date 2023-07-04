@@ -45,15 +45,20 @@ describe('Task component', () => {
   let wrapper
   let removeTask
   let changeActive
+  let updateCourseInfo
+
 
   beforeEach(() => {
     removeTask = jest.fn().mockImplementation(() => Promise.resolve())
     changeActive = jest.fn()
+    updateCourseInfo = jest.fn().mockImplementation(() => Promise.resolve())
     wrapper = shallow(<Task
       task={task}
       removeTask={removeTask}
       changeActive={changeActive}
       translate={() => ''}
+      updateCourseInfo={updateCourseInfo}
+
     />)
   })
 

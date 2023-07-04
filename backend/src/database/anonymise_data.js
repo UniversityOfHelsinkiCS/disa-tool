@@ -1,4 +1,5 @@
 const faker = require('faker')
+
 const { Person } = require('./models')
 
 const yiaBoi = async () => {

@@ -84,7 +84,7 @@ class SelfAssessmentInfo extends React.Component {
                 instructions.map((d) => (
                   <Form.Field key={d.id}>
                     <label>{d.prefix}</label>
-                    <TextArea autoHeight id={d.id} onChange={this.handleChange}>
+                    <TextArea autoheight="true" id={d.id} onChange={this.handleChange}>
                       {values[d.id] ? values[d.id] : d.value}
                     </TextArea>
                   </Form.Field>

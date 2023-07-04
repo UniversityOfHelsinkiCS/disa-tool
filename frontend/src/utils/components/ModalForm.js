@@ -35,7 +35,7 @@ class ModalForm extends Component {
   }
 
   actionHandlers = {
-    cancel: this.collapse
+    reset: this.collapse
   }
 
   mapAction = (button, i) => (button.props.type ? React.cloneElement(button, {
@@ -91,7 +91,7 @@ class ModalForm extends Component {
  */
 export const saveActions = translate => [
   <Button color="green" style={{ margin: '0px 15px 0px 15px' }}>{translate('save')}</Button>,
-  <Button type="cancel" style={{ margin: '0px 15px 0px 15px' }}>{translate('cancel')}</Button>
+  <Button type="reset" style={{ margin: '0px 15px 0px 15px' }}>{translate('cancel')}</Button>
 ]
 
 ModalForm.propTypes = {

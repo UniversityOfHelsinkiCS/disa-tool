@@ -118,7 +118,7 @@ export class CategoryQuestionModule extends React.Component {
                           {textFieldOn ?
                             <div>
                               <Form.TextArea
-                                autoHeight
+                                autoheight="true"
                                 error={responseTextError !== undefined}
                                 label={translate('basis')}
                                 placeholder={translate('writeBasis')}

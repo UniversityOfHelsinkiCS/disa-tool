@@ -1,4 +1,5 @@
 const faker = require('faker')
+
 const logger = require('../utils/logger')
 const { AssessmentResponse, CoursePerson, Person } = require('./models')
 const assessmentResponseService = require('../services/assesment_response_service')

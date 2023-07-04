@@ -31,13 +31,12 @@ router.get('/:selfAssesmentId', async (req, res) => {
     if (!await selfAssessmentService.isFeedbackActive(selfAssesmentId) && !isTeacher) {
       delete data.response.feedback
     }
-    res.status(200).json({ data })
+    return res.status(200).json({ data })
   } catch (error) {
     logger.error(error)
-    res.status(500).json({
+    return res.status(500).json({
       error: errors.unexpected[req.lang]
     })
-    logger.error(error)
   }
 })
 
@@ -151,6 +150,10 @@ router.get('/self-assesment/:id', async (req, res) => {
   const assessmentResponses = await assessmentResponseService.getBySelfAssesment(req.params.id, req.lang)
   const courseInstanceId = await assessmentResponseService.getCourseInstanceId(req.params.id, assessmentResponses)
   const data = await assessmentResponseService.addGradesAndHeaders(assessmentResponses, courseInstanceId, req.lang)
+  logger.info(assessmentResponses)
+  logger.info(data)
+  logger.info(courseInstanceId)
+
   if (!courseInstanceId) {
     res.status(404).json({
       error: errors.notfound[req.lang],
@@ -181,6 +184,9 @@ router.get('/self-assesment/:id', async (req, res) => {
       })
       logger.error(e)
     } else {
+      logger.info(assessmentResponses)
+      logger.info(data)
+      logger.info(courseInstanceId)
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })

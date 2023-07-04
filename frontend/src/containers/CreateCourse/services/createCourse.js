@@ -1,7 +1,7 @@
 import * as types from '../../../redux/action_types'
 import { postJson } from '../../../utils/utils'
 
-const createCourse = data => new Promise((resolve) => {
+export const createCourse = data => new Promise((resolve) => {
   postJson('/courses/create', data).then((response) => {
     resolve({
       type: types.COURSE_CREATE,
@@ -9,7 +9,3 @@ const createCourse = data => new Promise((resolve) => {
     })
   })
 })
-
-module.exports = {
-  createCourse
-}

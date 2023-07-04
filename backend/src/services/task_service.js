@@ -12,7 +12,7 @@ const getUserTasksForCourse = (courseId, lang, userId) => Task.findAll({
   include: [
     {
       model: TaskResponse,
-      where: { person_id: userId },
+      where: { personId: userId },
       required: false
     },
     {
@@ -49,7 +49,7 @@ const validateTaskResponses = async (taskResponses, courseId) => {
         studentnumber: resp.studentnumber,
         responseId: resp.responseId,
         task_id: resp.taskId,
-        person_id: resp.personId,
+        personId: resp.personId,
         points: resp.points <= originalTask.max_points ? resp.points : originalTask.max_points
       }
       // if there's a student number, assume it is a non-registered user.
@@ -66,16 +66,16 @@ const validateTaskResponses = async (taskResponses, courseId) => {
 const createOrUpdateTaskResponses = (taskResponses) => {
   // Check for any duplicate responses and remove them
   const uniqueResponses = taskResponses.filter((resp, i) => taskResponses
-    .findIndex(r => resp.person_id === r.person_id && resp.task_id === r.task_id) === i)
+    .findIndex(r => resp.personId === r.personId && resp.task_id === r.task_id) === i)
   // go through each response
   return Promise.all(uniqueResponses.map(async (resp) => {
-    if (resp.person_id && resp.task_id && resp.points) {
+    if (resp.personId && resp.task_id && resp.points) {
       // find an existing response or build a new one
-      const response = await TaskResponse.findOrBuild({
+      const [response,created] = await TaskResponse.findOrBuild({
         where: {
-          person_id: resp.person_id,
+          personId: resp.personId,
           task_id: resp.task_id
-        } }).spread(r => r)
+        } })
       // findOr-functions return an array with the object and a created-boolean,
       // which is why the result needs to be srpead.
       response.points = resp.points
@@ -91,7 +91,7 @@ const mapPersonsAndResponses = (taskResponses, coursePersons) => taskResponses.r
   return [
     ...acc,
     {
-      person_id: coursePerson.person_id,
+      personId: coursePerson.personId,
       task_id: curr.task_id,
       points: curr.points
     }
@@ -233,7 +233,7 @@ const updateMultipliers = async (taskType) => {
         task_id: taskType.task_id,
         modified: false
       },
-      returning: true
+      returning: ['*']
     }
   ))[1].map((taskObjective) => {
     const json = taskObjective.toJSON()
@@ -295,7 +295,7 @@ const attachType = {
   },
   execute: async (instance, deleteInstance) => {
     if (deleteInstance) await deleteInstance.destroy()
-    const createdTaskType = await instance.save({ returning: true })
+    const createdTaskType = await instance.save({ returning: ['*'] })
     const { taskObjectives, multiplier } = await updateMultipliers(createdTaskType)
     return { taskObjectives, multiplier }
   },

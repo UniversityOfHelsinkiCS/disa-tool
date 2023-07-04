@@ -70,6 +70,7 @@ class Nav extends Component {
   }
 
   render() {
+    console.log('render nav: ', process.env.NODE_ENV)
     const { activeItem, language } = this.state
     return (
       <nav>

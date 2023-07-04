@@ -326,7 +326,7 @@ const CoursePerson = sequelize.define('course_person', {
     },
     onDelete: 'CASCADE'
   },
-  person_id: {
+  personId: {
     type: Sequelize.BIGINT,
     allowNull: false,
     unique: false,
@@ -386,7 +386,7 @@ const TaskResponse = sequelize.define('task_response', {
     },
     onDelete: 'CASCADE'
   },
-  person_id: {
+  personId: {
     type: Sequelize.BIGINT,
     allowNull: false,
     unique: false,
@@ -416,7 +416,7 @@ const AssessmentResponse = sequelize.define('assessment_response', {
     },
     onDelete: 'CASCADE'
   },
-  person_id: {
+  personId: {
     type: Sequelize.BIGINT,
     allowNull: false,
     unique: false,
@@ -500,16 +500,16 @@ Person.belongsToMany(CourseInstance, { through: CoursePerson })
 CourseInstance.belongsToMany(Person, { through: CoursePerson })
 CourseInstance.hasMany(SelfAssessment, { foreignKey: 'course_instance_id', targetKey: 'id' })
 SelfAssessment.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
-Person.hasMany(TaskResponse, { foreignKey: 'person_id', targetKey: 'id' })
+Person.hasMany(TaskResponse, { foreignKey: 'personId', targetKey: 'id' })
 Task.hasMany(TaskResponse, { foreignKey: 'task_id', targetKey: 'id' })
-TaskResponse.belongsTo(Person, { foreignKey: 'person_id', targetKey: 'id' })
+TaskResponse.belongsTo(Person, { foreignKey: 'personId', targetKey: 'id' })
 TaskResponse.belongsTo(Task, { foreignKey: 'task_id', targetKey: 'id' })
 Person.belongsToMany(Task, { through: TaskResponse })
 Task.belongsToMany(Person, { through: TaskResponse })
-Person.hasMany(AssessmentResponse, { foreignKey: 'person_id', targetKey: 'id' })
-Person.hasMany(CoursePerson, { foreignKey: 'person_id', targetKey: 'id' })
+Person.hasMany(AssessmentResponse, { foreignKey: 'personId', targetKey: 'id' })
+Person.hasMany(CoursePerson, { foreignKey: 'personId', targetKey: 'id' })
 SelfAssessment.hasMany(AssessmentResponse, { foreignKey: 'self_assessment_id', targetKey: 'id' })
-AssessmentResponse.belongsTo(Person, { foreignKey: 'person_id', targetKey: 'id' })
+AssessmentResponse.belongsTo(Person, { foreignKey: 'personId', targetKey: 'id' })
 AssessmentResponse.belongsTo(SelfAssessment, { foreignKey: 'self_assessment_id', targetKey: 'id' })
 
 CourseInstance.hasMany(TypeHeader, { foreignKey: 'course_instance_id', targetKey: 'id' })

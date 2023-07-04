@@ -26,6 +26,7 @@ export class CourseTasksPage extends Component {
     // and set it to redux state
     if (!instanceHasData) {
       const { courseId } = this.props.location.state
+      
       await this.props.getCourseInstanceDataAction(courseId)
     }
     await this.props.getCourseInstanceTasksAction(instanceHasData ? course : this.props.course)

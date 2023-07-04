@@ -1,4 +1,5 @@
 const faker = require('faker')
+
 const { Person, CoursePerson } = require('./models')
 
 
@@ -10,17 +11,17 @@ const createStudentsOnCourse = async (studentNumbers, courseId) => {
     if (find) return find
     const student = { name: faker.name.findName(), studentnumber: number, role: 'STUDENT' }
     console.log(`creating ${student.name}`)
-    return Person.create(student, { returning: true }).then(res => res).catch(e => console.log('I AM DYING', e))
+    return Person.create(student, { returning: ['*'] }).then(res => res).catch(e => console.log('I AM DYING', e))
   }))
   console.log('--------------------------------------------------')
   console.log('starting to create course persons')
   const courseStudents = await Promise.all(students.map(async (person) => {
-    const find = await CoursePerson.findOne({ where: { person_id: person.id, course_instance_id: courseId } })
+    const find = await CoursePerson.findOne({ where: { personId: person.id, course_instance_id: courseId } })
     console.log(find)
     if (find) return find
     return CoursePerson.create({
-      person_id: person.id, course_instance_id: courseId, role: 'STUDENT'
-    }, { returning: true })
+      personId: person.id, course_instance_id: courseId, role: 'STUDENT'
+    }, { returning: ['*'] })
   }))
   console.log('created', courseStudents)
   console.log('DONE')
