@@ -28,7 +28,7 @@ const OpenQuestionModule = (props) => {
                 <Grid.Row>
                   <Grid.Column width={10}>
                     <Form.TextArea
-                      autoHeight
+                      autoheight="true"
                       error={responseTextError !== undefined}
                       placeholder={translate('placeholder')}
                       onBlur={!edit ? handleTextAreaBlur : undefined}

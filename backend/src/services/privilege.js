@@ -8,7 +8,7 @@ const validatePerson = role => async (param, user) => {
     attributes: ['role'],
     where: {
       course_instance_id: Number(param),
-      person_id: user.id
+      personId: user.id
     }
   })
   if (!coursePerson) {

@@ -235,8 +235,8 @@ describe('objective_controller', () => {
       }).then((result) => {
         ids.objective = result.id
         options.route = `${options.route}/${ids.objective}`
-        databaseExpectation.created_at = result.created_at
-        databaseExpectation.updated_at = result.updated_at
+        databaseExpectation.createdAt = result.createdAt
+        databaseExpectation.updatedAt = result.updatedAt
         done()
       }).catch(done)
     })
@@ -251,7 +251,7 @@ describe('objective_controller', () => {
           category_id: 1,
           order: 11
         }).then((result) => {
-          databaseExpectation.updated_at = result.updated_at
+          databaseExpectation.updatedAt = result.updatedAt
           done()
         }).catch(done)
       ).catch(done)
@@ -295,10 +295,10 @@ describe('objective_controller', () => {
       {
         ...data,
         id: asymmetricMatcher(actual => actual === ids.objective),
-        created_at: asymmetricMatcher(actual => !(
-          actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
+        createdAt: asymmetricMatcher(actual => !(
+          actual < databaseExpectation.createdAt || actual > databaseExpectation.createdAt
         )),
-        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.updated_at)
+        updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.updatedAt)
       },
       Objective,
       {

@@ -203,8 +203,8 @@ describe('category_controller', () => {
       }).then((result) => {
         ids.category = result.id
         options.route = `${options.route}/${ids.category}`
-        databaseExpectation.created_at = result.created_at
-        databaseExpectation.updated_at = result.updated_at
+        databaseExpectation.createdAt = result.createdAt
+        databaseExpectation.updatedAt = result.updatedAt
         done()
       }).catch(done)
     })
@@ -217,7 +217,7 @@ describe('category_controller', () => {
           swe_name: 'sn',
           order: 11
         }).then((result) => {
-          databaseExpectation.updated_at = result.updated_at
+          databaseExpectation.updatedAt = result.updatedAt
           done()
         }).catch(done)
       ).catch(done)
@@ -260,10 +260,10 @@ describe('category_controller', () => {
         ...data,
         id: asymmetricMatcher(actual => actual === ids.category),
         course_instance_id: 1,
-        created_at: asymmetricMatcher(actual => !(
-          actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
+        createdAt: asymmetricMatcher(actual => !(
+          actual < databaseExpectation.createdAt || actual > databaseExpectation.createdAt
         )),
-        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.updated_at)
+        updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.updatedAt)
       },
       Category,
       {

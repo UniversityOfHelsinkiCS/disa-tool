@@ -34,12 +34,12 @@ describe('skill level controller', () => {
           course_instance_id: courseInstance.id
         }),
         CoursePerson.create({
-          person_id: 370,
+          personId: 370,
           course_instance_id: courseInstance.id,
           role: 'STUDENT'
         }),
         CoursePerson.create({
-          person_id: 410,
+          personId: 410,
           course_instance_id: courseInstance.id,
           role: 'TEACHER'
         })
@@ -277,8 +277,8 @@ describe('skill level controller', () => {
       }).then((result) => {
         ids.level = result.id
         options.route = `${options.route}/${ids.level}`
-        databaseExpectation.created_at = result.created_at
-        databaseExpectation.updated_at = result.updated_at
+        databaseExpectation.createdAt = result.createdAt
+        databaseExpectation.updatedAt = result.updatedAt
         done()
       }).catch(done)
     })
@@ -291,7 +291,7 @@ describe('skill level controller', () => {
           swe_name: 'sn',
           order: 11
         }).then((result) => {
-          databaseExpectation.updated_at = result.updated_at
+          databaseExpectation.updatedAt = result.updatedAt
           done()
         }).catch(done)
       ).catch(done)
@@ -340,10 +340,10 @@ describe('skill level controller', () => {
         ...data,
         id: asymmetricMatcher(actual => actual === ids.level),
         course_instance_id: asymmetricMatcher(actual => actual === superIds.courseInstance),
-        created_at: asymmetricMatcher(actual => !(
-          actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
+        createdAt: asymmetricMatcher(actual => !(
+          actual < databaseExpectation.createdAt || actual > databaseExpectation.createdAt
         )),
-        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.updated_at)
+        updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.updatedAt)
       },
       SkillLevel,
       {

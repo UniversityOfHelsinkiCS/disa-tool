@@ -57,6 +57,7 @@ router.post('/course_role', async (req, res) => {
     const { newPeople, updatedPeople } = await personService.updateOrCreatePersonsOnCourse(coursePersons)
     res.status(200).json({ message: 'course teachers updated successfully', newPeople, updatedPeople })
   } catch (e) {
+    logger.error("error: ", e)
     res.status(500).json({ error: 'Could not update the people' })
   }
 })

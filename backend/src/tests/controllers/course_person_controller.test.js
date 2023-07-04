@@ -29,7 +29,7 @@ describe('course_person_controller', () => {
       CoursePerson.destroy({
         where: {
           course_instance_id: data.course_instance_id,
-          person_id: 370
+          personId: 370
         }
       }).then(() => done())
     })
@@ -43,7 +43,7 @@ describe('course_person_controller', () => {
         message: expect.any(String),
         created: {
           course_instance_id: data.course_instance_id,
-          person_id: 370,
+          personId: 370,
           role: 'STUDENT'
         }
       }
@@ -54,7 +54,7 @@ describe('course_person_controller', () => {
       {
         ...data,
         id: expect.any(Number),
-        person_id: 370,
+        personId: 370,
         role: 'STUDENT'
       },
       CoursePerson
@@ -77,7 +77,7 @@ describe('course_person_controller', () => {
     beforeEach((done) => {
       CoursePerson.create({
         course_instance_id: data.course_instance_id,
-        person_id: 370,
+        personId: 370,
         role: 'STUDENT'
       }).then(() => done()).catch(done)
     })
@@ -86,7 +86,7 @@ describe('course_person_controller', () => {
       CoursePerson.destroy({
         where: {
           course_instance_id: data.course_instance_id,
-          person_id: 370
+          personId: 370
         }
       }).then(() => done()).catch(done)
     })
@@ -101,7 +101,7 @@ describe('course_person_controller', () => {
         deleted: {
           id: expect.any(Number),
           course_instance_id: data.course_instance_id,
-          person_id: 370,
+          personId: 370,
           role: 'STUDENT'
         }
       }
@@ -153,7 +153,7 @@ describe('course_person_controller', () => {
     afterEach((done) => {
       CoursePerson.destroy({
         where: {
-          person_id: ids.person,
+          personId: ids.person,
           course_instance_id: coursePersonData.course_instance_id
         }
       }).then(() => done()).catch(done)
@@ -175,7 +175,7 @@ describe('course_person_controller', () => {
       common: {
         data: {
           id: expect.any(Number),
-          person_id: asymmetricMatcher(actual => actual === ids.person),
+          personId: asymmetricMatcher(actual => actual === ids.person),
           course_instance_id: coursePersonData.course_instance_id,
           role: data.role
         }
@@ -195,7 +195,7 @@ describe('course_person_controller', () => {
       options,
       {
         id: expect.any(Number),
-        person_id: asymmetricMatcher(actual => actual === ids.person),
+        personId: asymmetricMatcher(actual => actual === ids.person),
         course_instance_id: coursePersonData.course_instance_id,
         role: data.role
       },
@@ -209,7 +209,7 @@ describe('course_person_controller', () => {
       beforeEach((done) => {
         CoursePerson.create({
           ...coursePersonData,
-          person_id: ids.person
+          personId: ids.person
         }).then((coursePerson) => {
           ids.coursePerson = coursePerson.id
           done()
@@ -228,7 +228,7 @@ describe('course_person_controller', () => {
         common: {
           data: {
             id: asymmetricMatcher(actual => actual === ids.coursePerson),
-            person_id: asymmetricMatcher(actual => actual === ids.person),
+            personId: asymmetricMatcher(actual => actual === ids.person),
             course_instance_id: coursePersonData.course_instance_id,
             role: data.role
           }
@@ -248,7 +248,7 @@ describe('course_person_controller', () => {
         options,
         {
           id: asymmetricMatcher(actual => actual === ids.coursePerson),
-          person_id: asymmetricMatcher(actual => actual === ids.person),
+          personId: asymmetricMatcher(actual => actual === ids.person),
           course_instance_id: coursePersonData.course_instance_id,
           role: data.role
         },
@@ -322,7 +322,7 @@ describe('course_person_controller', () => {
     beforeEach((done) => {
       CoursePerson.create({
         ...coursePersonData,
-        person_id: ids.person
+        personId: ids.person
       }).then((coursePerson) => {
         ids.coursePerson = coursePerson.id
         done()
@@ -332,7 +332,7 @@ describe('course_person_controller', () => {
     afterEach((done) => {
       CoursePerson.destroy({
         where: {
-          person_id: ids.person,
+          personId: ids.person,
           course_instance_id: coursePersonData.course_instance_id
         }
       }).then(() => done()).catch(done)
@@ -347,7 +347,6 @@ describe('course_person_controller', () => {
     })
 
     testHeaders(options)
-
     testTeacherOnCoursePrivilege(options)
 
     testBody(options, {
@@ -356,7 +355,7 @@ describe('course_person_controller', () => {
         deleted: {
           ...coursePersonData,
           id: asymmetricMatcher(actual => actual === ids.coursePerson),
-          person_id: asymmetricMatcher(actual => actual === ids.person)
+          personId: asymmetricMatcher(actual => actual === ids.person)
         }
       }
     })
@@ -374,7 +373,7 @@ describe('course_person_controller', () => {
         beforeEach((done) => {
           CoursePerson.destroy({
             where: {
-              person_id: ids.person,
+              personId: ids.person,
               course_instance_id: coursePersonData.course_instance_id
             }
           }).then(() => done()).catch(done)

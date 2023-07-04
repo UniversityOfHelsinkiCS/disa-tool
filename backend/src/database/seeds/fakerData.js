@@ -1,4 +1,5 @@
 const faker = require('faker')
+
 const oldTasks = require('./tasks.json')
 
 if (process.env.NODE_ENV === 'test') {
@@ -132,7 +133,7 @@ const getCoursePersons = (persons) => {
     const element = persons[i]
     coursePersons.push({
       course_instance_id: element.username === 'mikkoti' ? 1 : Math.floor(Math.random() * 3) + 1,
-      person_id: element.id,
+      personId: element.id,
       role: element.role
     })
   }
@@ -140,7 +141,7 @@ const getCoursePersons = (persons) => {
     const element = persons[i]
     coursePersons.push({
       course_instance_id: Math.floor(Math.random() * 37) + 1,
-      person_id: element.id,
+      personId: element.id,
       role: element.role
     })
   }

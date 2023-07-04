@@ -136,12 +136,12 @@ describe('assesment response controller', () => {
         }),
         CoursePerson.create({
           course_instance_id: courseInstance.id,
-          person_id: 370,
+          personId: 370,
           role: 'STUDENT'
         }),
         CoursePerson.create({
           course_instance_id: courseInstance.id,
-          person_id: 410,
+          personId: 410,
           role: 'TEACHER'
         })
       ]).then(([selfAssesment, skillLevel, category, task]) => {
@@ -157,7 +157,7 @@ describe('assesment response controller', () => {
           }),
           TaskResponse.create({
             taskResponseData,
-            person_id: 370,
+            personId: 370,
             task_id: task.id
           }),
           ...gradeData.map(data => Grade.create({
@@ -195,7 +195,7 @@ describe('assesment response controller', () => {
                   }
                 ]
               },
-              person_id: 370,
+              personId: 370,
               self_assessment_id: selfAssesment.id
             }),
             TaskObjective.create({
@@ -247,7 +247,7 @@ describe('assesment response controller', () => {
       common: {
         data: {
           id: asymmetricMatcher(actual => actual === ids.assesmentResponse),
-          person_id: 370,
+          personId: 370,
           self_assessment_id: asymmetricMatcher(actual => actual === ids.selfAssesment),
           response: {
             finalGradeResponse: {
@@ -334,7 +334,7 @@ describe('assesment response controller', () => {
         CoursePerson.create({
           role: 'STUDENT',
           course_instance_id: ids.courseInstance,
-          person_id: person.id
+          personId: person.id
         }).then(() => done()).catch(done)
       }).catch(done)
     })
@@ -380,7 +380,7 @@ describe('assesment response controller', () => {
         data: {
           id: expect.any(Number),
           self_assessment_id: asymmetricMatcher(actual => actual === ids.selfAssesment),
-          person_id: asymmetricMatcher(actual => actual === ids.createPerson),
+          personId: asymmetricMatcher(actual => actual === ids.createPerson),
           response: {
             ...dataToResponse(data),
             finalGradeResponse: {
@@ -398,7 +398,7 @@ describe('assesment response controller', () => {
       {
         id: expect.any(Number),
         self_assessment_id: asymmetricMatcher(actual => actual === ids.selfAssesment),
-        person_id: asymmetricMatcher(actual => actual === ids.createPerson),
+        personId: asymmetricMatcher(actual => actual === ids.createPerson),
         response: {
           ...dataToResponse(data),
           finalGradeResponse: {
@@ -419,7 +419,7 @@ describe('assesment response controller', () => {
         AssessmentResponse.create({
           response: {},
           self_assessment_id: ids.selfAssesment,
-          person_id: ids.createPerson
+          personId: ids.createPerson
         }).then((assesmentResponse) => {
           ids.existingAssesmentResponse = assesmentResponse.id
           done()
@@ -432,7 +432,7 @@ describe('assesment response controller', () => {
           data: {
             id: asymmetricMatcher(actual => actual === ids.existingAssesmentResponse),
             self_assessment_id: asymmetricMatcher(actual => actual === ids.selfAssesment),
-            person_id: asymmetricMatcher(actual => actual === ids.createPerson),
+            personId: asymmetricMatcher(actual => actual === ids.createPerson),
             response: {
               ...dataToResponse(data),
               finalGradeResponse: {
@@ -450,7 +450,7 @@ describe('assesment response controller', () => {
         {
           id: asymmetricMatcher(actual => actual === ids.existingAssesmentResponse),
           self_assessment_id: asymmetricMatcher(actual => actual === ids.selfAssesment),
-          person_id: asymmetricMatcher(actual => actual === ids.createPerson),
+          personId: asymmetricMatcher(actual => actual === ids.createPerson),
           response: {
             ...dataToResponse(data),
             finalGradeResponse: {
@@ -484,7 +484,7 @@ describe('assesment response controller', () => {
           data: {
             id: expect.any(Number),
             self_assessment_id: asymmetricMatcher(actual => actual === ids.selfAssesment),
-            person_id: asymmetricMatcher(actual => actual === ids.createPerson),
+            personId: asymmetricMatcher(actual => actual === ids.createPerson),
             response: {
               ...dataToResponse(data),
               assessmentType: 'objectives',

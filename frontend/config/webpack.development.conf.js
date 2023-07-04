@@ -1,17 +1,26 @@
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const devPort = 8080
 const apiPort = 8000
 
 module.exports = {
   mode: 'development',
-  entry: ['babel-polyfill', './src/index.js'],
+  entry: ["@babel/polyfill", './src/index.js'],
   output: {
     path: path.join(__dirname, './dist'),
     filename: 'index.js',
     publicPath: '/'
+  },
+  resolve: {
+    fallback: { 
+      path: require.resolve("path-browserify") 
+    },
+    extensions: ['.js', '.jsx'],
+    modules: [
+      'node_modules',
+    ],
   },
   module: {
     rules: [
@@ -23,17 +32,16 @@ module.exports = {
         }
       },
       {
+        test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff2?)(\?v=\d+\.\d+\.\d+)?$/i,
+        type: 'asset/resource',
+      },
+      {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2)$/,
-        use: 'file-loader?name=fonts/[name]-[hash].[ext]'
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg)$/,
-        use: 'file-loader?name=images/[name]-[hash].[ext]'
-      }
+        use: [
+            'style-loader',
+            'css-loader', 
+        ],
+    }
     ]
   },
   plugins: [
@@ -47,7 +55,10 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify('development')
       }
-    })
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
   ],
   devServer: {
     port: devPort,

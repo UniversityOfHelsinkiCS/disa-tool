@@ -1,26 +1,36 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const webpack = require('webpack')
 
 
 module.exports = {
   mode: 'production',
-  entry: ['babel-polyfill', './src/index.js'],
+  entry: ["@babel/polyfill", './src/index.js'],
+  node: {
+    global: true
+  },
   output: {
-    filename: '[name]-[hash].bundle.js',
-    chunkFilename: '[name]-[id]-[hash].bundle.js',
+    filename: '[name]-[fullhash].bundle.js',
+    chunkFilename: '[name]-[id]-[fullhash].bundle.js',
     path: path.join(__dirname, '../../backend/dist'),
     publicPath: '/'
   },
+  resolve: {
+    fallback: { 
+      path: require.resolve("path-browserify") 
+    }
+  },
   optimization: {
-    splitChunks: {
-      chunks: 'all'
-    },
-    minimizer: [
-      new OptimizeCSSAssetsPlugin({})
-    ]
+      minimize: true,
+      splitChunks: {
+        chunks: 'all'
+      },
+      minimizer: [
+        new CssMinimizerPlugin(),new TerserPlugin()
+      ],
   },
   module: {
     rules: [
@@ -32,17 +42,13 @@ module.exports = {
         }
       },
       {
+        test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff2?)(\?v=\d+\.\d+\.\d+)?$/i,
+        type: 'asset/resource',
+      },
+      {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2)$/,
-        use: 'file-loader?name=fonts/[name]-[hash].[ext]'
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg)$/,
-        use: 'file-loader?name=images/[name]-[hash].[ext]'
-      }
     ]
   },
   plugins: [
@@ -50,8 +56,11 @@ module.exports = {
       template: './src/index.html'
     }),
     new MiniCssExtractPlugin({
-      filename: '[name]-[hash].css',
-      chunkFilename: '[name]-[id]-[hash].css'
+      filename: '[name]-[fullhash].css',
+      chunkFilename: '[name]-[id]-[fullhash].css'
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
     }),
     new webpack.DefinePlugin({
       CONFIG: {

@@ -128,7 +128,7 @@ describe('course_controller', () => {
         CoursePerson.create({
           role: 'TEACHER',
           course_instance_id: courseInstance.id,
-          person_id: 410
+          personId: 410
         }).then(() => done()).catch(done)
       }).catch(done)
     })
@@ -184,11 +184,11 @@ describe('course_controller', () => {
       course_id: 1
     }
     const coursePersonData = {
-      person_id: 370,
+      personId: 370,
       role: 'STUDENT'
     }
     const teacherData = {
-      person_id: 410,
+      personId: 410,
       role: 'TEACHER'
     }
     const taskData = {
@@ -221,7 +221,7 @@ describe('course_controller', () => {
       structure: {}
     }
     const taskResponseData = {
-      person_id: 370,
+      personId: 370,
       points: 3
     }
     const typeData = {
@@ -232,7 +232,7 @@ describe('course_controller', () => {
       order: 1
     }
     const assesmentResponseData = {
-      person_id: 370,
+      personId: 370,
       response: {}
     }
     const options = {
@@ -328,7 +328,7 @@ describe('course_controller', () => {
           max_points: taskData.max_points,
           task_responses: [{
             id: asymmetricMatcher(actual => actual === ids.taskResponse),
-            person_id: taskResponseData.person_id,
+            personId: taskResponseData.personId,
             task_id: asymmetricMatcher(actual => actual === ids.task)
           }],
           types: [{
@@ -456,7 +456,7 @@ describe('course_controller', () => {
           courseInstances.map(courseInstance => CoursePerson.create({
             ...coursePersonData,
             course_instance_id: courseInstance.id,
-            person_id: person.id
+            personId: person.id
           }))
         )).then((coursePersons) => {
           ids.coursePerson = coursePersons.map(coursePerson => coursePerson.id)
@@ -562,7 +562,7 @@ describe('course_controller', () => {
             courseInstances.push(courseInstance1)
             ids.courseInstances = courseInstances.map(courseInstance => courseInstance.id)
             CoursePerson.create({
-              person_id: 370,
+              personId: 370,
               course_instance_id: courseInstances[0].id,
               role: 'STUDENT'
             }).then(() => done()).catch(done)

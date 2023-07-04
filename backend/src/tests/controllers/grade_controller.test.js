@@ -38,7 +38,7 @@ describe('grade controller', () => {
       ids.courseInstance = courseInstance.id
       Promise.all([
         CoursePerson.create({
-          person_id: 410,
+          personId: 410,
           course_instance_id: courseInstance.id,
           role: 'TEACHER'
         }),
@@ -292,8 +292,8 @@ describe('grade controller', () => {
         data.skill_level_id = newSkillLevel.id
         ids.toEdit = toEdit.id
         options.route = `${options.route}/${toEdit.id}`
-        databaseExpectation.created_at = toEdit.created_at
-        databaseExpectation.updated_at = toEdit.updated_at
+        databaseExpectation.createdAt = toEdit.createdAt
+        databaseExpectation.updatedAt = toEdit.updatedAt
         done()
       }).catch(done)
     })
@@ -308,7 +308,7 @@ describe('grade controller', () => {
         prerequisite: null,
         order: 11
       }).then((result) => {
-        databaseExpectation.updated_at = result.updated_at
+        databaseExpectation.updatedAt = result.updatedAt
         done()
       }).catch(done)
       ).catch(done)
@@ -360,10 +360,10 @@ describe('grade controller', () => {
       ...data,
       id: asymmetricMatcher(actual => actual === ids.toEdit),
       skill_level_id: asymmetricMatcher(actual => actual === ids.newSkillLevel),
-      created_at: asymmetricMatcher(
-        actual => !(actual < databaseExpectation.created_at || actual > databaseExpectation.created_at)
+      createdAt: asymmetricMatcher(
+        actual => !(actual < databaseExpectation.createdAt || actual > databaseExpectation.createdAt)
       ),
-      updated_at: asymmetricMatcher(actual => actual > databaseExpectation.updated_at)
+      updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.updatedAt)
     }, Grade, {
       pathToId: ['body', 'edited', 'id'],
       includeTimestamps: false
@@ -436,7 +436,7 @@ describe('grade controller', () => {
             course_instance_id: catCourseInstance.id
           }),
           CoursePerson.create({
-            person_id: 410,
+            personId: 410,
             course_instance_id: catCourseInstance.id,
             role: 'TEACHER'
           })

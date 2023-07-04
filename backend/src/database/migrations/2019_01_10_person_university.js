@@ -22,18 +22,18 @@ module.exports = {
       Promise.all([
         queryInterface.addConstraint(
           'person',
-          ['university', 'username'],
           {
             type: 'unique',
-            name: 'composite_unique_university_username'
+            name: 'composite_unique_university_username',
+            fields: ['username', 'university']
           }
         ),
         queryInterface.addConstraint(
           'person',
-          ['university', 'studentnumber'],
           {
             type: 'unique',
-            name: 'composite_unique_university_studentnumber'
+            name: 'composite_unique_university_studentnumber',
+            fields: ['studentnumber', 'university']
           }
         )
       ]).then(() => done())
@@ -57,18 +57,18 @@ module.exports = {
         ),
         queryInterface.addConstraint(
           'person',
-          ['username'],
           {
             type: 'unique',
-            name: 'person_username_key'
+            name: 'person_username_key',
+            fields: ['username']
           }
         ),
         queryInterface.addConstraint(
           'person',
-          ['studentnumber'],
           {
             type: 'unique',
-            name: 'person_studentnumber_key'
+            name: 'person_studentnumber_key',
+            fields: ['studentnumber']
           }
         ),
       ]).then(() => done())

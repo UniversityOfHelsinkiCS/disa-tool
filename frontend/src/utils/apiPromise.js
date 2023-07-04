@@ -6,10 +6,24 @@ const success = (resolve, action) => response => resolve({
   response: response.data
 })
 
-const failure = (resolve, action) => error => resolve({
+const failure = (resolve, action) => error => {
+  if(error.response) {
+ return resolve({
   ...action,
   response: error.response.data
 })
+} else if(error.request) {
+ return resolve({
+  ...action,
+  response: error.request
+})
+} else {
+  return resolve({
+    ...action,
+    response: error.message
+  })
+}
+}
 
 const successToast = resolve => success(resolve, { type: defaultSuccess })
 

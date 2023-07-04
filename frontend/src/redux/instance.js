@@ -11,6 +11,7 @@ export const instanceReducer = (state = INITIAL_STATE, action) => {
     case types.COURSES_GET_INSTANCE_DATA_SUCCESS:
       return action.payload
     case types.COURSES_GET_INSTANCE_DATA_FAILURE:
+      console.log(action.payload)
       return {
         status: action.payload.status,
         course_id: action.payload.data.course_id,
