@@ -352,8 +352,8 @@ describe('type_controller', () => {
       }).then((result) => {
         ids.editType = result.id
         options.route = `${options.route}/${ids.editType}`
-        databaseExpectation.created_at = result.created_at
-        databaseExpectation.updated_at = result.updated_at
+        databaseExpectation.createdAt = result.createdAt
+        databaseExpectation.updatedAt = result.updatedAt
         done()
       })
     })
@@ -366,7 +366,7 @@ describe('type_controller', () => {
         multiplier: 1,
         order: 11
       }).then((result) => {
-        databaseExpectation.updated_at = result.updated_at
+        databaseExpectation.updatedAt = result.updatedAt
         done()
       }).catch(done)
       ).catch(done)
@@ -411,10 +411,10 @@ describe('type_controller', () => {
         ...data,
         id: asymmetricMatcher(actual => actual === ids.editType),
         type_header_id: asymmetricMatcher(actual => actual === ids.typeHeader),
-        created_at: asymmetricMatcher(actual => !(
-          actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
+        createdAt: asymmetricMatcher(actual => !(
+          actual < databaseExpectation.createdAt || actual > databaseExpectation.createdAt
         )),
-        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.updated_at)
+        updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.updatedAt)
       },
       Type,
       {
@@ -492,7 +492,7 @@ describe('type_controller', () => {
       }).then((result) => {
         ids.editHeader = result.get({ plain: true }).id
         options.route = `${options.route}/${ids.editHeader}`
-        databaseExpectation.created_at = result.get({ plain: true }).created_at
+        databaseExpectation.createdAt = result.get({ plain: true }).createdAt
         done()
       }).catch(done)
     })
@@ -545,10 +545,10 @@ describe('type_controller', () => {
         ...data,
         id: asymmetricMatcher(actual => actual === ids.editHeader),
         course_instance_id: asymmetricMatcher(actual => actual === ids.courseInstance),
-        created_at: asymmetricMatcher(actual => !(
-          actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
+        createdAt: asymmetricMatcher(actual => !(
+          actual < databaseExpectation.createdAt || actual > databaseExpectation.createdAt
         )),
-        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.created_at)
+        updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.createdAt)
       },
       TypeHeader,
       {

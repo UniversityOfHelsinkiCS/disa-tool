@@ -31,13 +31,13 @@ router.get('/:selfAssesmentId', async (req, res) => {
     if (!await selfAssessmentService.isFeedbackActive(selfAssesmentId) && !isTeacher) {
       delete data.response.feedback
     }
-    res.status(200).json({ data })
+    return res.status(200).json({ data })
   } catch (error) {
     logger.error(error)
-    res.status(500).json({
+    return res.status(500).json({
       error: errors.unexpected[req.lang]
     })
-    logger.error(error)
+   // logger.error(error)
   }
 })
 

@@ -1,7 +1,7 @@
 const { Op } = require('sequelize')
 const { Person, CourseInstance, TaskResponse, CoursePerson, Task } = require('../database/models.js')
 
-const getUser = userId => Person.find({ where: { id: userId } })
+const getUser = userId => Person.findOne({ where: { id: userId } })
 
 const getAllWithRoles = lang => (
   Person.findAll({
@@ -134,7 +134,7 @@ const addPersonsToCourseFromResponses = async (tasks, courseId) => {
 }
 
 const updateGlobal = async (data) => {
-  const found = await Person.find({
+  const found = await Person.findOne({
     where: {
       id: data.personId
     }

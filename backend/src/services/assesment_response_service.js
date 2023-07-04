@@ -17,7 +17,7 @@ const logger = require('../utils/logger')
 
 
 const getOne = async (user, selfAssesmentId, lang) => {
-  const found = await AssessmentResponse.find({
+  const found = await AssessmentResponse.findOne({
     where: { person_id: user.id, self_assessment_id: selfAssesmentId }
   })
   if (!found) return null
@@ -29,7 +29,7 @@ const getOne = async (user, selfAssesmentId, lang) => {
   return foundData
 }
 
-const create = async (user, selfAssesmentId, data) => AssessmentResponse.find({
+const create = async (user, selfAssesmentId, data) => AssessmentResponse.findOne({
   where: { person_id: user.id, self_assessment_id: selfAssesmentId }
 }).then((found) => {
   /* Swap the final grade category headers to final grade 'main' header
@@ -84,7 +84,7 @@ const verifyAssessmentGrade = async (response, lang) => {
       name: courseGrades.find(grade => grade.id === categoryResp.grade)[`${lang}_name`]
     }
     // find current category, include objectives and tasks
-    const category = await Category.find({
+    const category = await Category.findOne({
       where: { id: categoryResp.id },
       include: { model: Objective, include: Task }
     })
@@ -381,7 +381,7 @@ const getCourseInstanceId = async (id, responses = []) => {
 
 const getBySelfAssesment = async (id) => {
   const responses = await AssessmentResponse.findAll({
-    attributes: ['id', 'response', 'person_id', 'self_assessment_id', 'updated_at'],
+    attributes: ['id', 'response', 'person_id', 'self_assessment_id', 'updatedAt'],
     include: [
       {
         model: Person,
@@ -447,7 +447,7 @@ const getGradesAndHeader = async (data, lang, grades) => {
 }
 
 const getResponseById = id => AssessmentResponse.findByPk(id, {
-  attributes: ['id', 'response', 'person_id', 'self_assessment_id', 'updated_at'],
+  attributes: ['id', 'response', 'person_id', 'self_assessment_id', 'updatedAt'],
   include: [
     {
       model: Person,

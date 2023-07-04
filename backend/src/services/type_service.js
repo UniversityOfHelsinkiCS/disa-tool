@@ -90,7 +90,7 @@ const { details, edit } = editServices(
   Type,
   {
     attributes: {
-      exclude: ['updated_at', 'created_at', 'type_header_id']
+      exclude: ['updatedAt', 'createdAt', 'type_header_id']
     }
   },
   {
