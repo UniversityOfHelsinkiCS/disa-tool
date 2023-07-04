@@ -79,7 +79,7 @@ const getStudentsAndTeachers = () => {
     persons.push({
       studentnumber,
       username: i === 370 ? 'jemisa' : faker.internet.userName(),
-      name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+      name: `${faker.person.firstName()} ${faker.person.lastName()}`,
       role: 'STUDENT'
     })
     number++
@@ -89,7 +89,7 @@ const getStudentsAndTeachers = () => {
     persons.push({
       studentnumber,
       username: i === 410 ? 'mikkoti' : faker.internet.userName(),
-      name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+      name: `${faker.person.firstName()} ${faker.person.lastName()}`,
       role: 'TEACHER'
     })
     number++
