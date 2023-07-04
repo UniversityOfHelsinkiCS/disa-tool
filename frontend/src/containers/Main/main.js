@@ -20,10 +20,6 @@ import SelfAssesmentListPage from '../SelfAssesmentList/SelfAssesmentListPage'
 import RegisterRedirect from '../CourseList/components/RegisterRedirect'
 import CourseTasksPage from '../Course/CourseTasksPage'
 
-class MathJaxProvider extends MathJax.Provider {
-  hasNodes = true
-}
-
 class Keygen {
   constructor() {
     this.userKey = 0
@@ -45,15 +41,9 @@ class Keygen {
 
 const keygen = new Keygen()
 
-class Main extends PureComponent {
-  // TODO: Remove componentWillReceiveProps
-  componentWillReceiveProps(newProps) {
-    if (this.props.toast !== newProps.toast) {
-      toast(newProps.toast.message, newProps.toast.options)
-    }
-  }
+const Main = () => {
 
-  userRoutes = [
+  const userRoutes = [
     <Route exact path="/selfassessment/edit/:selfAssessmentId" render={({ match }) => <SelfAssessmentFormPage edit match={match} />} key={keygen.user()} />,
     <Route exact path="/selfassessment/preview/:selfAssessmentId" render={({ match }) => <SelfAssessmentFormPage preview edit={false} match={match} />} key={keygen.user()} />,
     <Route exact path="/selfassessment/create/:courseInstanceId/:type" render={({ match }) => <SelfAssessmentFormPage edit new match={match} />} key={keygen.user()} />,
@@ -62,7 +52,7 @@ class Main extends PureComponent {
     <Route exact path="/selfassessment/:courseId" component={SelfAssessmentPage} key={keygen.user()} />,
     <Route path="/selfassessment" component={SelfAssessmentPage} key={keygen.user()} />,
     <Route exact path="/user/course/:courseId" component={UserPage} key={keygen.user()} />,
-    <Route exact path="/user/course/:courseId/tasksAndPeople" component={CourseTasksPage} key={keygen.user()} />,
+    <Route exact path="/user/course/:courseId/tasksAndPeople" render={(props) => <CourseTasksPage {...props}/>} key={keygen.user()} />,
     <Route exact path="/user" component={UserPage} key={keygen.user()} />,
     <Route path="/course/:id" component={CoursePage} key={keygen.user()} />,
     <Route path="/tasks-responses/upload/:courseId" component={UploadResponsesPage} key={keygen.user()} />,
@@ -72,13 +62,13 @@ class Main extends PureComponent {
     <Route component={HomePage} key={keygen.user()} />
   ]
 
-  anonymousRoutes = [
-    <Route path="/courses/matrix/:id" component={() => MatrixPage} key={keygen.anonymous()} />,
+  const anonymousRoutes = [
+    <Route path="/courses/matrix/:id" render={(props) => <MatrixPage {...props}/>} key={keygen.anonymous()} />,
     <Route exact path="/courses" component={CourseListPage} key={keygen.anonymous()} />,
     <Route exact path="/" component={HomePage} key={keygen.anonymous()} />
   ]
 
-  render() {
+
     return (
       <main>
         <ToastContainer
@@ -86,16 +76,15 @@ class Main extends PureComponent {
           autoClose={5000}
           hideProgressBar
         />
-        <MathJaxProvider>
+        <MathJax.Provider>
           <Switch>
-            {this.anonymousRoutes}
-            {this.userRoutes}
+            {anonymousRoutes}
+            {userRoutes}
           </Switch>
-        </MathJaxProvider>
+        </MathJax.Provider>
       </main>
     )
   }
-}
 
 Main.propTypes = {
   toast: PropTypes.shape({
