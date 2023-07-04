@@ -58,7 +58,6 @@ module.exports = {
         ),
         queryInterface.addConstraint(
           'person',
-          ['username'],
           {
             type: 'unique',
             name: 'person_username_key',

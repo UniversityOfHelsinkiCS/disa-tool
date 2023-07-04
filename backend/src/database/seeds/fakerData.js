@@ -1,4 +1,4 @@
-const { faker } = require('@faker-js/faker')
+const faker = require('faker')
 
 const oldTasks = require('./tasks.json')
 
@@ -79,7 +79,7 @@ const getStudentsAndTeachers = () => {
     persons.push({
       studentnumber,
       username: i === 370 ? 'jemisa' : faker.internet.userName(),
-      name: `${faker.person.firstName()} ${faker.person.lastName()}`,
+      name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       role: 'STUDENT'
     })
     number++
@@ -89,7 +89,7 @@ const getStudentsAndTeachers = () => {
     persons.push({
       studentnumber,
       username: i === 410 ? 'mikkoti' : faker.internet.userName(),
-      name: `${faker.person.firstName()} ${faker.person.lastName()}`,
+      name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       role: 'TEACHER'
     })
     number++

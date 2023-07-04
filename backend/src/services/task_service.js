@@ -233,7 +233,7 @@ const updateMultipliers = async (taskType) => {
         task_id: taskType.task_id,
         modified: false
       },
-      returning: ['*']
+      returning: true
     }
   ))[1].map((taskObjective) => {
     const json = taskObjective.toJSON()
@@ -295,7 +295,7 @@ const attachType = {
   },
   execute: async (instance, deleteInstance) => {
     if (deleteInstance) await deleteInstance.destroy()
-    const createdTaskType = await instance.save({ returning: ['*'] })
+    const createdTaskType = await instance.save({ returning: true })
     const { taskObjectives, multiplier } = await updateMultipliers(createdTaskType)
     return { taskObjectives, multiplier }
   },

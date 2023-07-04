@@ -111,7 +111,7 @@ const createDefaultCategoryGrades = async (grade, courseInstanceId) => {
     grade_id: grade.id,
     needed_for_grade: grade.needed_for_grade
   }))
-  return CategoryGrade.bulkCreate(categoryGrades, { returning: ['*'] })
+  return CategoryGrade.bulkCreate(categoryGrades, { returning: true })
 }
 
 const filterCategoryGradesOnCourse = async (courseId, categoryGrades) => {
@@ -126,7 +126,7 @@ const updateCategoryGrades = (oldCategoryGrades, newValues) => (
   Promise.all(oldCategoryGrades.map(async (cg) => {
     const newValue = newValues.find(val => val.id === cg.id)
     cg.set('needed_for_grade', newValue.neededForGrade)
-    return cg.save({ returning: ['*'] })
+    return cg.save({ returning: true })
   }))
 )
 

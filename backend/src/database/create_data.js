@@ -35,13 +35,13 @@ const MAX_INSTANCES = 6
 
 const randBetween = (start, end) => Math.floor(Math.random() * (end - start) + start)
 
-const createCategories = () => Category.bulkCreate(categories, { returning: ['*'] })
+const createCategories = () => Category.bulkCreate(categories, { returning: true })
 
-const createSkillLevels = () => SkillLevel.bulkCreate(skillLevels, { returning: ['*'] })
+const createSkillLevels = () => SkillLevel.bulkCreate(skillLevels, { returning: true })
 
-const createCourses = () => Course.bulkCreate(courses, { returning: ['*'] })
+const createCourses = () => Course.bulkCreate(courses, { returning: true })
 
-const createPersons = persons => Person.bulkCreate(persons, { returning: ['*'] })
+const createPersons = persons => Person.bulkCreate(persons, { returning: true })
 
 const createCourseInstances = (listOfCourses, maxInstances) => {
   const instances = []
@@ -60,23 +60,23 @@ const createCourseInstances = (listOfCourses, maxInstances) => {
       })
     }
   })
-  return CourseInstance.bulkCreate(instances, { returning: ['*'] })
-  // CourseInstance.bulkCreate(courseInstances, { returning: ['*'] })
+  return CourseInstance.bulkCreate(instances, { returning: true })
+  // CourseInstance.bulkCreate(courseInstances, { returning: true })
 }
 
-const createObjectives = () => Objective.bulkCreate(newObjectives, { returning: ['*'] })
+const createObjectives = () => Objective.bulkCreate(newObjectives, { returning: true })
 
 const createCoursePersons = coursePersons => CoursePerson.bulkCreate(coursePersons)
 
-const createTasks = tasks => Task.bulkCreate(tasks, { returning: ['*'] })
+const createTasks = tasks => Task.bulkCreate(tasks, { returning: true })
 
-const createTaskObjectives = taskObjectives => TaskObjective.bulkCreate(taskObjectives, { returning: ['*'] })
+const createTaskObjectives = taskObjectives => TaskObjective.bulkCreate(taskObjectives, { returning: true })
 
-const createTaskResponses = () => TaskResponse.bulkCreate(taskResponses, { returning: ['*'] })
+const createTaskResponses = () => TaskResponse.bulkCreate(taskResponses, { returning: true })
 
-const createTypeHeaders = typeHeaders => TypeHeader.bulkCreate(typeHeaders, { returning: ['*'] })
+const createTypeHeaders = typeHeaders => TypeHeader.bulkCreate(typeHeaders, { returning: true })
 
-const createTypes = types => Type.bulkCreate(types, { returning: ['*'] })
+const createTypes = types => Type.bulkCreate(types, { returning: true })
 
 const createTaskTypes = (courseInstances, typeHeaders, tasks, types) => TaskType.bulkCreate(getTaskTypes(courseInstances, typeHeaders, tasks, types))
 

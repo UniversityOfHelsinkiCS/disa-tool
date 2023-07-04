@@ -383,7 +383,7 @@ describe('task_controller', () => {
               person_id: data.tasks[0].personId
             }).then((trResult) => {
               data.tasks[0].responseId = trResult.get({ plain: true }).id
-              databaseExpectation.created_at = trResult.get({ plain: true }).created_at
+              databaseExpectation.createdAt = trResult.get({ plain: true }).createdAt
               done()
             }).catch(done)
           }).catch(done)
@@ -422,10 +422,10 @@ describe('task_controller', () => {
           points: data.tasks[0].points,
           task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
           person_id: asymmetricMatcher(actual => actual === data.tasks[0].personId),
-          created_at: asymmetricMatcher(actual => !(
-            actual > databaseExpectation.created_at || actual < databaseExpectation.created_at
+          createdAt: asymmetricMatcher(actual => !(
+            actual > databaseExpectation.createdAt || actual < databaseExpectation.createdAt
           )),
-          updated_at: asymmetricMatcher(actual => actual > databaseExpectation.created_at)
+          updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.createdAt)
         },
         TaskResponse,
         {
@@ -674,8 +674,8 @@ describe('task_controller', () => {
       }).then((result) => {
         ids.task = result.id
         options.route = `${options.route}/${ids.task}`
-        databaseExpectation.created_at = result.created_at
-        databaseExpectation.updated_at = result.updated_at
+        databaseExpectation.createdAt = result.createdAt
+        databaseExpectation.updatedAt = result.updatedAt
         done()
       })
     })
@@ -691,7 +691,7 @@ describe('task_controller', () => {
         info: 'i',
         order: 11
       }).then((result) => {
-        databaseExpectation.updated_at = result.updated_at
+        databaseExpectation.updatedAt = result.updatedAt
         done()
       }).catch(done)
       ).catch(done)
@@ -738,10 +738,10 @@ describe('task_controller', () => {
         ...data,
         id: asymmetricMatcher(actual => actual === ids.task),
         course_instance_id: asymmetricMatcher(actual => actual === superIds.courseInstance),
-        created_at: asymmetricMatcher(actual => !(
-          actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
+        createdAt: asymmetricMatcher(actual => !(
+          actual < databaseExpectation.createdAt || actual > databaseExpectation.createdAt
         )),
-        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.updated_at)
+        updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.updatedAt)
       },
       Task,
       {

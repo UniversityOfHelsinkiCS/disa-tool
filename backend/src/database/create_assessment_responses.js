@@ -1,4 +1,4 @@
-const { faker } = require('@faker-js/faker')
+const faker = require('faker')
 
 const logger = require('../utils/logger')
 const { AssessmentResponse, CoursePerson, Person } = require('./models')
