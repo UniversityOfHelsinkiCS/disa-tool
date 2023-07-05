@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Redirect, Link } from 'react-router-dom'
+import React, { useState,useEffect } from 'react'
+import { connect,useDispatch } from 'react-redux'
+import { Redirect, Link,useParams} from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
 import { Accordion, Dimmer, Header, Grid, Item, Loader, Button } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
@@ -21,96 +21,84 @@ import CourseInfo from './CourseInfo'
 import Conditional from '../../utils/components/Conditional'
 import InfoBox from '../../utils/components/InfoBox'
 
-class UserPage extends Component {
-  state = {
-    // Selected type will now never change. Is it really needed in the task listing?
-    loading: false,
-    selectedType: undefined
-  }
-
-  componentDidMount = () => {
+const UserPage = (props) => {
+  const [loading, setLoading] = useState(false)
+  const [selectedType, setSelectedType] = useState(undefined)
+  const {courseId} = useParams()
+  const dispatch = useDispatch()
+  const { activeCourse, courses, user } = props
+  
+  let course = null
+  useEffect(() => {
     const onMount = async () => {
-      const { activeCourse } = this.props
-      const { courseId } = this.props.match.params
-
-      await this.props.dispatchGetUserCourses()
-      this.props.dispatchGetUserSelfAssesments()
-      if (courseId && (!activeCourse.id || activeCourse.id !== courseId) && !this.state.loading) {
-        if (this.mounted) {
-          this.setState({ loading: true })
-          this.props.dispatchGetCourseInstanceData(courseId).then(() => {
-            if (this.mounted) {
-              this.setState({ loading: false })
-            }
-          })
+      setLoading(true)
+      dispatch(getUserCoursesAction())
+      dispatch(getUserSelfAssesments())
+      if (courseId) {
+        dispatch(getCourseInstanceDataAction(courseId))
         }
-      }
+        setLoading(false)
     }
-    this.mounted = true
     onMount()
-  }
-
-  componentWillUnmount() {
-    const { course_id: courseId, id, status } = this.props.activeCourse
-    if (this.state.cancelablePromise) {
-      this.state.cancelablePromise.cancel()
+    return(() => {
+    if ( courseId && id) {
+      dispatch(resetCourseInstanceAction)
     }
-    if (status === 403 && this.props.match.params.courseId && courseId && id) {
-      this.props.dispatchResetCourseInstance()
-    }
-    this.mounted = false
-  }
+    })
+  },[courseId])
 
-  t = id => this.props.translate(`UserPage.common.${id}`)
+  useEffect(() => {
+    course = courses.find(c => c.id === courseId)
+  },[courses])
 
-  handleActivityToggle = async () => {
-    const { activeCourse } = this.props
-    this.props.dispatchToggleActivity(activeCourse.id)
+  const t = id => props.translate(`UserPage.common.${id}`)
+
+  const handleActivityToggle = async () => {
+    props.dispatchToggleActivity(activeCourse.id)
     .then(res => console.log(res))
     .catch(err => console.log(err))
   }
 
-  handleClick = async (e, { course }) => {
-    // this.setState({ activeCourse: course })
+  const handleClick = async (e, { course }) => {
+    // setState({ activeCourse: course })
     // Fetch all relevant course information: tasks with responses & assessments with responses.
-    if (!this.state.loading && this.props.match.params.courseId) {
-      await this.setState({ loading: true })
-      await this.props.dispatchGetCourseInstanceData(course.id)
-      await this.setState({ loading: false })
+    if (!loading && courseId) {
+      dispatch(getCourseInstanceDataAction(course.id))
     }
   }
 
 
-  toggleAssessment = (e, { value }) => {
+ const toggleAssessment = (e, { value }) => {
     switch (e.target.name) {
       case 'assessmentHidden':
-        this.props.dispatchSetAssessmentStatus(value, [{ name: 'open', value: false }, { name: 'active', value: false }])
+        dispatch(setAssessmentStatusAction(value, [{ name: 'open', value: false }, { name: 'active', value: false }]))
+        [{ name: 'open', value: false }, { name: 'active', value: false }]
         break
       case 'assessmentShown':
-        this.props.dispatchSetAssessmentStatus(value, [{ name: 'open', value: false }, { name: 'active', value: true }])
+        dispatch(setAssessmentStatusAction(value, [{ name: 'open', value: false }, { name: 'active', value: true }]))
+        [{ name: 'open', value: false }, { name: 'active', value: true }]
         break
       case 'assessmentOpen':
-        this.props.dispatchSetAssessmentStatus(value, [{ name: 'open', value: true }, { name: 'active', value: true }])
+        dispatch(setAssessmentStatusAction(value, [{ name: 'open', value: true }, { name: 'active', value: true }]))
+        [{ name: 'open', value: true }, { name: 'active', value: true }]
         break
       case 'feedbackOpen':
-        this.props.dispatchToggleAssessment(value, 'show_feedback')
+        props.dispatchToggleAssessment(value, 'show_feedback')
         break
       default:
         console.log('Something went wrong here now')
     }
   }
 
-  render() {
-    const { activeCourse, courses, user } = this.props
-    const { selectedType, loading } = this.state
-    const { self_assessments: assessments, tasks } = activeCourse
-    if (!this.props.match.params.courseId && activeCourse.id) {
+
+    const { self_assessments: assessments, tasks,id } = activeCourse
+ /*   if (!courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
     }
-    const { course_id: courseId, id, status } = activeCourse
-    if (status === 403 && this.props.match.params.courseId && courseId && id) {
+
+    if ( courseId && activeCourse.id && id) {
       return <Redirect to={`/courses?course=${courseId}&instance=${id}`} />
-    }
+    }*/
     const isTeacher = activeCourse.courseRole === 'TEACHER'
     const isGlobalTeacher = user.role === 'TEACHER' || user.role === 'ADMIN'
     const students = activeCourse.id && isTeacher ?
@@ -119,8 +107,6 @@ class UserPage extends Component {
     const teachers = activeCourse.id ?
       activeCourse.people.filter(person =>
         person.course_instances[0].course_person.role === 'TEACHER') : []
-    // console.log(activeCourse)
-    // console.log(this.props.match.params.courseId)
     return (
       <Grid padded="horizontally">
         <Dimmer active={loading} inverted>
@@ -128,7 +114,7 @@ class UserPage extends Component {
         </Dimmer>
         <Grid.Row>
           <Grid.Column>
-            {<Header as="h1">{this.t('hello')} {this.props.user && this.props.user.name}</Header>}
+            {<Header as="h1">{t('hello')} {props.user && props.user.name}</Header>}
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
@@ -136,7 +122,7 @@ class UserPage extends Component {
             <CourseSideMenu
               courses={courses}
               activeCourse={activeCourse}
-              handleChange={this.handleClick}
+              handleChange={handleClick}
             />
           </Grid.Column>
           <Grid.Column width={13}>
@@ -145,9 +131,8 @@ class UserPage extends Component {
                 <Grid padded="horizontally" columns="equal">
                   <CourseInfo
                     course={activeCourse}
-                    toggleActivation={this.handleActivityToggle}
+                    toggleActivation={handleActivityToggle}
                     teachers={teachers}
-                    deleteTeacher={this.handleTeacherRemoving}
                     isTeacher={isTeacher}
                     isGlobalTeacher={isGlobalTeacher}
                   />
@@ -157,12 +142,12 @@ class UserPage extends Component {
                         <Item.Content>
                           <InfoBox translationid="UserPageSelfAssessments" buttonProps={{ floated: 'right' }} useCourseRole />
                           <Header as="h2">
-                            {this.t('self_assessments')}
+                            {t('self_assessments')}
                           </Header>
                           <CourseSelfAssessmentsList
                             assesments={assessments}
                             isTeacher={isTeacher}
-                            toggleAssessment={this.toggleAssessment}
+                            toggleAssessment={toggleAssessment}
                           />
                         </Item.Content>
                         <Conditional visible={isTeacher}>
@@ -171,7 +156,7 @@ class UserPage extends Component {
                             to={`/selfassessment/create/${activeCourse.id}/category`}
                             basic
                             color="blue"
-                            content={this.t('create_self_assessment_category')}
+                            content={t('create_self_assessment_category')}
                             icon="plus"
                             circular
                             style={{ marginLeft: '10px' }}
@@ -181,7 +166,7 @@ class UserPage extends Component {
                             to={`/selfassessment/create/${activeCourse.id}/objective`}
                             basic
                             color="blue"
-                            content={this.t('create_self_assessment_target')}
+                            content={t('create_self_assessment_target')}
                             icon="plus"
                             circular
                             style={{ marginLeft: '10px' }}
@@ -195,14 +180,14 @@ class UserPage extends Component {
                       <Grid.Column>
                         <Item.Content>
                           <InfoBox translationid="UserPageTasks" buttonProps={{ floated: 'right' }} useCourseRole />
-                          <Header as="h2">{this.t('tasks')}</Header>
+                          <Header as="h2">{t('tasks')}</Header>
                           <Accordion
                             defaultActiveIndex={-1}
                             styled
                             fluid
                             panels={[{
                               key: 'ListTasks',
-                              title: this.t('open_task_list'),
+                              title: t('open_task_list'),
                               content: {
                                 key: 'tasks',
                                 content: <ListTasks
@@ -219,14 +204,13 @@ class UserPage extends Component {
                 </Grid>
               </Item> :
               <Item>
-                <Item.Content>{this.t('no_course_selected')}</Item.Content>
+                <Item.Content>{t('no_course_selected')}</Item.Content>
               </Item>}
           </Grid.Column>
         </Grid.Row>
       </Grid>
     )
   }
-}
 
 const mapStateToProps = state => ({
   user: state.user,

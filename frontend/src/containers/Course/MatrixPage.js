@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -12,39 +12,36 @@ import CourseHeader from './components/header/CourseHeader'
 import Conditional from '../../utils/components/Conditional'
 import { getCourseInstanceDataAction } from '../../actions/actions'
 
-class MatrixPage extends Component {
-  componentDidMount = () => {
-    this.props.updateCourseInfo(this.props.courseId)
-    this.props.getMatrix({
-      id: this.props.courseId
+const MatrixPage = (props) => {
+
+
+  useEffect(() => {
+    props.updateCourseInfo(props.courseId)
+    props.getMatrix({
+      id: props.courseId
     })
-  }
+    return(() =>  props.resetCourse())
+  },[])
 
-  componentWillUnmount() {
-    this.props.resetCourse()
-  }
-
-  render() {
-    if (this.props.loading) {
+    if (props.loading) {
       return (<Loader active />)
     }
     return (
       <div className="MatrixPage">
-        {this.props.hideHeader ? null : <CourseHeader renderReturnLink={false} />}
-        <Conditional visible={this.props.isTeacher}>
-          <Button as={Link} to={`/course/${this.props.courseId}/matrix`} fluid style={{ marginBottom: '10px' }}>Edit matrix</Button>
+        {props.hideHeader ? null : <CourseHeader renderReturnLink={false} />}
+        <Conditional visible={props.isTeacher}>
+          <Button as={Link} to={`/course/${props.courseId}/matrix`} fluid style={{ marginBottom: '10px' }}>Edit matrix</Button>
         </Conditional>
         <Container>
           <Segment style={{ overflowX: 'auto', padding: 0 }}>
             <div style={{ padding: '1em' }}>
-              <Matrix courseId={this.props.courseId} editing={false} categoryId={this.props.categoryId} />
+              <Matrix courseId={props.courseId} editing={false} categoryId={props.categoryId} />
             </div>
           </Segment>
         </Container>
       </div>
     )
   }
-}
 
 
 MatrixPage.defaultProps = {

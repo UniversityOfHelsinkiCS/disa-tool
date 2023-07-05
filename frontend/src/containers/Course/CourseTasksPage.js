@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Grid, Dimmer, Loader } from 'semantic-ui-react'
@@ -9,35 +9,29 @@ import InfoBox from '../../utils/components/InfoBox'
 
 import { getCourseInstanceTasksAction, getCourseInstanceDataAction } from '../../actions/actions'
 
-export class CourseTasksPage extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: false
-    }
-  }
+export const CourseTasksPage = (props) => {
+const [loading, setLoading] = useState(false)
+  const { course } = props
+  const { user } = props
 
-  async componentDidMount() {
-    const { course } = this.props
+  useEffect(() => {
+    const asyncFunction = async () => {
+    const { course } = props
     const instanceHasData = course.people.length !== 0
-    await this.setState({ loading: true })
+    setLoading(true)
     // If for some reason the redux instance is not set,
     // fetch the course data first, before getting the tasks
     // and set it to redux state
     if (!instanceHasData) {
-      const { courseId } = this.props.location.state
-      
-      await this.props.getCourseInstanceDataAction(courseId)
+      const { courseId } = props.location.state
+      props.getCourseInstanceDataAction(courseId)
     }
-    await this.props.getCourseInstanceTasksAction(instanceHasData ? course : this.props.course)
-    await this.setState({ loading: false })
+    props.getCourseInstanceTasksAction(instanceHasData ? course : props.course)
+    setLoading(false)
   }
+  asyncFunction()
+  },[])
 
-
-  render() {
-    const { course } = this.props
-    const { user } = this.props
-    const { loading } = this.state
     const isTeacher = course.courseRole === 'TEACHER'
     const isGlobalTeacher = user.role === 'TEACHER' || user.role === 'ADMIN'
 
@@ -91,7 +85,6 @@ export class CourseTasksPage extends Component {
 
     )
   }
-}
 
 const mapStatetoProps = state => ({
   user: state.user,

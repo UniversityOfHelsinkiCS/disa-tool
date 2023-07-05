@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
+import { Route, Switch, Redirect, withRouter, useParams,useLocation } from 'react-router-dom'
 import { Loader } from 'semantic-ui-react'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
@@ -15,36 +15,38 @@ import EditGradesTab from './components/grades/EditGradesTab'
 import Navbar from './components/navbar/Navbar'
 import CourseHeader from './components/header/CourseHeader'
 
-export class CoursePage extends Component {
-  componentDidMount() {
-    this.props.getCourseData({
-      id: this.props.match.params.id
+export const  CoursePage = (props) => {
+  const {id,url} = useParams()
+  let location = useLocation()
+
+  console.log(id,url)
+
+
+  useEffect(() => {
+    props.getCourseData({
+      id: id
     })
-  }
+    return(() => props.resetCourse())
+  },[])
 
-  componentWillUnmount() {
-    this.props.resetCourse()
-  }
 
-  render() {
-    if (this.props.loading) {
+    if (props.loading) {
       return <Loader active />
     }
     return (
       <div className="CoursePage">
         <CourseHeader />
-        <Navbar matchUrl={this.props.match.url} pathname={this.props.location.pathname} />
+        <Navbar matchUrl={url} pathname={location.pathname} />
         <Switch>
-          <Route path={`${this.props.match.url}/matrix`} render={() => <EditMatrixTab courseId={this.props.match.params.id} />} />
-          <Route path={`${this.props.match.url}/types`} render={() => <EditTypesTab courseId={this.props.match.params.id} />} />
-          <Route path={`${this.props.match.url}/tasks`} render={() => <EditTasksTab courseId={this.props.match.params.id} />} />
-          <Route path={`${this.props.match.url}/grades`} render={() => <EditGradesTab courseId={this.props.match.params.id} />} />
-          <Route component={() => <Redirect to={`${this.props.match.url}/matrix`} />} />
+          <Route path={`${url}/matrix`} render={() => <EditMatrixTab courseId={id} />} />
+          <Route path={`${url}/types`} render={() => <EditTypesTab courseId={id} />} />
+          <Route path={`${url}/tasks`} render={() => <EditTasksTab courseId={id} />} />
+          <Route path={`${url}/grades`} render={() => <EditGradesTab courseId={id} />} />
+          <Route component={() => <Redirect to={`${url}/matrix`} />} />
         </Switch>
       </div>
     )
   }
-}
 
 CoursePage.propTypes = {
   match: PropTypes.shape({
@@ -66,7 +68,7 @@ const mapStateToProps = (state, ownProps) => ({
     ...ownProps.match,
     params: {
       ...ownProps.match.params,
-      id: Number(ownProps.match.params.id)
+      id: Number(ownid)
     }
   },
   location: ownProps.location,

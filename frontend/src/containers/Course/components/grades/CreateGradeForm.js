@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { useState, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
@@ -11,56 +11,48 @@ import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 import InfoBox from '../../../../utils/components/InfoBox'
 
-class CreateGradeForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      values: {}
-    }
-  }
+ const CreateGradeForm = (props) => {
+  const [values, setValues] = useState({})
 
-  addGradeSubmit = e => this.props.addGrade({
+  const addGradeSubmit = e => props.addGrade({
     eng_name: e.target.eng_name.value,
     fin_name: e.target.fin_name.value,
     swe_name: e.target.swe_name.value,
-    skill_level_id: this.state.values.skill_level,
+    skill_level_id: values.skill_level,
     needed_for_grade: e.target.needed_for_grade.value,
-    prerequisite: this.state.values.prerequisite,
-    order: this.props.newOrder
+    prerequisite: values.prerequisite,
+    order: props.newOrder
   })
 
-  changeDropdown = field => (e, { value }) => this.setState({
-    values: {
-      ...this.state.values,
+  const changeDropdown = field => (e, { value }) => setValues({
+      ...values,
       [field]: value
-    }
   })
 
-  translate = id => this.props.translate(`Course.grades.CreateGradeForm.${id}`)
+  const translate = id => props.translate(`Course.grades.CreateGradeForm.${id}`)
 
-  render() {
     const label = {
-      name: this.translate('grade'),
-      skill_level: this.translate('skill_level'),
-      needed_for_grade: this.translate('needed_for_grade'),
-      prerequisite: this.translate('prerequisite')
+      name: translate('grade'),
+      skill_level: translate('skill_level'),
+      needed_for_grade: translate('needed_for_grade'),
+      prerequisite: translate('prerequisite')
     }
     return (
       <div className="CreateGradeForm">
         <ModalForm
-          header={<Fragment>{this.translate('header')}<InfoBox translateFunc={this.props.translate} translationid="AddGradeModal" buttonProps={{ floated: 'right' }} /></Fragment>}
+          header={<Fragment>{translate('header')}<InfoBox translateFunc={props.translate} translationid="AddGradeModal" buttonProps={{ floated: 'right' }} /></Fragment>}
           trigger={<Button basic className="addGradeButton" icon={{ name: 'add' }} />}
-          actions={saveActions(this.translate)}
-          onSubmit={this.addGradeSubmit}
+          actions={saveActions(translate)}
+          onSubmit={addGradeSubmit}
         >
           <MultilingualField field="name" fieldDisplay={label.name} />
           <Form.Field>
             <Label content={label.skill_level} />
             <Dropdown
-              value={this.state.values.skill_level}
-              onChange={this.changeDropdown('skill_level')}
+              value={values.skill_level}
+              onChange={changeDropdown('skill_level')}
               selection
-              options={this.props.levels.map(level => ({
+              options={props.levels.map(level => ({
                 key: level.id,
                 value: level.id,
                 text: level.name
@@ -80,10 +72,10 @@ class CreateGradeForm extends Component {
           <Form.Field>
             <Label content={label.prerequisite} />
             <Dropdown
-              value={this.state.values.prerequisite}
-              onChange={this.changeDropdown('prerequisite')}
+              value={values.prerequisite}
+              onChange={changeDropdown('prerequisite')}
               selection
-              options={[{ key: 0, value: null, text: '' }].concat(this.props.grades.map(grade => ({
+              options={[{ key: 0, value: null, text: '' }].concat(props.grades.map(grade => ({
                 key: grade.id,
                 value: grade.id,
                 text: grade.name
@@ -94,7 +86,6 @@ class CreateGradeForm extends Component {
       </div>
     )
   }
-}
 
 CreateGradeForm.propTypes = {
   levels: PropTypes.arrayOf(PropTypes.shape({

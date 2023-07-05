@@ -1,8 +1,10 @@
-import React, { PureComponent } from 'react'
+import React, { useState } from 'react'
+import { ErrorBoundary } from "react-error-boundary";
+
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter, Switch, Route } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import MathJax from 'react-mathjax'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -20,57 +22,50 @@ import SelfAssesmentListPage from '../SelfAssesmentList/SelfAssesmentListPage'
 import RegisterRedirect from '../CourseList/components/RegisterRedirect'
 import CourseTasksPage from '../Course/CourseTasksPage'
 
-class Keygen {
-  constructor() {
-    this.userKey = 0
-    this.anonKey = 0
-  }
-
-  user() {
-    const key = `user${this.userKey}`
-    this.userKey += 1
-    return key
-  }
-
-  anonymous() {
-    const key = `user${this.anonKey}`
-    this.anonKey += 1
-    return key
-  }
-}
-
-const keygen = new Keygen()
-
 const Main = () => {
+  const [keyState, setKeyState] = useState({user: 0, anon: 0})
+
+ const getAnonymousKey = () => {
+    const key = `user${keyState.anon}`
+    setKeyState({anon: keyState.anon + 1})
+    return key
+  }
+
+const getUserKey = () => {
+    const key = `user${keyState.user}`
+    setKeyState({user: keyState.user + 1})
+    return key
+  }
 
   const userRoutes = [
-    <Route exact path="/selfassessment/edit/:selfAssessmentId" render={({ match }) => <SelfAssessmentFormPage edit match={match} />} key={keygen.user()} />,
-    <Route exact path="/selfassessment/preview/:selfAssessmentId" render={({ match }) => <SelfAssessmentFormPage preview edit={false} match={match} />} key={keygen.user()} />,
-    <Route exact path="/selfassessment/create/:courseInstanceId/:type" render={({ match }) => <SelfAssessmentFormPage edit new match={match} />} key={keygen.user()} />,
-    <Route exact path="/selfassessment/response/:selfAssessmentId" render={({ match }) => <SelfAssessmentFormPage edit={false} match={match} />} key={keygen.user()} />,
-    <Route path="/selfassessment/list/:selfAssesmentId" render={({ match }) => <SelfAssesmentListPage selfAssesmentId={Number(match.params.selfAssesmentId)} />} key={keygen.user()} />,
-    <Route exact path="/selfassessment/:courseId" component={SelfAssessmentPage} key={keygen.user()} />,
-    <Route path="/selfassessment" component={SelfAssessmentPage} key={keygen.user()} />,
-    <Route exact path="/user/course/:courseId" component={UserPage} key={keygen.user()} />,
-    <Route exact path="/user/course/:courseId/tasksAndPeople" render={(props) => <CourseTasksPage {...props}/>} key={keygen.user()} />,
-    <Route exact path="/user" component={UserPage} key={keygen.user()} />,
-    <Route path="/course/:id" component={CoursePage} key={keygen.user()} />,
-    <Route path="/tasks-responses/upload/:courseId" component={UploadResponsesPage} key={keygen.user()} />,
-    <Route exact path="/courses/create" component={CreateCoursePage} key={keygen.user()} />,
-    <Route path="/admin" component={AdminPage} key={keygen.user()} />,
-    <Route exact path="/courses/register" component={RegisterRedirect} key={keygen.user()} />,
-    <Route component={HomePage} key={keygen.user()} />
+    <Route exact path="/selfassessment/edit/:selfAssessmentId" render={({ match }) => <SelfAssessmentFormPage edit match={match} />} key={() => getUserKey()} />,
+    <Route exact path="/selfassessment/preview/:selfAssessmentId" render={({ match }) => <SelfAssessmentFormPage preview edit={false} match={match} />} key={() => getUserKey()} />,
+    <Route exact path="/selfassessment/create/:courseInstanceId/:type" render={({ match }) => <SelfAssessmentFormPage edit new match={match} />} key={() => getUserKey()} />,
+    <Route exact path="/selfassessment/response/:selfAssessmentId" render={({ match }) => <SelfAssessmentFormPage edit={false} match={match} />} key={() => getUserKey()} />,
+    <Route path="/selfassessment/list/:selfAssesmentId" render={({ match }) => <SelfAssesmentListPage selfAssesmentId={Number(match.params.selfAssesmentId)} />} key={() => getUserKey()} />,
+    <Route exact path="/selfassessment/:courseId" component={SelfAssessmentPage} key={() => getUserKey()} />,
+    <Route path="/selfassessment" component={SelfAssessmentPage} key={() => getUserKey()} />,
+    <Route exact path="/user/course/:courseId" component={UserPage} key={() => getUserKey()} />,
+    <Route exact path="/user/course/:courseId/tasksAndPeople" render={(props) => <CourseTasksPage {...props}/>} key={() => getUserKey()} />,
+    <Route exact path="/user" component={UserPage} key={() => getUserKey()} />,
+    <Route path="/course/:id" component={CoursePage} key={() => getUserKey()} />,
+    <Route path="/tasks-responses/upload/:courseId" component={UploadResponsesPage} key={() => getUserKey()} />,
+    <Route exact path="/courses/create" component={CreateCoursePage} key={() => getUserKey()} />,
+    <Route path="/admin" component={AdminPage} key={() => getUserKey()} />,
+    <Route exact path="/courses/register" component={RegisterRedirect} key={() => getUserKey()} />,
+    <Route component={HomePage} key={() => getUserKey()} />
   ]
 
   const anonymousRoutes = [
-    <Route path="/courses/matrix/:id" render={(props) => <MatrixPage {...props}/>} key={keygen.anonymous()} />,
-    <Route exact path="/courses" component={CourseListPage} key={keygen.anonymous()} />,
-    <Route exact path="/" component={HomePage} key={keygen.anonymous()} />
+    <Route path="/courses/matrix/:id" render={(props) => <MatrixPage {...props}/>} key={()=>getAnonymousKey()} />,
+    <Route exact path="/courses" component={CourseListPage} key={()=>getAnonymousKey()} />,
+    <Route exact path="/" component={HomePage} key={()=>getAnonymousKey()} />
   ]
 
 
     return (
       <main>
+        <ErrorBoundary fallback={<div>Something went wrong</div>}>
         <ToastContainer
           position="top-center"
           autoClose={5000}
@@ -82,6 +77,7 @@ const Main = () => {
             {userRoutes}
           </Switch>
         </MathJax.Provider>
+        </ErrorBoundary>
       </main>
     )
   }

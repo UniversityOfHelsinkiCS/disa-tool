@@ -5,7 +5,8 @@ import { arrayOf, shape, func } from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
 import { orderBy } from 'lodash'
 
-const renderCourseMenuItem = (course, activeCourse, handleChange) => (
+const renderCourseMenuItem = (course, activeCourse, handleChange) => {
+  return(
   <Menu.Item
     key={course.id}
     as={Link}
@@ -19,6 +20,7 @@ const renderCourseMenuItem = (course, activeCourse, handleChange) => (
     {course.name}
   </Menu.Item>
 )
+}
 
 const CourseSideMenu = ({ courses, activeCourse, handleChange, translate }) => {
   const t = id => translate(`UserPage.CourseSideMenu.${id}`)
