@@ -1,7 +1,7 @@
 {
   "common": {
     "save": ["Save", "Tallenna"],
-    "name": ["Name", "Nimi"],
+    "name": "Nimi",
     "skill_levels": ["skill levels", "taitotasot"],
     "category": ["category", "osio"],
     "objective": ["objective", "oppimistavoite"],
@@ -61,84 +61,48 @@
       ]
     }
   },
-  "Home": {
-    "HomePage": {
-      "header1": ["Welcome to the DISA-tool", "Tervetuloa DISA-työkaluun"],
-      "introduction": [
-        "Teachers and students can create and inspect course learning objectives using the DISA-tool as well as evaluate and track the completion of those objectives. The software is a work in progress in trial use. As such some issues may come up. You can report any issues to your course teachers or straight to",
-        "DISA-työkalun avulla opettajat ja opiskelijat voivat luoda ja tarkastella kurssin osaamistavoitteita sekä arvioida ja seurata näiden tavoitteiden toteutumista. Sovellus on vasta työn alla ja kokeilukäytössä, joten vikoja voi tulla vastaan. Näistä voi ilmoittaa kurssien opettajille tai suoraan"
-      ],
-      "developers": ["the developers", "kehittäjille"],
-      "student_header": ["For students", "Opiskelijalle"],
-      "student_info": [
-        "When logged in you'll be able to register to courses. When registered, you can view your task performance and submit course self-asseessments.",
-        "Kirjautuneena pääset rekisteröitymään kursseille. Kun olet rekisteröitynyt, pääset katselemaan tehtäväsuorituksiasi ja vastaamaan kurssin itsearviointeihin."
-      ],
-      "teacher_header": ["For teachers", "Opettajalle"],
-      "teacher_info": [
-        "If you wish to use the tool on your course, please ask an administrator to add you as a teacher. Afterwards, you can create objectives and tasks for your course. You can also inspect the progress of your students and give them self-asseessments to fill out.",
-        "Jos haluat käyttää työkalua kurssillasi, pyydä pääkäyttäjää lisäämään sinut opettajaksi. Tämän jälkeen voit luoda kurssillesi tavoitteita ja tehtäviä. Voit myös tarkkailla opiskelijoiden edistymistä ja teettää heillä itsearviointeja."
-      ],
-      "background_header": ["Background", "Taustaa"],
-      "background_info_1_1": [
-        "DISA-tool was started due to ",
-        "DISA-työkalu on saanut alkunsa matematiikan ja tilastotieteen laitoksella tehtävästä "
-      ],
-      "background_link_1": [
-        "a study on self-asseessments",
-        "itsearviointitutkimuksesta"
-      ],
-      "background_link_1_href": [
-        "https://tuhat.helsinki.fi/portal/en/projects/digital-selfassessm(384b2b6c-1992-48cd-aa60-0e9169c2efe9).html",
-        "https://tuhat.helsinki.fi/portal/fi/projects/digital-selfassessm(384b2b6c-1992-48cd-aa60-0e9169c2efe9).html"
-      ],
-      "background_info_1_2": [
-        " conducted by the mathematics and statistics faculty. The study found that both learning objective matrices and self-asseessment exercises have positive effects on the learning strategies and motivation of students as well as their view of their own abilities.",
-        ". Tutkimuksessa on havaittu, että osaamistavoitematriiseilla sekä itsearviointiharjoituksilla on myönteistä vaikutusta opiskelijoiden oppimisstrategioihin, motivaatioon ja käsitykseen omasta osaamisestaan."
-      ],
-      "background_info_2_1": [
-        "The Centre for University Teaching and Learning ",
-        "Tutkimuksessa ovat mukana Helsingin yliopiston yliopistopedagogiikan keskus "
-      ],
-      "background_link_2_1": [
-        "https://www.helsinki.fi/en/centre-for-university-teaching-and-learning-hype",
-        "https://www.helsinki.fi/fi/yliopistopedagogiikan-keskus-hype"
-      ],
-      "background_info_2_2": [" and ", " sekä "],
-      "background_link_2_2": [
-        "the Faculty of Educational Sciences",
-        "kasvatustieteellinen tiedekunta"
-      ],
-      "background_link_2_2_href": [
-        "https://www.helsinki.fi/en/faculty-of-educational-sciences",
-        "https://www.helsinki.fi/fi/kasvatustieteellinen-tiedekunta"
-      ],
-      "background_info_2_3": [
-        " are a part of the study. DISA-tool is developed by the University of Helsinki Faculty of Computer Science Software Development Academy (TOSKA) with the support of the University of Helsinki.",
-        " Työkalua kehittää Helsingin yliopiston Tietojenkäsittelytieteen Osaston Sovelluskehitysakatemia (TOSKA) Helsingin yliopiston tukemana."
-      ]
+  "home": {
+    "homepage": {
+      "header1": "Tervetuloa DISA-työkaluun",
+      "introduction": "DISA-työkalun avulla opettajat ja opiskelijat voivat luoda ja tarkastella kurssin osaamistavoitteita sekä arvioida ja seurata näiden tavoitteiden toteutumista. Sovellus on vasta työn alla ja kokeilukäytössä, joten vikoja voi tulla vastaan. Näistä voi ilmoittaa kurssien opettajille tai suoraan",
+      "developers": "kehittäjille",
+      "student_header": "Opiskelijalle",
+      "student_info": "Kirjautuneena pääset rekisteröitymään kursseille. Kun olet rekisteröitynyt, pääset katselemaan tehtäväsuorituksiasi ja vastaamaan kurssin itsearviointeihin.",
+      "teacher_header": "Opettajalle",
+      "teacher_info": "Jos haluat käyttää työkalua kurssillasi, pyydä pääkäyttäjää lisäämään sinut opettajaksi. Tämän jälkeen voit luoda kurssillesi tavoitteita ja tehtäviä. Voit myös tarkkailla opiskelijoiden edistymistä ja teettää heillä itsearviointeja.",
+      "background_header": "Taustaa",
+      "background_info_1_1": "DISA-työkalu on saanut alkunsa matematiikan ja tilastotieteen laitoksella tehtävästä ",
+      "background_link_1": "itsearviointitutkimuksesta",
+      "background_link_1_href": "https://tuhat.helsinki.fi/portal/fi/projects/digital-selfassessm(384b2b6c-1992-48cd-aa60-0e9169c2efe9).html",
+      "background_info_1_2": ". Tutkimuksessa on havaittu, että osaamistavoitematriiseilla sekä itsearviointiharjoituksilla on myönteistä vaikutusta opiskelijoiden oppimisstrategioihin, motivaatioon ja käsitykseen omasta osaamisestaan.",
+      "background_info_2_1": "Tutkimuksessa ovat mukana Helsingin yliopiston yliopistopedagogiikan keskus ",
+      "background_link_2_1": "https://www.helsinki.fi/fi/yliopistopedagogiikan-keskus-hype",
+      "background_info_2_2": " sekä ",
+      "background_link_2_2": "kasvatustieteellinen tiedekunta",
+      "background_link_2_2_href": "https://www.helsinki.fi/fi/kasvatustieteellinen-tiedekunta",
+      "background_info_2_3": " Työkalua kehittää Helsingin yliopiston Tietojenkäsittelytieteen Osaston Sovelluskehitysakatemia (TOSKA) Helsingin yliopiston tukemana."
     }
   },
   "course": {
     "common": {
-      "types": ["Types", "Tyypit"],
+      "types": "Tyypit",
       "matrix": "Matriisi"
     },
     "header": {
       "CourseHeader": {
-        "back_button": ["Back to course page", "Takaisin kurssisivulle"]
+        "back_button": "Takaisin kurssisivulle"
       }
     },
     "navbar": {
-      "Navbar": {
-        "tasks": ["Tasks", "Tehtävät"],
-        "grades": ["Grading criteria", "Arvosteluperusteet"]
+      "navbar": {
+        "tasks": "Tehtävät",
+        "grades": "Arvosteluperusteet"
       }
     },
     "grades": {
       "common": {
-        "grade": ["Grade", "Arvosana"],
-        "skill_level": ["Skill level", "Arvosanaa vastaava taitotaso"],
+        "grade": "Arvosana",
+        "skill_level": "Arvosanaa vastaava taitotaso",
         "needed_for_grade": [
           "Required completion level",
           "Vaadittu suoritustaso"
@@ -222,27 +186,26 @@
     },
     "tasks": {
       "common": {
-        "default": ["Default Multiplier", "Oletusarvoinen kerroin"],
-        "description": ["description", "kuvaus"],
-        "edit_multipliers_button": ["Edit multipliers", "Muokkaa kertoimia"]
+        "name": "Nimi",
+
+        "default": "Oletusarvoinen kerroin",
+        "description": "kuvaus",
+        "edit_multipliers_button": "Muokkaa kertoimia"
       },
       "addTaskForm": {
-        "header": ["Add new task", "Lisää uusi tehtävä"],
-        "prompt_1": [
-          "Add a new task to the course",
-          "Lisää uusi tehtävä kurssille"
-        ]
+        "header": "Lisää uusi tehtävä",
+        "prompt1": "Lisää uusi tehtävä kurssille"
       },
       "editTaskForm": {
-        "header": ["Edit task", "Muokkaa tehtävää"],
-        "prompt1": ["Edit task", "Muokkaa tehtävää"],
-        "trigger": ["Edit task", "Muokkaa tehtävää"]
+        "header": "Muokkaa tehtävää",
+        "prompt1": "Muokkaa tehtävää",
+        "trigger": "Muokkaa tehtävää"
       },
       "editTaskObjectivesForm": {
-        "header": ["Edit multipliers", "Muokkaa kertoimia"],
-        "detailed": ["Individual", "Yksittäin"],
-        "all": ["All", "Kaikki"],
-        "modify": ["Modify", "Muuta"]
+        "header": "Muokkaa kertoimia",
+        "detailed": "Yksittäin",
+        "all": "Kaikki",
+        "modify": "Muuta"
       },
       "selectTaskDropdown": {
         "placeholder": "Valitse tehtävä tästä"

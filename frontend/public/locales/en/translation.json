@@ -103,7 +103,7 @@
       }
     },
     "navbar": {
-      "Navbar": {
+      "navbar": {
         "tasks": "Tasks",
         "grades": "Grading criteria"
       }

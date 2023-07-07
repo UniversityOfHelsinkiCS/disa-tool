@@ -9,7 +9,7 @@
     "test": "jest",
     "stats": "webpack --config ./config/webpack.production.js --profile --json > stats.json",
     "lint": "eslint --ext .js src || true",
-    "generate": "playwright codegen --config ./config/playwright.config.js",
+    "generate": "playwright codegen localhost:8080",
     "test-pw": "playwright test --config ./config/playwright.config.js",
     "update-snapshots": "playwright test --update-snapshots --config ./config/playwright.config.js"
   },

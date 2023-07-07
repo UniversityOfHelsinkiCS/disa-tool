@@ -6,7 +6,6 @@ import { Loader } from 'semantic-ui-react'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 
-import asyncAction from '../../utils/asyncAction'
 import { getCourseData, resetCourse } from './actions/course'
 import EditMatrixTab from './components/matrix/EditMatrixTab'
 import EditTypesTab from './components/types/EditTypesTab'

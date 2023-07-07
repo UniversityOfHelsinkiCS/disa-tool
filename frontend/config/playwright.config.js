@@ -33,12 +33,12 @@ module.exports = defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    baseURL: "http://localhost:8080",
     trace: 'on',
     screenshot: 'only-on-failure', // Capture screenshot after each test failure.
     video: 'retain-on-failure', //Record video only when retrying a test for the first time.
     headless: true,
     viewport: { width: 1280, height: 720 },
-    baseURL: "http://localhost:8080",
     launchOptions: {
         slowMo: 50,
         logger: {
