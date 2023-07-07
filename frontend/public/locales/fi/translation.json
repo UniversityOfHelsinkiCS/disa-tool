@@ -119,10 +119,10 @@
       ]
     }
   },
-  "Course": {
+  "course": {
     "common": {
       "types": ["Types", "Tyypit"],
-      "matrix": ["Matrix", "Matriisi"]
+      "matrix": "Matriisi"
     },
     "header": {
       "CourseHeader": {
@@ -226,31 +226,31 @@
         "description": ["description", "kuvaus"],
         "edit_multipliers_button": ["Edit multipliers", "Muokkaa kertoimia"]
       },
-      "AddTaskForm": {
+      "addTaskForm": {
         "header": ["Add new task", "Lisää uusi tehtävä"],
         "prompt_1": [
           "Add a new task to the course",
           "Lisää uusi tehtävä kurssille"
         ]
       },
-      "EditTaskForm": {
+      "editTaskForm": {
         "header": ["Edit task", "Muokkaa tehtävää"],
-        "prompt_1": ["Edit task", "Muokkaa tehtävää"],
+        "prompt1": ["Edit task", "Muokkaa tehtävää"],
         "trigger": ["Edit task", "Muokkaa tehtävää"]
       },
-      "EditTaskObjectivesForm": {
+      "editTaskObjectivesForm": {
         "header": ["Edit multipliers", "Muokkaa kertoimia"],
         "detailed": ["Individual", "Yksittäin"],
         "all": ["All", "Kaikki"],
         "modify": ["Modify", "Muuta"]
       },
-      "SelectTaskDropDown": {
-        "placeholder": ["Select a task here", "Valitse tehtävä tästä"]
+      "selectTaskDropdown": {
+        "placeholder": "Valitse tehtävä tästä"
       },
-      "Task": {
-        "delete_header": ["Delete task", "Poista tehtävä"],
-        "delete_prompt_1": ["Really remove task", "Poistetaanko tehtävä"],
-        "max_points": ["Maximum points", "Maksimipisteet"],
+      "task": {
+        "deleteHeader": ["Delete task", "Poista tehtävä"],
+        "deletePrompt1": ["Really remove task", "Poistetaanko tehtävä"],
+        "maxPoints": ["Maximum points", "Maksimipisteet"],
         "info": ["Additional info about task", "Tehtävän lisätiedot"]
       }
     },

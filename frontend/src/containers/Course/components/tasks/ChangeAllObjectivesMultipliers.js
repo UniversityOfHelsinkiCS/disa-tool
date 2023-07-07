@@ -46,7 +46,7 @@ const ChangeAllObjectivesMultipliers = ({
     </Container>
   </Form.Field>
 )
-
+/*
 ChangeAllObjectivesMultipliers.propTypes = {
   defaultMultiplier: shape().isRequired,
   defaultInd: number.isRequired,
@@ -57,5 +57,5 @@ ChangeAllObjectivesMultipliers.propTypes = {
   orText: string.isRequired,
   modifyText: string.isRequired
 }
-
+*/
 export default ChangeAllObjectivesMultipliers

@@ -1,10 +1,7 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import React, { useState,useEffect } from 'react'
+import { connect, useSelector ,useDispatch} from 'react-redux'
 import { Container, Segment } from 'semantic-ui-react'
-
-import { changeActive } from '../../actions/tasks'
+import {useTranslation } from 'react-i18next'
 
 import Task from './Task'
 import Matrix from '../matrix/Matrix'
@@ -15,46 +12,54 @@ import TypesDisplay from './TypesDisplay'
 import AddTaskForm from './AddTaskForm'
 import InfoBox from '../../../../utils/components/InfoBox'
 
-export class EditTasksTab extends Component {
-  componentWillUnmount() {
-    this.props.changeActive(null)
+export const EditTasksTab = () => {
+  const [activeTask, setActiveTask] = useState(null)
+  const task = useSelector(state => state.task)
+  const {course} = useSelector(state => state.course)
+  const dispatch = useDispatch()
+  const { t, i18n } = useTranslation('translation', {
+    keyPrefix: 'course',
+})
+
+ useEffect(() => {
+  task.active === null ? (
+    null
+  ) : (
+    task.tasks.find(task => task.id === task.active)
+  )
+ },[])
+
+ const  changeActive = (e, { value }) => {
+    dispatch(changeActive(value))
   }
-
-  changeActive = (e, { value }) => {
-    this.props.changeActive(value)
-  }
-
-  translate = id => this.props.translate(`Course.tasks.EditTasksTab.${id}`)
-
-  render() {
     return (
-      <div className="EditTasksTab">
+      <div className="editTasksTab">
         <Container>
           <Segment clearing basic>
-            <InfoBox translationid="EditTasksPage" buttonProps={{ floated: 'right' }} />
+            <InfoBox translationid="editTasksPage" buttonProps={{ floated: 'right' }} />
           </Segment>
         </Container>
         <Container style={{ display: 'flex' }}>
           <div style={{ flexGrow: 1 }}>
             <SelectTaskDropdown
-              tasks={this.props.tasks}
-              activeTask={this.props.activeTask}
-              changeActive={this.changeActive}
+              tasks={task.tasks}
+              activeTask={activeTask}
+              changeActive={changeActive}
             />
           </div>
           <div>
             <AddTaskForm
-              courseId={this.props.courseId}
-              newOrder={this.props.tasks.reduce(
+              courseId={course.id}
+              newOrder={task.tasks.reduce(
                 (acc, { order }) => Math.max(acc, order),
                 0
               ) + 1}
             />
           </div>
         </Container>
-        {this.props.activeTask ? (
+        {activeTask ? (
           <Container>
-            <Task task={this.props.activeTask} courseId={this.props.courseId} />
+            <Task task={activeTask} courseId={course.id} />
           </Container>
         ) : null}
         <Container>
@@ -62,24 +67,24 @@ export class EditTasksTab extends Component {
             title={(
               <div style={{ display: 'flex' }}>
                 <span style={{ marginRight: '20px' }}>Types</span>
-                {this.props.activeTask ? (
+                {activeTask ? (
                   <TypesDisplay
-                    defaultText={this.translate('default')}
-                    defaultMultiplier={this.props.activeTask.defaultMultiplier}
-                    types={this.props.activeTask.types}
+                    defaultText={t('tasks.editTasksTab.default')}
+                    defaultMultiplier={activeTask.defaultMultiplier}
+                    types={activeTask.types}
                   />
                 ) : null}
               </div>
             )}
           >
             <Headerlist
-              courseId={this.props.courseId}
+              courseId={course.id}
               editing={false}
             />
           </SingleAccordion>
         </Container>
         <Container>
-          <SingleAccordion title={this.translate('matrix')}>
+          <SingleAccordion title={t('common.matrix')}>
             <div style={{ overflowX: 'auto' }}>
               <Matrix editing={false} showDetails />
             </div>
@@ -88,8 +93,7 @@ export class EditTasksTab extends Component {
       </div>
     )
   }
-}
-
+/*
 EditTasksTab.propTypes = {
   courseId: PropTypes.number.isRequired,
   changeActive: PropTypes.func.isRequired,
@@ -101,18 +105,6 @@ EditTasksTab.propTypes = {
   }),
   translate: PropTypes.func.isRequired
 }
+*/
 
-EditTasksTab.defaultProps = {
-  activeTask: null
-}
-
-const mapStateToProps = state => ({
-  tasks: state.task.tasks,
-  activeTask: state.task.active === null ? (
-    null
-  ) : (
-    state.task.tasks.find(task => task.id === state.task.active)
-  )
-})
-
-export default withLocalize(connect(mapStateToProps, { changeActive })(EditTasksTab))
+export default connect()(EditTasksTab)

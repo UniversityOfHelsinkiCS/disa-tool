@@ -92,7 +92,7 @@
       "background_info_2_3": " are a part of the study. DISA-tool is developed by the University of Helsinki Faculty of Computer Science Software Development Academy (TOSKA) with the support of the University of Helsinki."
     }
   },
-  "Course": {
+  "course": {
     "common": {
       "types": "Types",
       "matrix": "Matrix"
@@ -181,29 +181,29 @@
         "description": "description",
         "edit_multipliers_button": "Edit multipliers"
       },
-      "AddTaskForm": {
+      "addTaskForm": {
         "header": "Add new task",
         "prompt_1": "Add a new task to the course"
       },
-      "EditTaskForm": {
+      "editTaskForm": {
         "header": "Edit task",
         "prompt_1": "Edit task",
         "trigger": "Edit task"
       },
-      "EditTaskObjectivesForm": {
+      "editTaskObjectivesForm": {
         "header": "Edit multipliers",
         "detailed": "Individual",
         "all": "All",
         "modify": "Modify"
       },
-      "SelectTaskDropDown": {
+      "selectTaskDropdown": {
         "placeholder": "Select a task here"
       },
       "Task": {
-        "delete_header": "Delete task",
-        "delete_prompt_1": "Really remove task",
+        "deleteHeader": "Delete task",
+        "deletePrompt1": "Really remove task",
 
-        "max_points": "Maximum points",
+        "maxPoints": "Maximum points",
         "info": "Additional info about task"
       }
     },

@@ -1,12 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Header, Dropdown } from 'semantic-ui-react'
 import _ from 'lodash'
 import { editTask } from '../../actions/tasks'
 import dndItem from '../../../../utils/components/DnDItem'
 import asyncAction from '../../../../utils/asyncAction'
+import {useTranslation } from 'react-i18next'
+
 
 const DnDItem = dndItem('task')
 
@@ -16,7 +17,17 @@ const searchFilter = (options, query) => {
 }
 
 const SelectTaskDropdown = (props) => {
-  const translate = id => props.translate(`Course.tasks.SelectTaskDropDown.${id}`)
+  const dispatch = useDispatch()
+
+
+  const moveTask = async() => {
+    asyncAction(editTask, dispatch)
+  
+  }
+
+  const { t, i18n } = useTranslation('translation', {
+    keyPrefix: 'course.tasks.selectTaskDropdown',
+  })
 
   const tasks = props.tasks.sort((a, b) => a.order - b.order)
 
@@ -39,13 +50,13 @@ const SelectTaskDropdown = (props) => {
         <Dropdown
           fluid
           selection
-          options={[{ key: 0, text: '', value: null }].concat(props.tasks.map((task, index) => ({
+          options={[{ key: 0, text: '', value: null }].concat(tasks.map((task, index) => ({
             key: task.id,
             searchlabel: task.name,
             text: (
               <DnDItem
                 element={task}
-                mover={props.moveTask}
+                mover={moveTask}
                 slots={slots[index]}
               >
                 <div style={{ margin: '-11px 0px -11px 0px', padding: '8px 0px 8px 0px' }}>
@@ -55,7 +66,7 @@ const SelectTaskDropdown = (props) => {
             ),
             value: task.id
           })))}
-          placeholder={translate('placeholder')}
+          placeholder={t('placeholder')}
           scrolling
           search={searchFilter}
           selectOnBlur={false}
@@ -68,7 +79,7 @@ const SelectTaskDropdown = (props) => {
     </div>
   )
 }
-
+/*
 SelectTaskDropdown.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -83,13 +94,6 @@ SelectTaskDropdown.propTypes = {
   translate: PropTypes.func.isRequired,
   moveTask: PropTypes.func.isRequired
 }
+*/
 
-SelectTaskDropdown.defaultProps = {
-  activeTask: null
-}
-
-const mapDispatchToProps = dispatch => ({
-  moveTask: asyncAction(editTask, dispatch)
-})
-
-export default connect(null, mapDispatchToProps)(withLocalize(SelectTaskDropdown))
+export default connect()(withLocalize(SelectTaskDropdown))

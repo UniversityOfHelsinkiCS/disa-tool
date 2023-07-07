@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
+import { connect , useDispatch} from 'react-redux'
+import { useParams } from 'react-router'
 import PropTypes from 'prop-types'
 import { Grid, Dimmer, Loader } from 'semantic-ui-react'
 import CourseHeader from '../Course/components/header/CourseHeader'
@@ -11,27 +12,27 @@ import { getCourseInstanceTasksAction, getCourseInstanceDataAction } from '../..
 
 export const CourseTasksPage = (props) => {
 const [loading, setLoading] = useState(false)
+const { id } = useParams()
+const dispatch = useDispatch()
   const { course } = props
   const { user } = props
 
   useEffect(() => {
     const asyncFunction = async () => {
-    const { course } = props
     const instanceHasData = course.people.length !== 0
     setLoading(true)
     // If for some reason the redux instance is not set,
     // fetch the course data first, before getting the tasks
     // and set it to redux state
     if (!instanceHasData) {
-      const { courseId } = props.location.state
-      props.getCourseInstanceDataAction(courseId)
+      dispatchEvent(getCourseInstanceDataAction(id))
     }
-    props.getCourseInstanceTasksAction(instanceHasData ? course : props.course)
+    dispatch(getCourseInstanceTasksAction(instanceHasData ? course : props.course))
     setLoading(false)
   }
   asyncFunction()
   },[])
-
+console.log('wow')
     const isTeacher = course.courseRole === 'TEACHER'
     const isGlobalTeacher = user.role === 'TEACHER' || user.role === 'ADMIN'
 
@@ -81,26 +82,9 @@ const [loading, setLoading] = useState(false)
           </Grid>
         }
       </div>
-
-
     )
   }
-
-const mapStatetoProps = state => ({
-  user: state.user,
-  course: state.instance
-})
-
-const mapDispatchToProps = {
-  getCourseInstanceTasksAction,
-  getCourseInstanceDataAction
-
-}
-
-CourseTasksPage.defaultProps = {
-  course: { people: [{}] }
-}
-
+/*
 CourseTasksPage.propTypes = {
   location: PropTypes.shape({
     state: PropTypes.shape({
@@ -121,8 +105,7 @@ CourseTasksPage.propTypes = {
   }).isRequired,
   getCourseInstanceDataAction: PropTypes.func.isRequired,
   getCourseInstanceTasksAction: PropTypes.func.isRequired
-
-
 }
+*/
 
-export default connect(mapStatetoProps, mapDispatchToProps)(CourseTasksPage)
+export default connect()(CourseTasksPage)

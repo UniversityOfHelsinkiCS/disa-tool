@@ -46,7 +46,7 @@ const ChangeObjectiveMultiplier = ({
     </Container>
   </Form.Field>
 )
-
+/*
 ChangeObjectiveMultiplier.propTypes = {
   objective: shape().isRequired,
   values: shape().isRequired,
@@ -57,5 +57,5 @@ ChangeObjectiveMultiplier.propTypes = {
   orText: string.isRequired,
   modifyText: string.isRequired
 }
-
+*/
 export default ChangeObjectiveMultiplier

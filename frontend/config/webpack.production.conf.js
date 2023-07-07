@@ -24,6 +24,7 @@ module.exports = {
     }
   },
   optimization: {
+    runtimeChunk: 'single',
       minimize: true,
       splitChunks: {
         chunks: 'all'
@@ -72,5 +73,5 @@ module.exports = {
     })
 
   ],
-  devtool: 'source-map'
+  devtool: 'eval-source-map'
 }

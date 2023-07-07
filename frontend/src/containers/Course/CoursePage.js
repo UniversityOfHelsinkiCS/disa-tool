@@ -15,9 +15,9 @@ import EditGradesTab from './components/grades/EditGradesTab'
 import Navbar from './components/navbar/Navbar'
 import CourseHeader from './components/header/CourseHeader'
 
-export const  CoursePage = (props) => {
+export const  CoursePage = () => {
   const {id} = useParams()
-  const {course,loading} = useSelector(state => state.course)
+  const {loading} = useSelector(state => state.course)
   const matches = useRouteMatch()
   const dispatch = useDispatch()
   const url = matches.url
@@ -28,15 +28,14 @@ export const  CoursePage = (props) => {
 
     }
 asyncFunction()
-   // return(() => resetCourse(dispatch))
+    return(() => resetCourse(dispatch))
   },[])
-console.log(loading,id)
     if (loading) {
       return <Loader active id="loadin-icon" />
     }
     return (
       <div className="CoursePage" data-testid="course-page">
-        <CourseHeader course={course}/>
+        <CourseHeader/>
         <Navbar matchUrl={url} pathname={location.pathname} />
         <Switch>
           <Route path={`${url}/matrix`} render={() => <EditMatrixTab courseId={Number(id)} />} />

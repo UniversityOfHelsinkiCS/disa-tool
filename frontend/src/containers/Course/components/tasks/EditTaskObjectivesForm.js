@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Button, Form, Modal, Container } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
@@ -10,58 +10,93 @@ import { editTaskObjectives } from '../../actions/tasks'
 import ChangeObjectiveMultiplier from './ChangeObjectiveMultiplier'
 import ChangeAllObjectivesMultipliers from './ChangeAllObjectivesMultipliers'
 
-class EditTaskObjectivesForm extends Component {
-  state = {
-    expanded: false,
-    detailed: true,
-    loading: true,
-    values: {
-      0: {
-        multiplier: this.props.defaultMultiplier,
-        modified: false
-      }
+  const defaultMultiplier = (task,taskId) => {
+    multiplier = task.tasks.find(task => task.id === props.taskId).types
+    .reduce((acc, typeId) => (
+      acc * type.headers.reduce((multiplier, header) => {
+        const type = header.types.find(htype => htype.id === typeId)
+        if (!type) return multiplier
+        return type.multiplier
+      }, 0)
+    ), 1)
+    return multiplier
     }
-  }
 
-
-  changeMultiplier = id => e => this.setState({
-    values: {
-      ...this.state.values,
-      [id]: {
-        ...this.state.values[id],
-        multiplier: e.target.value
-      }
-    }
-  })
-
-  changeModified = (id, modified) => () => this.setState({
-    values: {
-      ...this.state.values,
-      [id]: {
-        multiplier: modified ? this.state.values[id].multiplier : this.props.defaultMultiplier,
-        modified
-      }
+const EditTaskObjectivesForm = (props) => {
+  const task = useSelector(state => state.task)
+  const [expanded, setExpanded] = useState(false)
+  const [detailed, setDetailed] = useState(true)
+  const [loading, setLoading] = useState(true)
+  const [values, setValues] = useState({
+    0: {
+      multiplier: defaultMultiplier(task, props.taskId),
+      modified: false
     }
   })
 
-  editTaskObjectivesSubmit = (e) => {
-    e.preventDefault()
-    this.props.editTaskObjectives({
-      task_id: this.props.taskId,
-      objectives: this.props.objectives.map(objective => ({
-        ...(this.state.detailed ? this.state.values[objective.id] : this.state.values[0]),
+  const taskObjectives = task.tasks
+  .find(task => task.id === props.taskId).objectives
+  .reduce(
+    (acc, curr) => ({ ...acc, [curr.id]: { multiplier: curr.multiplier } }),
+    {}
+  )
+
+  const objectives = category.categories
+  .reduce(
+    (acc, curr) => acc.concat(curr.skill_levels.reduce(
+      (acc2, curr2) => acc2.concat(curr2.objectives
+        .filter(objective => taskObjectives[objective.id]).map(objective => ({
+          ...objective,
+          multiplier: taskObjectives[objective.id].multiplier
+        }))),
+      []
+    )),
+    []
+  )
+
+  const { t, i18n } = useTranslation('translation', {
+    keyPrefix: 'course.tasks.editTaskObjectivesForm',
+  })
+  EditTaskObjectivesForm
+ const changeMultiplier = id => e => setValues({
+  ...values, 
+    [id]: {
+      ...values[id],
+      multiplier: e.target.value
+}
+})
+
+
+const  changeModified = (id, modified) => () =>  setValues({
+  ...values, 
+    [id]: {
+      ...values[id],
+      multiplier: modified ? values[id].multiplier : defaultMultiplier,
+      modified
+}
+})
+
+  const asyncEditTaskObjectives = async() => {
+
+    asyncAction(editTaskObjectives({
+      task_id: props.taskId,
+      objectives: props.objectives.map(objective => ({
+        ...(detailed ? values[objective.id] : values[0]),
         id: objective.id
       })).filter(objective => objective.modified !== null)
-    }).then(this.collapse)
-    this.setState({
-      loading: true
-    })
+    }), dispatch).then(collapse)
+    setLoading(true)
   }
 
-  loadDetails = async () => {
-    this.setState({ loading: true, expanded: true })
-    const details = (await this.props.objectivesDetails({ id: this.props.taskId })).data.data
-    this.setState({
+ const editTaskObjectivesSubmit = (e) => {
+    e.preventDefault()
+    asyncEditTaskObjectives()
+  }
+
+ const loadDetails = async () => {
+    setState({ loading: true, expanded: true })
+    const details = (await props.objectivesDetails({ id: props.taskId })).data.data
+    setState({
       loading: false,
       values: details.reduce((acc, curr) => ({
         ...acc,
@@ -69,86 +104,83 @@ class EditTaskObjectivesForm extends Component {
           modified: curr.modified,
           multiplier: curr.multiplier
         }
-      }), this.state.values)
+      }), values)
     })
   }
 
-  collapse = () => {
-    if (this.state.expanded) {
-      this.setState({ expanded: false })
+  const  collapse = () => {
+    if (expanded) {
+      setExpanded(false)
     }
   }
-  translate = id => this.props.translate(`Course.tasks.EditTaskObjectivesForm.${id}`)
 
-  render() {
     return (
       <div className="EditTaskObjectivesForm">
         <Modal
-          open={this.state.expanded}
+          open={expanded}
           trigger={
             <Button
               basic
-              content={this.translate('edit_multipliers_button')}
+              content={t('edit_multipliers_button')}
             />}
-          onSubmit={this.editTaskObjectivesSubmit}
-          onOpen={this.loadDetails}
-          onClose={this.collapse}
+          onSubmit={editTaskObjectivesSubmit}
+          onOpen={loadDetails}
+          onClose={collapse}
         >
           <Modal.Content>
-            <Form onSubmit={this.editTaskObjectivesSubmit} loading={this.state.loading}>
+            <Form onSubmit={editTaskObjectivesSubmit} loading={loading}>
               <Container className="header" textAlign="right">
                 <Button.Group size="large">
                   <Button
                     type="button"
-                    onClick={() => this.setState({ detailed: false })}
-                    content={this.translate('all')}
-                    color={this.state.detailed ? undefined : 'blue'}
+                    onClick={() => setState({ detailed: false })}
+                    content={t('all')}
+                    color={detailed ? undefined : 'blue'}
                   />
-                  <Button.Or text={this.translate('or')} />
+                  <Button.Or text={t('or')} />
                   <Button
                     type="button"
-                    onClick={() => this.setState({ detailed: true })}
-                    content={this.translate('detailed')}
-                    color={this.state.detailed ? 'blue' : undefined}
+                    onClick={() => setDetailed(true)}
+                    content={t('detailed')}
+                    color={detailed ? 'blue' : undefined}
                   />
                 </Button.Group>
               </Container>
-              {this.state.detailed ? (
-                this.props.objectives.map(objective => (this.state.values[objective.id] ? (
+              {detailed ? (
+                props.objectives.map(objective => (values[objective.id] ? (
                   <ChangeObjectiveMultiplier
                     key={objective.id}
                     objective={objective}
-                    values={this.state.values}
-                    loading={this.state.loading}
-                    changeModified={this.changeModified}
-                    changeMultiplier={this.changeMultiplier}
-                    defaultText={this.translate('default')}
-                    orText={this.translate('or')}
-                    modifyText={this.translate('modify')}
+                    values={values}
+                    loading={loading}
+                    changeModified={changeModified}
+                    changeMultiplier={changeMultiplier}
+                    defaultText={t('default')}
+                    orText={t('or')}
+                    modifyText={t('modify')}
                   />) : null
                 ))
               ) : (
                 <ChangeAllObjectivesMultipliers
-                  defaultMultiplier={this.state.values[0]}
+                  defaultMultiplier={values[0]}
                   defaultInd={0}
-                  changeMultiplier={this.changeMultiplier}
-                  changeModified={this.changeModified}
-                  allText={this.translate('all')}
-                  defaultText={this.translate('default')}
-                  modifyText={this.translate('modify')}
-                  orText={this.translate('or')}
+                  changeMultiplier={changeMultiplier}
+                  changeModified={changeModified}
+                  allText={t('all')}
+                  defaultText={t('default')}
+                  modifyText={t('modify')}
+                  orText={t('or')}
                 />
               )}
-              <Button type="submit" color="green" style={{ margin: '0px 15px 0px 15px' }}>{this.translate('save')}</Button>
-              <Button type="cancel" style={{ margin: '0px 15px 0px 15px' }} onClick={this.collapse}>{this.translate('cancel')}</Button>
+              <Button type="submit" color="green" style={{ margin: '0px 15px 0px 15px' }}>{t('save')}</Button>
+              <Button type="cancel" style={{ margin: '0px 15px 0px 15px' }} onClick={collapse}>{t('cancel')}</Button>
             </Form>
           </Modal.Content>
         </Modal>
       </div>
     )
   }
-}
-
+/*
 EditTaskObjectivesForm.propTypes = {
   taskId: PropTypes.number.isRequired,
   editTaskObjectives: PropTypes.func.isRequired,
@@ -161,43 +193,6 @@ EditTaskObjectivesForm.propTypes = {
   objectivesDetails: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired
 }
+*/
 
-const mapStateToProps = (state, ownProps) => {
-  const taskObjectives = state.task.tasks
-    .find(task => task.id === ownProps.taskId).objectives
-    .reduce(
-      (acc, curr) => ({ ...acc, [curr.id]: { multiplier: curr.multiplier } }),
-      {}
-    )
-  const objectives = state.category.categories
-    .reduce(
-      (acc, curr) => acc.concat(curr.skill_levels.reduce(
-        (acc2, curr2) => acc2.concat(curr2.objectives
-          .filter(objective => taskObjectives[objective.id]).map(objective => ({
-            ...objective,
-            multiplier: taskObjectives[objective.id].multiplier
-          }))),
-        []
-      )),
-      []
-    )
-  return {
-    taskId: ownProps.taskId,
-    objectives,
-    defaultMultiplier: state.task.tasks.find(task => task.id === ownProps.taskId).types
-      .reduce((acc, typeId) => (
-        acc * state.type.headers.reduce((multiplier, header) => {
-          const type = header.types.find(htype => htype.id === typeId)
-          if (!type) return multiplier
-          return type.multiplier
-        }, 0)
-      ), 1)
-  }
-}
-
-const mapDispatchToProps = dispatch => ({
-  editTaskObjectives: asyncAction(editTaskObjectives, dispatch),
-  objectivesDetails
-})
-
-export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(EditTaskObjectivesForm))
+export default withLocalize(connect()(EditTaskObjectivesForm))

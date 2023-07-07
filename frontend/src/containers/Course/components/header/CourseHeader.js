@@ -1,5 +1,5 @@
 import React from 'react'
-import { number, shape, string, bool, func } from 'prop-types'
+import { useSelector } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Link } from 'react-router-dom'
 import { Button, Segment, Header } from 'semantic-ui-react'
@@ -7,8 +7,7 @@ import './header.css'
 
 export const CourseHeader = (props) => {
   const translate = id => props.translate(`Course.header.CourseHeader.${id}`)
-  const {course} = props
-
+  const course = useSelector(state => state.instance)
   return (
     <div className="CourseHeader" id="course-header-container">
       <Segment>

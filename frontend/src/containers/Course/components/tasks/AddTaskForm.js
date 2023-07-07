@@ -1,20 +1,21 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React, { Fragment } from 'react'
+import { connect, useDispatch } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Button, Grid, Form, Input, Label } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { addTask } from '../../actions/tasks'
-
+import { useTranslation } from 'react-i18next'
 import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 import { getCourseInstanceDataAction } from '../../../../actions/actions'
 import InfoBox from '../../../../utils/components/InfoBox'
 
-export class AddTaskForm extends Component {
-  addTaskSubmit = (e) => {
-    this.props.addTask({
+export const AddTaskForm = (props) => {
+  const dispatch = useDispatch()
+
+  const addTaskSubmit = async () => {
+    asyncAction(addTask({
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
       swe_name: e.target.swe_name.value,
@@ -23,18 +24,19 @@ export class AddTaskForm extends Component {
       swe_description: e.target.swe_description.value,
       info: e.target.info.value,
       max_points: e.target.points.value,
-      course_instance_id: this.props.courseId,
-      order: this.props.newOrder
-    }).then(() => this.props.updateCourseInfo(this.props.courseId))
+      course_instance_id: props.courseId,
+      order: props.newOrder
+    }), dispatch).then(() => dispatch(getCourseInstanceDataAction(courseId)))
   }
 
-  translate = id => this.props.translate(`Course.tasks.AddTaskForm.${id}`)
+  const { t, i18n } = useTranslation('translation', {
+    keyPrefix: 'course.tasks.addTaskForm',
+  })
 
-  render() {
-    const contentPrompt = this.translate('prompt_1')
+    const contentPrompt = t('prompt_1')
     const label = {
-      name: this.translate('name'),
-      description: this.translate('description'),
+      name: t('name'),
+      description: t('description'),
       info: 'info',
       maxPoints: 'max points'
     }
@@ -43,10 +45,10 @@ export class AddTaskForm extends Component {
         <Grid.Column>
           <div className="AddTaskForm">
             <ModalForm
-              header={<Fragment>{this.translate('header')}<InfoBox translateFunc={this.props.translate} translationid="AddTaskModal" buttonProps={{ floated: 'right' }} /></Fragment>}
+              header={<Fragment>{t('header')}<InfoBox translateFunc={t} translationid="AddTaskModal" buttonProps={{ floated: 'right' }} /></Fragment>}
               trigger={<Button basic className="addTaskButton" icon={{ name: 'add' }} />}
-              actions={saveActions(this.translate)}
-              onSubmit={this.addTaskSubmit}
+              actions={saveActions(t)}
+              onSubmit={addTaskSubmit}
             >
               <p>{contentPrompt}.</p>
               <MultilingualField required field="name" fieldDisplay={label.name} />
@@ -65,8 +67,7 @@ export class AddTaskForm extends Component {
       </Grid.Row>
     )
   }
-}
-
+/*
 AddTaskForm.propTypes = {
   courseId: PropTypes.number.isRequired,
   addTask: PropTypes.func.isRequired,
@@ -74,10 +75,6 @@ AddTaskForm.propTypes = {
   translate: PropTypes.func.isRequired,
   newOrder: PropTypes.number.isRequired
 }
+*/
 
-const mapDispatchToProps = dispatch => ({
-  addTask: asyncAction(addTask, dispatch),
-  updateCourseInfo: courseId => dispatch(getCourseInstanceDataAction(courseId))
-})
-
-export default withLocalize(connect(null, mapDispatchToProps)(AddTaskForm))
+export default withLocalize(connect()(AddTaskForm))
