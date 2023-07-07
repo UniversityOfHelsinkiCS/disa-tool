@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { Route, Switch, Redirect, withRouter, useParams,useLocation } from 'react-router-dom'
+import { connect, useSelector, useDispatch } from 'react-redux'
+import { Route, Switch, Redirect, withRouter, useParams ,useRouteMatch} from 'react-router-dom'
 import { Loader } from 'semantic-ui-react'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
@@ -16,32 +16,33 @@ import Navbar from './components/navbar/Navbar'
 import CourseHeader from './components/header/CourseHeader'
 
 export const  CoursePage = (props) => {
-  const {id,url} = useParams()
-  let location = useLocation()
-
-  console.log(id,url)
-
-
+  const {id} = useParams()
+  const {course,loading} = useSelector(state => state.course)
+  const matches = useRouteMatch()
+  const dispatch = useDispatch()
+  const url = matches.url
   useEffect(() => {
-    props.getCourseData({
-      id: id
-    })
-    return(() => props.resetCourse())
+    const asyncFunction = async () => {
+    const courseData = await getCourseData({id: id})
+    dispatch(courseData)
+
+    }
+asyncFunction()
+   // return(() => resetCourse(dispatch))
   },[])
-
-
-    if (props.loading) {
-      return <Loader active />
+console.log(loading,id)
+    if (loading) {
+      return <Loader active id="loadin-icon" />
     }
     return (
-      <div className="CoursePage">
-        <CourseHeader />
+      <div className="CoursePage" data-testid="course-page">
+        <CourseHeader course={course}/>
         <Navbar matchUrl={url} pathname={location.pathname} />
         <Switch>
-          <Route path={`${url}/matrix`} render={() => <EditMatrixTab courseId={id} />} />
-          <Route path={`${url}/types`} render={() => <EditTypesTab courseId={id} />} />
-          <Route path={`${url}/tasks`} render={() => <EditTasksTab courseId={id} />} />
-          <Route path={`${url}/grades`} render={() => <EditGradesTab courseId={id} />} />
+          <Route path={`${url}/matrix`} render={() => <EditMatrixTab courseId={Number(id)} />} />
+          <Route path={`${url}/types`} render={() => <EditTypesTab courseId={Number(id)} />} />
+          <Route path={`${url}/tasks`} render={() => <EditTasksTab courseId={Number(id)} />} />
+          <Route path={`${url}/grades`} render={() => <EditGradesTab courseId={Number(id)} />} />
           <Route component={() => <Redirect to={`${url}/matrix`} />} />
         </Switch>
       </div>
@@ -49,7 +50,7 @@ export const  CoursePage = (props) => {
   }
 
 CoursePage.propTypes = {
-  match: PropTypes.shape({
+ /* match: PropTypes.shape({
     url: PropTypes.string.isRequired,
     params: PropTypes.shape({
       id: PropTypes.number.isRequired
@@ -57,29 +58,17 @@ CoursePage.propTypes = {
   }).isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired
-  }).isRequired,
-  getCourseData: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  resetCourse: PropTypes.func.isRequired
+  }).isRequired,*/
+ // getCourseData: PropTypes.func.isRequired,
+//  loading: PropTypes.bool.isRequired,
+ // resetCourse: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  match: {
-    ...ownProps.match,
-    params: {
-      ...ownProps.match.params,
-      id: Number(ownid)
-    }
-  },
-  location: ownProps.location,
-  loading: state.course.loading
+
+ // loading: state.course.loading
 })
 
-const mapDispatchToProps = dispatch => ({
-  getCourseData: asyncAction(getCourseData, dispatch),
-  resetCourse: resetCourse(dispatch)
-})
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)((
+export default withRouter((
   DragDropContext(HTML5Backend)(CoursePage)
-)))
+))

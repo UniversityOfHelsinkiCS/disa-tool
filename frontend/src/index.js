@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Suspense} from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
@@ -8,6 +8,8 @@ import * as Sentry from '@sentry/browser'
 import App from './App'
 
 import store from './store'
+
+import './i18n';
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
@@ -22,7 +24,9 @@ try {
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
+    <Suspense fallback={<div>Loading... </div>}>
       <App />
+      </Suspense>
     </BrowserRouter>
   </Provider>
   , document.getElementById('app')

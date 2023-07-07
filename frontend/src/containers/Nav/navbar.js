@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter, Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { connect,useDispatch, useSelector } from 'react-redux'
 import { Menu, Dropdown, Input } from 'semantic-ui-react'
-import { func, shape, number } from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import { setActiveLanguage } from 'react-localize-redux'
 import axios from 'axios'
+import { useTranslation } from 'react-i18next'
 
 import { logoutAction } from '../../actions/actions'
 import { getLanguage, saveLanguage } from '../../utils/utils'
+
 
 const languageOptions = [
   { key: 'fin', value: 'fin', text: 'Suomi' },
@@ -18,6 +19,11 @@ const languageOptions = [
 const Nav = (props) => {
   const [activeItem, setActiveItem] = useState('home')
   const [language, setLanguage] = useState("fin")
+  const { t, i18n } = useTranslation('translation', {
+    keyPrefix: 'nav.navbar',
+})
+  const user = useSelector(state => state.user)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const asyncFunc = async () => {
@@ -35,19 +41,17 @@ const Nav = (props) => {
 
  const handleClick = (e, { name }) => {
     if (name === 'logout') {
-      props.dispatchLogout(translate('logout_success'))
+      dispatch(logoutAction(t('logout_success')))
     }
     setActiveItem(name)
   }
 
   const changeLanguage = async (e, { value }) => {
-     setLanguage(value)
-    saveLanguage(state.language)
-    props.setActiveLanguage(state.language)
-    window.location.reload()
+    setLanguage(value)
+    saveLanguage(language)
+    setActiveItem(language)
+    i18n.changeLanguage(value)
   }
-
-  const translate = id => props.translate(`Nav.navbar.${id}`)
 
   const logout = async () => {
     const returnUrl = window.location.origin
@@ -60,7 +64,7 @@ const Nav = (props) => {
   }
 
     return (
-      <nav>
+      <nav data-testid="navbar">
         <Menu tabular>
           <Menu.Item
             header
@@ -70,9 +74,9 @@ const Nav = (props) => {
             active={activeItem === 'home'}
             onClick={handleClick}
           >
-            {translate('home')}
+            {t('home')}
           </Menu.Item>
-          {props.user.id ?
+          {user.id ?
             <Menu.Item
               as={Link}
               to="/user"
@@ -80,7 +84,7 @@ const Nav = (props) => {
               active={activeItem === 'user'}
               onClick={handleClick}
             >
-              {translate('user')}
+              {t('user')}
             </Menu.Item> : undefined}
           <Menu.Item
             as={Link}
@@ -89,7 +93,7 @@ const Nav = (props) => {
             active={activeItem === 'courses'}
             onClick={handleClick}
           >
-            {translate('courses')}
+            {t('courses')}
           </Menu.Item>
           <Menu.Menu position="right">
             <Menu.Item>
@@ -99,7 +103,7 @@ const Nav = (props) => {
                 onChange={changeLanguage}
               />
             </Menu.Item>
-            {props.user.role === 'ADMIN' ?
+            {user.role === 'ADMIN' ?
               <Menu.Item
                 as={Link}
                 to="/admin"
@@ -107,7 +111,7 @@ const Nav = (props) => {
                 active={activeItem === 'admin'}
                 onClick={handleClick}
               >
-                {translate('admin')}
+                {t('admin')}
               </Menu.Item>
               :
               null
@@ -117,7 +121,7 @@ const Nav = (props) => {
               active={activeItem === 'logout'}
               onClick={logout}
             >
-              {translate('logout')}
+              {t('logout')}
             </Menu.Item> :
             {process.env.NODE_ENV === 'development' ?
               <Menu.Item >
@@ -131,16 +135,17 @@ const Nav = (props) => {
       </nav >
     )
   }
-
+/*
 const mapStateToProps = state => ({
   user: state.user
 })
-
+*/
+/*
 Nav.propTypes = {
   dispatchLogout: func.isRequired,
-  user: shape({ id: number }).isRequired,
+ // user: shape({ id: number }).isRequired,
   translate: func.isRequired,
   setActiveLanguage: func.isRequired
 }
-
-export default withLocalize(withRouter(connect(mapStateToProps, { dispatchLogout: logoutAction })(Nav)))
+*/
+export default withRouter(connect()(Nav))

@@ -3,7 +3,7 @@ import { ErrorBoundary } from "react-error-boundary";
 
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { useDispatch,connect } from 'react-redux'
 import { LocalizeProvider } from 'react-localize-redux'
 import * as Sentry from '@sentry/browser'
 import { getUserAction } from './actions/actions'
@@ -13,9 +13,10 @@ import Main from './containers/Main/main'
 import LocalizeWrapper from './containers/Localize/LocalizeWrapper'
 
 const App = (props) => {
+  const dispatch = useDispatch()
   let sessionAliveInterval = null
   useEffect(() => {
-    props.getUserAction()
+    dispatch(getUserAction())
      sessionAliveInterval = setInterval(async () => {
       try {
         await getUser()
@@ -30,6 +31,7 @@ const App = (props) => {
   },[])
   
   const logError = (err) => {
+    console.log(err)
     Sentry.configureScope((context) => {
       context.setUser({ id: props.user.id, username: props.user.name })
     })
@@ -49,12 +51,12 @@ const App = (props) => {
 
     )
   }
-
+/*
 App.propTypes = {
   user: PropTypes.shape({ name: PropTypes.string, id: PropTypes.number }).isRequired,
   getUserAction: PropTypes.func.isRequired,
 }
+*/
+//const mapStateToProps = ({ user }) => ({ user })
 
-const mapStateToProps = ({ user }) => ({ user })
-
-export default withRouter(connect(mapStateToProps, { getUserAction })(App))
+export default withRouter(connect()(App))

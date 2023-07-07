@@ -8,7 +8,10 @@
     "start": "webpack-dev-server --config ./config/webpack.development.conf.js --hot",
     "test": "jest",
     "stats": "webpack --config ./config/webpack.production.js --profile --json > stats.json",
-    "lint": "eslint --ext .js src || true"
+    "lint": "eslint --ext .js src || true",
+    "generate": "playwright codegen --config ./config/playwright.config.js",
+    "test-pw": "playwright test --config ./config/playwright.config.js",
+    "update-snapshots": "playwright test --update-snapshots --config ./config/playwright.config.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +29,9 @@
     "axios": "^1.4.0",
     "better-react-mathjax": "^2.0.2",
     "core-js": "^3.31.0",
+    "i18next": "^23.2.8",
+    "i18next-browser-languagedetector": "^7.1.0",
+    "i18next-http-backend": "^2.2.1",
     "papaparse": "^4.6.0",
     "path-browserify": "^1.0.1",
     "process": "^0.11.10",
@@ -37,6 +43,7 @@
     "react-dnd-html5-backend": "^7.2.0",
     "react-dom": "^16.8.4",
     "react-error-boundary": "^4.0.10",
+    "react-i18next": "^13.0.1",
     "react-localize-redux": "^3.5.3",
     "react-markdown": "^4.2.2",
     "react-mathjax": "^1.0.1",
@@ -57,6 +64,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.22.5",
     "@babel/preset-env": "^7.22.5",
     "@babel/preset-react": "^7.22.5",
+    "@playwright/test": "^1.35.1",
     "axios-mock-adapter": "^1.21.5",
     "babel-jest": "^29.5.0",
     "babel-loader": "^9.1.2",
@@ -86,10 +94,14 @@
     "webpack-dev-server": "^4.15.1"
   },
   "jest": {
+    "testEnvironment": "node",
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/fileMock.js",
       "\\.(css|less)$": "<rootDir>/src/__mocks__/styleMock.js"
     },
+    "modulePathIgnorePatterns": [
+      "<rootDir>/src/tests/pw-tests"
+    ],
     "transform": {
       "\\.[jt]s?$": "babel-jest"
     },

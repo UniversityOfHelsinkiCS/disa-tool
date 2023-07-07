@@ -7,7 +7,7 @@ import { Menu } from 'semantic-ui-react'
 export const Navbar = (props) => {
   const translate = id => props.translate(`Course.navbar.Navbar.${id}`)
   return (
-    <nav className="Navbar">
+    <nav className="Navbar" data-testid="course-navbar">
       <Menu pointing>
         <Menu.Item
           className="matrixLink"
