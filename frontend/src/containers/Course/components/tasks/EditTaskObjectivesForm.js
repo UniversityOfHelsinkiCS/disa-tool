@@ -9,9 +9,10 @@ import { objectivesDetails } from '../../../../api/tasks'
 import { editTaskObjectives } from '../../actions/tasks'
 import ChangeObjectiveMultiplier from './ChangeObjectiveMultiplier'
 import ChangeAllObjectivesMultipliers from './ChangeAllObjectivesMultipliers'
+import { useTranslation } from 'react-i18next'
 
-  const defaultMultiplier = (task,taskId) => {
-    multiplier = task.tasks.find(task => task.id === props.taskId).types
+  const defaultMultiplier = (task,taskId,type) => {
+    const multiplier = task.tasks.find(task => task.id === taskId).types
     .reduce((acc, typeId) => (
       acc * type.headers.reduce((multiplier, header) => {
         const type = header.types.find(htype => htype.id === typeId)
@@ -24,12 +25,14 @@ import ChangeAllObjectivesMultipliers from './ChangeAllObjectivesMultipliers'
 
 const EditTaskObjectivesForm = (props) => {
   const task = useSelector(state => state.task)
+  const type = useSelector(state => state.type)
+  const category = useSelector(state => state.category)
   const [expanded, setExpanded] = useState(false)
   const [detailed, setDetailed] = useState(true)
   const [loading, setLoading] = useState(true)
   const [values, setValues] = useState({
     0: {
-      multiplier: defaultMultiplier(task, props.taskId),
+      multiplier: defaultMultiplier(task, props.taskId,type),
       modified: false
     }
   })
@@ -54,10 +57,8 @@ const EditTaskObjectivesForm = (props) => {
     []
   )
 
-  const { t, i18n } = useTranslation('translation', {
-    keyPrefix: 'course.tasks.editTaskObjectivesForm',
-  })
-  EditTaskObjectivesForm
+  const { t, i18n } = useTranslation('translation')
+
  const changeMultiplier = id => e => setValues({
   ...values, 
     [id]: {
@@ -67,7 +68,7 @@ const EditTaskObjectivesForm = (props) => {
 })
 
 
-const  changeModified = (id, modified) => () =>  setValues({
+const changeModified = (id, modified) => () =>  setValues({
   ...values, 
     [id]: {
       ...values[id],
@@ -80,7 +81,7 @@ const  changeModified = (id, modified) => () =>  setValues({
 
     asyncAction(editTaskObjectives({
       task_id: props.taskId,
-      objectives: props.objectives.map(objective => ({
+      objectives: objectives.map(objective => ({
         ...(detailed ? values[objective.id] : values[0]),
         id: objective.id
       })).filter(objective => objective.modified !== null)
@@ -94,17 +95,19 @@ const  changeModified = (id, modified) => () =>  setValues({
   }
 
  const loadDetails = async () => {
-    setState({ loading: true, expanded: true })
+    setExpanded(true)
+    setLoading(true)
     const details = (await props.objectivesDetails({ id: props.taskId })).data.data
-    setState({
-      loading: false,
-      values: details.reduce((acc, curr) => ({
-        ...acc,
-        [curr.objective_id]: {
-          modified: curr.modified,
-          multiplier: curr.multiplier
-        }
-      }), values)
+    setLoading(false)
+    const newValues = details.reduce((acc, curr) => ({
+      ...acc,
+      [curr.objective_id]: {
+        modified: curr.modified,
+        multiplier: curr.multiplier
+      }
+    }))
+    setValues({
+      ...values, newValues
     })
   }
 
@@ -121,7 +124,7 @@ const  changeModified = (id, modified) => () =>  setValues({
           trigger={
             <Button
               basic
-              content={t('edit_multipliers_button')}
+              content={t('course.tasks.common.edit_multipliers_button')}
             />}
           onSubmit={editTaskObjectivesSubmit}
           onOpen={loadDetails}
@@ -137,17 +140,17 @@ const  changeModified = (id, modified) => () =>  setValues({
                     content={t('all')}
                     color={detailed ? undefined : 'blue'}
                   />
-                  <Button.Or text={t('or')} />
+                  <Button.Or text={t('course.taskseeditTaskObjectivesForm.or')} />
                   <Button
                     type="button"
                     onClick={() => setDetailed(true)}
-                    content={t('detailed')}
+                    content={t('course.tasks.editTaskObjectivesForm.detailed')}
                     color={detailed ? 'blue' : undefined}
                   />
                 </Button.Group>
               </Container>
               {detailed ? (
-                props.objectives.map(objective => (values[objective.id] ? (
+                objectives.map(objective => (values[objective.id] ? (
                   <ChangeObjectiveMultiplier
                     key={objective.id}
                     objective={objective}
@@ -155,9 +158,9 @@ const  changeModified = (id, modified) => () =>  setValues({
                     loading={loading}
                     changeModified={changeModified}
                     changeMultiplier={changeMultiplier}
-                    defaultText={t('default')}
-                    orText={t('or')}
-                    modifyText={t('modify')}
+                    defaultText={t('course.tasks.common.default')}
+                    orText={t('course.tasks.editTaskObjectivesForm.or')}
+                    modifyText={t('course.tasks.editTaskObjectivesForm.modify')}
                   />) : null
                 ))
               ) : (
@@ -166,14 +169,14 @@ const  changeModified = (id, modified) => () =>  setValues({
                   defaultInd={0}
                   changeMultiplier={changeMultiplier}
                   changeModified={changeModified}
-                  allText={t('all')}
-                  defaultText={t('default')}
-                  modifyText={t('modify')}
-                  orText={t('or')}
+                  allText={t('course.tasks.editTaskObjectivesForm.all')}
+                  defaultText={t('course.tasks.common.default')}
+                  modifyText={t('course.tasks.editTaskObjectivesForm.modify')}
+                  orText={t('course.tasks.editTaskObjectivesForm.or')}
                 />
               )}
-              <Button type="submit" color="green" style={{ margin: '0px 15px 0px 15px' }}>{t('save')}</Button>
-              <Button type="cancel" style={{ margin: '0px 15px 0px 15px' }} onClick={collapse}>{t('cancel')}</Button>
+              <Button type="submit" color="green" style={{ margin: '0px 15px 0px 15px' }}>{t('common.save')}</Button>
+              <Button type="reset" style={{ margin: '0px 15px 0px 15px' }} onClick={collapse}>{t('common.cancel')}</Button>
             </Form>
           </Modal.Content>
         </Modal>

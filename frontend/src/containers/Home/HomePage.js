@@ -1,6 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
 import { Grid, Header } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 
@@ -26,7 +24,7 @@ export const HomePage = (props) => {
           <Header as="h2" content={t('home.homepage.teacher_header')} />
           <p>{t('home.homepage.teacher_info')}</p>
 
-          <Header as="h2" content={t('background_header')} />
+          <Header as="h2" content={t('home.homepage.background_header')} />
           <p>
             <span>{t('home.homepage.background_info_1_1')}</span>
             <a href={t('home.homepage.background_link_1_href')}>

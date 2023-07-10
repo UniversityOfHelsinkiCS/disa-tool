@@ -1,5 +1,7 @@
 // @ts-check
 const { defineConfig, devices } = require('@playwright/test');
+import path from 'path';
+
 
 /**
  * Read environment variables from file.
@@ -7,12 +9,17 @@ const { defineConfig, devices } = require('@playwright/test');
  */
 // require('dotenv').config();
 
+export const STORAGE_STATE = path.join(__dirname, 'playwright/.auth/users.json');
+
+
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
 module.exports = defineConfig({
+  //globalSetup: require.resolve('./global-setup'),
+  //globalTeardown: require.resolve('./global-teardown'),
   expect: {
-    timeout: 3000,
+    timeout: 5000,
     toHaveScreenshot: {
       maxDiffPixels: 10,
     },
@@ -34,6 +41,7 @@ module.exports = defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL: "http://localhost:8080",
+    //storageState: 'users.json',
     trace: 'on',
     screenshot: 'only-on-failure', // Capture screenshot after each test failure.
     video: 'retain-on-failure', //Record video only when retrying a test for the first time.
@@ -46,28 +54,47 @@ module.exports = defineConfig({
             log: (name, severity, message, args) => console.log(`${name} ${message}`)
         }
     },
-    actionTimeout: 10 * 1000,
-    navigationTimeout: 30 * 1000
+    //actionTimeout: 10 * 1000,
+    //navigationTimeout: 30 * 1000
 },
   /* Configure projects for major browsers */
   projects: [
     {
+      name: 'global setup',
+      testMatch: /global\.setup\.js/,
+    },
+    {
+      name: 'setup',
+      testMatch: '**/*.setup.js',
+    },
+   /* {
+      name: 'logged in as kimgjon',
+      dependencies: ['setup'],
+      use: {
+        storageState: STORAGE_STATE,
+      },
+    },*/
+    {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      dependencies: ['setup'],
     },
 
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
+      dependencies: ['setup'],
     },
 
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
+      dependencies: ['setup'],
     }, 
     {
        name: 'Mobile Chrome',
        use: { ...devices['Pixel 5'] },
+       dependencies: ['setup'],
      },
     // {
     //   name: 'Mobile Safari',

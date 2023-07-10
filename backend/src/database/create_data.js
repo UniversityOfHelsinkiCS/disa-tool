@@ -1,4 +1,5 @@
-const { sequelize } = require('./connection.js')
+/* eslint-disable no-console */
+const { sequelize } = require('./connection')
 const categories = require('./seeds/categories.json')
 const skillLevels = require('./seeds/skill_levels.json')
 const courses = require('./seeds/courses.json')
@@ -19,7 +20,7 @@ const {
   TaskResponse,
   TypeHeader,
   Type
-} = require('./models.js')
+} = require('./models')
 
 const {
   getStudentsAndTeachers,
@@ -41,7 +42,7 @@ const createSkillLevels = () => SkillLevel.bulkCreate(skillLevels, { returning: 
 
 const createCourses = () => Course.bulkCreate(courses, { returning: ['*'] })
 
-const createPersons = persons => Person.bulkCreate(persons, { returning: ['*'] })
+const createPersons = (persons) => Person.bulkCreate(persons, { returning: ['*'] })
 
 const createCourseInstances = (listOfCourses, maxInstances) => {
   const instances = []
@@ -59,6 +60,7 @@ const createCourseInstances = (listOfCourses, maxInstances) => {
         course_id: course.id
       })
     }
+    return true
   })
   return CourseInstance.bulkCreate(instances, { returning: ['*'] })
   // CourseInstance.bulkCreate(courseInstances, { returning: ['*'] })
@@ -66,46 +68,49 @@ const createCourseInstances = (listOfCourses, maxInstances) => {
 
 const createObjectives = () => Objective.bulkCreate(newObjectives, { returning: ['*'] })
 
-const createCoursePersons = coursePersons => CoursePerson.bulkCreate(coursePersons)
+const createCoursePersons = (coursePersons) => CoursePerson.bulkCreate(coursePersons)
 
-const createTasks = tasks => Task.bulkCreate(tasks, { returning: ['*'] })
+const createTasks = (tasks) => Task.bulkCreate(tasks, { returning: ['*'] })
 
-const createTaskObjectives = taskObjectives => TaskObjective.bulkCreate(taskObjectives, { returning: ['*'] })
+const createTaskObjectives = (taskObjectives) => TaskObjective.bulkCreate(taskObjectives, { returning: ['*'] })
 
 const createTaskResponses = () => TaskResponse.bulkCreate(taskResponses, { returning: ['*'] })
 
-const createTypeHeaders = typeHeaders => TypeHeader.bulkCreate(typeHeaders, { returning: ['*'] })
+const createTypeHeaders = (typeHeaders) => TypeHeader.bulkCreate(typeHeaders, { returning: ['*'] })
 
-const createTypes = types => Type.bulkCreate(types, { returning: ['*'] })
+const createTypes = (types) => Type.bulkCreate(types, { returning: ['*'] })
 
-const createTaskTypes = (courseInstances, typeHeaders, tasks, types) => TaskType.bulkCreate(getTaskTypes(courseInstances, typeHeaders, tasks, types))
+const createTaskTypes = (courseInstances, typeHeaders, tasks, types) => TaskType.bulkCreate(
+  getTaskTypes(courseInstances, typeHeaders, tasks, types)
+)
 
 const run = async () => {
   await sequelize.sync({ force: true })
   console.log('forced')
-  const createdCourses = (await createCourses()).map(db0 => db0.toJSON())
+  const createdCourses = (await createCourses()).map((db0) => db0.toJSON())
   console.log('courses created')
-  const createdPersons = (await createPersons(getStudentsAndTeachers())).map(db0 => db0.toJSON())
+  const createdPersons = (await createPersons(getStudentsAndTeachers())).map((db0) => db0.toJSON())
   console.log('persons created')
-  const createdCourseInstances = (await createCourseInstances(createdCourses, MAX_INSTANCES)).map(db0 => db0.toJSON())
+  const createdCourseInstances = (await createCourseInstances(createdCourses, MAX_INSTANCES)).map((db0) => db0.toJSON())
   console.log('course instances created')
-  const createdCoursePersons = await createCoursePersons(getCoursePersons(createdPersons, createdCourseInstances))
+  await createCoursePersons(getCoursePersons(createdPersons, createdCourseInstances))
   console.log('coursePersons created')
-  const createdCategories = await createCategories()
+  await createCategories()
   console.log('categories created')
-  const createdSkillLevels = await createSkillLevels()
+  await createSkillLevels()
   console.log('skill levels created')
-  const createdObjectives = (await createObjectives()).map(db0 => db0.toJSON())
+  const createdObjectives = (await createObjectives()).map((db0) => db0.toJSON())
   console.log('objectives created')
-  const createdTasks = (await createTasks(getCourseTasks(createdCourseInstances))).map(db0 => db0.toJSON())
+  const createdTasks = (await createTasks(getCourseTasks(createdCourseInstances))).map((db0) => db0.toJSON())
   console.log('tasks created')
   await createTaskObjectives(getTaskObjectives(createdTasks, createdObjectives, createdCourseInstances))
   console.log('task objectives created')
   await createTaskResponses()
   console.log('task responses created')
-  const createdTypeHeaders = (await createTypeHeaders(getTypeHeaders(createdCourseInstances))).map(db0 => db0.toJSON())
+  const createdTypeHeaders = (await createTypeHeaders(
+    getTypeHeaders(createdCourseInstances))).map((db0) => db0.toJSON())
   console.log('type headers created')
-  const createdTypes = (await createTypes(getTypes(createdTypeHeaders))).map(db0 => db0.toJSON())
+  const createdTypes = (await createTypes(getTypes(createdTypeHeaders))).map((db0) => db0.toJSON())
   console.log('types created')
   await createTaskTypes(createdCourseInstances, createdTypeHeaders, createdTasks, createdTypes)
   console.log('task types created')

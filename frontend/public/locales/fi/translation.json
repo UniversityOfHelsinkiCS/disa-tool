@@ -1,6 +1,6 @@
 {
   "common": {
-    "save": ["Save", "Tallenna"],
+    "save": "Tallenna",
     "name": "Nimi",
     "skill_levels": ["skill levels", "taitotasot"],
     "category": ["category", "osio"],
@@ -187,7 +187,6 @@
     "tasks": {
       "common": {
         "name": "Nimi",
-
         "default": "Oletusarvoinen kerroin",
         "description": "kuvaus",
         "edit_multipliers_button": "Muokkaa kertoimia"

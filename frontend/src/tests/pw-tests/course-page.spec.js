@@ -1,13 +1,12 @@
 import { test, expect } from '@playwright/test';
 
+test.beforeEach(async ({ page }) => {
+  await page.goto('http://localhost:8080/');
+});
 
 test.describe("Course page", () => {
 
 test('Renders matrix page', async ({ page }) => {
-  await page.goto('http://localhost:8080/');
-  await page.getByRole('textbox').click();
-  await page.getByRole('textbox').fill('kimgjun');
-  await page.getByRole('textbox').press('Enter');
   await page.goto('http://localhost:8080/course/1');
   const courseHeader = page.locator('id=course-header')
   await expect(courseHeader).toHaveText('Lineaarialgebra ja matriisilaskenta I kevät 2018')

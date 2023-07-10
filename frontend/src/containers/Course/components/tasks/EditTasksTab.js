@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react'
 import { connect, useSelector ,useDispatch} from 'react-redux'
 import { Container, Segment } from 'semantic-ui-react'
 import {useTranslation } from 'react-i18next'
+import { changeActive } from '../../actions/tasks'
 
 import Task from './Task'
 import Matrix from '../matrix/Matrix'
@@ -22,14 +23,21 @@ export const EditTasksTab = () => {
 })
 
  useEffect(() => {
-  task.active === null ? (
-    null
-  ) : (
-    task.tasks.find(task => task.id === task.active)
-  )
- },[])
+  if(task.active === null) {
+    setActiveTask(null)
+   } else { 
+    console.log("task.active: ", task)
+    const tempActiveTask = task.tasks.find(t =>{
+      console.log("task.id: ", task.id, ", task.active: ", task.active)
+       return t.id === task.active
+      })
+    console.log(tempActiveTask)
+    setActiveTask(tempActiveTask)
+   }
+ },[task])
 
- const  changeActive = (e, { value }) => {
+ const  handleActiveTask = (e, { value }) => {
+  console.log("e: ", value)
     dispatch(changeActive(value))
   }
     return (
@@ -44,7 +52,7 @@ export const EditTasksTab = () => {
             <SelectTaskDropdown
               tasks={task.tasks}
               activeTask={activeTask}
-              changeActive={changeActive}
+              handleActiveTask={handleActiveTask}
             />
           </div>
           <div>
@@ -69,7 +77,7 @@ export const EditTasksTab = () => {
                 <span style={{ marginRight: '20px' }}>Types</span>
                 {activeTask ? (
                   <TypesDisplay
-                    defaultText={t('tasks.editTasksTab.default')}
+                    defaultText={t('tasks.common.default')}
                     defaultMultiplier={activeTask.defaultMultiplier}
                     types={activeTask.types}
                   />

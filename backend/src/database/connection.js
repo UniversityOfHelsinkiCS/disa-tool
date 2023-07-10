@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const logger = require('../utils/logger')
-const { DATABASE_URL } = require('../../conf-backend.js')
+const { DATABASE_URL } = require('../../conf-backend')
 require('pg').defaults.parseInt8 = true
 
 const sequelize = new Sequelize(DATABASE_URL, { logging: false })

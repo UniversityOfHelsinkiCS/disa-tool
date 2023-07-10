@@ -11,11 +11,11 @@ import MultilingualField from '../../../../utils/components/MultilingualField'
 import { getCourseInstanceDataAction } from '../../../../actions/actions'
 import InfoBox from '../../../../utils/components/InfoBox'
 
-export const AddTaskForm = (props) => {
+export const AddTaskForm = ({courseId, newOrder}) => {
   const dispatch = useDispatch()
 
-  const addTaskSubmit = async () => {
-    asyncAction(addTask({
+  const addTaskSubmit = async (e) => {
+    asyncAction(await addTask({
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
       swe_name: e.target.swe_name.value,
@@ -24,19 +24,34 @@ export const AddTaskForm = (props) => {
       swe_description: e.target.swe_description.value,
       info: e.target.info.value,
       max_points: e.target.points.value,
-      course_instance_id: props.courseId,
-      order: props.newOrder
-    }), dispatch).then(() => dispatch(getCourseInstanceDataAction(courseId)))
+      course_instance_id: courseId,
+      order: newOrder
+    }), dispatch)
+    const addTaskPromise = await addTask({
+      eng_name: e.target.eng_name.value,
+      fin_name: e.target.fin_name.value,
+      swe_name: e.target.swe_name.value,
+      eng_description: e.target.eng_description.value,
+      fin_description: e.target.fin_description.value,
+      swe_description: e.target.swe_description.value,
+      info: e.target.info.value,
+      max_points: e.target.points.value,
+      course_instance_id: courseId,
+      order: newOrder
+    })
+    await dispatch(addTaskPromise)
+    
+    dispatch(getCourseInstanceDataAction(courseId))
   }
 
   const { t, i18n } = useTranslation('translation', {
-    keyPrefix: 'course.tasks.addTaskForm',
+    keyPrefix: 'course.tasks',
   })
 
-    const contentPrompt = t('prompt_1')
+    const contentPrompt = t('addTaskForm.prompt1')
     const label = {
-      name: t('name'),
-      description: t('description'),
+      name: t('common.name'),
+      description: t('common.description'),
       info: 'info',
       maxPoints: 'max points'
     }
@@ -45,8 +60,8 @@ export const AddTaskForm = (props) => {
         <Grid.Column>
           <div className="AddTaskForm">
             <ModalForm
-              header={<Fragment>{t('header')}<InfoBox translateFunc={t} translationid="AddTaskModal" buttonProps={{ floated: 'right' }} /></Fragment>}
-              trigger={<Button basic className="addTaskButton" icon={{ name: 'add' }} />}
+              header={<Fragment>{t('addTaskForm.header')}<InfoBox translateFunc={t} translationid="AddTaskModal" buttonProps={{ floated: 'right' }} /></Fragment>}
+              trigger={<Button basic className="addTaskButton" data-testid="add-button" icon={{ name: 'add' }} />}
               actions={saveActions(t)}
               onSubmit={addTaskSubmit}
             >

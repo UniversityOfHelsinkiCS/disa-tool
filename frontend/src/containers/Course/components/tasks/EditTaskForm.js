@@ -4,6 +4,7 @@ import { connect ,useDispatch} from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Button, Grid, Form, Input, Label } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
+import { useTranslation } from 'react-i18next'
 
 import { editTask } from '../../actions/tasks'
 import { details } from '../../../../api/tasks'
@@ -15,6 +16,7 @@ import './tasks.css'
 
 export const EditTaskForm = (props) => {
   const dispatch = useDispatch()
+
   const [values, setValues] = useState({
         name: {
           eng: '',
@@ -33,26 +35,27 @@ export const EditTaskForm = (props) => {
     }
   )
 
-  editTaskSubmit =async (e) => {
-    asyncAction(editTask({
-      id: props.taskId,
-      eng_name: e.target.eng_name.value,
-      fin_name: e.target.fin_name.value,
-      swe_name: e.target.swe_name.value,
-      eng_description: e.target.eng_description.value,
-      fin_description: e.target.fin_description.value,
-      swe_description: e.target.swe_description.value,
-      info: e.target.info.value,
-      max_points: e.target.points.value
-    }),dispatch())
+ const editTaskSubmit = async (e) => {
+  const editTaskData = await editTask({
+    id: props.taskId,
+    eng_name: e.target.eng_name.value,
+    fin_name: e.target.fin_name.value,
+    swe_name: e.target.swe_name.value,
+    eng_description: e.target.eng_description.value,
+    fin_description: e.target.fin_description.value,
+    swe_description: e.target.swe_description.value,
+    info: e.target.info.value,
+    max_points: e.target.points.value
+  })
+  dispatch({type: editTaskData.type, response: editTaskData.response})
   }
 
-  loadDetails = async () => {
+ const loadDetails = async () => {
     const taskDetails = (await details({
       id: props.taskId
     })).data.data
     setValues({
-      ...state,
+      ...values,
         name: {
           eng: taskDetails.eng_name,
           fin: taskDetails.fin_name,
@@ -69,14 +72,12 @@ export const EditTaskForm = (props) => {
     })
   }
 
-  const { t, i18n } = useTranslation('translation', {
-    keyPrefix: 'course.tasks.editTaskForm',
-  })
+  const { t, i18n } = useTranslation('translation')
 
-    const contentPrompt = t('prompt1')
+    const contentPrompt = t('course.tasks.editTaskForm.prompt1')
     const label = {
-      name: t('name'),
-      description: t('description'),
+      name: t('common.name'),
+      description: t('course.tasks.common.description'),
       info: 'info',
       maxPoints: 'max points'
     }
@@ -85,16 +86,16 @@ export const EditTaskForm = (props) => {
         <Grid.Column>
           <div className="EditTaskForm">
             <ModalForm
-              header={t('header')}
+              header={t('course.tasks.editTaskForm.header')}
               trigger={<Button
                 basic
                 className="editTaskButton"
-                content={t('trigger')}
+                content={t('course.tasks.editTaskForm.trigger')}
                 onClick={loadDetails}
               />}
               actions={saveActions(t)}
               onSubmit={editTaskSubmit}
-              loading={loading}
+              loading={values.loading}
             >
               <p>{contentPrompt}.</p>
               <MultilingualField required field="name" fieldDisplay={label.name} values={values.name} />

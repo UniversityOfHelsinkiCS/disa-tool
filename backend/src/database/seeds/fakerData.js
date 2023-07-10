@@ -8,17 +8,16 @@ if (process.env.NODE_ENV === 'test') {
   require('seedrandom')('SAFESEED', { global: true }) // eslint-disable-line
 }
 
-
 const getTaskObjectives = (tasks, objectives, courseInstances) => {
   const taskObjectives = []
-  for (let i = 0; i < courseInstances.length; i++) {
+  for (let i = 0; i < courseInstances.length; i += 1) {
     const element = courseInstances[i]
-    const courseObjectives = objectives.filter(obj => obj.course_instance_id === element.id)
-    const courseTasks = tasks.filter(task => task.course_instance_id === element.id)
+    const courseObjectives = objectives.filter((obj) => obj.course_instance_id === element.id)
+    const courseTasks = tasks.filter((task) => task.course_instance_id === element.id)
     let taskIndex = 0
-    for (let a = 0; a < courseObjectives.length; a++) {
+    for (let a = 0; a < courseObjectives.length; a += 1) {
       const obj = courseObjectives[a]
-      for (let index = 0; index < 3; index++) {
+      for (let index = 0; index < 3; index += 1) {
         if (taskIndex > courseTasks.length - 1) {
           taskIndex = 0
         }
@@ -33,7 +32,7 @@ const getTaskObjectives = (tasks, objectives, courseInstances) => {
           console.log('cant have different course_instance_id')
           break
         }
-        taskIndex++
+        taskIndex += 1
       }
     }
   }
@@ -44,7 +43,7 @@ const getCourseTasks = (courseInstances) => {
   let tasks = []
   tasks = tasks.concat(oldTasks)
 
-  for (let i = 0; i <= 30; i++) {
+  for (let i = 0; i <= 30; i += 1) {
     const name = faker.company.catchPhrase()
     const desc = faker.hacker.phrase()
     tasks.push({
@@ -59,9 +58,9 @@ const getCourseTasks = (courseInstances) => {
     })
   }
 
-  for (let a = 0; a < courseInstances.length; a++) {
+  for (let a = 0; a < courseInstances.length; a += 1) {
     const element = courseInstances[a]
-    for (let i = 0; i < tasks.length; i++) {
+    for (let i = 0; i < tasks.length; i += 1) {
       const t = tasks[i]
       courseTasks.push({
         ...t, course_instance_id: element.id
@@ -74,27 +73,27 @@ const getCourseTasks = (courseInstances) => {
 const getStudentsAndTeachers = () => {
   const persons = []
   let number = 12457689
-  for (let i = 1; i <= 400; i++) {
-    const studentnumber = '0' + number.toString()
+  for (let i = 1; i <= 400; i += 1) {
+    const studentnumber = `0${number.toString()}`
     persons.push({
       studentnumber,
       username: i === 370 ? 'jemisa' : faker.internet.userName(),
       name: `${faker.person.firstName()} ${faker.person.lastName()}`,
       role: 'STUDENT'
     })
-    number++
+    number += 1
   }
-  for (let i = 401; i <= 420; i++) {
-    const studentnumber = '0' + number.toString()
+  for (let i = 401; i <= 420; i += 1) {
+    const studentnumber = `0${number.toString()}`
     persons.push({
       studentnumber,
       username: i === 410 ? 'mikkoti' : faker.internet.userName(),
       name: `${faker.person.firstName()} ${faker.person.lastName()}`,
       role: 'TEACHER'
     })
-    number++
+    number += 1
   }
-// kurki test users
+  // kurki test users
   persons.push({
     username: 'teppot',
     studentnumber: '012345678',
@@ -129,7 +128,7 @@ const getStudentsAndTeachers = () => {
 const getCoursePersons = (persons) => {
   const coursePersons = []
   // harcode linis for kurki test users
-  for (let i = 400; i < persons.length; i++) {
+  for (let i = 400; i < persons.length; i += 1) {
     const element = persons[i]
     coursePersons.push({
       course_instance_id: element.username === 'mikkoti' ? 1 : Math.floor(Math.random() * 3) + 1,
@@ -137,7 +136,7 @@ const getCoursePersons = (persons) => {
       role: element.role
     })
   }
-  for (let i = 0; i < 420; i++) {
+  for (let i = 0; i < 420; i += 1) {
     const element = persons[i]
     coursePersons.push({
       course_instance_id: Math.floor(Math.random() * 37) + 1,
@@ -172,11 +171,11 @@ const getTypeHeaders = (courseInstances) => {
 const getTypes = (typeHeaders) => {
   const types = []
   const increment = 0.15
-  for (let i = 0; i < typeHeaders.length; i++) {
+  for (let i = 0; i < typeHeaders.length; i += 1) {
     const header = typeHeaders[i]
     if (header.eng_name === 'Week') {
       let multiplier = 0.1
-      for (let i = 0; i < 7; i++) {
+      for (let i = 0; i < 7; i += 1) {
         types.push({
           eng_name: i + 1,
           swe_name: i + 1,
@@ -190,7 +189,7 @@ const getTypes = (typeHeaders) => {
     } else {
       const sarja = ['A', 'B', 'Stack', 'Vertaisarvio']
       let multiplier = 0.2
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 3; i += 1) {
         types.push({
           eng_name: sarja[i],
           swe_name: sarja[i],
@@ -208,20 +207,30 @@ const getTypes = (typeHeaders) => {
 
 const getTaskTypes = (courseInstances, typeHeaders, tasks, types) => {
   const taskTypes = []
-  for (let i = 0; i < courseInstances.length; i++) {
+  for (let i = 0; i < courseInstances.length; i += 1) {
     const element = courseInstances[i]
-    const weekHeader = typeHeaders.find(header => header.course_instance_id === element.id && header.fin_name === 'Viikko')
-    const sarjaHeader = typeHeaders.find(header => header.course_instance_id === element.id && header.fin_name === 'Sarja')
-    const courseTypeWeeks = types.filter(t => (t.type_header_id === weekHeader.id))
-    const courseTypeSarja = types.filter(t => (t.type_header_id === sarjaHeader.id))
-    const courseTasks = tasks.filter(t => t.course_instance_id === element.id)
+    const weekHeader = typeHeaders.find((header) => (header.course_instance_id === element.id
+    && header.fin_name === 'Viikko'))
+    const sarjaHeader = typeHeaders.find((header) => (header.course_instance_id === element.id
+      && header.fin_name === 'Sarja'))
+    const courseTypeWeeks = types.filter((t) => (t.type_header_id === weekHeader.id))
+    const courseTypeSarja = types.filter((t) => (t.type_header_id === sarjaHeader.id))
+    const courseTasks = tasks.filter((t) => t.course_instance_id === element.id)
 
-    for (let a = 0; a < courseTasks.length; a++) {
+    for (let a = 0; a < courseTasks.length; a += 1) {
       const task = courseTasks[a]
       const randWeek = Math.floor(Math.random() * 7)
       const randSarja = Math.random()
       let randSarjaId
-      randSarja >= 0.4 ? randSarja >= 0.8 ? randSarjaId = courseTypeSarja[2].id : randSarjaId = courseTypeSarja[1].id : randSarjaId = courseTypeSarja[0].id
+      if (randSarja >= 0.4) {
+        if (randSarja >= 0.8) {
+          randSarjaId = courseTypeSarja[2].id
+        } else {
+          randSarjaId = courseTypeSarja[1].id
+        }
+      } else {
+        randSarjaId = courseTypeSarja[0].id
+      }
       taskTypes.push({
         task_id: task.id,
         type_id: randSarjaId
@@ -235,7 +244,6 @@ const getTaskTypes = (courseInstances, typeHeaders, tasks, types) => {
   }
   return taskTypes
 }
-
 
 module.exports = {
   getStudentsAndTeachers,

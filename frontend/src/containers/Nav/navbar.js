@@ -34,6 +34,8 @@ const Nav = (props) => {
     }
     if (language) {
       setLanguage(language)
+      const languageSplit = language === "fin" ? "fi" : language
+    i18n.changeLanguage(languageSplit)
     }
   }
     asyncFunc()
@@ -48,9 +50,10 @@ const Nav = (props) => {
 
   const changeLanguage = async (e, { value }) => {
     setLanguage(value)
-    saveLanguage(language)
-    setActiveItem(language)
-    i18n.changeLanguage(value)
+    saveLanguage(value)
+    setActiveItem(value)
+    const languageSplit = value === "fin" ? "fi" : value
+    i18n.changeLanguage(languageSplit)
   }
 
   const logout = async () => {
@@ -62,7 +65,7 @@ const Nav = (props) => {
   const handleFakeUser = ({ target }) => {
     window.localStorage.setItem('fakeShibbo', target.value)
   }
-
+console.log(language, i18n)
     return (
       <nav data-testid="navbar">
         <Menu tabular>

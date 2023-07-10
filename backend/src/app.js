@@ -3,7 +3,7 @@ const path = require('path')
 const Sentry = require('@sentry/node')
 const bodyParser = require('body-parser')
 const logger = require('./utils/logger')
-const routes = require('./routes.js')
+const routes = require('./routes')
 
 Sentry.init({
   dsn: process.env.SENTRY_ADDR

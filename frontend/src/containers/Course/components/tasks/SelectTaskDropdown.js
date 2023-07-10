@@ -71,7 +71,7 @@ const SelectTaskDropdown = (props) => {
           search={searchFilter}
           selectOnBlur={false}
           value={props.activeTask ? props.activeTask.id : null}
-          onChange={props.changeActive}
+          onChange={props.handleActiveTask}
           icon={{ name: 'search' }}
           className="squareBottom"
         />

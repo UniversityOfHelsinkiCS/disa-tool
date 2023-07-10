@@ -19,7 +19,7 @@ if (NODE_ENV === 'production') {
         app: 'disa',
         environment: 'production'
       }
-    }),
+    })
   )
 
   transports.push(new winston.transports.File({ filename: 'debug.log' }))
