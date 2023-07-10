@@ -55,11 +55,14 @@ const getUserKey = () => {
     <Route exact path="/courses/register" component={RegisterRedirect} key={() => getUserKey()} />,
     <Route component={HomePage} key={() => getUserKey()} />
   ]
+  const reload = () => window.location.reload()
 
   const anonymousRoutes = [
     <Route path="/courses/matrix/:id" render={(props) => <MatrixPage {...props}/>} key={()=>getAnonymousKey()} />,
     <Route exact path="/courses" component={CourseListPage} key={()=>getAnonymousKey()} />,
-    <Route exact path="/" component={HomePage} key={()=>getAnonymousKey()} />
+    <Route exact path="/" component={HomePage} key={()=>getAnonymousKey()} />,
+    <Route path="/locales" onEnter={reload} key={()=>getAnonymousKey()}/>
+
   ]
 
 
