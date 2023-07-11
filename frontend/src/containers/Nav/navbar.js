@@ -34,7 +34,10 @@ const Nav = (props) => {
     }
     if (language) {
       setLanguage(language)
-      const languageSplit = language === "fin" ? "fi" : language
+      let languageSplit = language === "fin" ? "fi" : language
+      if(languageSplit === "eng") {
+        languageSplit = "en"
+      }
     i18n.changeLanguage(languageSplit)
     }
   }

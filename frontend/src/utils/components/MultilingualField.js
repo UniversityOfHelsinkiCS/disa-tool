@@ -3,9 +3,14 @@ import { useTranslation } from 'react-i18next'
 import { Form, Segment, Label, Input, Button } from 'semantic-ui-react'
 
 export const MultilingualField = (props) => {
+  console.log(props)
   const [multilingual, setMultilingual] = useState(false)
-  const [values, setValues] = useState(props.values)
-  const {t} = useTranslation('translation', { keyPrefix: 'utils.components.multilingualField' })
+  const [values, setValues] = useState({
+    eng: '',
+  fin: '',
+  swe: ''
+})
+  const {t} = useTranslation('translation')
 
   const changeValue = key => (key === 'all' ? (
     e => setValues({
@@ -45,16 +50,16 @@ export const MultilingualField = (props) => {
               active={!multilingual}
               onClick={() => setMultilingual( false)}
             >
-              {t('monolingual')}
+              {t('utils.components.multilingualField.monolingual')}
             </Button>
-            <Button.Or text={t('or')} />
+            <Button.Or text={t('common.or')} />
             <Button
               type="button"
               toggle
               active={multilingual}
               onClick={() => setMultilingual( true)}
             >
-              {t('multilingual')}
+              {t('utils.components.multilingualField.multilingual')}
             </Button>
           </Button.Group>
         </div>

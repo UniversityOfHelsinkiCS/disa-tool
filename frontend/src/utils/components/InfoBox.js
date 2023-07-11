@@ -1,7 +1,8 @@
 import React from 'react'
 import { Button, Popup } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
-import ReactMarkdown from 'react-markdown/with-html'
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from "rehype-raw";
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
@@ -46,7 +47,7 @@ const InfoBox = ({
       wide="very"
       position="left center"
       trigger={<Button circular icon="info" {...buttonProps} />}
-      content={<ReactMarkdown source={text} escapeHtml={false} />}
+      content={<ReactMarkdown children={text} rehypePlugins={[rehypeRaw]} />}
       {...popupProps}
     />
   )

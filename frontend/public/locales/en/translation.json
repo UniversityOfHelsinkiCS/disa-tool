@@ -236,8 +236,8 @@
       }
     }
   },
-  "CreateCourse": {
-    "CreateCoursePage": {
+  "createCourse": {
+    "createCoursePage": {
       "createCourse": "Create a new course",
       "create": "Create"
     }

@@ -18,13 +18,17 @@ if(props.onOpen) {
   const expand = () => setExpanded(true)
 
   const collapse = () => {
-    props.onClose()
+    if(props.onClose) {
+      props.onClose()
+    }
     setExpanded(false)
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    props.onSubmit(e)
+    if(props.onSubmit) {
+      props.onSubmit(e)
+    }
     collapse()
   }
 
@@ -62,7 +66,7 @@ if(props.onOpen) {
             <LocalizeProvider>
               <LocalizeWrapper>
                 {props.children || props.content}
-                {props.actions.length > 0 ? (
+                {props.actions && props.actions.length > 0 ? (
                   <div>
                     <Divider />
                     {props.actions.map(mapAction)}

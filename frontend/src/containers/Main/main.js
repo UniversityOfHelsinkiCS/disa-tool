@@ -61,8 +61,6 @@ const getUserKey = () => {
     <Route path="/courses/matrix/:id" render={(props) => <MatrixPage {...props}/>} key={()=>getAnonymousKey()} />,
     <Route exact path="/courses" component={CourseListPage} key={()=>getAnonymousKey()} />,
     <Route exact path="/" component={HomePage} key={()=>getAnonymousKey()} />,
-    <Route path="/locales/:lang/:translation" onEnter={reload} key={()=>getAnonymousKey()}/>
-
   ]
 
 

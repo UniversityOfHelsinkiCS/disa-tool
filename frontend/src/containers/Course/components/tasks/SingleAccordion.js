@@ -1,26 +1,22 @@
-import React, { PureComponent } from 'react'
+import React, { useState } from 'react'
 import { node } from 'prop-types'
 import { Accordion, Icon } from 'semantic-ui-react'
 
-class SingleAccordion extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = { expanded: false }
+const SingleAccordion = (props) => {
+  const [expanded, setExpanded] = useState(false)
+
+
+  const toggle = () => {
+    setExpanded(!expanded)
   }
 
-  toggle = () => {
-    const { expanded } = this.state
-    this.setState({ expanded: !expanded })
-  }
 
-  render() {
     const { title, children } = this.props
-    const { expanded } = this.state
     return (
       <Accordion fluid styled>
         <Accordion.Title
           active={expanded}
-          onClick={this.toggle}
+          onClick={toggle}
         >
           <div style={{ display: 'flex' }}>
             <div style={{ flexGrow: 1 }}>
@@ -35,11 +31,10 @@ class SingleAccordion extends PureComponent {
       </Accordion>
     )
   }
-}
-
+/*
 SingleAccordion.propTypes = {
   title: node.isRequired,
   children: node.isRequired
 }
-
+*/
 export default SingleAccordion

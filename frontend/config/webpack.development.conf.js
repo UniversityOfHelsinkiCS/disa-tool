@@ -41,7 +41,15 @@ module.exports = {
             'style-loader',
             'css-loader', 
         ],
-    }
+    },
+    {
+      test: /\.mjs$/,
+      include: /node_modules/,
+      type: 'javascript/auto',
+      resolve: {
+          fullySpecified: false
+      }
+  }
     ]
   },
   plugins: [
@@ -56,8 +64,8 @@ module.exports = {
         NODE_ENV: JSON.stringify('development')
       }
     }),
-    new webpack.ProvidePlugin({
-      process: 'process/browser',
+    new webpack.ProvidePlugin({ 
+      process: 'process/browser.js', 
     }),
   ],
   devServer: {

@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { connect ,useDispatch} from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Button, Grid, Form, Input, Label } from 'semantic-ui-react'
-import asyncAction from '../../../../utils/asyncAction'
 import { useTranslation } from 'react-i18next'
 
 import { editTask } from '../../actions/tasks'

@@ -2,15 +2,15 @@
   "common": {
     "save": "Tallenna",
     "name": "Nimi",
-    "skill_levels": ["skill levels", "taitotasot"],
-    "category": ["category", "osio"],
-    "objective": ["objective", "oppimistavoite"],
-    "tasks": ["tasks", "tehtävät"],
-    "or": ["or", "tai"],
-    "cancel": ["Cancel", "Peru"],
-    "open": ["open", "avoinna"],
-    "closed": ["closed", "suljettu"],
-    "course_matrix": ["Course-objective matrix", "Kurssin tavoitematriisi"]
+    "skill_levels": "taitotasot",
+    "category": "osio",
+    "objective": "oppimistavoite",
+    "tasks": "tehtävät",
+    "or": "tai",
+    "cancel": "Peru",
+    "open": "avoinna",
+    "closed": "suljettu",
+    "course_matrix": "Kurssin tavoitematriisi"
   },
   "InfoBox": {
     "EditGradesPage": {
@@ -210,10 +210,10 @@
         "placeholder": "Valitse tehtävä tästä"
       },
       "task": {
-        "deleteHeader": ["Delete task", "Poista tehtävä"],
-        "deletePrompt1": ["Really remove task", "Poistetaanko tehtävä"],
-        "maxPoints": ["Maximum points", "Maksimipisteet"],
-        "info": ["Additional info about task", "Tehtävän lisätiedot"]
+        "deleteHeader": "Poista tehtävä",
+        "deletePrompt1": "Poistetaanko tehtävä",
+        "maxPoints": "Maksimipisteet",
+        "info": "Tehtävän lisätiedot"
       }
     },
     "types": {
@@ -248,10 +248,10 @@
       }
     }
   },
-  "CreateCourse": {
-    "CreateCoursePage": {
-      "createCourse": ["Create a new course", "Luo uusi kurssi"],
-      "create": ["Create", "Luo"]
+  "createCourse": {
+    "createCoursePage": {
+      "createCourse": "Luo uusi kurssi",
+      "create": "Luo"
     }
   },
   "CourseList": {

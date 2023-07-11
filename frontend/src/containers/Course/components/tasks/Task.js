@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Grid, Segment, Header } from 'semantic-ui-react'
 
@@ -11,11 +11,17 @@ import EditTaskForm from './EditTaskForm'
 import MathJaxText from '../../../../utils/components/MathJaxText'
 import EditTaskObjectivesForm from './EditTaskObjectivesForm'
 import { getCourseInstanceDataAction } from '../../../../actions/actions'
+import { useTranslation } from 'react-i18next'
 
-export class Task extends Component {
-  translate = id => this.props.translate(`Course.tasks.Task.${id}`)
+export const Task = () => {
 
-  render() {
+  const {t} = useTranslation('course.tasks.task')
+  const dispatch = useDispatch()
+  
+  const removeTaskAsync = async ({id}) => {
+    asyncAction(removeTask(id), dispatch)
+  }
+
     return (
       <Segment
         className="Task"
@@ -25,35 +31,35 @@ export class Task extends Component {
         <Grid>
           <Grid.Row>
             <Grid.Column width={14}>
-              <Header style={{ marginTop: '5px' }}>{this.props.task.name}</Header>
+              <Header style={{ marginTop: '5px' }}>{props.task.name}</Header>
             </Grid.Column>
             <Grid.Column width={1}>
               <DeleteForm
                 onExecute={() => {
-                  this.props.removeTask({ id: this.props.task.id })
-                    .then(() => { this.props.updateCourseInfo(this.props.courseId) })
+                  removeTaskAsync({ id: props.task.id })
+                    .then(() => { dispatch(updateCourseInfo(props.courseId)) })
                 }}
                 prompt={[
-                  this.translate('delete_prompt_1'),
-                  `"${this.props.task.name}"`
+                  t('deletePrompt1'),
+                  `"${props.task.name}"`
                 ]}
-                header={this.translate('delete_header')}
+                header={t('deleteHeader')}
               />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
             <Grid.Column width={13}>
-              <MathJaxText content={this.props.task.description} />
-              <p><b>{this.translate('info')}: </b>{this.props.task.info}</p>
-              <p><b>{this.translate('max_points')}: </b>{this.props.task.max_points}</p>
+              <MathJaxText content={props.task.description} />
+              <p><b>{t('info')}: </b>{props.task.info}</p>
+              <p><b>{t('maxPoints')}: </b>{props.task.max_points}</p>
             </Grid.Column>
             <Grid.Column stretched width={3} verticalAlign="middle">
               <div className="taskControlButton">
-                <EditTaskForm taskId={this.props.task.id} />
+                <EditTaskForm taskId={props.task.id} />
               </div>
               <div className="taskControlButton">
                 <EditTaskObjectivesForm
-                  taskId={this.props.task.id}
+                  taskId={props.task.id}
                 />
               </div>
             </Grid.Column>
@@ -62,7 +68,6 @@ export class Task extends Component {
       </Segment>
     )
   }
-}
 
 Task.propTypes = {
   task: PropTypes.shape({
@@ -73,7 +78,7 @@ Task.propTypes = {
     max_points: PropTypes.number.isRequired
   }).isRequired,
   removeTask: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
   courseId: PropTypes.number.isRequired,
   updateCourseInfo: PropTypes.func.isRequired
 }

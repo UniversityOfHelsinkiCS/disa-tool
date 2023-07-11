@@ -50,6 +50,14 @@ module.exports = {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
+      {
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
+        resolve: {
+            fullySpecified: false
+        }
+    }
     ]
   },
   plugins: [
@@ -60,8 +68,8 @@ module.exports = {
       filename: '[name]-[fullhash].css',
       chunkFilename: '[name]-[id]-[fullhash].css'
     }),
-    new webpack.ProvidePlugin({
-      process: 'process/browser',
+    new webpack.ProvidePlugin({ 
+      process: 'process/browser.js', 
     }),
     new webpack.DefinePlugin({
       CONFIG: {
