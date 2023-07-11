@@ -4,7 +4,7 @@ const { DATABASE_URL } = require('../../conf-backend')
 require('pg').defaults.parseInt8 = true
 
 const sequelize = new Sequelize(DATABASE_URL, { logging: false })
-
+console.log('DATABASE_URL', DATABASE_URL)
 const syncDatabase = async () => {
   try {
     await sequelize.sync()

@@ -44,7 +44,7 @@ module.exports = defineConfig({
     //storageState: 'users.json',
     trace: 'on',
     screenshot: 'only-on-failure', // Capture screenshot after each test failure.
-    video: 'retain-on-failure', //Record video only when retrying a test for the first time.
+    video: 'on-first-retry', 
     headless: true,
     viewport: { width: 1280, height: 720 },
     launchOptions: {
@@ -79,8 +79,7 @@ module.exports = defineConfig({
       use: { ...devices['Desktop Chrome'] },
       dependencies: ['setup'],
     },
-
-    {
+ /*   {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
       dependencies: ['setup'],
@@ -95,7 +94,7 @@ module.exports = defineConfig({
        name: 'Mobile Chrome',
        use: { ...devices['Pixel 5'] },
        dependencies: ['setup'],
-     },
+     },*/
     // {
     //   name: 'Mobile Safari',
     //   use: { ...devices['iPhone 12'] },

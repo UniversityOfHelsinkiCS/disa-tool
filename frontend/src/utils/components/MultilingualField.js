@@ -1,137 +1,114 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Form, Segment, Label, Input, Button } from 'semantic-ui-react'
 
-export class MultilingualField extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      multilingual: false,
-      values: this.props.values
-    }
-  }
+export const MultilingualField = (props) => {
+  const [multilingual, setMultilingual] = useState(false)
+  const [values, setValues] = useState(props.values)
+  const {t} = useTranslation('translation', { keyPrefix: 'utils.components.multilingualField' })
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.values !== this.props.values) {
-      this.setState({
-        values: newProps.values,
-        multilingual: (
-          newProps.values.eng !== newProps.values.fin || newProps.values.fin !== newProps.values.swe
-        )
-      })
-    }
-  }
-
-  changeValue = key => (key === 'all' ? (
-    e => this.setState({
-      values: {
+  const changeValue = key => (key === 'all' ? (
+    e => setValues({
         eng: e.target.value,
         fin: e.target.value,
         swe: e.target.value
-      }
     })
   ) : (
-    e => this.setState({
-      values: {
-        ...this.state.values,
-        [key]: e.target.value
+    e => setValues({
+       ...values,
+       [key]: e.target.value
       }
-    })
-  ))
+    
+  )))
 
-  allValue = () => {
-    if (this.state.values.eng !== '') {
-      return this.state.values.eng
+  const allValue = () => {
+    if (values.eng !== '') {
+      return values.eng
     }
-    if (this.state.values.fin !== '') {
-      return this.state.values.fin
+    if (values.fin !== '') {
+      return values.fin
     }
-    return this.state.values.swe
+    return values.swe
   }
 
-  translate = id => this.props.translate(`utils.components.MultilingualField.${id}`)
-
-  render() {
-    const { required } = this.props
+    const { required } = props
     return (
       <Form.Field className="MultilingualField">
         <div style={{ display: 'flex' }}>
           <div style={{ flexGrow: 1 }}>
-            <Label style={{ fontSize: '18px' }}>{this.props.fieldDisplay}</Label>
+            <Label style={{ fontSize: '18px' }}>{props.fieldDisplay}</Label>
           </div>
           <Button.Group>
             <Button
               type="button"
               toggle
-              active={!this.state.multilingual}
-              onClick={() => this.setState({ multilingual: false })}
+              active={!multilingual}
+              onClick={() => setMultilingual( false)}
             >
-              {this.translate('monolingual')}
+              {t('monolingual')}
             </Button>
-            <Button.Or text={this.translate('or')} />
+            <Button.Or text={t('or')} />
             <Button
               type="button"
               toggle
-              active={this.state.multilingual}
-              onClick={() => this.setState({ multilingual: true })}
+              active={multilingual}
+              onClick={() => setMultilingual( true)}
             >
-              {this.translate('multilingual')}
+              {t('multilingual')}
             </Button>
           </Button.Group>
         </div>
-        {!this.state.multilingual ? (
+        {!multilingual ? (
           <Input
             name="all"
             type="text"
             fluid
-            value={this.allValue()}
-            onChange={this.changeValue('all')}
+            value={allValue()}
+            onChange={changeValue('all')}
             required={required}
           />
         ) : (
           null
         )}
-        <Segment style={{ marginTop: '0px', display: this.state.multilingual ? 'block' : 'none' }}>
+        <Segment style={{ marginTop: '0px', display: multilingual ? 'block' : 'none' }}>
           <Form.Field>
             <Label>english</Label>
             <Input
-              name={`eng_${this.props.field}`}
+              name={`eng_${props.field}`}
               type="text"
               fluid
-              value={this.state.values.eng}
-              onChange={this.changeValue('eng')}
-              required={this.state.multilingual && required}
+              value={values.eng}
+              onChange={changeValue('eng')}
+              required={multilingual && required}
             />
           </Form.Field>
           <Form.Field>
             <Label>suomi</Label>
             <Input
-              name={`fin_${this.props.field}`}
+              name={`fin_${props.field}`}
               type="text"
               fluid
-              value={this.state.values.fin}
-              onChange={this.changeValue('fin')}
-              required={this.state.multilingual && required}
+              value={values.fin}
+              onChange={changeValue('fin')}
+              required={multilingual && required}
             />
           </Form.Field>
           <Form.Field>
             <Label>svenska</Label>
             <Input
-              name={`swe_${this.props.field}`}
+              name={`swe_${props.field}`}
               type="text"
               fluid
-              value={this.state.values.swe}
-              onChange={this.changeValue('swe')}
-              required={this.state.multilingual && required}
+              value={values.swe}
+              onChange={changeValue('swe')}
+              required={multilingual && required}
             />
           </Form.Field>
         </Segment>
       </Form.Field>
     )
   }
-}
-
+/*
 MultilingualField.propTypes = {
   field: PropTypes.string.isRequired,
   fieldDisplay: PropTypes.string.isRequired,
@@ -140,17 +117,9 @@ MultilingualField.propTypes = {
     fin: PropTypes.string,
     swe: PropTypes.string
   }),
-  translate: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
   required: PropTypes.bool
 }
+*/
 
-MultilingualField.defaultProps = {
-  values: {
-    eng: '',
-    fin: '',
-    swe: ''
-  },
-  required: false
-}
-
-export default withLocalize(MultilingualField)
+export default MultilingualField

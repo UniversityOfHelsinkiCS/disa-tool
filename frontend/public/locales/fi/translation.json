@@ -590,9 +590,9 @@
       "DeleteForm": {
         "remove": ["Remove", "Poista"]
       },
-      "MultilingualField": {
-        "monolingual": ["Monolingual", "Yksikielinen"],
-        "multilingual": ["Multilingual", "Monikielinen"]
+      "multilingualField": {
+        "monolingual": "Yksikielinen",
+        "multilingual": "Monikielinen"
       }
     }
   }

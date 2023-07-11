@@ -1,7 +1,6 @@
 const supertest = require('supertest') // eslint-disable-line import/no-extraneous-dependencies
-const app = require('../app.js')
 const { TextEncoder, TextDecoder } = require('util')
-
+const app = require('../app')
 
 require('dotenv').config()
 
@@ -14,4 +13,4 @@ global.tokens = {
 }
 jest.setTimeout(100000)
 
-Object.assign(global, { TextDecoder, TextEncoder });
+Object.assign(global, { TextDecoder, TextEncoder })

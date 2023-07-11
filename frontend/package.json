@@ -9,9 +9,9 @@
     "test": "jest",
     "stats": "webpack --config ./config/webpack.production.js --profile --json > stats.json",
     "lint": "eslint --ext .js src || true",
-    "generate": "NODE_ENV=test DATABASE_URL=postgres://disa:dev@localhost:5321/disa_db  node ../backend/src/database/create_data.js; playwright codegen localhost:8080",
-    "test-pw": "NODE_ENV=test DATABASE_URL=postgres://disa:dev@localhost:5321/disa_db  node  ../backend/src/database/create_data.js; playwright test --config ./config/playwright.config.js",
-    "update-snapshots": "NODE_ENV=test DATABASE_URL=postgres://disa:dev@localhost:5321/disa_db node ../backend/src/database/create_data.js; playwright test --update-snapshots --config ./config/playwright.config.js"
+    "generate": "NODE_ENV=test node ../backend/src/database/create_data.js; playwright codegen localhost:8080",
+    "test-pw": "NODE_ENV=test node ../backend/src/database/create_data.js; playwright test --config ./config/playwright.config.js",
+    "update-snapshots": "NODE_ENV=test node ../backend/src/database/create_data.js; playwright test --update-snapshots --config ./config/playwright.config.js"
   },
   "repository": {
     "type": "git",
