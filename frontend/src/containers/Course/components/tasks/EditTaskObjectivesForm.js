@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { connect, useSelector } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Button, Form, Modal, Container } from 'semantic-ui-react'
@@ -97,7 +96,7 @@ const changeModified = (id, modified) => () =>  setValues({
  const loadDetails = async () => {
     setExpanded(true)
     setLoading(true)
-    const details = (await props.objectivesDetails({ id: props.taskId })).data.data
+    const details = (await objectivesDetails({ id: props.taskId })).data.data
     setLoading(false)
     const newValues = details.reduce((acc, curr) => ({
       ...acc,
@@ -106,9 +105,7 @@ const changeModified = (id, modified) => () =>  setValues({
         multiplier: curr.multiplier
       }
     }))
-    setValues({
-      ...values, newValues
-    })
+    setValues(newValues)
   }
 
   const  collapse = () => {
@@ -116,7 +113,6 @@ const changeModified = (id, modified) => () =>  setValues({
       setExpanded(false)
     }
   }
-
     return (
       <div className="EditTaskObjectivesForm">
         <Modal
@@ -132,15 +128,16 @@ const changeModified = (id, modified) => () =>  setValues({
         >
           <Modal.Content>
             <Form onSubmit={editTaskObjectivesSubmit} loading={loading}>
+              <>
               <Container className="header" textAlign="right">
                 <Button.Group size="large">
                   <Button
                     type="button"
-                    onClick={() => setState({ detailed: false })}
-                    content={t('all')}
+                    onClick={() => setDetailed(false)}
+                    content={t('course.tasks.editTaskObjectivesForm.all')}
                     color={detailed ? undefined : 'blue'}
                   />
-                  <Button.Or text={t('course.taskseeditTaskObjectivesForm.or')} />
+                  <Button.Or text={t('common.or')} />
                   <Button
                     type="button"
                     onClick={() => setDetailed(true)}
@@ -159,7 +156,7 @@ const changeModified = (id, modified) => () =>  setValues({
                     changeModified={changeModified}
                     changeMultiplier={changeMultiplier}
                     defaultText={t('course.tasks.common.default')}
-                    orText={t('course.tasks.editTaskObjectivesForm.or')}
+                    orText={t('common.or')}
                     modifyText={t('course.tasks.editTaskObjectivesForm.modify')}
                   />) : null
                 ))
@@ -171,12 +168,13 @@ const changeModified = (id, modified) => () =>  setValues({
                   changeModified={changeModified}
                   allText={t('course.tasks.editTaskObjectivesForm.all')}
                   defaultText={t('course.tasks.common.default')}
+                  orText={t('common.or')}
                   modifyText={t('course.tasks.editTaskObjectivesForm.modify')}
-                  orText={t('course.tasks.editTaskObjectivesForm.or')}
                 />
               )}
               <Button type="submit" color="green" style={{ margin: '0px 15px 0px 15px' }}>{t('common.save')}</Button>
               <Button type="reset" style={{ margin: '0px 15px 0px 15px' }} onClick={collapse}>{t('common.cancel')}</Button>
+              </>
             </Form>
           </Modal.Content>
         </Modal>

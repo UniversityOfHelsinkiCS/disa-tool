@@ -26,18 +26,14 @@ export const EditTasksTab = () => {
   if(task.active === null) {
     setActiveTask(null)
    } else { 
-    console.log("task.active: ", task)
     const tempActiveTask = task.tasks.find(t =>{
-      console.log("task.id: ", task.id, ", task.active: ", task.active)
        return t.id === task.active
       })
-    console.log(tempActiveTask)
     setActiveTask(tempActiveTask)
    }
  },[task])
 
  const  handleActiveTask = (e, { value }) => {
-  console.log("e: ", value)
     dispatch(changeActive(value))
   }
     return (

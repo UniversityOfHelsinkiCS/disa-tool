@@ -1,5 +1,4 @@
 import React from 'react'
-import { bool, func, string, shape } from 'prop-types'
 import { Button, Container, Form, Input, Label } from 'semantic-ui-react'
 
 const ChangeObjectiveMultiplier = ({

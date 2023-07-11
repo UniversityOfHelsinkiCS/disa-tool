@@ -32,7 +32,6 @@ const dispatch = useDispatch()
   }
   asyncFunction()
   },[])
-console.log('wow')
     const isTeacher = course.courseRole === 'TEACHER'
     const isGlobalTeacher = user.role === 'TEACHER' || user.role === 'ADMIN'
 

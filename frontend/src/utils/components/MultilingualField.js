@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Form, Segment, Label, Input, Button } from 'semantic-ui-react'
 
 export const MultilingualField = (props) => {
-  console.log(props)
   const [multilingual, setMultilingual] = useState(false)
   const [values, setValues] = useState({
     eng: '',
@@ -11,6 +10,16 @@ export const MultilingualField = (props) => {
   swe: ''
 })
   const {t} = useTranslation('translation')
+
+  useEffect(() => {
+    if (props.values) {
+      setValues(props.values)
+      if(props.values.eng !== props.values.fin || props.values.fin !== props.values.swe) {
+        setMultilingual(true)
+      }
+    }
+
+  },[props.values])
 
   const changeValue = key => (key === 'all' ? (
     e => setValues({
@@ -65,7 +74,7 @@ export const MultilingualField = (props) => {
         </div>
         {!multilingual ? (
           <Input
-            name="all"
+            name={`${props.field}-input`}
             type="text"
             fluid
             value={allValue()}

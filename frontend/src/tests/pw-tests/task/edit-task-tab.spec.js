@@ -33,8 +33,8 @@ test('Edits are saved', async ({ page }) => {
   expect(page.getByText('Tehtävässä tutustutaan matriisikertolaskuun käytännön sovelluksen avulla.Tehtävä')).toBeTruthy()
   expect(page.getByText('Default Multiplier: 0.14Viikko 5Sarja A')).toBeTruthy()
   await page.getByRole('button', { name: 'Muokkaa tehtävää' }).click();
-  await page.locator('input[name="all"]').click()
-  await page.locator('input[name="all"]').fill('Matriisikertolasku rautakaupassa');
+  await page.locator('input[name="name-input"]').click()
+  await page.locator('input[name="name-input"]').fill('Matriisikertolasku rautakaupassa');
   await page.locator('input[name="swe_description"]').click()
   await page.locator('input[name="swe_description"]').fill('Tehtävässä tutustutaan matriisikertolaskuun teoreettisen sovelluksen avulla');
   await page.locator('input[name="fin_description"]').click()

@@ -13,9 +13,9 @@ import EditTaskObjectivesForm from './EditTaskObjectivesForm'
 import { getCourseInstanceDataAction } from '../../../../actions/actions'
 import { useTranslation } from 'react-i18next'
 
-export const Task = () => {
+export const Task = (props) => {
 
-  const {t} = useTranslation('course.tasks.task')
+  const {t} = useTranslation("translation", { keyPrefix: 'course.tasks.task' })
   const dispatch = useDispatch()
   
   const removeTaskAsync = async ({id}) => {
@@ -68,7 +68,7 @@ export const Task = () => {
       </Segment>
     )
   }
-
+/*
 Task.propTypes = {
   task: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -82,11 +82,13 @@ Task.propTypes = {
   courseId: PropTypes.number.isRequired,
   updateCourseInfo: PropTypes.func.isRequired
 }
-
+*/
 // TODO: CHANGE ALL DISPATCHES TO USE SAME FORMAT/TRADITION!!
+/*
 const mapDispatchToProps = dispatch => ({
   removeTask: asyncAction(removeTask, dispatch),
   updateCourseInfo: courseId => dispatch(getCourseInstanceDataAction(courseId))
 })
+*/
 
-export default withLocalize(connect(null, mapDispatchToProps)(Task))
+export default connect()(Task)

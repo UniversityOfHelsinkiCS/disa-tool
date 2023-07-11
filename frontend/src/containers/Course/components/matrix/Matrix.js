@@ -62,7 +62,7 @@ export const Matrix = (props) => {
     )
   })
   return (
-    <Table celled structured unstackable style={{ margin: 'auto' }}>
+    <Table data-testid="matrix-table" celled structured unstackable style={{ margin: 'auto' }}>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell rowSpan={2}>

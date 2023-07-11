@@ -5,13 +5,11 @@ import { Accordion, Icon } from 'semantic-ui-react'
 const SingleAccordion = (props) => {
   const [expanded, setExpanded] = useState(false)
 
-
   const toggle = () => {
     setExpanded(!expanded)
   }
 
-
-    const { title, children } = this.props
+    const { title, children } = props
     return (
       <Accordion fluid styled>
         <Accordion.Title

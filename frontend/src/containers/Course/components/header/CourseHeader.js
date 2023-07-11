@@ -8,7 +8,6 @@ import './header.css'
 export const CourseHeader = (props) => {
   const translate = id => props.translate(`Course.header.CourseHeader.${id}`)
   const {course} = useSelector(state => state.course)
-  console.log(course,props)
   return (
     <div className="CourseHeader" id="course-header-container">
       <Segment>

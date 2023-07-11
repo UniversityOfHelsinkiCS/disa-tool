@@ -79,6 +79,7 @@ export const EditTaskForm = (props) => {
       info: 'info',
       maxPoints: 'max points'
     }
+
     return (
       <Grid.Row>
         <Grid.Column>
