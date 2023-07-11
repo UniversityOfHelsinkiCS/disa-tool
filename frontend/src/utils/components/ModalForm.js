@@ -9,7 +9,7 @@ const ModalForm = (props) => {
   const [expanded, setExpanded] = useState(false)
 
   useEffect(() => {
-if(props.open) {
+if(props.onOpen) {
     props.onOpen()
   }
 
