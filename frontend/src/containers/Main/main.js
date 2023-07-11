@@ -61,7 +61,7 @@ const getUserKey = () => {
     <Route path="/courses/matrix/:id" render={(props) => <MatrixPage {...props}/>} key={()=>getAnonymousKey()} />,
     <Route exact path="/courses" component={CourseListPage} key={()=>getAnonymousKey()} />,
     <Route exact path="/" component={HomePage} key={()=>getAnonymousKey()} />,
-    <Route path="/locales" onEnter={reload} key={()=>getAnonymousKey()}/>
+    <Route path="/locales/:lang/:translation" onEnter={reload} key={()=>getAnonymousKey()}/>
 
   ]
 
@@ -84,7 +84,7 @@ const getUserKey = () => {
       </main>
     )
   }
-
+/*
 Main.propTypes = {
   toast: PropTypes.shape({
     message: PropTypes.string,
@@ -93,11 +93,7 @@ Main.propTypes = {
   user: PropTypes.shape({
     role: PropTypes.string
   }).isRequired
-}
+}*/
 
-const mapStateToProps = state => ({
-  toast: state.toast,
-  user: state.user
-})
 
-export default withRouter(connect(mapStateToProps, null)(Main))
+export default withRouter(connect()(Main))
