@@ -389,7 +389,7 @@
       "buttonEdit": "Edit"
     }
   },
-  "UserPage": {
+  "userPage": {
     "common": {
       "hello": "Hello",
       "tasks": "Tasks",

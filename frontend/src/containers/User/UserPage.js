@@ -1,9 +1,8 @@
 import React, { useState,useEffect } from 'react'
-import { connect,useDispatch } from 'react-redux'
+import { connect,useDispatch, useSelector } from 'react-redux'
 import { Redirect, Link,useParams} from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
 import { Accordion, Dimmer, Header, Grid, Item, Loader, Button } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
 
 import {
   getUserCoursesAction,
@@ -20,13 +19,17 @@ import CourseSelfAssessmentsList from './CourseSelfAssessmentsList'
 import CourseInfo from './CourseInfo'
 import Conditional from '../../utils/components/Conditional'
 import InfoBox from '../../utils/components/InfoBox'
+import { useTranslation } from 'react-i18next'
 
 const UserPage = (props) => {
+  const user = useSelector(state => state.user)
+  const courses = useSelector(state => state.courses)
+  const selfAssesments = useSelector(state => state.selfAssesment.userSelfAssesments)
+  const activeCourse = useSelector(state => state.instance)
   const [loading, setLoading] = useState(false)
   const [selectedType, setSelectedType] = useState(undefined)
   const {courseId} = useParams()
   const dispatch = useDispatch()
-  const { activeCourse, courses, user } = props
   
   let course = null
   useEffect(() => {
@@ -51,7 +54,7 @@ const UserPage = (props) => {
     course = courses.find(c => c.id === courseId)
   },[courses])
 
-  const t = id => props.translate(`UserPage.common.${id}`)
+  const {t} = useTranslation("translation",{keyPrefix: 'userPage.common'})
 
   const handleActivityToggle = async () => {
     props.dispatchToggleActivity(activeCourse.id)
@@ -92,13 +95,6 @@ const UserPage = (props) => {
 
 
     const { self_assessments: assessments, tasks,id } = activeCourse
- /*   if (!courseId && activeCourse.id) {
-      return <Redirect to={`/user/course/${activeCourse.id}`} />
-    }
-
-    if ( courseId && activeCourse.id && id) {
-      return <Redirect to={`/courses?course=${courseId}&instance=${id}`} />
-    }*/
     const isTeacher = activeCourse.courseRole === 'TEACHER'
     const isGlobalTeacher = user.role === 'TEACHER' || user.role === 'ADMIN'
     const students = activeCourse.id && isTeacher ?
@@ -212,13 +208,7 @@ const UserPage = (props) => {
     )
   }
 
-const mapStateToProps = state => ({
-  user: state.user,
-  courses: state.courses,
-  selfAssesments: state.selfAssesment.userSelfAssesments,
-  activeCourse: state.instance
-})
-
+/*
 UserPage.propTypes = {
   user: shape({
     name: string
@@ -242,13 +232,9 @@ UserPage.propTypes = {
   dispatchResetCourseInstance: func.isRequired,
   translate: func.isRequired
 }
+*/
 
-UserPage.defaultProps = {
-  courses: [],
-  activeCourse: { tasks: [], self_assessments: [], people: [] }
-}
-
-export default withLocalize(connect(mapStateToProps, {
+export default connect(null, {
   dispatchGetUserCourses: getUserCoursesAction,
   dispatchGetUserSelfAssesments: getUserSelfAssesments,
   dispatchGetCourseInstanceData: getCourseInstanceDataAction,
@@ -256,4 +242,4 @@ export default withLocalize(connect(mapStateToProps, {
   dispatchToggleAssessment: toggleAssessmentAction,
   dispatchSetAssessmentStatus: setAssessmentStatusAction,
   dispatchResetCourseInstance: resetCourseInstanceAction
-})(UserPage))
+})(UserPage)

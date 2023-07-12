@@ -1,66 +1,57 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 import { Button, Table } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
-
 import LinkExport from './LinkExport'
+import { useTranslation } from 'react-i18next'
 
-class LinkExportList extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      expanded: false
-    }
-  }
+const LinkExportList = (props) => {
+  const [expanded, setExpanded] = useState(false)
 
-  translate = id => this.props.translate(`UserPage.CourseInfo.Links.${id}`)
+  const {t} = useTranslation("translation", {keyPrefix: "UserPage.CourseInfo.Links."})
 
-  renderCollapsed = () => (
+  const renderCollapsed = () => (
     <Button
-      onClick={() => this.setState({ expanded: true })}
+      onClick={() => setExpanded(true)}
       basic
       color="blue"
-      content={this.translate('course_links')}
+      content={t('course_links')}
       style={{ whiteSpace: 'nowrap' }}
     />
   )
 
-  renderExpanded = () => (
+ const renderExpanded = () => (
     <div>
       <Button
-        onClick={() => this.setState({ expanded: false })}
+        onClick={() => setExpanded(false)}
         basic
         color="blue"
-        content={this.translate('close')}
+        content={t('close')}
       />
       <Table>
         <Table.Body>
           <LinkExport
-            title={this.translate('registration')}
-            url={`/courses?course=${this.props.course.course_id}&instance=${this.props.course.id}`}
+            title={t('registration')}
+            url={`/courses?course=${props.course.course_id}&instance=${props.course.id}`}
           />
           <LinkExport
-            title={this.translate('matrix')}
-            url={`/courses/matrix/${this.props.course.id}`}
+            title={t('matrix')}
+            url={`/courses/matrix/${props.course.id}`}
           />
           <LinkExport
-            title={this.translate('course_page')}
-            url={`/user/course/${this.props.course.id}`}
+            title={t('course_page')}
+            url={`/user/course/${props.course.id}`}
           />
         </Table.Body>
       </Table>
     </div>
   )
 
-  render() {
     return (
       <div className="LinkExportList">
-        {this.state.expanded ? this.renderExpanded() : this.renderCollapsed()}
+        {expanded ? renderExpanded() : renderCollapsed()}
       </div>
     )
   }
-}
-
+/*
 LinkExportList.propTypes = {
   course: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -68,5 +59,5 @@ LinkExportList.propTypes = {
   }).isRequired,
   translate: PropTypes.func.isRequired
 }
-
-export default withLocalize(LinkExportList)
+*/
+export default LinkExportList

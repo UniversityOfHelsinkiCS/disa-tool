@@ -443,21 +443,15 @@
       "buttonEdit": ["Edit", "Muokkaa"]
     }
   },
-  "UserPage": {
+  "userPage": {
     "common": {
-      "hello": ["Hello", "Hei"],
-      "tasks": ["Tasks", "Tehtävät"],
-      "self_assessments": ["Self-asseessments", "Itsearvioinnit"],
-      "open_task_list": ["Look at tasks", "Katso tehtävälistaa"],
-      "create_self_assessment_target": [
-        "Create objective based assessment",
-        "Luo tavoitepohjainen itsearviointi"
-      ],
-      "create_self_assessment_category": [
-        "Create category based assessment",
-        "Luo kategoriapohjainen itsearviointi"
-      ],
-      "no_course_selected": ["No course selected", "Kurssia ei valittu"]
+      "hello": "Hei",
+      "tasks": "Tehtävät",
+      "self_assessments": "Itsearvioinnit",
+      "open_task_list": "Katso tehtävälistaa",
+      "create_self_assessment_target": "Luo tavoitepohjainen itsearviointi",
+      "create_self_assessment_category": "Luo kategoriapohjainen itsearviointi",
+      "no_course_selected": "Kurssia ei valittu"
     },
     "CourseSideMenu": {
       "active_courses": ["Open courses", "Avoimet kurssit"],

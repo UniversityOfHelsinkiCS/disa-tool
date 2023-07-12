@@ -1,12 +1,12 @@
 import React from 'react'
 import { arrayOf, shape, func } from 'prop-types'
 import { Link } from 'react-router-dom'
-import { withLocalize } from 'react-localize-redux'
 import { Label, List } from 'semantic-ui-react'
 import { orderBy } from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 const StudentAssesmentList = ({ assesments, translate: baseTranslate }) => {
-  const translate = id => baseTranslate(`UserPage.StudentAssesmentList.${id}`)
+  const {t} = useTranslation("translation", {keyPrefix: "UserPage.StudentAssesmentList"})
   return (
     <List selection divided size="big">
       {orderBy(assesments, 'name').map(assesment => (
@@ -22,11 +22,11 @@ const StudentAssesmentList = ({ assesments, translate: baseTranslate }) => {
             <List.Content floated="right">
               <Label
                 color={assesment.open ? 'green' : 'red'}
-                content={assesment.open ? translate('open') : translate('closed')}
+                content={assesment.open ? t('open') : t('closed')}
               />
               <Label
                 color={assesment.assessment_responses.length > 0 ? 'green' : 'red'}
-                content={assesment.assessment_responses.length > 0 ? translate('answered') : translate('unanswered')}
+                content={assesment.assessment_responses.length > 0 ? t('answered') : t('unanswered')}
               />
             </List.Content>
           </List.Item>)
@@ -34,10 +34,10 @@ const StudentAssesmentList = ({ assesments, translate: baseTranslate }) => {
     </List>
   )
 }
-
+/*
 StudentAssesmentList.propTypes = {
   assesments: arrayOf(shape({})).isRequired,
   translate: func.isRequired
 }
-
-export default withLocalize(StudentAssesmentList)
+*/
+export default StudentAssesmentList

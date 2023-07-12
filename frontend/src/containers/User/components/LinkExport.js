@@ -9,6 +9,16 @@ const getBaseUrl = () => {
   return `${window.location.protocol}//${window.location.host}`
 }
 
+const linkToast = () => {
+  dispatch({
+    type: 'TOAST',
+    payload: {
+      type: 'message',
+      toast: 'Linkki kopioitu leikepöydälle.'
+    }
+  })
+}
+
 const LinkExport = (props) => {
   const url = `${getBaseUrl()}${props.url}`
   return (
@@ -20,7 +30,7 @@ const LinkExport = (props) => {
         <span>{url}</span>
       </Table.Cell>
       <Table.Cell>
-        <CopyToClipboard text={url} onCopy={props.linkToast}>
+        <CopyToClipboard text={url} onCopy={linkToast}>
           <div>
             <Popup
               trigger={
@@ -37,7 +47,7 @@ const LinkExport = (props) => {
     </Table.Row>
   )
 }
-
+/*
 LinkExport.propTypes = {
   title: PropTypes.oneOfType([
     PropTypes.element,
@@ -46,15 +56,6 @@ LinkExport.propTypes = {
   url: PropTypes.string.isRequired,
   linkToast: PropTypes.func.isRequired
 }
+*/
 
-const mapDispatchToProps = dispatch => ({
-  linkToast: () => dispatch({
-    type: 'TOAST',
-    payload: {
-      type: 'message',
-      toast: 'Linkki kopioitu leikepöydälle.'
-    }
-  })
-})
-
-export default connect(null, mapDispatchToProps)(LinkExport)
+export default connect()(LinkExport)

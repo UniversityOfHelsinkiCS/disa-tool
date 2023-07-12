@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
 import { ErrorBoundary } from "react-error-boundary";
-
-import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { useDispatch,connect } from 'react-redux'
 import { LocalizeProvider } from 'react-localize-redux'

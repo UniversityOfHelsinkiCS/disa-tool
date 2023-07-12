@@ -1,127 +1,151 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { PropTypes } from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import React, {useState} from 'react'
+import { connect, useSelector,useDispatch } from 'react-redux'
 import { Container, Form, Button, Icon, Loader, Grid, Accordion, Pagination } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
 
 import { adminGetUsers, adminChangeGlobalRole } from './actions/persons'
 import { adminChangeCourseRole, removeCoursePerson } from './actions/coursePersons'
 import RoleList from './components/RoleList'
+import { useTranslation } from 'react-i18next'
 
-class AdminPage extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      getAll: false,
-      loading: false,
-      activeIndex: -1,
-      activePage: 1,
-      crash: false
-    }
+const AdminPage = (props) => {
+  const users = useSelector(state => state.admin.users)
+  const dispatch = useDispatch()
+  const [activeIndex, setActiveIndex] = useState(-1)
+  const [activePage, setActivePage] = useState(1)
+  const [getAll, setGetAll] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [crash, setCrash] = useState(false)
+  const [edit, setEdit] = useState(false)
+
+  const adminGetUsersAsync = async ({studentInfo,getAll}) => {
+const response = await adminGetUsers({
+  studentInfo,
+  getAll
+})
+dispatch(response)
   }
 
-  chaosMonkey = () => {
-    this.setState({ crash: true })
+  const adminChangeCourseRoleAsync = async ({personId,courseInstanceId,role}) => {
+    const response = await adminChangeCourseRole({
+      personId,
+      courseInstanceId,
+      role
+    })
+    dispatch(response)
   }
 
-  handleSubmit = async (event) => {
+  const adminChangeGlobalRoleAsync = async ({personId,role}) => {
+    const response = await adminChangeGlobalRole({ personId, role })
+    dispatch(response)
+  }
+
+  const removeCoursePersonAsync = async (props) => {
+    const response = await removeCoursePerson({
+      id: props.personId,
+      course_instance_id: props.courseInstanceId
+    })
+    dispatch(response)
+  }
+
+  const chaosMonkey = () => {
+    setCrash(true)
+  }
+
+  const handleSubmit = async (event) => {
     const studentInfo = event.target.userInfo.value
-    if (!this.state.getAll && studentInfo === '') {
-      await this.props.dispatchToast({
+    if (!getAll && studentInfo === '') {
+      await props.dispatchToast({
         type: '',
         payload: {
           toast: 'Syötä hakuparametri tai valitse kaikki',
           type: 'error'
         }
       })
-      return
+      return true
     }
-    this.setState({
-      loading: true
+    setLoading(true)
+    await adminGetUsersAsync({
+      studentInfo: getAll ? undefined : studentInfo,
+      getAll: getAll
     })
-    await this.props.adminGetUsers({
-      studentInfo: this.state.getAll ? undefined : studentInfo,
-      getAll: this.state.getAll
-    })
-    this.setState({ loading: false, activePage: 1 })
+    setLoading(false)
+    setActivePage(1)
   }
 
-  handleClick = (e, titleProps) => {
+  const handleClick = (e, titleProps) => {
     const { index } = titleProps
-    const { activeIndex } = this.state
+    const { activeIndex } = state
     const newIndex = activeIndex === index ? -1 : index
-    this.setState({ activeIndex: newIndex })
+    setActiveIndex(newIndex)
   }
 
-  handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
+  const handlePaginationChange = (e, { activePage }) => setActivePage(activePage)
 
-  toggleEdit = () => this.setState({ edit: !this.state.edit })
+  const toggleEdit = () => setEdit(!edit)
 
-  changeRole = async (personId, courseInstanceId, role) => {
+  const changeRole = async (personId, courseInstanceId, role) => {
     if (courseInstanceId) {
-      await this.props.adminChangeCourseRole({
+      await adminChangeCourseRoleAsync({
         personId,
         courseInstanceId,
         role
       })
     } else {
-      await this.props.adminChangeGlobalRole({ personId, role })
+      await adminChangeGlobalRoleAsync({ personId, role })
     }
   }
 
-  deleteRole = (personId, courseInstanceId) => () => this.props.removeCoursePerson({
-    id: personId,
-    course_instance_id: courseInstanceId
+  const deleteRole = (personId, courseInstanceId) => () => removeCoursePersonAsync({
+    personId: personId,
+    courseInstanceId: courseInstanceId
   })
 
-  translate = id => this.props.translate(`Admin.AdminPage.${id}`)
+  const {t} = useTranslation("translation", {keyPrefix: "admin.adminPage."})
 
-  render() {
-    if (this.state.crash) throw new Error('Ooh aah, error')
-    const { activeIndex, activePage } = this.state
+    if (crash) throw new Error('Ooh aah, error')
     return (
       <Container style={{ paddingTop: '100px' }} >
         <Grid divided="vertically">
           <Grid.Row columns={2}>
             <Grid.Column width={8}>
-              <Form onSubmit={this.handleSubmit}>
-                <h2>{this.translate('header')}</h2>
+              <Form onSubmit={handleSubmit}>
+                <h2>{t('header')}</h2>
 
                 <Form.Field width={8}>
-                  <input name="userInfo" disabled={this.state.getAll} placeholder={`(${this.translate('search_placeholder')})`} />
+                  <input name="userInfo" disabled={getAll} placeholder={`(${t('search_placeholder')})`} />
                 </Form.Field>
-                <Form.Checkbox name="getAll" onChange={() => this.setState({ getAll: !this.state.getAll })} label={this.translate('get_all')} />
-                <Button><Icon name="search" />{this.translate('search_button')}</Button>
+                <Form.Checkbox name="getAll" onChange={() => setGetAll(!getAll)} label={t('get_all')} />
+                <Button><Icon name="search" />{t('search_button')}</Button>
               </Form>
             </Grid.Column>
           </Grid.Row>
 
           <Grid.Row>
             <Grid.Column width={10}>
-              {this.state.loading &&
+              {loading &&
                 <Loader active />
               }
 
-              {this.props.users.length > 0 &&
+              {props.users.length > 0 &&
                 <Accordion fluid styled>
-                  {this.props.users.slice((activePage - 1) * 20, activePage * 20).map(u =>
+                  {props.users.slice((activePage - 1) * 20, activePage * 20).map(u =>
                     (
                       <div key={u.id}>
                         <Accordion.Title
                           active={activeIndex === u.id}
                           index={u.id}
-                          onClick={this.handleClick}
+                          onClick={handleClick}
                         >
                           <Icon name="dropdown" />
                           {u.name}
                         </Accordion.Title>
                         <Accordion.Content active={activeIndex === u.id}>
                           <RoleList
-                            translate={this.props.translate}
+                            t={props.t}
                             user={u}
-                            deleteRole={this.deleteRole}
-                            changeRole={this.changeRole}
+                            deleteRole={deleteRole}
+                            changeRole={changeRole}
                           />
                         </Accordion.Content>
                       </div>
@@ -134,11 +158,11 @@ class AdminPage extends React.Component {
           <Grid.Row>
             <Grid.Column width={5} />
             <Grid.Column width={8}>
-              {this.props.users.length > 20 ?
+              {props.users.length > 20 ?
                 <Pagination
                   activePage={activePage}
-                  onPageChange={this.handlePaginationChange}
-                  totalPages={Math.ceil(this.props.users.length / 20)}
+                  onPageChange={handlePaginationChange}
+                  totalPages={Math.ceil(props.users.length / 20)}
                 />
                 :
                 null
@@ -146,12 +170,11 @@ class AdminPage extends React.Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Button content="Do not press!" color="red" onClick={this.chaosMonkey} />
+        <Button content="Do not press!" color="red" onClick={chaosMonkey} />
       </Container>
     )
   }
-}
-
+/*
 AdminPage.propTypes = {
   dispatchToast: PropTypes.func.isRequired,
   users: PropTypes.arrayOf(PropTypes.shape({
@@ -162,12 +185,9 @@ AdminPage.propTypes = {
   adminChangeCourseRole: PropTypes.func.isRequired,
   adminChangeGlobalRole: PropTypes.func.isRequired,
   removeCoursePerson: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired
 }
-
-const mapStateToProps = state => ({
-  users: state.admin.users
-})
+*/
 
 const mapDispatchToProps = dispatch => ({
   adminGetUsers: asyncAction(adminGetUsers, dispatch),
@@ -177,4 +197,4 @@ const mapDispatchToProps = dispatch => ({
   removeCoursePerson: asyncAction(removeCoursePerson, dispatch)
 })
 
-export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(AdminPage))
+export default connect()(AdminPage)

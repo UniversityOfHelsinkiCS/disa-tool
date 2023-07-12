@@ -2,8 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Header, Menu } from 'semantic-ui-react'
 import { arrayOf, shape, func } from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
 import { orderBy } from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 const renderCourseMenuItem = (course, activeCourse, handleChange) => {
   return(
@@ -23,7 +23,7 @@ const renderCourseMenuItem = (course, activeCourse, handleChange) => {
 }
 
 const CourseSideMenu = ({ courses, activeCourse, handleChange, translate }) => {
-  const t = id => translate(`UserPage.CourseSideMenu.${id}`)
+  const {t} = useTranslation('translation', {keyPrefix: 'userPage.courseSideMenu'})
   const coursesSorted = orderBy(courses, 'name')
   const activeCourses = coursesSorted.filter(course => course.active)
   const closedCourses = coursesSorted.filter(course => !course.active)
@@ -40,12 +40,12 @@ const CourseSideMenu = ({ courses, activeCourse, handleChange, translate }) => {
     </Menu>
   )
 }
-
+/*
 CourseSideMenu.propTypes = {
   courses: arrayOf(shape()).isRequired,
   activeCourse: shape().isRequired,
   handleChange: func.isRequired,
   translate: func.isRequired
 }
-
-export default withLocalize(CourseSideMenu)
+*/
+export default CourseSideMenu

@@ -2,15 +2,14 @@ import React, { Fragment } from 'react'
 import { arrayOf, bool, func, number, shape, string } from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Button, Grid, Header, List, Icon } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
-
+import { useTranslation } from 'react-i18next'
 import LinkExportList from './components/LinkExportList'
 import Conditional from '../../utils/components/Conditional'
 import InfoBox from '../../utils/components/InfoBox'
 
 export const CourseInfo = (props) => {
-  const t = id => props.translate(`UserPage.CourseInfo.${id}`)
   const { course } = props
+  const {t} = useTranslation('translation', {keyPrefix: 'userPage.courseInfo'})
 
   return (
     <Fragment>
@@ -108,8 +107,4 @@ CourseInfo.propTypes = {
   translate: func.isRequired
 }
 
-CourseInfo.defaultProps = {
-  teachers: []
-}
-
-export default withLocalize(CourseInfo)
+export default CourseInfo

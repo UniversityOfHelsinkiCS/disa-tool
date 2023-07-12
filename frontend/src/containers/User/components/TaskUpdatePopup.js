@@ -1,29 +1,10 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import { bool, func, number, string, shape } from 'prop-types'
 import { Button, Input, Popup } from 'semantic-ui-react'
 
-class TaskUpdatePopup extends Component {
-  shouldComponentUpdate(nextProps) {
-    // update always if content changes
-    if (nextProps.task.text !== this.props.task.text) {
-      return true
-    }
-    // update if the pop-up opens and this is the cell it needs to be open at
-    if (nextProps.popUp.show && nextProps.popUp.task.taskId === nextProps.task.id
-      && nextProps.popUp.person.id === nextProps.person.id) {
-      return true
-    }
-    // update if the pop-up closes at this cell
-    if (!nextProps.popUp.show && this.props.popUp.show
-      && this.props.popUp.task.taskId === this.props.task.id
-      && this.props.popUp.person.id === this.props.person.id) {
-      return true
-    }
-    return false
-  }
+const TaskUpdatePopup = (props) =>  {
 
-  render() {
-    const { person, task, popUp, markTask, updateTask } = this.props
+    const { person, task, popUp, markTask, updateTask } = props
     return (
       <Popup
         trigger={
@@ -70,9 +51,8 @@ class TaskUpdatePopup extends Component {
       popUp.person.id === person.id}
       />
     )
-  }
 }
-
+/*
 TaskUpdatePopup.propTypes = {
   task: shape({
     color: string.isRequired,
@@ -90,5 +70,5 @@ TaskUpdatePopup.propTypes = {
   markTask: func.isRequired,
   updateTask: func.isRequired
 }
-
+*/
 export default TaskUpdatePopup
