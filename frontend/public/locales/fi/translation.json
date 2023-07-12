@@ -453,30 +453,27 @@
       "create_self_assessment_category": "Luo kategoriapohjainen itsearviointi",
       "no_course_selected": "Kurssia ei valittu"
     },
-    "CourseSideMenu": {
-      "active_courses": ["Open courses", "Avoimet kurssit"],
-      "closed_courses": ["Closed courses", "Suljetut kurssit"]
+    "courseSideMenu": {
+      "active_courses": "Avoimet kurssit",
+      "closed_courses": "Suljetut kurssit"
     },
-    "CourseInfo": {
+    "courseInfo": {
       "edit_self_assessments": [
         "Edit self-asseessments",
         "Muokkaa itsearviointeja"
       ],
-      "edit_course": ["Edit course", "Muokkaa kurssia"],
-      "close_course": ["Course open", "Kurssi avoinna"],
-      "manage_course_people_tasks": [
-        "Manage course people and tasks",
-        "Hallinnoi kurssin osallistujia ja tehtäviä"
-      ],
-      "start_course": ["Course closed", "Kurssi suljettu"],
-      "course_teachers": ["Course teachers", "Kurssin opettajat"],
-      "this_course_is": ["This course is ", "Tämä kurssi on "],
-      "Links": {
-        "course_links": ["Show course links", "Näytä kurssin linkit"],
-        "registration": ["Registration: ", "Rekisteröityminen: "],
-        "matrix": ["Matrix: ", "Matriisi: "],
-        "close": ["Close", "Sulje"],
-        "course_page": ["Course page", "Kurssisivu"]
+      "edit_course": "Muokkaa kurssia",
+      "close_course": "Kurssi avoinna",
+      "manage_course_people_tasks": "Hallinnoi kurssin osallistujia ja tehtäviä",
+      "start_course": "Kurssi suljettu",
+      "course_teachers": "Kurssin opettajat",
+      "this_course_is": "Tämä kurssi on ",
+      "links": {
+        "course_links": "Näytä kurssin linkit",
+        "registration": "Rekisteröityminen: ",
+        "matrix": "Matriisi: ",
+        "close": "Sulje",
+        "course_page": "Kurssisivu"
       }
     },
     "ManageCoursePeople": {

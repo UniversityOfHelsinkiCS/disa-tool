@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import { connect, useDispatch,useSelector } from 'react-redux'
-import { Button, Icon, Dropdown, Form, Label } from 'semantic-ui-react'
-
+import { Icon, Dropdown, Form, Label } from 'semantic-ui-react'
 import { addInstance } from '../actions/courseInstances'
-
-import ModalForm from '../../../utils/components/ModalForm'
+import ModalForm,{saveActions} from '../../../utils/components/NewModalForm'
 import MultilingualField from '../../../utils/components/MultilingualField'
 import { useTranslation } from 'react-i18next'
 
@@ -14,7 +12,7 @@ export const CreateInstanceForm = (props) => {
   const dispatch = useDispatch()
 
   const addInstanceSubmit = async (e) => {
-    const response = addInstance({
+    const response = await addInstance({
       course_id: props.courseId,
       course_instance_id: instanceToCopy === 0 ? undefined : instanceToCopy,
       eng_name: e.target.eng_name.value,
@@ -24,19 +22,20 @@ export const CreateInstanceForm = (props) => {
     dispatch(response)
   }
 console.log(instances,templateInstances)
-  const {t} = useTranslation('translation', {keyPrefix: 'courseList.createInstanceForm'})
-    const contentPrompt = t('prompt_1')
+  const {t} = useTranslation('translation')
+    const contentPrompt = t('courseList.createInstanceForm.prompt_1')
     return (
       <div className="CreateInstanceForm">
         <ModalForm
-          header={t('header')}
-          trigger={<span><Icon name="add" />{t('trigger')}</span>}
+          header={t('courseList.createInstanceForm.header')}
+          trigger={<span><Icon name="add" />{t('courseList.createInstanceForm.trigger')}</span>}
           onSubmit={addInstanceSubmit}
+          actions={saveActions()}
         >
           <p>{contentPrompt}.</p>
-          <MultilingualField field="name" fieldDisplay={t('name')} />
+          <MultilingualField field="name" fieldDisplay={t('common.name')} />
           <Form.Field>
-            <Label>{t('dropdown_label')}</Label>
+            <Label>{t('courseList.createInstanceForm.dropdown_label')}</Label>
             <Dropdown
               selection
               name="instance_to_copy"
@@ -50,12 +49,11 @@ console.log(instances,templateInstances)
                 })).concat([{
                   key: 0,
                   value: 0,
-                  text: t('dropdown_null_value')
+                  text: t('courseList.createInstanceForm.dropdown_null_value')
                 }])
               }
             />
           </Form.Field>
-          <Button type="submit" color="green">{t('save')}</Button>
         </ModalForm>
       </div>
     )

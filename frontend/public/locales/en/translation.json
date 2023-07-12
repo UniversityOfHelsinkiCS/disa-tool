@@ -399,7 +399,7 @@
       "create_self_assessment_category": "Create category based assessment",
       "no_course_selected": "No course selected"
     },
-    "CourseSideMenu": {
+    "courseSideMenu": {
       "active_courses": "Open courses",
       "closed_courses": "Closed courses"
     },

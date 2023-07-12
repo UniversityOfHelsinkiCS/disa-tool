@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { details } from '../../../api/courseInstances'
 import { editInstance } from '../actions/courseInstances'
 
-import ModalForm, { saveActions } from '../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../utils/components/NewModalForm'
 import MultilingualField from '../../../utils/components/MultilingualField'
 
 export const EditInstanceForm = (props) => {
@@ -63,7 +63,7 @@ export const EditInstanceForm = (props) => {
           onOpen={loadDetails}
         >
           <p>{t('prompt_1')}.</p>
-          <MultilingualField field="name" fieldDisplay={t('name')} values={state.values.name} />
+          <MultilingualField field="name" fieldDisplay={t('name')} values={values.name} />
         </ModalForm>
       </div>
     )

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 const LinkExportList = (props) => {
   const [expanded, setExpanded] = useState(false)
 
-  const {t} = useTranslation("translation", {keyPrefix: "UserPage.CourseInfo.Links."})
+  const {t} = useTranslation("translation", {keyPrefix: "userPage.courseInfo.links"})
 
   const renderCollapsed = () => (
     <Button

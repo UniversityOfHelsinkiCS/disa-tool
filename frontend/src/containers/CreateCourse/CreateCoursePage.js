@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
 import { useHistory } from 'react-router-dom'
 import { Form, Button, Segment, Header } from 'semantic-ui-react'
-import asyncAction from '../../utils/asyncAction'
 import { useTranslation } from 'react-i18next'
 import './createCourse.css'
 
@@ -36,7 +33,7 @@ const history = useHistory()
       <div className="CreateCoursePage">
         <Segment className="formContainer" basic padded>
           <Header>{t('createCourse.createCoursePage.createCourse')}</Header>
-          <Form onSubmit={createCourseSubmit} style={{"max-width": "80%"}}>
+          <Form onSubmit={createCourseSubmit} style={{"maxWidth": "80%"}}>
             <MultilingualField field="name" fieldDisplay={label.name} />
             <Button type="submit" color="green">{t('createCourse.createCoursePage.create')}</Button>
           </Form>
@@ -49,8 +46,5 @@ CreateCoursePage.propTypes = {
   createCourse: PropTypes.func.isRequired,
 }
 */
-const mapDispatchToProps = dispatch => ({
-  createCourse: asyncAction(createCourse, dispatch)
-})
 
-export default withLocalize(connect(null, mapDispatchToProps)(CreateCoursePage))
+export default connect()(CreateCoursePage)

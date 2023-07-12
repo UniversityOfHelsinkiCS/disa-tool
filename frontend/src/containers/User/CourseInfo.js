@@ -9,7 +9,7 @@ import InfoBox from '../../utils/components/InfoBox'
 
 export const CourseInfo = (props) => {
   const { course } = props
-  const {t} = useTranslation('translation', {keyPrefix: 'userPage.courseInfo'})
+  const {t} = useTranslation('translation')
 
   return (
     <Fragment>
@@ -19,7 +19,7 @@ export const CourseInfo = (props) => {
             {course.name}
           </Header>
           <Conditional visible={props.isTeacher}>{
-            <Button floated="right" color={course.active ? 'green' : 'red'} onClick={props.toggleActivation}>{t(course.active ? 'close_course' : 'start_course')}</Button>}
+            <Button floated="right" color={course.active ? 'green' : 'red'} onClick={props.toggleActivation}>{t(course.active ? 'userPage.courseInfo.close_course' : 'userPage.courseInfo.start_course')}</Button>}
           </Conditional>
           <InfoBox translationid="UserPage" buttonProps={{ floated: 'right' }} useCourseRole />
         </Grid.Column>
@@ -27,8 +27,8 @@ export const CourseInfo = (props) => {
       <Grid.Row>
         <Grid.Column>
           <Header as="h2" color={course.active ? 'green' : 'red'}>
-            <Header.Subheader style={{ display: 'inline' }}>{t('this_course_is')}</Header.Subheader>
-            {course.active ? <span><b>{t('open')}</b></span> : <span><b>{t('closed')}</b></span>}
+            <Header.Subheader style={{ display: 'inline' }}>{t('userPage.courseInfo.this_course_is')}</Header.Subheader>
+            {course.active ? <span><b>{t('common.open')}</b></span> : <span><b>{t('common.closed')}</b></span>}
           </Header>
           <Button.Group vertical>
             <Button
@@ -40,7 +40,7 @@ export const CourseInfo = (props) => {
               labelPosition="right"
               style={{ marginBottom: '5px' }}
             >
-              {t('course_matrix')}
+              {t('common.course_matrix')}
               <Icon name="right arrow" />
             </Button>
             <Conditional visible={props.isTeacher}>
@@ -53,7 +53,7 @@ export const CourseInfo = (props) => {
                 labelPosition="right"
                 style={{ marginBottom: '5px' }}
               >
-                {t('edit_course')}
+                {t('userPage.courseInfo.edit_course')}
                 <Icon name="right arrow" />
               </Button>
               <Button
@@ -65,7 +65,7 @@ export const CourseInfo = (props) => {
                 labelPosition="right"
                 style={{ marginBottom: '5px' }}
               >
-                {t('manage_course_people_tasks')}
+                {t('userPage.courseInfo.manage_course_people_tasks')}
                 <Icon name="right arrow" />
               </Button>
             </Conditional>
@@ -76,7 +76,7 @@ export const CourseInfo = (props) => {
         </Grid.Column>
         <Conditional visible={!!props.teachers}>
           <Grid.Column>
-            <Header as="h3">{t('course_teachers')}</Header>
+            <Header as="h3">{t('userPage.courseInfo.course_teachers')}</Header>
             <List>
               {props.teachers.map(teacher => (
                 <List.Item key={teacher.id}>

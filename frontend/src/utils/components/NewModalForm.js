@@ -58,14 +58,15 @@ if(props.onOpen) {
         <Modal.Header>{props.header}</Modal.Header>
         <Modal.Content>
           <Form onSubmit={handleSubmit} loading={props.loading}>
-<>
+            <>
+                {props.children || props.content}
                 {props.actions && props.actions.length > 0 ? (
                   <div>
                     <Divider />
                     {props.actions.map(mapAction)}
                   </div>
                 ) : null}
-</>
+            </>
           </Form>
         </Modal.Content>
       </Modal>
