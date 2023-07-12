@@ -16,6 +16,6 @@ RUN rm -r /opt/app-root/src/frontend
 
 RUN npm install
 
-EXPOSE 8000
+EXPOSE 8080
 
 CMD ["npm", "start"]
