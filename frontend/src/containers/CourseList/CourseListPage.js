@@ -80,7 +80,7 @@ const CourseListPage = (props) => {
               {user && (user.role === 'TEACHER' || user.role === 'ADMIN') && selectedCourse ?
                 (
                   <List.Item style={{ color: 'green' }}>
-                    <CreateInstanceForm course_id={selectedCourse.id} />
+                    <CreateInstanceForm courseId={selectedCourse.id} />
                   </List.Item>
                 ) :
                 null
@@ -125,7 +125,7 @@ const CourseListPage = (props) => {
                     <Icon name="add" color="green" />
                   </Button>
                 <Conditional visible={user && (user.role === 'TEACHER' || user.role === 'ADMIN') && !!selectedCourse}>
-                  <EditCourseForm course_id={selectedCourse ? selectedCourse.id : undefined} />
+                  <EditCourseForm courseId={selectedCourse ? selectedCourse.id : undefined} />
                 </Conditional>
                 </Conditional>
                 <InfoBox translationid="CoursesPage" buttonProps={{ floated: 'right' }} />

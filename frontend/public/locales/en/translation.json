@@ -242,8 +242,8 @@
       "create": "Create"
     }
   },
-  "CourseList": {
-    "CreateInstanceForm": {
+  "courseList": {
+    "createInstanceForm": {
       "header": "Create a new course instance",
 
       "prompt_1": "Create a new course instance",
@@ -254,16 +254,16 @@
 
       "dropdown_null_value": "No base"
     },
-    "EditInstanceForm": {
+    "editInstanceForm": {
       "header": "Edit course instance",
       "prompt_1": "Edit course instance"
     },
-    "EditCourseForm": {
+    "editCourseForm": {
       "rename_trigger": "Rename",
       "renameCourse": "Rename this course",
       "rename": "Rename the course"
     },
-    "RegisterForm": {
+    "registerForm": {
       "unregister": "Undo registration",
       "register": "Register",
       "require_login": "requires login"

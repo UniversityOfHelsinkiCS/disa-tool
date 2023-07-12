@@ -15,7 +15,6 @@ export const AddTaskForm = ({courseId, newOrder}) => {
   const dispatch = useDispatch()
 
   const addTaskSubmit = async (e) => {
-    console.log('addTaskSubmit', e.target)
     const addTaskPromise = await addTask({
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,

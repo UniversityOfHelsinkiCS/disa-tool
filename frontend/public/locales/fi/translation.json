@@ -255,32 +255,26 @@
     }
   },
   "courseList": {
-    "CreateInstanceForm": {
-      "header": ["Create a new course instance", "Luo uusi kurssi-instanssi"],
-      "prompt_1": ["Create a new course instance", "Luo uusi kurssi-instanssi"],
-      "trigger": [
-        "Create a new instance of this course",
-        "Luo uusi instanssi tästä kurssista"
-      ],
-      "dropdown_label": [
-        "Optionally choose a previous course instance to copy as a base.",
-        "Voit valita aikaisemman kurssi-instanssin kopioitavaksi pohjaksi."
-      ],
-      "dropdown_null_value": ["No base", "Ei pohjaa"]
+    "createInstanceForm": {
+      "header": "Luo uusi kurssi-instanssi",
+      "prompt_1": "Luo uusi kurssi-instanssi",
+      "trigger": "Luo uusi instanssi tästä kurssista",
+      "dropdown_label": "Voit valita aikaisemman kurssi-instanssin kopioitavaksi pohjaksi.",
+      "dropdown_null_value": "Ei pohjaa"
     },
-    "EditInstanceForm": {
+    "editInstanceForm": {
       "header": ["Edit course instance", "Muokkaa kurssi-instanssia"],
       "prompt_1": ["Edit course instance", "Muokkaa kurssi-instanssia"]
     },
-    "EditCourseForm": {
+    "editCourseForm": {
       "rename_trigger": "Vaihda nimeä",
       "renameCourse": "Vaihda kurssin nimeä",
       "rename": "Kurssin uudelleennimeys"
     },
-    "RegisterForm": {
-      "unregister": ["Undo registration", "Peru rekisteröityminen"],
-      "register": ["Register", "Rekisteröidy"],
-      "require_login": ["requires login", "vaatii sisäänkirjautumisen"]
+    "registerForm": {
+      "unregister": "Peru rekisteröityminen",
+      "register": "Rekisteröidy",
+      "require_login": "vaatii sisäänkirjautumisen"
     },
     "courseListPage": {
       "create_trigger": "Lisää",

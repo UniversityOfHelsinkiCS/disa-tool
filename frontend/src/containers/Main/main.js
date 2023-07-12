@@ -59,7 +59,7 @@ const getUserKey = () => {
 
   const anonymousRoutes = [
     <Route path="/courses/matrix/:id" render={(props) => <MatrixPage {...props}/>} key={()=>getAnonymousKey()} />,
-    <Route exact path="/courses" component={CourseListPage} key={()=>getAnonymousKey()} />,
+    <Route exact path="/courses" key={()=>getAnonymousKey()}><CourseListPage/></Route>,
     <Route exact path="/" component={HomePage} key={()=>getAnonymousKey()} />,
   ]
 

@@ -1,26 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect,useSelector } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Link } from 'react-router-dom'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../utils/asyncAction'
 
 import { registerToCourse, unregisterFromCourse } from '../actions/coursePersons'
+import { useTranslation } from 'react-i18next'
 
 const RegisterForm = (props) => {
-  const translate = id => props.translate(`CourseList.RegisterForm.${id}`)
+  const user = useSelector(state => state.user)
 
-  if (props.user.id) {
+  const {t} = useTranslation('translation',{keyPrefix: "courseList.registerForm"})
+
+  const registerAction = async () => {
+    let response
+    if(props.registered) {
+      response = await unregisterFromCourse({ course_instance_id: props.instanceId })
+    } else {
+      response = await registerToCourse({ course_instance_id: props.instanceId })
+    }
+    
+    response && dispatch(response)
+  }
+
+  if (user.id) {
     return (
       <Button
         fluid
         className="RegisterForm"
-        onClick={() => props.registerAction({ course_instance_id: props.instanceId })}
+        onClick={() => registerAction()}
         inverted
         color="blue"
       >
-        {props.registered ? translate('unregister') : translate('register')}
+        {props.registered ? t('unregister') : t('register')}
       </Button>
     )
   }
@@ -33,36 +47,21 @@ const RegisterForm = (props) => {
       inverted
       color="blue"
     >
-      {`${translate('register')} (${translate('require_login')})`}
+      {`${t('register')} (${t('require_login')})`}
     </Button>
   )
 }
-
+/*
 RegisterForm.propTypes = {
   registered: PropTypes.string,
   courseId: PropTypes.number.isRequired,
   instanceId: PropTypes.number.isRequired,
   registerAction: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
   user: PropTypes.shape({
     id: PropTypes.number
   }).isRequired
 }
+*/
 
-RegisterForm.defaultProps = {
-  registered: null
-}
-
-const mapStateToProps = state => ({
-  user: state.user
-})
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  registerAction: ownProps.registered ? (
-    asyncAction(unregisterFromCourse, dispatch)
-  ) : (
-    asyncAction(registerToCourse, dispatch)
-  )
-})
-
-export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(RegisterForm))
+export default connect()(RegisterForm)

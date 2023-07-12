@@ -1,9 +1,7 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import React, { useState } from 'react'
+import { connect, useDispatch } from 'react-redux'
 import { Button } from 'semantic-ui-react'
-import asyncAction from '../../../utils/asyncAction'
+import { useTranslation } from 'react-i18next'
 
 import { details } from '../../../api/courseInstances'
 import { editInstance } from '../actions/courseInstances'
@@ -11,83 +9,71 @@ import { editInstance } from '../actions/courseInstances'
 import ModalForm, { saveActions } from '../../../utils/components/ModalForm'
 import MultilingualField from '../../../utils/components/MultilingualField'
 
-export class EditInstanceForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      values: {
-        name: {
-          eng: '',
-          fin: '',
-          swe: ''
-        }
-      },
-      loading: true,
-      triggered: false
+export const EditInstanceForm = (props) => {
+  const dispatch = useDispatch()
+  const [values, setValues] = useState({
+    name: {
+      eng: '',
+      fin: '',
+      swe: ''
     }
-  }
+  })
+  const [loading, setLoading] = useState(true)
+  const [triggered, setTriggered] = useState(false)
 
-  editInstanceSubmit = (e) => {
-    this.props.editInstance({
-      id: this.props.course_instance_id,
+  const {t} = useTranslation('translation', {keyPrefix: 'courseList.editInstanceForm'})
+
+  const editInstanceSubmit = async (e) => {
+    const response = await editInstance({
+      id: props.course_instance_id,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
       swe_name: e.target.swe_name.value
     })
-    this.setState({
-      triggered: false,
-      loading: true
-    })
+    dispatch(response)
+    setTriggered(false)
+    setLoading(true)
+
   }
 
-  loadDetails = async () => {
-    if (this.state.triggered) return
-    this.setState({ triggered: true })
+  const loadDetails = async () => {
+    if (triggered) return false
+    setTriggered(true)
     const instanceDetails = (await details({
-      id: this.props.course_instance_id
+      id: props.course_instance_id
     })).data.data
-    this.setState({
-      values: {
-        name: {
-          eng: instanceDetails.eng_name,
-          fin: instanceDetails.fin_name,
-          swe: instanceDetails.swe_name
-        }
-      },
-      loading: false
+    setValues({
+      name: {
+        eng: instanceDetails.eng_name,
+        fin: instanceDetails.fin_name,
+        swe: instanceDetails.swe_name
+      }
     })
+    setLoading(false)
   }
 
-  translate = id => this.props.translate(`CourseList.EditInstanceForm.${id}`)
-
-  render() {
-    const contentPrompt = this.translate('prompt_1')
     return (
       <div className="EditInstanceForm">
         <ModalForm
-          header={this.translate('header')}
+          header={t('header')}
           trigger={<Button type="button" basic circular icon={{ name: 'edit' }} />}
-          onSubmit={this.editInstanceSubmit}
-          actions={saveActions(this.translate)}
-          loading={this.state.loading}
-          onOpen={this.loadDetails}
+          onSubmit={editInstanceSubmit}
+          actions={saveActions()}
+          loading={loading}
+          onOpen={loadDetails}
         >
-          <p>{contentPrompt}.</p>
-          <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />
+          <p>{t('prompt_1')}.</p>
+          <MultilingualField field="name" fieldDisplay={t('name')} values={state.values.name} />
         </ModalForm>
       </div>
     )
   }
-}
-
+/*
 EditInstanceForm.propTypes = {
   course_instance_id: PropTypes.number.isRequired,
   editInstance: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired
 }
+*/
 
-const mapDispatchToProps = dispatch => ({
-  editInstance: asyncAction(editInstance, dispatch)
-})
-
-export default withLocalize(connect(null, mapDispatchToProps)(EditInstanceForm))
+export default connect()(EditInstanceForm)

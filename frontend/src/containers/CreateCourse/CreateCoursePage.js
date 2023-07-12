@@ -36,7 +36,7 @@ const history = useHistory()
       <div className="CreateCoursePage">
         <Segment className="formContainer" basic padded>
           <Header>{t('createCourse.createCoursePage.createCourse')}</Header>
-          <Form onSubmit={createCourseSubmit}>
+          <Form onSubmit={createCourseSubmit} style={{"max-width": "80%"}}>
             <MultilingualField field="name" fieldDisplay={label.name} />
             <Button type="submit" color="green">{t('createCourse.createCoursePage.create')}</Button>
           </Form>

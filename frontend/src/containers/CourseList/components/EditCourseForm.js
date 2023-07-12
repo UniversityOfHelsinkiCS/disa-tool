@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React, { useState } from 'react'
+import { connect, useDispatch } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
-import { Button, Icon } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../utils/asyncAction'
 
 import { getCourse } from '../../../api/courses'
@@ -10,65 +9,67 @@ import { editCourse, getAllCourses } from '../actions/courses'
 
 import ModalForm, { saveActions } from '../../../utils/components/ModalForm'
 import MultilingualField from '../../../utils/components/MultilingualField'
+import { useTranslation } from 'react-i18next'
 
-export class EditCourseForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      values: {
-        name: {
-          eng: '',
-          fin: '',
-          swe: ''
-        }
-      },
-      loading: true,
-      triggered: false
+export const EditCourseForm = (props) => {
+  const [values, setValues] = useState({
+    name: {
+      eng: '',
+      fin: '',
+      swe: ''
     }
+  })
+  const [loading, setLoading] = useState(true)
+  const [triggered, setTriggered] = useState(false)
+  const dispatch = useDispatch()
+
+  const getAllCoursesAsync = async () => {
+    const response = await getAllCourses()
+    dispatch(response)
   }
 
-  editCourseSubmit = async (e) => {
-    await this.props.editCourse({
-      id: this.props.course_id,
+  const editCourseAsync = async ({id,eng_name,fin_name,swe_name}) => {
+    const response = await editCourse({id,eng_name,fin_name,swe_name})
+    dispatch(response)
+  }
+
+  const editCourseSubmit = async (e) => {
+    await editCourseAsync({
+      id: props.course_id,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
       swe_name: e.target.swe_name.value
     })
-    this.props.getAllCourses()
-    this.setState({
-      triggered: false,
-      loading: true
-    })
+    getAllCoursesAsync()
+    setTriggered(false)
+    setLoading(true)
   }
 
-  loadDetails = async () => {
-    if (this.state.triggered) return
-    this.setState({ triggered: true })
+  const loadDetails = async () => {
+    if (triggered) return
+    setTriggered(true)
     const courseDetails = await getCourse({
-        id: this.props.course_id
+        id: props.courseId
       })
     const courseData = courseDetails.data
     const { eng_name, fin_name, swe_name } = courseData
-    this.setState({
-      values: {
-        name: {
-          eng: eng_name,
-          fin: fin_name,
-          swe: swe_name
-        }
-      },
-      loading: false
+    setValues({
+      name: {
+        eng: eng_name,
+        fin: fin_name,
+        swe: swe_name
+      }
     })
+    setLoading(false)
   }
 
-  translate = id => this.props.translate(`CourseList.EditCourseForm.${id}`)
+  const {t} = useTranslation('translation', {keyPrefix: 'courseList.editCourseForm'})
 
-  render() {
-    const contentPrompt = this.translate('renameCourse')
+    const contentPrompt = t('renameCourse')
     return (
       <div className="EditCourseForm">
         <ModalForm
-          header={this.translate('rename')}
+          header={t('rename')}
           trigger={<Button
             style={{margin: "10px"}}
             type="button"
@@ -77,30 +78,25 @@ export class EditCourseForm extends Component {
             basic
             compact
           >
-            {this.translate('rename_trigger')}
+            {t('rename_trigger')}
           </Button>}
-          onSubmit={this.editCourseSubmit}
-          actions={saveActions(this.translate)}
-          loading={this.state.loading}
-          onOpen={this.loadDetails}
+          onSubmit={editCourseSubmit}
+          actions={saveActions(t)}
+          loading={loading}
+          onOpen={loadDetails}
         >
           <p>{contentPrompt}.</p>
-          <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />
+          <MultilingualField field="name" fieldDisplay={t('name')} values={values.name} />
         </ModalForm>
       </div>
     )
   }
-}
-
+/*
 EditCourseForm.propTypes = {
   course_id: PropTypes.number.isRequired,
   editCourse: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired
 }
+*/
 
-const mapDispatchToProps = dispatch => ({
-  getAllCourses: asyncAction(getAllCourses, dispatch),
-  editCourse: asyncAction(editCourse, dispatch)
-})
-
-export default withLocalize(connect(null, mapDispatchToProps)(EditCourseForm))
+export default withLocalize(connect()(EditCourseForm))
