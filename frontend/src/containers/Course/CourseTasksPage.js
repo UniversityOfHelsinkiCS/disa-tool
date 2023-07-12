@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { connect , useDispatch} from 'react-redux'
+import { connect , useDispatch,useSelector} from 'react-redux'
 import { useParams } from 'react-router'
-import PropTypes from 'prop-types'
 import { Grid, Dimmer, Loader } from 'semantic-ui-react'
 import CourseHeader from '../Course/components/header/CourseHeader'
 import ManageCoursePeople from '../User/ManageCoursePeople'
@@ -12,10 +11,10 @@ import { getCourseInstanceTasksAction, getCourseInstanceDataAction } from '../..
 
 export const CourseTasksPage = (props) => {
 const [loading, setLoading] = useState(false)
-const { id } = useParams()
+const course = useSelector(state => state.instance)
+const user = useSelector(state => state.user)
+const {courseId} = useParams()
 const dispatch = useDispatch()
-  const { course } = props
-  const { user } = props
 
   useEffect(() => {
     const asyncFunction = async () => {
@@ -25,13 +24,13 @@ const dispatch = useDispatch()
     // fetch the course data first, before getting the tasks
     // and set it to redux state
     if (!instanceHasData) {
-      dispatchEvent(getCourseInstanceDataAction(id))
+      await getCourseInstanceDataAction(courseId,dispatch)
     }
-    dispatch(getCourseInstanceTasksAction(instanceHasData ? course : props.course))
+    await getCourseInstanceTasksAction(instanceHasData ? course : props.course,dispatch)
     setLoading(false)
   }
   asyncFunction()
-  },[])
+  },[user])
     const isTeacher = course.courseRole === 'TEACHER'
     const isGlobalTeacher = user.role === 'TEACHER' || user.role === 'ADMIN'
 
@@ -39,7 +38,6 @@ const dispatch = useDispatch()
     const students = course.id && isTeacher ?
       course.people.filter(person =>
         person.course_instances[0].course_person.role !== 'TEACHER') : []
-
     return (
       <div>
         {loading ?

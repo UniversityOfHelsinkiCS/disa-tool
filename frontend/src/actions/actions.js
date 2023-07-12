@@ -171,7 +171,7 @@ export const updateSelfAssesmentAction = assessmentData => async (dispatch) => {
   }
 }
 
-export const getCourseInstanceDataAction = courseId => async (dispatch) => {
+export const getCourseInstanceDataAction = async(courseId,dispatch)  => {
   dispatch({
     type: types.COURSES_GET_INSTANCE_DATA_ATTEMPT,
     payload: ''
@@ -190,7 +190,7 @@ export const getCourseInstanceDataAction = courseId => async (dispatch) => {
   }
 }
 
-export const getCourseInstanceTasksAction = instance => async (dispatch) => {
+export const getCourseInstanceTasksAction = async(instance,dispatch) => {
   dispatch({
     type: types.COURSES_GET_INSTANCE_TASKS_ATTEMPT,
     payload: ''
@@ -299,7 +299,7 @@ export const logoutAction = message => (dispatch) => {
   })
 }
 
-export const postTaskResponseActions = tasks => async (dispatch) => {
+export const postTaskResponseActions = async (tasks,dispatch) => {
   dispatch({
     type: types.COURSE_INSTANCE_POST_TASK_RESPONSES_ATTEMPT,
     payload: tasks

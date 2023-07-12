@@ -1,9 +1,9 @@
 const { Op } = require('sequelize')
-const { Person, CourseInstance, TaskResponse, CoursePerson, Task } = require('../database/models.js')
+const { Person, CourseInstance, TaskResponse, CoursePerson, Task } = require('../database/models')
 
-const getUser = userId => Person.findOne({ where: { id: userId } })
+const getUser = (userId) => Person.findOne({ where: { id: userId } })
 
-const getAllWithRoles = lang => (
+const getAllWithRoles = (lang) => (
   Person.findAll({
     include: [
       {
@@ -58,14 +58,14 @@ const getPeopleOnCourse = (courseId, tasks) => (
       {
         model: TaskResponse,
         separate: true,
-        where: { task_idd: { [Op.in]: tasks } },
+        where: { task_id: { [Op.in]: tasks } },
         required: false
       }
     ]
   })
 )
 
-const getCourseTeachers = courseId => (
+const getCourseTeachers = (courseId) => (
   Person.findAll({
     attributes: ['id', 'name'],
     include: [{
@@ -87,12 +87,12 @@ const updateOrCreatePersonsOnCourse = async (coursePersons) => {
       { where: { personId: cp.personId, course_instance_id: cp.course_instance_id }
       })
     if (!coursePersonFound) {
-      const personFound = await Person.findOne({where: {id: cp.personId}})
-      if(!personFound) {
-        const error = {error: 'person not found'}
+      const personFound = await Person.findOne({ where: { id: cp.personId } })
+      if (!personFound) {
+        const error = { error: 'person not found' }
         throw error
       }
-      const coursePersonCreated = await CoursePerson.build({personId: cp.personId, course_instance_id: cp.course_instance_id})
+      const coursePersonCreated = await CoursePerson.build({ personId: cp.personId, course_instance_id: cp.course_instance_id })
       coursePersonCreated.role = cp.role
       await coursePersonCreated.save()
 
@@ -109,7 +109,7 @@ const updateOrCreatePersonsOnCourse = async (coursePersons) => {
         ],
         plain: true
       })
-      found.task_responses = found.task_responses.map(tr => ({ ...tr, task: undefined }))
+      found.task_responses = found.task_responses.map((tr) => ({ ...tr, task: undefined }))
       newPeople.push(found)
     } else {
       await coursePersonFound.update({ role: cp.role })
@@ -123,7 +123,7 @@ const addPersonsToCourseFromResponses = async (tasks, courseId) => {
   const uniquePersons = []
   for (let i = 0; i < tasks.length; i += 1) {
     const resp = tasks[i]
-    if (uniquePersons.find(student => student.studentnumber === resp.studentnumber) === undefined) {
+    if (uniquePersons.find((student) => student.studentnumber === resp.studentnumber) === undefined) {
       uniquePersons.push({ studentnumber: resp.studentnumber })
     }
   }
@@ -155,7 +155,7 @@ const updateGlobal = async (data) => {
   return found
 }
 
-const findPeopleByName = searchString => (
+const findPeopleByName = (searchString) => (
   Person.findAll({ where:
     { name: { [Op.iLike]: `%${searchString}%` } }
   })

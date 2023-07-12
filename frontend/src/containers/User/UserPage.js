@@ -38,7 +38,7 @@ const UserPage = (props) => {
       dispatch(getUserCoursesAction())
       dispatch(getUserSelfAssesments())
       if (courseId) {
-        dispatch(getCourseInstanceDataAction(courseId))
+        await getCourseInstanceDataAction(courseId,dispatch)
         }
         setLoading(false)
     }

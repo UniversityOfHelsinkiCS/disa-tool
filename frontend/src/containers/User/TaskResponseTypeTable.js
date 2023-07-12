@@ -1,41 +1,28 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { Button, Table, Segment } from 'semantic-ui-react'
 
-class TaskResponseTypeTable extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      selected: props.typeHeaders && props.typeHeaders[0] ? props.typeHeaders[0].id : 1
-    }
-  }
+const TaskResponseTypeTable = (props) => {
+  const [selected, setSelected] = useState(props.typeHeaders && props.typeHeaders[0] ? props.typeHeaders[0].id : 1)
 
-  // <Table.HeaderCell
-  //   key={header.id}
-  //   colSpan={`${header.types.length}`}
-  // >
-  //   {header.name}
-  // </Table.HeaderCell>)
+  const { typeHeaders, students, tasks, selectType, updatedTasks } = props
 
-  getTasksForType = (tasks, typeId) => tasks.filter(task => task.types.find(type => type.id === typeId))
+  const getTasksForType = (tasks, typeId) => tasks.filter(task => task.types.find(type => type.id === typeId))
 
-  showTasks = (e) => {
+  const showTasks = (e) => {
     const { value } = e.target
-    this.setState({ selected: Number(value) })
+    setSelected(Number(value))
   }
-
-  render() {
-    const { selected } = this.state
-    const { typeHeaders, students, tasks, selectType, updatedTasks } = this.props
-    const updatedHeaders = typeHeaders ? typeHeaders.map(header => (
+  const updatedHeaders = typeHeaders ? typeHeaders.map(header => (
       {
         ...header,
         types: header.types.map(type => (
           {
             ...type,
-            updated: this.getTasksForType(tasks, type.id).find(task =>
+            updated: getTasksForType(tasks, type.id).find(task =>
               updatedTasks.find(ut => ut.taskId === task.id))
           }))
       })) : []
+
     return (
       <Segment basic style={{ overflowX: 'auto', padding: 0 }}>
         <div style={{ display: 'inline' }}>
@@ -43,7 +30,7 @@ class TaskResponseTypeTable extends Component {
             (
               <Button
                 key={header.id}
-                onClick={this.showTasks}
+                onClick={showTasks}
                 value={header.id}
                 color={selected === header.id ? 'grey' : null}
               >
@@ -54,10 +41,18 @@ class TaskResponseTypeTable extends Component {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell rowSpan="2">Opiskelija</Table.HeaderCell>
-              {/* {updatedHeaders.map(header => <Table.HeaderCell key={header.id} colSpan={`${header.types.length}`}>{header.name}</Table.HeaderCell>)} */}
             </Table.Row>
             <Table.Row>
-              {updatedHeaders.filter(upH => upH.id === selected).map(header => header.types.map(type => <Table.HeaderCell key={type.id}><Button onClick={selectType} type={type} color={type.updated ? 'red' : 'grey'}>{type.name}</Button></Table.HeaderCell>))}
+              {updatedHeaders.filter(upH => 
+                upH.id === selected).map(header =>
+                 header.types.map(type => {
+                  console.log(header)
+                  return(
+                 <Table.HeaderCell key={type.id}>
+                  <Button onClick={selectType} color={type.updated ? 'red' : 'grey'}>{type.name}</Button>
+                  </Table.HeaderCell>)
+                  }
+              ))}
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -69,8 +64,8 @@ class TaskResponseTypeTable extends Component {
                 {updatedHeaders.filter(upH => upH.id === selected).map(header => header.types.map(type => (
                   <Table.Cell key={type.id}>
                     {person.task_responses && person.task_responses.filter(response =>
-                      this.getTasksForType(tasks, type.id).find(t => t.id === response.task_id))
-                      .length} / {this.getTasksForType(tasks, type.id).length}
+                      getTasksForType(tasks, type.id).find(t => t.id === response.task_id))
+                      .length} / {getTasksForType(tasks, type.id).length}
                   </Table.Cell>
                 )))}
               </Table.Row>
@@ -80,6 +75,5 @@ class TaskResponseTypeTable extends Component {
       </Segment>
     )
   }
-}
 
 export default TaskResponseTypeTable
