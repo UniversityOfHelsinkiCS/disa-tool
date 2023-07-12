@@ -13,8 +13,8 @@ const {
   CourseInstance,
   CoursePerson,
   Person
-} = require('../../database/models.js')
-const { SECRET } = require('../../../conf-backend')
+} = require('../../database/models')
+// const { SECRET } = require('../../../conf-backend')
 
 describe('self_assesment_controller', () => {
   describe('POST /create', () => {
@@ -80,20 +80,20 @@ describe('self_assesment_controller', () => {
       },
       eng: {
         data: {
-          name: data.structure.formInfo.find(info => info.type === 'eng_name').value,
-          instructions: data.structure.formInfo.find(info => info.type === 'eng_instructions').value
+          name: data.structure.formInfo.find((info) => info.type === 'eng_name').value,
+          instructions: data.structure.formInfo.find((info) => info.type === 'eng_instructions').value
         }
       },
       fin: {
         data: {
-          name: data.structure.formInfo.find(info => info.type === 'fin_name').value,
-          instructions: data.structure.formInfo.find(info => info.type === 'fin_instructions').value
+          name: data.structure.formInfo.find((info) => info.type === 'fin_name').value,
+          instructions: data.structure.formInfo.find((info) => info.type === 'fin_instructions').value
         }
       },
       swe: {
         data: {
-          name: data.structure.formInfo.find(info => info.type === 'swe_name').value,
-          instructions: data.structure.formInfo.find(info => info.type === 'swe_instructions').value
+          name: data.structure.formInfo.find((info) => info.type === 'swe_name').value,
+          instructions: data.structure.formInfo.find((info) => info.type === 'swe_instructions').value
         }
       }
     })
@@ -103,12 +103,12 @@ describe('self_assesment_controller', () => {
       {
         id: expect.any(Number),
         ...data,
-        eng_name: data.structure.formInfo.find(info => info.type === 'eng_name').value,
-        eng_instructions: data.structure.formInfo.find(info => info.type === 'eng_instructions').value,
-        fin_name: data.structure.formInfo.find(info => info.type === 'fin_name').value,
-        fin_instructions: data.structure.formInfo.find(info => info.type === 'fin_instructions').value,
-        swe_name: data.structure.formInfo.find(info => info.type === 'swe_name').value,
-        swe_instructions: data.structure.formInfo.find(info => info.type === 'swe_instructions').value
+        eng_name: data.structure.formInfo.find((info) => info.type === 'eng_name').value,
+        eng_instructions: data.structure.formInfo.find((info) => info.type === 'eng_instructions').value,
+        fin_name: data.structure.formInfo.find((info) => info.type === 'fin_name').value,
+        fin_instructions: data.structure.formInfo.find((info) => info.type === 'fin_instructions').value,
+        swe_name: data.structure.formInfo.find((info) => info.type === 'swe_name').value,
+        swe_instructions: data.structure.formInfo.find((info) => info.type === 'swe_instructions').value
       },
       SelfAssessment,
       {
@@ -322,7 +322,7 @@ describe('self_assesment_controller', () => {
         message: expect.any(String),
         data: {
           ...data,
-          id: asymmetricMatcher(actual => actual === ids.self_assesment),
+          id: asymmetricMatcher((actual) => actual === ids.self_assesment),
           structure: expect.any(Object)
         }
       },
@@ -395,7 +395,7 @@ describe('self_assesment_controller', () => {
       common: {
         message: expect.any(String),
         deleted: {
-          id: asymmetricMatcher(actual => actual === ids.self_assesment)
+          id: asymmetricMatcher((actual) => actual === ids.self_assesment)
         }
       }
     })
@@ -473,9 +473,9 @@ describe('self_assesment_controller', () => {
       ]).then(([person, ...courseInstances]) => {
         ids.person = person.id
         options.preamble.set = ['uid', 'plzkillme3']
-        ids.courseInstances = courseInstances.map(courseInstance => courseInstance.id)
+        ids.courseInstances = courseInstances.map((courseInstance) => courseInstance.id)
         Promise.all([
-          ...courseInstances.map(courseInstance => CoursePerson.create({
+          ...courseInstances.map((courseInstance) => CoursePerson.create({
             personId: person.id,
             course_instance_id: courseInstance.id,
             role: 'STUDENT'
@@ -485,10 +485,10 @@ describe('self_assesment_controller', () => {
             course_instance_id: courseInstances[(index % 2)].id
           }))
         ]).then(([,, ...selfAssesments]) => {
-          ids.selfAssesments = selfAssesments.map(selfAssesment => selfAssesment.id)
-          const activeSelfAssesments = selfAssesments.filter(selfAssesment => selfAssesment.active)
+          ids.selfAssesments = selfAssesments.map((selfAssesment) => selfAssesment.id)
+          const activeSelfAssesments = selfAssesments.filter((selfAssesment) => selfAssesment.active)
           matcher.common = {
-            data: unorderedListMatcher(activeSelfAssesments.map(selfAssesment => ({
+            data: unorderedListMatcher(activeSelfAssesments.map((selfAssesment) => ({
               id: selfAssesment.id,
               structure: selfAssesment.structure,
               open: selfAssesment.open,
@@ -498,19 +498,19 @@ describe('self_assesment_controller', () => {
             })))
           }
           matcher.eng = {
-            data: unorderedListMatcher(activeSelfAssesments.map(selfAssesment => ({
+            data: unorderedListMatcher(activeSelfAssesments.map((selfAssesment) => ({
               name: selfAssesment.eng_name,
               instructions: selfAssesment.eng_instructions
             })))
           }
           matcher.fin = {
-            data: unorderedListMatcher(activeSelfAssesments.map(selfAssesment => ({
+            data: unorderedListMatcher(activeSelfAssesments.map((selfAssesment) => ({
               name: selfAssesment.fin_name,
               instructions: selfAssesment.fin_instructions
             })))
           }
           matcher.swe = {
-            data: unorderedListMatcher(activeSelfAssesments.map(selfAssesment => ({
+            data: unorderedListMatcher(activeSelfAssesments.map((selfAssesment) => ({
               name: selfAssesment.swe_name,
               instructions: selfAssesment.swe_instructions
             })))
@@ -519,7 +519,6 @@ describe('self_assesment_controller', () => {
         }).catch(done)
       }).catch(done)
     })
-
     afterAll((done) => {
       Promise.all([
         CourseInstance.destroy({
@@ -632,7 +631,7 @@ describe('self_assesment_controller', () => {
       common: {
         message: expect.any(String),
         data: {
-          id: asymmetricMatcher(actual => actual === ids.selfAssesment),
+          id: asymmetricMatcher((actual) => actual === ids.selfAssesment),
           structure: data.structure,
           open: data.open,
           active: data.active,
@@ -642,20 +641,20 @@ describe('self_assesment_controller', () => {
       },
       eng: {
         data: {
-          name: data.structure.formInfo.find(element => element.type === 'eng_name').value,
-          instructions: data.structure.formInfo.find(element => element.type === 'eng_instructions').value
+          name: data.structure.formInfo.find((element) => element.type === 'eng_name').value,
+          instructions: data.structure.formInfo.find((element) => element.type === 'eng_instructions').value
         }
       },
       fin: {
         data: {
-          name: data.structure.formInfo.find(element => element.type === 'fin_name').value,
-          instructions: data.structure.formInfo.find(element => element.type === 'fin_instructions').value
+          name: data.structure.formInfo.find((element) => element.type === 'fin_name').value,
+          instructions: data.structure.formInfo.find((element) => element.type === 'fin_instructions').value
         }
       },
       swe: {
         data: {
-          name: data.structure.formInfo.find(element => element.type === 'swe_name').value,
-          instructions: data.structure.formInfo.find(element => element.type === 'swe_instructions').value
+          name: data.structure.formInfo.find((element) => element.type === 'swe_name').value,
+          instructions: data.structure.formInfo.find((element) => element.type === 'swe_instructions').value
         }
       }
     })
@@ -664,13 +663,13 @@ describe('self_assesment_controller', () => {
       options,
       {
         ...data,
-        id: asymmetricMatcher(actual => actual === ids.selfAssesment),
-        eng_name: data.structure.formInfo.find(element => element.type === 'eng_name').value,
-        eng_instructions: data.structure.formInfo.find(element => element.type === 'eng_instructions').value,
-        fin_name: data.structure.formInfo.find(element => element.type === 'fin_name').value,
-        fin_instructions: data.structure.formInfo.find(element => element.type === 'fin_instructions').value,
-        swe_name: data.structure.formInfo.find(element => element.type === 'swe_name').value,
-        swe_instructions: data.structure.formInfo.find(element => element.type === 'swe_instructions').value
+        id: asymmetricMatcher((actual) => actual === ids.selfAssesment),
+        eng_name: data.structure.formInfo.find((element) => element.type === 'eng_name').value,
+        eng_instructions: data.structure.formInfo.find((element) => element.type === 'eng_instructions').value,
+        fin_name: data.structure.formInfo.find((element) => element.type === 'fin_name').value,
+        fin_instructions: data.structure.formInfo.find((element) => element.type === 'fin_instructions').value,
+        swe_name: data.structure.formInfo.find((element) => element.type === 'swe_name').value,
+        swe_instructions: data.structure.formInfo.find((element) => element.type === 'swe_instructions').value
       },
       SelfAssessment,
       {
@@ -698,7 +697,7 @@ describe('self_assesment_controller', () => {
       { attribute: 'open' },
       { attribute: 'show_feedback' }
     ]
-    const options = data.map(dataElement => ({
+    const options = data.map((dataElement) => ({
       method: 'put',
       preamble: {
         set: ['uid', 'mikkoti'],
@@ -752,7 +751,7 @@ describe('self_assesment_controller', () => {
             message: expect.any(String),
             assessment: {
               ...selfAssesmentData,
-              id: asymmetricMatcher(actual => actual === ids.selfAssesment),
+              id: asymmetricMatcher((actual) => actual === ids.selfAssesment),
               [(attributes[index])]: true
             }
           }
@@ -762,7 +761,7 @@ describe('self_assesment_controller', () => {
           optionsElement,
           {
             ...selfAssesmentData,
-            id: asymmetricMatcher(actual => actual === ids.selfAssesment),
+            id: asymmetricMatcher((actual) => actual === ids.selfAssesment),
             [(attributes[index])]: true
           },
           SelfAssessment,

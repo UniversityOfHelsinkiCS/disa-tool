@@ -3,7 +3,6 @@ const logger = require('../utils/logger')
 const { errors } = require('../messages/global.js')
 const { checkPrivilege } = require('../services/privilege')
 
-
 const selfAssesmentService = require('../services/self_assesment_service.js')
 
 const messages = {
