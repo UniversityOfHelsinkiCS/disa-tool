@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { LocalizeProvider } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { Modal, Form, Divider, Button } from 'semantic-ui-react'
-
-import LocalizeWrapper from '../../containers/Localize/LocalizeWrapper'
 
 const ModalForm = (props) => {
   const [expanded, setExpanded] = useState(false)
-
   useEffect(() => {
 if(props.onOpen) {
     props.onOpen()
@@ -31,7 +27,6 @@ if(props.onOpen) {
     }
     collapse()
   }
-
   const actionHandlers = {
     reset: collapse
   }
@@ -63,17 +58,14 @@ if(props.onOpen) {
         <Modal.Header>{props.header}</Modal.Header>
         <Modal.Content>
           <Form onSubmit={handleSubmit} loading={props.loading}>
-            <LocalizeProvider>
-              <LocalizeWrapper>
-                {props.children || props.content}
+<>
                 {props.actions && props.actions.length > 0 ? (
                   <div>
                     <Divider />
                     {props.actions.map(mapAction)}
                   </div>
                 ) : null}
-              </LocalizeWrapper>
-            </LocalizeProvider>
+</>
           </Form>
         </Modal.Content>
       </Modal>
@@ -85,10 +77,12 @@ if(props.onOpen) {
  * Renders default "save" and "cancel buttons".
  * @param {function} translate
  */
-export const saveActions = translate => [
-  <Button color="green" style={{ margin: '0px 15px 0px 15px' }}>{translate('save')}</Button>,
-  <Button type="reset" style={{ margin: '0px 15px 0px 15px' }}>{translate('cancel')}</Button>
-]
+export const saveActions = () => {
+  const {t} = useTranslation("translation")
+  return[
+  <Button color="green" style={{ margin: '0px 15px 0px 15px' }}>{t('common.save')}</Button>,
+  <Button type="reset" style={{ margin: '0px 15px 0px 15px' }}>{t('common.cancel')}</Button>
+]}
 /*
 ModalForm.propTypes = {
   trigger: PropTypes.element.isRequired,
