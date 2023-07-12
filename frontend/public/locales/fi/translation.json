@@ -254,7 +254,7 @@
       "create": "Luo"
     }
   },
-  "CourseList": {
+  "courseList": {
     "CreateInstanceForm": {
       "header": ["Create a new course instance", "Luo uusi kurssi-instanssi"],
       "prompt_1": ["Create a new course instance", "Luo uusi kurssi-instanssi"],
@@ -273,26 +273,23 @@
       "prompt_1": ["Edit course instance", "Muokkaa kurssi-instanssia"]
     },
     "EditCourseForm": {
-      "rename_trigger": ["Rename", "Vaihda nimeä"],
-      "renameCourse": ["Rename this course", "Vaihda kurssin nimeä"],
-      "rename": ["Rename the course", "Kurssin uudelleennimeys"]
+      "rename_trigger": "Vaihda nimeä",
+      "renameCourse": "Vaihda kurssin nimeä",
+      "rename": "Kurssin uudelleennimeys"
     },
     "RegisterForm": {
       "unregister": ["Undo registration", "Peru rekisteröityminen"],
       "register": ["Register", "Rekisteröidy"],
       "require_login": ["requires login", "vaatii sisäänkirjautumisen"]
     },
-    "CourseListPage": {
-      "create_trigger": ["Add", "Lisää"],
-      "state": ["This course is currently", "Tämä kurssi on tällä hetkellä"],
-      "you_are": ["You are on the course", "Olet kurssilla"],
-      "coursepage_button": ["To course page", "Kurssisivulle"],
-      "instance_prompt": [
-        "Now, choose a course instance.",
-        "Valitse vielä kurssi-instanssi."
-      ],
-      "course_prompt": ["First, choose a course", "Valitse ensin kurssi"],
-      "course_select_placeholder": ["choose course...", "valitse kurssi..."]
+    "courseListPage": {
+      "create_trigger": "Lisää",
+      "state": "Tämä kurssi on tällä hetkellä",
+      "you_are": "Olet kurssilla",
+      "coursepage_button": "Kurssisivulle",
+      "instance_prompt": "Valitse vielä kurssi-instanssi.",
+      "course_prompt": "Valitse ensin kurssi",
+      "course_select_placeholder": "valitse kurssi..."
     }
   },
   "SelfAssessment": {

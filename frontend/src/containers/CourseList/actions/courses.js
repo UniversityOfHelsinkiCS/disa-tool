@@ -2,7 +2,7 @@ import * as types from '../../../redux/action_types'
 import { getCourses, editCourse as edit } from '../../../api/courses'
 import apiPromise from '../../../utils/apiPromise';
 
-export const selectCourse = dispatch => id => dispatch({
+export const selectCourse = id => ({
   type: types.COURSELIST_COURSE_SELECT,
   id
 })

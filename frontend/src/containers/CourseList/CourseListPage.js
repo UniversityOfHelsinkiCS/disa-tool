@@ -1,16 +1,11 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { connect, useDispatch,useSelector } from 'react-redux'
+import { Link,useParams, useLocation } from 'react-router-dom'
 import { orderBy } from 'lodash'
 import { Button, Header, List, Grid, Dropdown, Icon, Message, Form } from 'semantic-ui-react'
-import asyncAction from '../../utils/asyncAction'
-
-import parseQueryParams from '../../utils/parseQueryParams'
-
 import { getAllCourses, selectCourse } from './actions/courses'
 import { getInstancesOfCourse, selectInstance, getTemplateInstances } from './actions/courseInstances'
+import parseQueryParams from '../../utils/parseQueryParams'
 
 import CreateInstanceForm from './components/CreateInstanceForm'
 import RegisterForm from './components/RegisterForm'
@@ -18,60 +13,83 @@ import EditInstanceForm from './components/EditInstanceForm'
 import EditCourseForm from './components/EditCourseForm'
 import Conditional from '../../utils/components/Conditional'
 import InfoBox from '../../utils/components/InfoBox'
+import  {useTranslation} from 'react-i18next'
 
-class CourseListPage extends Component {
-  componentDidMount = async () => {
-    await this.props.getAllCourses()
-    const templateCourse = this.props.courses.find(e => ['KURSSIPOHJAT', 'COURSE TEMPLATES', 'KURSMALL'].includes(e.name))
+const CourseListPage = (props) => {
+  const {courses,selectedCourse,selectedInstance,instances} = useSelector(state => state.listCourses)
+  const user = useSelector(state => state.user)
+  const dispatch = useDispatch()
+  const {search} = useLocation()
+  const searchQuery = new URLSearchParams(search)
+
+
+  const getAllCoursesAsync = async () => {
+    const response = await getAllCourses()
+    dispatch(response)
+  }
+
+  const getTemplateInstancesAsync = async () => {
+    const response = await getTemplateInstances()
+    dispatch(response)
+  }
+
+  const getInstancesOfCourseAsync = async (value) => {
+    const response = await getInstancesOfCourse(value)
+    dispatch(response)
+  }
+  
+  useEffect(() => {
+    const asyncUseEffect = async () => {
+    await getAllCoursesAsync()
+    const templateCourse = courses.find(e => ['KURSSIPOHJAT', 'COURSE TEMPLATES', 'KURSMALL'].includes(e.name))
 
     if (templateCourse != null) {
-      await this.props.getTemplateInstances(templateCourse.id)
+      await getTemplateInstancesAsync()
     }
-
-    if (this.props.location.query_params.course) {
-      this.props.selectCourse(Number(this.props.location.query_params.course))
-      await this.props.getInstancesOfCourse(Number(this.props.location.query_params.course))
-      if (this.props.location.query_params.instance) {
-        this.props.selectInstance(Number(this.props.location.query_params.instance))
+    if (search && searchQuery.get('course')) {
+      dispatch(selectCourse(Number(searchQuery.get('course'))))
+     await getInstancesOfCourseAsync(Number(searchQuery.get('course')))
+      if (searchQuery.get('instance')) {
+        dispatch(selectInstance(Number(searchQuery.get('instance'))))
       }
     }
   }
+  asyncUseEffect()
+  },[])
 
-  handleChange = (e, data) => {
-    if (data.value && data.value !== this.props.selectedCourse) {
-      this.props.selectCourse(Number(data.value))
-      this.props.selectInstance(undefined)
-      this.props.getInstancesOfCourse(Number(data.value))
+  const handleChange = (e, data) => {
+    if (data.value && data.value !== selectedCourse) {
+      dispatch(selectCourse(Number(data.value)))
+      dispatch(selectInstance(undefined))
+      getInstancesOfCourseAsync(Number(data.value))
     }
   }
 
-  selectInstance = (e, data) => {
-    this.props.selectInstance(Number(data.value))
+  const handleSelectInstance = (e, data) => {
+    dispatch(selectInstance(Number(data.value)))
   }
 
-  translate = id => this.props.translate(`CourseList.CourseListPage.${id}`)
-
-  render() {
-    const courseOptions = orderBy(this.props.courses.map(course =>
+  const {t} = useTranslation("translation")
+    const courseOptions = orderBy(courses.map(course =>
       ({ key: course.id, text: course.name, value: course.id })), 'text')
     return (
       <Grid padded="vertically">
         <Grid.Row>
           <Grid.Column width={4}>
             <List selection>
-              {this.props.user && (this.props.user.role === 'TEACHER' || this.props.user.role === 'ADMIN') && this.props.selectedCourse ?
+              {user && (user.role === 'TEACHER' || user.role === 'ADMIN') && selectedCourse ?
                 (
                   <List.Item style={{ color: 'green' }}>
-                    <CreateInstanceForm course_id={this.props.selectedCourse.id} />
+                    <CreateInstanceForm course_id={selectedCourse.id} />
                   </List.Item>
                 ) :
                 null
               }
-              {this.props.instances.map(instance => (
+              {instances.map(instance => (
                 <List.Item
                   style={instance.active ? { color: 'blue' } : undefined}
                   key={instance.id}
-                  onClick={this.selectInstance}
+                  onClick={handleSelectInstance}
                   value={instance.id.toString()}
                 >
                   {instance.name}
@@ -86,60 +104,60 @@ class CourseListPage extends Component {
                   fluid
                   search
                   selection
-                  value={this.props.selectedCourse ? this.props.selectedCourse.id : undefined}
+                  value={selectedCourse ? selectedCourse.id : undefined}
                   options={courseOptions}
-                  onChange={this.handleChange}
-                  placeholder={this.translate('course_select_placeholder')}
+                  onChange={handleChange}
+                  placeholder={t('courseList.courseListPage.course_select_placeholder')}
                   selectOnBlur={false}
                   selectOnNavigation={false}
                 />
-                <Conditional visible={this.props.user.role === 'TEACHER' || this.props.user.role === 'ADMIN'}>
+                <Conditional visible={user.role === 'TEACHER' || user.role === 'ADMIN'}>
                   <Button
                     style={{ marginLeft: '10px' }}
                     as={Link}
-                    to="courses/create"
+                    to="/courses/create"
                     labelPosition="left"
                     color="green"
                     icon
                     basic
                   >
-                    {this.translate('create_trigger')}
+                    {t('courseList.courseListPage.create_trigger')}
                     <Icon name="add" color="green" />
                   </Button>
-                <Conditional visible={this.props.user && (this.props.user.role === 'TEACHER' || this.props.user.role === 'ADMIN') && !!this.props.selectedCourse}>
-                  <EditCourseForm course_id={this.props.selectedCourse ? this.props.selectedCourse.id : undefined} />
+                <Conditional visible={user && (user.role === 'TEACHER' || user.role === 'ADMIN') && !!selectedCourse}>
+                  <EditCourseForm course_id={selectedCourse ? selectedCourse.id : undefined} />
                 </Conditional>
                 </Conditional>
                 <InfoBox translationid="CoursesPage" buttonProps={{ floated: 'right' }} />
               </Form.Group>
             </Form>
-            {this.props.selectedCourse ?
+            {selectedCourse ?
               <div>
-                {this.props.selectedInstance ?
+                {selectedInstance ?
                   <div>
                     <div style={{ display: 'flex' }}>
-                      <h2 style={{ flexGrow: 1 }}>{this.props.selectedInstance.name}</h2>
-                      {this.props.selectedInstance.registered === 'TEACHER' ? (
-                        <EditInstanceForm course_instance_id={this.props.selectedInstance.id} />
+                      <h2 style={{ flexGrow: 1 }}>{selectedInstance.name}</h2>
+                      {selectedInstance.registered === 'TEACHER' ? (
+                        <EditInstanceForm course_instance_id={selectedInstance.id} />
                       ) : null}
                     </div>
-                    <Header as="h2" color={this.props.selectedInstance.active ? 'green' : 'red'}>
-                      <Header.Subheader style={{ display: 'inline' }}>{this.translate('state')} </Header.Subheader>
-                      {this.props.selectedInstance.active ? (
-                        <span><b>{this.translate('open')}</b></span>
+                    <Header as="h2" color={selectedInstance.active ? 'green' : 'red'}>
+                      <Header.Subheader style={{ display: 'inline' }}>{t('courseList.courseListPage.state')} </Header.Subheader>
+                      {selectedInstance.active ? (
+                        <span><b>{t('common.open')}</b></span>
                       ) : (
-                        <span><b>{this.translate('closed')}</b></span>
+                        <span><b>{t('common.closed')}</b></span>
                       )}
                     </Header>
-                    <Conditional visible={!!this.props.selectedInstance.registered}>
-                      <Message info>{this.translate('you_are')}
+                    <Conditional visible={!!selectedInstance.registered}>
+                      <Message info>{t('courseList.courseListPage.you_are')}
                       </Message>
                     </Conditional>
                     <List>
                       <List.Item>
-                        <Conditional visible={!!this.props.selectedInstance.registered}>
-                          <Button fluid as={Link} to={`/user/course/${this.props.selectedInstance.id}`}>
-                            {this.translate('coursepage_button')}
+                        <Conditional visible={!!selectedInstance.registered}>
+                          <Button fluid as={Link} to={`/user/course/${selectedInstance.id}`}>
+                            {t('courseList.courseListPage.coursepage_button')}
                           </Button>
                         </Conditional>
                       </List.Item>
@@ -147,35 +165,34 @@ class CourseListPage extends Component {
                         <Button
                           fluid
                           as={Link}
-                          to={`/courses/matrix/${this.props.selectedInstance.id}`}
+                          to={`/courses/matrix/${selectedInstance.id}`}
                           color="blue"
                           basic
-                          content={this.translate('course_matrix')}
+                          content={t('common.course_matrix')}
                         />
                       </List.Item>
-                      <Conditional visible={this.props.selectedInstance.active}>
+                      <Conditional visible={selectedInstance.active}>
                         <List.Item>
                           <RegisterForm
-                            registered={this.props.selectedInstance.registered}
-                            courseId={this.props.selectedCourse.id}
-                            instanceId={this.props.selectedInstance.id}
+                            registered={selectedInstance.registered}
+                            courseId={selectedCourse.id}
+                            instanceId={selectedInstance.id}
                           />
                         </List.Item>
                       </Conditional>
                     </List>
                   </div> :
-                  <Message info>{this.translate('instance_prompt')}</Message>
+                  <Message info>{t('courseList.courseListPage.instance_prompt')}</Message>
                 }
               </div> :
-              <Message info>{this.translate('course_prompt')}</Message>
+              <Message info>{t('courseList.courseListPage.course_prompt')}</Message>
             }
           </Grid.Column>
         </Grid.Row>
       </Grid>
     )
-  }
 }
-
+/*
 CourseListPage.propTypes = {
   courses: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -207,30 +224,12 @@ CourseListPage.propTypes = {
     role: PropTypes.string,
     id: PropTypes.number
   }).isRequired,
-  translate: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired
 }
-
+*/
 CourseListPage.defaultProps = {
   selectedCourse: null,
   selectedInstance: null
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  user: state.user,
-  userCourses: state.courses,
-  courses: state.listCourses.courses,
-  instances: state.listCourses.instances,
-  selectedCourse: state.listCourses.selectedCourse,
-  selectedInstance: state.listCourses.selectedInstance,
-  location: parseQueryParams(ownProps.location)
-})
-
-const mapDispatchToProps = dispatch => ({
-  getAllCourses: asyncAction(getAllCourses, dispatch),
-  getInstancesOfCourse: asyncAction(getInstancesOfCourse, dispatch),
-  getTemplateInstances: asyncAction(getTemplateInstances, dispatch),
-  selectCourse: selectCourse(dispatch),
-  selectInstance: selectInstance(dispatch)
-})
-
-export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(CourseListPage))
+export default connect()(CourseListPage)
