@@ -7,7 +7,7 @@ import asyncAction from '../../../utils/asyncAction'
 import { getCourse } from '../../../api/courses'
 import { editCourse, getAllCourses } from '../actions/courses'
 
-import ModalForm, { saveActions } from '../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../utils/components/NewModalForm'
 import MultilingualField from '../../../utils/components/MultilingualField'
 import { useTranslation } from 'react-i18next'
 
@@ -63,13 +63,13 @@ export const EditCourseForm = (props) => {
     setLoading(false)
   }
 
-  const {t} = useTranslation('translation', {keyPrefix: 'courseList.editCourseForm'})
+  const {t} = useTranslation('translation')
 
-    const contentPrompt = t('renameCourse')
+    const contentPrompt = t('courseList.editCourseForm.renameCourse')
     return (
       <div className="EditCourseForm">
         <ModalForm
-          header={t('rename')}
+          header={t('courseList.editCourseForm.rename')}
           trigger={<Button
             style={{margin: "10px"}}
             type="button"
@@ -78,15 +78,15 @@ export const EditCourseForm = (props) => {
             basic
             compact
           >
-            {t('rename_trigger')}
+            {t('courseList.editCourseForm.rename_trigger')}
           </Button>}
           onSubmit={editCourseSubmit}
-          actions={saveActions(t)}
+          actions={saveActions()}
           loading={loading}
           onOpen={loadDetails}
         >
           <p>{contentPrompt}.</p>
-          <MultilingualField field="name" fieldDisplay={t('name')} values={values.name} />
+          <MultilingualField field="name" fieldDisplay={t('common.name')} values={values.name} />
         </ModalForm>
       </div>
     )
@@ -99,4 +99,4 @@ EditCourseForm.propTypes = {
 }
 */
 
-export default withLocalize(connect()(EditCourseForm))
+export default connect()(EditCourseForm)

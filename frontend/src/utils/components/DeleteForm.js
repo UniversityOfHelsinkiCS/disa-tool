@@ -4,7 +4,7 @@ import { Button } from 'semantic-ui-react'
 import ModalForm from './ModalForm'
 import { useTranslation } from 'react-i18next'
 
-export const DeleteForm = () => {
+export const DeleteForm = (props) => {
 
   const {t} = useTranslation("translation", {keyPrefix: "utils.components.DeleteForm."})
 

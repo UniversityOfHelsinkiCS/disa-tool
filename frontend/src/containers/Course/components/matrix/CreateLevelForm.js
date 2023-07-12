@@ -11,6 +11,7 @@ import MultilingualField from '../../../../utils/components/MultilingualField'
 import { useTranslation } from 'react-i18next'
 
 export const CreateLevelForm = (props) => {
+  const dispatch = useDispatch()
   const addLevelSubmit = async (e) => {
     const response = await addLevel({
       course_instance_id: props.courseId,
