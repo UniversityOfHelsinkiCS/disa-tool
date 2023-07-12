@@ -21,7 +21,6 @@ export const CreateInstanceForm = (props) => {
     })
     dispatch(response)
   }
-console.log(instances,templateInstances)
   const {t} = useTranslation('translation')
     const contentPrompt = t('courseList.createInstanceForm.prompt_1')
     return (

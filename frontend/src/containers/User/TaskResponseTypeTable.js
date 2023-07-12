@@ -46,7 +46,6 @@ const TaskResponseTypeTable = (props) => {
               {updatedHeaders.filter(upH => 
                 upH.id === selected).map(header =>
                  header.types.map(type => {
-                  console.log(header)
                   return(
                  <Table.HeaderCell key={type.id}>
                   <Button onClick={selectType} color={type.updated ? 'red' : 'grey'}>{type.name}</Button>
