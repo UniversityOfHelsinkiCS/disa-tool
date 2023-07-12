@@ -1,13 +1,13 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
 import { Link } from 'react-router-dom'
 import { Button, Segment, Header } from 'semantic-ui-react'
 import './header.css'
+import {useTranslation} from 'react-i18next'
 
 export const CourseHeader = (props) => {
-  const translate = id => props.translate(`Course.header.CourseHeader.${id}`)
   const {course} = useSelector(state => state.course)
+  const {t} = useTranslation("translation", {keyPrefix: "course.header.courseHeader"})
   return (
     <div className="CourseHeader" id="course-header-container">
       <Segment>
@@ -19,7 +19,7 @@ export const CourseHeader = (props) => {
             color="blue"
             floated="left"
             icon="backward"
-            content={translate('back_button')}
+            content={t('back_button')}
           />) : null}
           {course.name}
         </Header>
@@ -37,4 +37,4 @@ CourseHeader.propTypes = {
   translate: func.isRequired
 }
 */
-export default withLocalize(CourseHeader)
+export default CourseHeader

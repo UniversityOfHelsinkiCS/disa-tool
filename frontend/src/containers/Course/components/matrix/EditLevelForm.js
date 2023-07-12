@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
@@ -8,73 +8,70 @@ import asyncAction from '../../../../utils/asyncAction'
 import { details } from '../../../../api/skillLevels'
 import { editLevel } from '../../actions/levels'
 
-import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/NewModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
+import { useTranslation } from 'react-i18next'
 
-class EditLevelForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: true,
-      values: {
-        name: {
-          eng: '',
-          fin: '',
-          swe: ''
-        }
-      }
+const EditLevelForm = (props) =>  {
+  const [values, setValues] = useState({
+    name: {
+      eng: '',
+      fin: '',
+      swe: ''
     }
-  }
+  })
+const [loading, setLoading] = useState(true)
+const dispatch = useDispatch()
 
-  editLevelSubmit = e => this.props.editLevel({
-    id: this.props.levelId,
+  const editLevelSubmit = async (e) => {
+    
+    const response = await editLevel({
+    id: props.levelId,
     eng_name: e.target.eng_name.value,
     fin_name: e.target.fin_name.value,
     swe_name: e.target.swe_name.value
   })
+  dispatch(response)
 
-  loadDetails = async () => {
-    const levelDetails = (await this.props.details({
-      id: this.props.levelId
+}
+  const loadDetails = async () => {
+    const levelDetails = (await props.details({
+      id: props.levelId
     })).data.data
-    this.setState({
-      loading: false,
-      values: {
-        name: {
-          eng: levelDetails.eng_name,
-          fin: levelDetails.fin_name,
-          swe: levelDetails.swe_name
-        }
+    setValues({
+      name: {
+        eng: levelDetails.eng_name,
+        fin: levelDetails.fin_name,
+        swe: levelDetails.swe_name
       }
     })
+    setLoading(false)
   }
 
-  translate = id => this.props.translate(`Course.matrix.EditLevelForm.${id}`)
+  const {t} = useTranslation("translation", {keyPrefix: "Course.matrix.EditLevelForm."})
 
-  render() {
     return (
       <div className="EditLevelForm">
         <ModalForm
-          header={this.translate('header')}
-          trigger={<Button basic circular onClick={this.loadDetails} icon={{ name: 'edit' }} size="mini" />}
-          onSubmit={this.editLevelSubmit}
-          loading={this.state.loading}
-          actions={saveActions(this.translate)}
+          header={t('header')}
+          trigger={<Button basic circular onClick={loadDetails} icon={{ name: 'edit' }} size="mini" />}
+          onSubmit={editLevelSubmit}
+          loading={loading}
+          actions={saveActions()}
         >
-          <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />
+          <MultilingualField field="name" fieldDisplay={t('name')} values={values.name} />
         </ModalForm>
       </div>
     )
   }
-}
-
+/*
 EditLevelForm.propTypes = {
   editLevel: PropTypes.func.isRequired,
   levelId: PropTypes.number.isRequired,
   details: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired
 }
-
+*/
 const mapDispatchToProps = dispatch => ({
   editLevel: asyncAction(editLevel, dispatch),
   details

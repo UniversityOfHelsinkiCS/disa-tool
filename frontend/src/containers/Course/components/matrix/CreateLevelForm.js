@@ -1,55 +1,49 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { connect, useDispatch } from 'react-redux'
 import { Table, Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { addLevel } from '../../actions/levels'
 
-import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/NewModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
+import { useTranslation } from 'react-i18next'
 
-export class CreateLevelForm extends Component {
-  addLevelSubmit = (e) => {
-    this.props.addLevel({
-      course_instance_id: this.props.courseId,
+export const CreateLevelForm = (props) => {
+  const addLevelSubmit = async (e) => {
+    const response = await addLevel({
+      course_instance_id: props.courseId,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
       swe_name: e.target.swe_name.value,
-      order: this.props.newOrder
+      order: props.newOrder
     })
+    dispatch(response)
   }
 
-  translate = id => this.props.translate(`Course.matrix.CreateLevelForm.${id}`)
+  const {t} = useTranslation("translation", {keyPrefix: "course.matrix.createLevelForm"})
 
-  render() {
-    const contentPrompt = this.translate('prompt_1')
     return (
       <Table.HeaderCell className="CreateLevelForm">
         <ModalForm
-          header={this.translate('header')}
+          header={t('header')}
           trigger={<Button basic className="addLevelButton" icon={{ name: 'add' }} />}
-          actions={saveActions(this.translate)}
-          onSubmit={this.addLevelSubmit}
+          actions={saveActions()}
+          onSubmit={addLevelSubmit}
         >
-          <p>{contentPrompt}.</p>
-          <MultilingualField field="name" fieldDisplay={this.translate('name')} />
+          <p>{t('prompt_1')}.</p>
+          <MultilingualField field="name" fieldDisplay={t('name')} />
         </ModalForm>
       </Table.HeaderCell>
     )
   }
-}
-
+/*
 CreateLevelForm.propTypes = {
   courseId: PropTypes.number.isRequired,
   addLevel: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
   newOrder: PropTypes.number.isRequired
 }
-
-const mapDispatchToProps = dispatch => ({
-  addLevel: asyncAction(addLevel, dispatch)
-})
-
-export default connect(null, mapDispatchToProps)(withLocalize(CreateLevelForm))
+*/
+export default connect()(CreateLevelForm)

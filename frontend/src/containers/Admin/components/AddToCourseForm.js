@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect,useDispatch,useSelector } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Button, Dropdown, Form, Label } from 'semantic-ui-react'
 import asyncAction from '../../../utils/asyncAction'
@@ -10,87 +10,100 @@ import { getInstancesOfCourse, selectInstance } from '../../CourseList/actions/c
 import { addPersonToCourse } from '../actions/coursePersons'
 
 import ModalForm, { saveActions } from '../../../utils/components/ModalForm'
+import { useTranslation } from 'react-i18next'
 
-class AddToCourseForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      role: 'STUDENT'
-    }
+const AddToCourseForm = (props) => {
+  const [role, setRole] = useState('STUDENT')
+  const dispatch = useDispatch()
+  const alreadyOnCourse = ownProps.person.course_people.reduce((acc, curr) => ({
+    ...acc,
+    [curr.course_instance_id]: true
+  }), {})
+  const {courses,selectedInstance,selectedCourse} = useSelector(state => state.listCourses)
+  const {instances} = useSelector(state => state.listCourses.instances.filter(instance => !alreadyOnCourse[instance.id]))
+
+  const getAllCoursesAsync = async () => {
+    const response = await getAllCourses()
+    dispatch(response)
   }
 
-  onModalOpen = () => {
-    this.props.getAllCourses()
-    this.props.selectInstance(null)
+  const getInstancesOfCourseAsync = async (value) => {
+    const response = await getInstancesOfCourse(value)
+    dispatch(response)
   }
 
-  addToCourseSubmit = () => {
-    if (!this.props.selectedInstance) return
-    this.props.addPersonToCourse({
-      courseInstanceId: this.props.selectedInstance.id,
-      personId: this.props.person.id,
-      role: this.state.role,
-      course_instance: { name: this.props.selectedInstance.name }
+ const onModalOpen = async () => {
+   await getAllCoursesAsync()
+    dispatch(selectInstance(null))
+  }
+
+  const addToCourseSubmit = () => {
+    if (!props.selectedInstance) return
+    props.addPersonToCourse({
+      courseInstanceId: selectedInstance.id,
+      personId: props.person.id,
+      role: state.role,
+      course_instance: { name: selectedInstance.name }
     })
   }
 
-  changeCourse = (e, { value }) => {
-    if (value && value !== this.props.selectedCourse) {
-      this.props.selectCourse(value)
-      this.props.selectInstance(undefined)
-      this.props.getInstancesOfCourse(value)
+  const changeCourse = (e, { value }) => {
+    if (value && value !== props.selectedCourse) {
+      dispatch(selectCourse(value))
+      dispatch(selectInstance(undefined))
+      getInstancesOfCourseAsync(value)
     }
   }
 
-  changeInstance = (e, { value }) => this.props.selectInstance(value)
+  const changeInstance = (e, { value }) => dispatch(selectInstance(value))
 
-  changeRole = role => () => this.setState({ role })
+  const changeRole = role => () => setRole(role)
 
-  translate = id => this.props.translate(`Admin.AddToCourseForm.${id}`)
+  const  {t} = useTranslation("translation", {keyPrefix: "Admin.AddToCourseForm"})
 
-  render() {
+
     const contentPrompt = [
-      this.translate('prompt_1'),
-      this.props.person.name,
-      this.translate('prompt_2')
+      t('prompt_1'),
+      props.person.name,
+      t('prompt_2')
     ].join(' ')
-    const actions = saveActions(this.translate)
-    if (!this.props.selectedInstance) {
+    const actions = saveActions(t)
+    if (!selectedInstance) {
       const index = actions.findIndex(action => !action.props.type)
       actions[index] = React.cloneElement(actions[index], { disabled: true })
     }
     return (
       <div className="AddToCourseForm">
         <ModalForm
-          header={this.translate('header')}
-          trigger={<Button color="blue">{this.translate('trigger')}</Button>}
-          onOpen={this.onModalOpen}
+          header={t('header')}
+          trigger={<Button color="blue">{t('trigger')}</Button>}
+          onOpen={onModalOpen}
           actions={actions}
-          onSubmit={this.addToCourseSubmit}
+          onSubmit={addToCourseSubmit}
         >
           <p>{contentPrompt}.</p>
           <Form.Field inline>
-            <Label>{this.translate('course')}</Label>
+            <Label>{t('course')}</Label>
             <Dropdown
               selection
               fluid
-              onChange={this.changeCourse}
-              value={this.props.selectedCourse ? this.props.selectedCourse.id : undefined}
-              options={this.props.courses.map(course => ({
+              onChange={changeCourse}
+              value={selectedCourse ? selectedCourse.id : undefined}
+              options={courses.map(course => ({
                 key: course.id,
                 text: course.name,
                 value: course.id
               }))}
             />
           </Form.Field>
-          <Form.Field inline disabled={!this.props.selectedCourse}>
-            <Label>{this.translate('instance')}</Label>
+          <Form.Field inline disabled={!selectedCourse}>
+            <Label>{t('instance')}</Label>
             <Dropdown
               selection
               fluid
-              onChange={this.changeInstance}
-              value={this.props.selectedInstance ? this.props.selectedInstance.id : undefined}
-              options={this.props.instances.map(instance => ({
+              onChange={changeInstance}
+              value={selectedInstance ? selectedInstance.id : undefined}
+              options={instances.map(instance => ({
                 key: instance.id,
                 text: instance.name,
                 value: instance.id
@@ -101,19 +114,19 @@ class AddToCourseForm extends Component {
             <Button.Group>
               <Button
                 type="button"
-                onClick={this.changeRole('STUDENT')}
-                inverted={this.state.role !== 'STUDENT'}
+                onClick={changeRole('STUDENT')}
+                inverted={state.role !== 'STUDENT'}
                 color="green"
               >
-                {this.translate('student_button')}
+                {t('student_button')}
               </Button>
               <Button
                 type="button"
-                onClick={this.changeRole('TEACHER')}
-                inverted={this.state.role !== 'TEACHER'}
+                onClick={changeRole('TEACHER')}
+                inverted={role !== 'TEACHER'}
                 color="green"
               >
-                {this.translate('teacher_button')}
+                {t('teacher_button')}
               </Button>
             </Button.Group>
           </Form.Field>
@@ -121,10 +134,9 @@ class AddToCourseForm extends Component {
       </div>
     )
   }
-}
-
+/*
 AddToCourseForm.propTypes = {
-  translate: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
   person: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
@@ -154,7 +166,7 @@ AddToCourseForm.propTypes = {
   getInstancesOfCourse: PropTypes.func.isRequired,
   addPersonToCourse: PropTypes.func.isRequired
 }
-
+*/
 AddToCourseForm.defaultProps = {
   selectedCourse: null,
   selectedInstance: null
