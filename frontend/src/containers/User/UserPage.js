@@ -30,6 +30,9 @@ const UserPage = (props) => {
   const [selectedType, setSelectedType] = useState(undefined)
   const {courseId} = useParams()
   const dispatch = useDispatch()
+
+  const {t,i18n} = useTranslation("translation",{keyPrefix: 'userPage.common'})
+
   
   let course = null
   useEffect(() => {
@@ -41,6 +44,7 @@ const UserPage = (props) => {
         await getCourseInstanceDataAction(courseId,dispatch)
       }
         setLoading(false)
+        course = courses.find(c => c.id === courseId)
     }
     onMount()
     return(() => {
@@ -48,13 +52,7 @@ const UserPage = (props) => {
       dispatch(resetCourseInstanceAction)
     }
     })
-  },[courseId])
-
-  useEffect(() => {
-    course = courses.find(c => c.id === courseId)
-  },[courses])
-
-  const {t} = useTranslation("translation",{keyPrefix: 'userPage.common'})
+  },[courseId,i18n.language])
 
   const handleActivityToggle = async () => {
     await toggleCourseActivityAction(activeCourse.id,dispatch)

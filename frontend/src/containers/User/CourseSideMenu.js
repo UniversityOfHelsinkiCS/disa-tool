@@ -22,7 +22,7 @@ const renderCourseMenuItem = (course, activeCourse, handleChange) => {
 )
 }
 
-const CourseSideMenu = ({ courses, activeCourse, handleChange, translate }) => {
+const CourseSideMenu = ({ courses, activeCourse, handleChange }) => {
   const {t} = useTranslation('translation', {keyPrefix: 'userPage.courseSideMenu'})
   const coursesSorted = orderBy(courses, 'name')
   const activeCourses = coursesSorted.filter(course => course.active)

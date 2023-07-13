@@ -5,8 +5,6 @@ import { orderBy } from 'lodash'
 import { Button, Header, List, Grid, Dropdown, Icon, Message, Form } from 'semantic-ui-react'
 import { getAllCourses, selectCourse } from './actions/courses'
 import { getInstancesOfCourse, selectInstance, getTemplateInstances } from './actions/courseInstances'
-import parseQueryParams from '../../utils/parseQueryParams'
-
 import CreateInstanceForm from './components/CreateInstanceForm'
 import RegisterForm from './components/RegisterForm'
 import EditInstanceForm from './components/EditInstanceForm'
@@ -22,6 +20,7 @@ const CourseListPage = (props) => {
   const {search} = useLocation()
   const searchQuery = new URLSearchParams(search)
 
+  const {t, i18n} = useTranslation("translation")
 
   const getAllCoursesAsync = async () => {
     const response = await getAllCourses()
@@ -55,7 +54,7 @@ const CourseListPage = (props) => {
     }
   }
   asyncUseEffect()
-  },[])
+  },[i18n.language])
 
   const handleChange = (e, data) => {
     if (data.value && data.value !== selectedCourse) {
@@ -69,7 +68,6 @@ const CourseListPage = (props) => {
     dispatch(selectInstance(Number(data.value)))
   }
 
-  const {t} = useTranslation("translation")
     const courseOptions = orderBy(courses.map(course =>
       ({ key: course.id, text: course.name, value: course.id })), 'text')
     return (
@@ -87,8 +85,8 @@ const CourseListPage = (props) => {
               }
               {instances.map(instance => (
                 <List.Item
+                  key={`${i18n.language}-${instance.id}`}
                   style={instance.active ? { color: 'blue' } : undefined}
-                  key={instance.id}
                   onClick={handleSelectInstance}
                   value={instance.id.toString()}
                 >
