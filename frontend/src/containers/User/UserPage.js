@@ -35,11 +35,11 @@ const UserPage = (props) => {
   useEffect(() => {
     const onMount = async () => {
       setLoading(true)
-      dispatch(getUserCoursesAction())
-      dispatch(getUserSelfAssesments())
+      await getUserCoursesAction(dispatch)
+      await getUserSelfAssesments(user,dispatch)
       if (courseId) {
         await getCourseInstanceDataAction(courseId,dispatch)
-        }
+      }
         setLoading(false)
     }
     onMount()
@@ -57,7 +57,7 @@ const UserPage = (props) => {
   const {t} = useTranslation("translation",{keyPrefix: 'userPage.common'})
 
   const handleActivityToggle = async () => {
-    props.dispatchToggleActivity(activeCourse.id)
+    await toggleCourseActivityAction(activeCourse.id,dispatch)
     .then(res => console.log(res))
     .catch(err => console.log(err))
   }
@@ -66,7 +66,7 @@ const UserPage = (props) => {
     // setState({ activeCourse: course })
     // Fetch all relevant course information: tasks with responses & assessments with responses.
     if (!loading && courseId) {
-      dispatch(getCourseInstanceDataAction(course.id))
+      await getCourseInstanceDataAction(course.id,dispatch)
     }
   }
 
@@ -74,19 +74,16 @@ const UserPage = (props) => {
  const toggleAssessment = (e, { value }) => {
     switch (e.target.name) {
       case 'assessmentHidden':
-        dispatch(setAssessmentStatusAction(value, [{ name: 'open', value: false }, { name: 'active', value: false }]))
-        [{ name: 'open', value: false }, { name: 'active', value: false }]
+        setAssessmentStatusAction(value, [{ name: 'open', value: false }, { name: 'active', value: false }],dispatch)
         break
       case 'assessmentShown':
-        dispatch(setAssessmentStatusAction(value, [{ name: 'open', value: false }, { name: 'active', value: true }]))
-        [{ name: 'open', value: false }, { name: 'active', value: true }]
+        setAssessmentStatusAction(value, [{ name: 'open', value: false }, { name: 'active', value: true }],dispatch)
         break
       case 'assessmentOpen':
-        dispatch(setAssessmentStatusAction(value, [{ name: 'open', value: true }, { name: 'active', value: true }]))
-        [{ name: 'open', value: true }, { name: 'active', value: true }]
+        setAssessmentStatusAction(value, [{ name: 'open', value: true }, { name: 'active', value: true }],dispatch)
         break
       case 'feedbackOpen':
-        props.dispatchToggleAssessment(value, 'show_feedback')
+        toggleAssessmentAction(value, 'show_feedback',dispatch)
         break
       default:
         console.log('Something went wrong here now')
@@ -234,12 +231,4 @@ UserPage.propTypes = {
 }
 */
 
-export default connect(null, {
-  dispatchGetUserCourses: getUserCoursesAction,
-  dispatchGetUserSelfAssesments: getUserSelfAssesments,
-  dispatchGetCourseInstanceData: getCourseInstanceDataAction,
-  dispatchToggleActivity: toggleCourseActivityAction,
-  dispatchToggleAssessment: toggleAssessmentAction,
-  dispatchSetAssessmentStatus: setAssessmentStatusAction,
-  dispatchResetCourseInstance: resetCourseInstanceAction
-})(UserPage)
+export default connect()(UserPage)

@@ -1,7 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
 import { Grid, Segment, Header } from 'semantic-ui-react'
 
 import asyncAction from '../../../../utils/asyncAction'
@@ -22,6 +20,10 @@ export const Task = (props) => {
     asyncAction(removeTask(id), dispatch)
   }
 
+  const updateCourseInfo = async (courseId) => {
+    await getCourseInstanceDataAction(courseId, dispatch)
+  }
+
     return (
       <Segment
         className="Task"
@@ -37,7 +39,7 @@ export const Task = (props) => {
               <DeleteForm
                 onExecute={() => {
                   removeTaskAsync({ id: props.task.id })
-                    .then(() => { dispatch(updateCourseInfo(props.courseId)) })
+                    .then(() => { updateCourseInfo(props.courseId) })
                 }}
                 prompt={[
                   t('deletePrompt1'),

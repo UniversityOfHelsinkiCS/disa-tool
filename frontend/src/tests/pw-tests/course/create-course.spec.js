@@ -74,8 +74,18 @@ test('You can create a course - multilingual', async ({ page }) => {
   await page.getByRole('button', { name: 'Tallenna' }).click();
   await expect(page).toHaveScreenshot("course-in-finnish-visible.png");
   await page.getByRole('button', { name: 'Kurssisivulle' }).click();
-  await page.getByText('SuomiSuomiSvenskaEnglish').click();
+  await expect(page.getByRole('link', { name: 'Monikielinen kurssi instanssi - suomi' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Monikielinen kurssi instanssi - suomi' })).toBeVisible();
+  await expect(page.getByText('Kurssin opettajatKimg Jon-un')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Tämä kurssi on suljettu' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Kurssin tavoitematriisi' })).toBeVisible();
+  await page.getByText('SuomiSuomiSvenskaEnglish').click()
   await page.getByRole('option', { name: 'English' }).click();
   page.reload()
+  await expect(page.getByRole('link', { name: 'Monikielinen kurssi instanssi - english' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Monikielinen kurssi instanssi - english' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Course-objective matrix' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'This course is closed' })).toBeVisible();
+  await expect(page.getByText('Course teachersKimg Jon-un')).toBeVisible();
   //await page.goto('http://localhost:8080/user/course/54');
   await expect(page).toHaveScreenshot("course-in-english-visible.png");})

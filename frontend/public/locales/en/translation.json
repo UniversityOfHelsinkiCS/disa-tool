@@ -403,7 +403,7 @@
       "active_courses": "Open courses",
       "closed_courses": "Closed courses"
     },
-    "CourseInfo": {
+    "courseInfo": {
       "edit_self_assessments": "Edit self-asseessments",
       "edit_course": "Edit course",
       "close_course": "Course open",
@@ -411,7 +411,7 @@
       "start_course": "Course closed",
       "course_teachers": "Course teachers",
       "this_course_is": "This course is ",
-      "Links": {
+      "links": {
         "course_links": "Show course links",
         "registration": "Registration: ",
         "matrix": "Matrix: ",

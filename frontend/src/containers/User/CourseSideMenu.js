@@ -28,7 +28,7 @@ const CourseSideMenu = ({ courses, activeCourse, handleChange, translate }) => {
   const activeCourses = coursesSorted.filter(course => course.active)
   const closedCourses = coursesSorted.filter(course => !course.active)
   return (
-    <Menu fluid vertical tabular>
+    <Menu name="course-side-menu" fluid vertical tabular>
       <Menu.Item>
         <Header as="h4" color="green">{t('active_courses')}</Header>
       </Menu.Item>

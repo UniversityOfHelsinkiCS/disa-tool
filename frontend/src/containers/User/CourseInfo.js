@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import { arrayOf, bool, func, number, shape, string } from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Button, Grid, Header, List, Icon } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
@@ -15,7 +14,7 @@ export const CourseInfo = (props) => {
     <Fragment>
       <Grid.Row>
         <Grid.Column>
-          <Header as="h1" floated="left">
+          <Header name="course-info-header" as="h1" floated="left">
             {course.name}
           </Header>
           <Conditional visible={props.isTeacher}>{
@@ -77,7 +76,7 @@ export const CourseInfo = (props) => {
         <Conditional visible={!!props.teachers}>
           <Grid.Column>
             <Header as="h3">{t('userPage.courseInfo.course_teachers')}</Header>
-            <List>
+            <List name="course-info-teacher-list">
               {props.teachers.map(teacher => (
                 <List.Item key={teacher.id}>
                   {teacher.name}
@@ -90,7 +89,7 @@ export const CourseInfo = (props) => {
     </Fragment>
   )
 }
-
+/*
 CourseInfo.propTypes = {
   course: shape({
     id: number.isRequired,
@@ -106,5 +105,5 @@ CourseInfo.propTypes = {
   toggleActivation: func.isRequired,
   translate: func.isRequired
 }
-
+*/
 export default CourseInfo

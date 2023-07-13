@@ -40,7 +40,7 @@ export const getAssesmentResponseAction = assesmentId => async (dispatch) => {
   }
 }
 
-export const getUserAction = () => async (dispatch) => {
+export const getUserAction = async (dispatch) => {
   dispatch({
     type: types.USER_GET_ATTEMPT,
     payload: {}
@@ -78,7 +78,7 @@ export const getAllCoursesAction = () => async (dispatch) => {
   }
 }
 
-export const getUserCoursesAction = () => async (dispatch) => {
+export const getUserCoursesAction = async (dispatch) => {
   dispatch({
     type: types.USER_GET_COURSES_ATTEMPT,
     payload: ''
@@ -136,7 +136,7 @@ export const createForm = assessmentData => async (dispatch) => {
   }
 }
 
-export const getUserSelfAssesments = user => async (dispatch) => {
+export const getUserSelfAssesments = async (user,dispatch) => {
   dispatch({
     type: types.GET_ALL_USER_SELFASSESMENTS_ATTEMPT,
     payload: ''
@@ -216,7 +216,7 @@ export const resetCourseInstanceAction = () => async (dispatch) => {
   })
 }
 
-export const toggleCourseActivityAction = courseId => async (dispatch) => {
+export const toggleCourseActivityAction = async (courseId,dispatch) => {
   dispatch({
     type: types.COURSE_INSTANCE_TOGGLE_ACTIVITY_ATTEMPT,
     payload: courseId
@@ -235,7 +235,7 @@ export const toggleCourseActivityAction = courseId => async (dispatch) => {
   }
 }
 
-export const toggleAssessmentAction = (assessmentId, attribute) => async (dispatch) => {
+export const toggleAssessmentAction = async (assessmentId, attribute, dispatch) => {
   dispatch({
     type: types.SELF_ASSESSMENT_TOGGLE_ATTEMPT,
     payload: assessmentId
@@ -254,7 +254,7 @@ export const toggleAssessmentAction = (assessmentId, attribute) => async (dispat
   }
 }
 
-export const setAssessmentStatusAction = (assessmentId, attributes) => async (dispatch) => {
+export const setAssessmentStatusAction = async (assessmentId, attributes,dispatch) => {
   dispatch({
     type: types.SELF_ASSESSMENT_STATUS_ATTEMPT,
     payload: assessmentId

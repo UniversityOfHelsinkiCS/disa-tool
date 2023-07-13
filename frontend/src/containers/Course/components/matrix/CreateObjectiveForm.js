@@ -16,7 +16,7 @@ export const CreateObjectiveForm = (props) => {
         eng_name: e.target.eng_name.value,
         fin_name: e.target.fin_name.value,
         swe_name: e.target.swe_name.value,
-        skill_level_id: props.level.id,
+        skill_level_id: props.levelId,
         category_id: props.category.id,
         course_instance_id: props.courseId,
         order: props.newOrder
@@ -24,7 +24,8 @@ export const CreateObjectiveForm = (props) => {
       dispatch(response)
     }
     const {t} = useTranslation("translation", {keyPrefix: "course.matrix.createObjectiveForm"})
-
+    console.log("props", props)
+    console.log("level", level)
       const contentPrompt = [
         t('prompt_1'),
         `"${props.category.name}"`,

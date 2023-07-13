@@ -29,7 +29,7 @@ export const AddTaskForm = ({courseId, newOrder}) => {
     })
     await dispatch(addTaskPromise)
     
-    dispatch(getCourseInstanceDataAction(courseId))
+    await getCourseInstanceDataAction(courseId,dispatch)
   }
 
   const { t, i18n } = useTranslation('translation', {

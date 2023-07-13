@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { ErrorBoundary } from "react-error-boundary";
 import { withRouter } from 'react-router-dom'
-import { useDispatch,connect } from 'react-redux'
+import { useDispatch,connect, useSelector } from 'react-redux'
 import { LocalizeProvider } from 'react-localize-redux'
 import * as Sentry from '@sentry/browser'
 import { getUserAction } from './actions/actions'
@@ -12,21 +12,16 @@ import LocalizeWrapper from './containers/Localize/LocalizeWrapper'
 
 const App = (props) => {
   const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
   let sessionAliveInterval = null
+
+  const getUserAsync =async () => {
+    await getUserAction(dispatch)
+  }
+
   useEffect(() => {
-    dispatch(getUserAction())
-     sessionAliveInterval = setInterval(async () => {
-      try {
-        await getUser()
-      } catch (e) {}
-    }, 60 * 1000)
-    return () => {
-      if (sessionAliveInterval !== null) {
-        clearInterval(sessionAliveInterval)
-        sessionAliveInterval = null
-      }
-    }
-  },[])
+    getUserAsync()
+  },[user.id])
   
   const logError = (err) => {
     console.log(err)
