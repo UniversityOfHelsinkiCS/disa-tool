@@ -45,12 +45,16 @@ const CourseListPage = (props) => {
     if (templateCourse != null) {
       await getTemplateInstancesAsync()
     }
+    console.log(search)
     if (search && searchQuery.get('course')) {
       dispatch(selectCourse(Number(searchQuery.get('course'))))
      await getInstancesOfCourseAsync(Number(searchQuery.get('course')))
       if (searchQuery.get('instance')) {
         dispatch(selectInstance(Number(searchQuery.get('instance'))))
       }
+    }
+    if(selectedCourse) {
+      await getInstancesOfCourseAsync(selectedCourse.id)
     }
   }
   asyncUseEffect()
