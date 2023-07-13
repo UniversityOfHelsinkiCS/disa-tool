@@ -45,7 +45,6 @@ const CourseListPage = (props) => {
     if (templateCourse != null) {
       await getTemplateInstancesAsync()
     }
-    console.log(search)
     if (search && searchQuery.get('course')) {
       dispatch(selectCourse(Number(searchQuery.get('course'))))
      await getInstancesOfCourseAsync(Number(searchQuery.get('course')))

@@ -56,7 +56,7 @@ class Header extends React.Component {
       name
     )
 
-    const headerEditForm = editHeaders && (
+    let headerEditForm = editHeaders && (
       <div
         style={{
           marginBottom: '10px'
@@ -68,6 +68,17 @@ class Header extends React.Component {
       </div>
     )
 
+    if(this.props.nestedForms) {
+     headerEditForm = editHeaders && (
+      <div
+        style={{
+          marginBottom: '10px'
+        }}
+      >
+          <MultiLangInput headers={headers} handleChange={this.changeHeader} />
+      </div>
+    )
+      }
     return (
       <div>
         <h3 style={this.props.style ? style : null} className="cardHead">

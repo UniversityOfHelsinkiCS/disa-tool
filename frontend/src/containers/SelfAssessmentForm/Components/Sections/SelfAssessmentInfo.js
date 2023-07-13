@@ -57,6 +57,7 @@ class SelfAssessmentInfo extends React.Component {
             editButton
             headers={names}
             dispatchChange={this.toggleHeader}
+            nestedForms={true}
           />
         </Form.Field>
         <Form.Field>
@@ -84,8 +85,8 @@ class SelfAssessmentInfo extends React.Component {
                 instructions.map((d) => (
                   <Form.Field key={d.id}>
                     <label>{d.prefix}</label>
-                    <TextArea autoheight="true" id={d.id} onChange={this.handleChange}>
-                      {values[d.id] ? values[d.id] : d.value}
+                    <TextArea autoheight="true" id={d.id} value={values[d.id] ? values[d.id] : d.value} onChange={this.handleChange}>
+                      
                     </TextArea>
                   </Form.Field>
                 ))

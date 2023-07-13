@@ -7,7 +7,7 @@ export const toggleTextField = id => (dispatch) => {
   })
 }
 
-export const initNewFormAction = data => (dispatch) => {
+export const initNewFormAction = (data,dispatch) => {
   dispatch({
     type: types.INIT_NEW_FORM,
     payload: data
@@ -99,7 +99,7 @@ export const textfieldResponseAction = data => (dispatch) => {
   })
 }
 
-export const validationAction = data => (dispatch) => {
+export const validationAction =  (data,dispatch) => {
   dispatch({
     type: types.VALIDATE_RESPONSE,
     payload: data
@@ -113,7 +113,7 @@ export const clearErrorAction = data => (dispatch) => {
   })
 }
 
-export const clearValidationAction = () => (dispatch) => {
+export const clearValidationAction = (dispatch) => {
   dispatch({
     type: types.CLEAR_VALIDATION,
     payload: null

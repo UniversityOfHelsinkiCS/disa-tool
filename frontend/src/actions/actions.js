@@ -21,7 +21,7 @@ import { postTaskResponses } from '../api/tasks'
 import { updateCategoryGrades } from '../api/grades'
 import * as types from '../redux/action_types'
 
-export const getAssesmentResponseAction = assesmentId => async (dispatch) => {
+export const getAssesmentResponseAction = async (assesmentId,dispatch) => {
   dispatch({
     type: types.GET_ASSESMENT_RESPONSE_ATTEMPT,
     payload: ''
@@ -97,7 +97,7 @@ export const getUserCoursesAction = async (dispatch) => {
   }
 }
 
-export const getSelfAssesmentAction = selfAssesmentId => async (dispatch) => {
+export const getSelfAssesmentAction = async (selfAssesmentId, dispatch) => {
   dispatch({
     type: types.GET_SELF_ASSESMENT_ATTEMPT,
     payload: ''
@@ -116,7 +116,7 @@ export const getSelfAssesmentAction = selfAssesmentId => async (dispatch) => {
   }
 }
 
-export const createForm = assessmentData => async (dispatch) => {
+export const createForm =  async (assessmentData,dispatch) => {
   dispatch({
     type: types.CREATE_SELF_ASSESMENT_ATTEMPT,
     payload: ''
@@ -156,7 +156,7 @@ export const getUserSelfAssesments = async (user,dispatch) => {
   }
 }
 
-export const updateSelfAssesmentAction = assessmentData => async (dispatch) => {
+export const updateSelfAssesmentAction = async (assessmentData,dispatch) => {
   try {
     const { data } = await updateSelfAssesment(assessmentData)
     dispatch({
@@ -273,7 +273,7 @@ export const setAssessmentStatusAction = async (assessmentId, attributes,dispatc
   }
 }
 
-export const createSelfAssessmentResponseAction = responseData => async (dispatch) => {
+export const createSelfAssessmentResponseAction = async (responseData,dispatch) => {
   dispatch({
     type: types.ASSESMENT_RESPONSE_CREATE_ATTEMPT,
     payload: ''

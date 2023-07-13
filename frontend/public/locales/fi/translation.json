@@ -286,22 +286,13 @@
       "course_select_placeholder": "valitse kurssi..."
     }
   },
-  "SelfAssessment": {
-    "SelfAssessmentList": {
-      "header": [
-        "Self-asseessments of the selected course - click to edit",
-        "Valitun kurssin itsearviot - klikkaa muokataksesi"
-      ]
+  "selfAssessment": {
+    "selfAssessmentList": {
+      "header": "Valitun kurssin itsearviot - klikkaa muokataksesi"
     },
-    "AssessmentButtons": {
-      "categoryButton": [
-        "Category based self-asseessment",
-        "Itsearvio kategorioiden pohjalta"
-      ],
-      "objectiveButton": [
-        "Objective based self-asseessment",
-        "Itsearvio tavoitteiden pohjalta"
-      ]
+    "assessmentButtons": {
+      "categoryButton": "Itsearvio kategorioiden pohjalta",
+      "objectiveButton": "Itsearvio tavoitteiden pohjalta"
     }
   },
   "FeedbackPage": {
@@ -347,8 +338,8 @@
       "explanation": ["explanation", "perustelut"]
     }
   },
-  "SelfAssessmentForm": {
-    "SelfAssessmentFormPage": {
+  "selfAssessmentForm": {
+    "selfAssessmentFormPage": {
       "reviewMessage": [
         "You're now reviewing the assessment. To edit it, first open it in the edit mode.",
         "Olet tarkistustilassa. Muokataksesi itsearviolomaketta, avaa se ensin muokkaustilassa."
@@ -533,8 +524,8 @@
       ]
     }
   },
-  "SelfAssessmentList": {
-    "SelfAssessmentListPage": {
+  "selfAssessmentList": {
+    "selfAssessmentListPage": {
       "back": ["Back", "Takaisin"],
       "inspect": ["Inspect", "Tarkastele"],
       "self_assessment": ["Self-asseessment", "Itsearvio"],

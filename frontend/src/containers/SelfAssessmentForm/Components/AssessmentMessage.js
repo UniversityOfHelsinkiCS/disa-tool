@@ -1,21 +1,20 @@
 import React from 'react'
 import { Message } from 'semantic-ui-react'
-import PropTypes from 'prop-types'
 
 const AssessmentMessage = (props) => {
-  const { preview, open, edit, existingAnswer, translate } = props
+  const { preview, open, edit, existingAnswer, t } = props
   if(preview && !edit){
-    return <Message style={{ textAlign: 'center' }} color="green">{translate('reviewMessage')}</Message>
+    return <Message style={{ textAlign: 'center' }} color="green">{t('reviewMessage')}</Message>
   }
   if (preview) {
-    return <Message style={{ textAlign: 'center' }} color="green">{translate('previewMessage')}</Message>
+    return <Message style={{ textAlign: 'center' }} color="green">{t('previewMessage')}</Message>
   }
   if (!open && !edit) {
-    return <Message style={{ textAlign: 'center' }} color="grey">{translate('notOpenMessage')}</Message>
+    return <Message style={{ textAlign: 'center' }} color="grey">{t('notOpenMessage')}</Message>
   }
 
   if (open && existingAnswer) {
-    return <Message style={{ textAlign: 'center' }} color="green">{translate('existingResponse')}</Message>
+    return <Message style={{ textAlign: 'center' }} color="green">{t('existingResponse')}</Message>
   }
   return null
 }
@@ -23,7 +22,7 @@ const AssessmentMessage = (props) => {
 AssessmentMessage.defaultProps = {
   existingAnswer: false
 }
-
+/*
 AssessmentMessage.propTypes = {
   preview: PropTypes.bool.isRequired,
   open: PropTypes.bool.isRequired,
@@ -31,5 +30,5 @@ AssessmentMessage.propTypes = {
   translate: PropTypes.func.isRequired,
   edit: PropTypes.bool.isRequired
 }
-
+*/
 export default AssessmentMessage

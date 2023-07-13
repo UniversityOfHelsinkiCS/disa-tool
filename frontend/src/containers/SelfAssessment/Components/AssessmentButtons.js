@@ -1,11 +1,10 @@
 import React from 'react'
 import { Button, Form } from 'semantic-ui-react'
-import PropTypes from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 
 const AssessmentButtons = (props) => {
   const { onClick, value } = props
-  const translate = id => props.translate(`SelfAssessment.AssessmentButtons.${id}`)
+  const {t} = useTranslation("translation", {keyPrefix: "selfAssessment.assessmentButtons"})
   return (
     <div>
       <Form.Field>
@@ -17,7 +16,7 @@ const AssessmentButtons = (props) => {
           id={value}
           onClick={onClick}
         >
-          {translate('categoryButton')}
+          {t('categoryButton')}
         </Button>
         <Button
           size="tiny"
@@ -27,21 +26,19 @@ const AssessmentButtons = (props) => {
           id={value}
           onClick={onClick}
         >
-          {translate('objectiveButton')}
+          {t('objectiveButton')}
         </Button>
       </Form.Field>
     </div>
   )
 }
 
-AssessmentButtons.defaultProps = {
-  value: -1
-}
+/*
 AssessmentButtons.propTypes = {
   translate: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   value: PropTypes.number
-
 }
+*/
 
-export default withLocalize(AssessmentButtons)
+export default AssessmentButtons

@@ -18,19 +18,13 @@ const SelfAssessmentForm = (props) => {
   const editMode = edit && !preview
   const questionModule = editMode ? (type === 'category' ? EditCategoryModule : EditObjectiveModule) : (type === 'category' ? CategoryQuestionModule : ObjectiveQuestionModule) //eslint-disable-line
   const finalGradeModule = editMode ? EditCategoryModule : CategoryQuestionModule
-  const dummyPropToEnsureChange = () => (
-    (
-      null
-    )
-  )
+  const dummyPropToEnsureChange = () => (null)
   return (
     <div>
-
       <SelfAssessmentInfo
         formData={formData}
         edit={editMode}
       />
-
       <SelfAssessmentSection
         infoBoxTranslationId={editMode ? 'SelfAssessmentQuestionsEdit' : null}
         name={structure.questionModuleName}
