@@ -1,19 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { Form, Card, Grid, Icon, Popup, Button, Message } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 import ModalForm from '../../../../utils/components/ModalForm'
 import { removeOpenQuestion, openQuestionResponseAction, clearErrorAction } from '../../actions/selfAssesment'
+import { useTranslation } from 'react-i18next'
 
 
 const OpenQuestionModule = (props) => {
   const { edit, responseTextError, existingAnswer } = props
   const { id, name } = props.data
-  const translate = translateId => props.translate(`SelfAssessmentForm.QuestionModules.OpenQuestionModule.${translateId}`)
+  const dispatch = useDispatch()
 
-  const handleTextAreaBlur = e => props.dispatchopenQuestionResponseAction({ id, value: e.target.value }) //eslint-disable-line
-  const handleTextAreaChange = () => props.dispatchClearErrorAction({ type: 'openQErrors', errorType: 'responseText', id })
+  const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.questionModules.openQuestionModule."})
+
+  const handleTextAreaBlur = e => openQuestionResponseAction({ id, value: e.target.value },dispatch) //eslint-disable-line
+  const handleTextAreaChange = () => clearErrorAction({ type: 'openQErrors', errorType: 'responseText', id },dispatch)
 
   return (
     <Form error={responseTextError !== undefined}>
@@ -30,7 +33,7 @@ const OpenQuestionModule = (props) => {
                     <Form.TextArea
                       autoheight="true"
                       error={responseTextError !== undefined}
-                      placeholder={translate('placeholder')}
+                      placeholder={t('placeholder')}
                       onBlur={!edit ? handleTextAreaBlur : undefined}
                       onChange={(!edit && responseTextError) ? handleTextAreaChange : undefined}
                       defaultValue={existingAnswer
@@ -45,14 +48,14 @@ const OpenQuestionModule = (props) => {
                   <Grid.Column>
                     {edit ?
                       <ModalForm
-                        header={translate('modalHeader')}
+                        header={t('modalHeader')}
                         content={
                           <div>
-                            <p>{translate('modalConfirmation')}: {name}?</p>
+                            <p>{t('modalConfirmation')}: {name}?</p>
                             <Button color="red">
-                              {translate('modalCancel')}
+                              {t('modalCancel')}
                             </Button>
-                            <Button color="green" onClick={() => props.dispatchRemoveOpenQuestion(id)} type="submit">Ok</Button>
+                            <Button color="green" onClick={() => removeOpenQuestion(id,dispatch)} type="submit">Ok</Button>
                           </div>
                         }
                         trigger={
@@ -64,7 +67,7 @@ const OpenQuestionModule = (props) => {
                                 color="red"
                               />
                             }
-                            content={translate('popup')}
+                            content={t('popup')}
                           />
                         }
                       />
@@ -81,31 +84,17 @@ const OpenQuestionModule = (props) => {
     </Form>
   )
 }
-
+/*
 OpenQuestionModule.propTypes = {
   edit: PropTypes.bool.isRequired,
   dispatchRemoveOpenQuestion: PropTypes.func.isRequired,
   data: PropTypes.shape().isRequired,
   dispatchopenQuestionResponseAction: PropTypes.func.isRequired,
   responseTextError: PropTypes.shape(),
-  translate: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
   dispatchClearErrorAction: PropTypes.func.isRequired,
   existingAnswer: PropTypes.oneOfType([PropTypes.arrayOf(), PropTypes.arrayOf(PropTypes.shape())])
 }
+*/
 
-OpenQuestionModule.defaultProps = {
-  responseTextError: undefined,
-  existingAnswer: undefined
-}
-
-const mapDispatchToProps = dispatch => ({
-  dispatchRemoveOpenQuestion: id =>
-    dispatch(removeOpenQuestion(id)),
-  dispatchopenQuestionResponseAction: data =>
-    dispatch(openQuestionResponseAction(data)),
-  dispatchClearErrorAction: data =>
-    dispatch(clearErrorAction(data))
-
-})
-
-export default withLocalize(connect(null, mapDispatchToProps)(OpenQuestionModule))
+export default connect()(OpenQuestionModule)

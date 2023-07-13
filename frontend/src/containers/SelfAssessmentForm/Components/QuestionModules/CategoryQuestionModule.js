@@ -1,61 +1,51 @@
 import { Form, Card, Grid, Dropdown, Accordion, Icon, Message } from 'semantic-ui-react'
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import React,{useState} from 'react'
+import { connect,useDispatch,useSelector } from 'react-redux'
 import {
   gradeCategoryAction,
   textfieldResponseAction,
   clearErrorAction
 } from '../../actions/selfAssesment'
 import MatrixPage from '../../../Course/MatrixPage'
+import { useTranslation } from 'react-i18next'
 
-export class CategoryQuestionModule extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      showMatrix: false,
-      value: null
-    }
+export const CategoryQuestionModule = (props) => {
+  const [showMatrix, setShowMatrix] = useState(false)
+  const [value, setValue] = useState(null)
+  const answers = useSelector(state => state.selfAssessment.assesmentResponse) 
+  const {edit,
+    final,
+    responseTextError,
+    gradeError,
+    courseInstanceId,
+    grades,
+    existingAnswer} = props
+    const { name, textFieldOn, id } = props.data
+  const dispatch = useDispatch()
+
+    const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.questionModules.categoryQuestionModule"})
+
+  const handleDropdownChange = (e, { value }) => {
+    const gradeName = props.grades.find(g => g.value === value).text
+    gradeCategoryAction({ id, value, name: gradeName, final },dispatch)
+    setValue(value)
+    clearErrorAction({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'grade', id },dispatch)
   }
 
-  handleDropdownChange = (e, { value }) => {
-    const { final } = this.props
-    const { id } = this.props.data
-    const gradeName = this.props.grades.find(g => g.value === value).text
-    this.props.dispatchGradeCategoryAction({ id, value, name: gradeName, final })
-    this.setState({ value })
-    this.props.dispatchClearErrorAction({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'grade', id })
+ const handleTextFieldOnBlur = (e) => {
+    textfieldResponseAction({ id, value: e.target.value, final },data)
   }
 
-  handleTextFieldOnBlur = (e) => {
-    const { final } = this.props
-    const { id } = this.props.data
-    this.props.dispatchTextfieldResponseAction({ id, value: e.target.value, final })
+  const handleTextFieldChange = () => {
+    if (responseTextError) { clearErrorAction({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'responseText', id },dispatch) }
   }
 
-  handleTextFieldChange = () => {
-    const { final, responseTextError } = this.props
-    const { id } = this.props.data
-    if (responseTextError) { this.props.dispatchClearErrorAction({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'responseText', id }) }
-  }
-
-  render() {
-    const { edit,
-      final,
-      responseTextError,
-      gradeError,
-      courseInstanceId,
-      grades,
-      existingAnswer } = this.props
-    const { name, textFieldOn, id } = this.props.data
     const matchingResponse = final
       ? existingAnswer
       : existingAnswer.find(answer => answer.id === id)
     const { grade, responseText } = matchingResponse || {}
 
     const existingGrade = grades.find(g => g.value === grade)
-    const translate = translateId => this.props.translate(`SelfAssessmentForm.QuestionModules.CategoryQuestionModule.${translateId}`)
 
     return (
       <div className="CategoryQuestion">
@@ -69,13 +59,13 @@ export class CategoryQuestionModule extends React.Component {
                     {!final &&
                       <Accordion style={{ marginTop: '10px' }} fluid styled>
                         <Accordion.Title
-                          active={this.state.showMatrix}
-                          onClick={() => this.setState({ showMatrix: !this.state.showMatrix })}
+                          active={state.showMatrix}
+                          onClick={() => setShowMatrix(!state.showMatrix)}
                         >
                           <Icon name="dropdown" />
-                          {translate('matrix')}
+                          {t('matrix')}
                         </Accordion.Title>
-                        <Accordion.Content active={this.state.showMatrix}>
+                        <Accordion.Content active={state.showMatrix}>
                           <MatrixPage
                             courseId={courseInstanceId}
                             hideHeader
@@ -91,16 +81,16 @@ export class CategoryQuestionModule extends React.Component {
                       <Form.Field width={10}>
                         <Grid.Column>
                           <div>
-                            <label> {translate('assessment')}</label>
+                            <label> {t('assessment')}</label>
                             <Dropdown
                               className="gradeDropdown"
                               style={{ marginLeft: '20px' }}
-                              placeholder={translate('gradeSelect')}
+                              placeholder={t('gradeSelect')}
                               selection
                               options={grades}
                               error={gradeError !== undefined}
-                              onChange={!edit ? this.handleDropdownChange : null}
-                              value={existingGrade ? existingGrade.value : this.state.value}
+                              onChange={!edit ? handleDropdownChange : null}
+                              value={existingGrade ? existingGrade.value : state.value}
                             />
                           </div>
                           <Message
@@ -120,10 +110,10 @@ export class CategoryQuestionModule extends React.Component {
                               <Form.TextArea
                                 autoheight="true"
                                 error={responseTextError !== undefined}
-                                label={translate('basis')}
-                                placeholder={translate('writeBasis')}
-                                onBlur={!edit ? this.handleTextFieldOnBlur : undefined}
-                                onChange={!edit ? this.handleTextFieldChange : undefined}
+                                label={t('basis')}
+                                placeholder={t('writeBasis')}
+                                onBlur={!edit ? handleTextFieldOnBlur : undefined}
+                                onChange={!edit ? handleTextFieldChange : undefined}
                                 defaultValue={responseText}
                               />
                               <Message
@@ -146,21 +136,7 @@ export class CategoryQuestionModule extends React.Component {
       </div>
     )
   }
-}
-
-CategoryQuestionModule.defaultProps = {
-  final: false,
-  courseInstanceId: null,
-  responseTextError: undefined,
-  gradeError: undefined,
-  grades: [],
-  existingAnswer: [{
-    grade: null,
-    responseText: null
-  }]
-}
-
-
+/*
 CategoryQuestionModule.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string,
@@ -181,22 +157,9 @@ CategoryQuestionModule.propTypes = {
     value: PropTypes.number,
     text: PropTypes.string
   })),
-  translate: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
   existingAnswer: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape()), PropTypes.shape()])
 }
+*/
 
-const mapStateToProps = state => ({
-  answers: state.selfAssesment.assesmentResponse
-})
-
-const mapDispatchToProps = dispatch => ({
-  dispatchTextfieldResponseAction: data =>
-    dispatch(textfieldResponseAction(data)),
-  dispatchGradeCategoryAction: data =>
-    dispatch(gradeCategoryAction(data)),
-  dispatchClearErrorAction: data =>
-    dispatch(clearErrorAction(data))
-
-})
-
-export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(CategoryQuestionModule))
+export default connect()(CategoryQuestionModule)

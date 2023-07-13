@@ -1,6 +1,6 @@
 import * as types from '../../../redux/action_types'
 
-export const toggleTextField = id => (dispatch) => {
+export const toggleTextField =  (id,dispatch) => {
   dispatch({
     type: types.TOGGLE_TEXT_FIELD,
     payload: id
@@ -71,14 +71,14 @@ export const editFormAction = data => (dispatch) => {
   })
 }
 
-export const openQuestionResponseAction = data => (dispatch) => {
+export const openQuestionResponseAction = (data,dispatch) => {
   dispatch({
     type: types.OPEN_QUESTION_RESPONSE,
     payload: data
   })
 }
 
-export const gradeCategoryAction = data => (dispatch) => {
+export const gradeCategoryAction = (data,dispatch) => {
   dispatch({
     type: types.GRADE_CATEGORY_RESPONSE,
     payload: data
@@ -92,7 +92,7 @@ export const gradeObjectiveAction = data => (dispatch) => {
   })
 }
 
-export const textfieldResponseAction = data => (dispatch) => {
+export const textfieldResponseAction =  (data,dispatch) => {
   dispatch({
     type: types.TEXTFIELD_RESPONSE,
     payload: data
@@ -106,7 +106,7 @@ export const validationAction =  (data,dispatch) => {
   })
 }
 
-export const clearErrorAction = data => (dispatch) => {
+export const clearErrorAction =  (data,dispatch) => {
   dispatch({
     type: types.CLEAR_RESPONSE_ERROR,
     payload: data

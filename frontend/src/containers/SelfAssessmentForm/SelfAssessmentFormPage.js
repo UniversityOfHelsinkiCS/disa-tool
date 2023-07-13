@@ -54,14 +54,11 @@ export const SelfAssessmentFormPage = ({
   const [redirect, setRedirect] = useState(false)
   const [preview, setPreview] = useState(false)
   const [grades, setGrades] = useState([])
-
   const { courseInstanceId, type, selfAssessmentId } = useParams()
-  const wow = useParams()
 
-  console.log(wow)
   const dispatch = useDispatch()
 
-  const { t } = useTranslation("translation", {keyPrefix: "SelfAssessmentForm.SelfAssessmentFormPage"})
+  const { t } = useTranslation("translation", {keyPrefix: "selfAssessmentForm.selfAssessmentFormPage"})
 
   const asyncMount = async () => {
     if (edit) {
@@ -194,7 +191,6 @@ export const SelfAssessmentFormPage = ({
               {displayCoursename}
             </Header>
           </Segment>
-
           <AssessmentMessage
             preview={preview}
             open={formData.open}
@@ -202,7 +198,6 @@ export const SelfAssessmentFormPage = ({
             existingAnswer={existingAnswer}
             t={t}
           />
-
           <Modal size="small" open={softErrors} onClose={close}>
             <Modal.Header>{t('modalHeader')}</Modal.Header>
             <Modal.Content>
@@ -308,7 +303,7 @@ export const SelfAssessmentFormPage = ({
         <Prompt
           when={unsavedChanges}
           message={(
-            'SelfAssessmentForm.SelfAssessmentFormPage.prompt'
+            'selfAssessmentForm.selfAssessmentFormPage.prompt'
           )}
         />
         {renderContent()}

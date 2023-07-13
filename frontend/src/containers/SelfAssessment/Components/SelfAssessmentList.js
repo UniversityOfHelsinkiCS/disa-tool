@@ -1,15 +1,13 @@
 import React from 'react'
 import { List } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
-import PropTypes from 'prop-types'
+import {useTranslation} from 'react-i18next'
 
-const SelfAssessmentList = (props) => {
-  const { selfAssessments, onClick } = props
-  const translate = id => props.translate(`SelfAssessment.SelfAssessmentList.${id}`)
+const SelfAssessmentList = ({selfAssessments,onClick}) => {
 
+  const {t} = useTranslation("translation", {keyPrefix: "selfAssessment.selfAssessmentList"})
   return (
     <List animated selection>
-      <List.Header>{translate('header')}</List.Header>
+      <List.Header>{t('header')}</List.Header>
       {selfAssessments.map(sa => (
         <List.Item
           key={sa.id}
@@ -23,11 +21,4 @@ const SelfAssessmentList = (props) => {
   )
 }
 
-
-SelfAssessmentList.propTypes = {
-  selfAssessments: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  onClick: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
-
-}
-export default withLocalize(SelfAssessmentList)
+export default SelfAssessmentList

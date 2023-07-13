@@ -322,8 +322,8 @@
       "explanation": "explanation"
     }
   },
-  "SelfAssessmentForm": {
-    "SelfAssessmentFormPage": {
+  "selfAssessmentForm": {
+    "selfAssessmentFormPage": {
       "reviewMessage": "You're now reviewing the assessment. To edit it, first open it in the edit mode.",
 
       "previewMessage": "You're now in preview mode. To save the assessment, return to the edit mode",

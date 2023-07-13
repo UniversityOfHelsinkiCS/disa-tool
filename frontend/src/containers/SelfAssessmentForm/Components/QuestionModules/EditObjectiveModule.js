@@ -1,31 +1,29 @@
 import { Grid, Button, List, Accordion, Icon } from 'semantic-ui-react'
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React,{useState} from 'react'
+import { connect, useDispatch } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { toggleFormPartAction } from '../../actions/selfAssesment'
 import MathJaxText from '../../../../utils/components/MathJaxText'
+import { useTranslation } from 'react-i18next'
 
 
-export class EditObjectiveModule extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = { active: false }
-  }
+export const EditObjectiveModule = (props) => {
+  const [active, setActive] = useState(false)
+  const dispatch = useDispatch()
 
-  handleClick = () => this.setState({ active: !this.state.active })
+  const { objectives, name, id, includedInAssesment } = props.data
 
-  render() {
-    const { objectives, name, id, includedInAssesment } = this.props.data
-    const translate = translateId => this.props.translate(`SelfAssessmentForm.QuestionModules.EditCategoryModule.${translateId}`)
+  const handleClick = () => setActive(!active)
+
+    const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.questionModules.editObjectiveModule"})
 
     return (
       <Accordion style={{ marginTop: '20px', marginBottom: '20px' }} fluid styled>
-        <Accordion.Title active={this.state.active}>
+        <Accordion.Title active={active}>
           <Grid divided="vertically" verticalAlign="middle" columns={2}>
             <Grid.Row>
-              <Grid.Column style={{ padding: 'auto' }} onClick={this.handleClick}>
-                <span onClick={this.handleClick}>
+              <Grid.Column style={{ padding: 'auto' }} onClick={handleClick}>
+                <span onClick={handleClick}>
                   <Icon name="dropdown" />
                   {name}
                 </span>
@@ -38,7 +36,7 @@ export class EditObjectiveModule extends React.Component {
                     basic
                     color={includedInAssesment ? 'green' : 'red'}
                     onClick={() => this.props.dispatchToggleFormPartAction(id, 'category')}
-                  >{includedInAssesment ? translate('includedButton') : translate('notIncludedButton')}
+                  >{includedInAssesment ? t('includedButton') : translate('notIncludedButton')}
                   </Button>
                 </span>
               </Grid.Column>
@@ -47,7 +45,7 @@ export class EditObjectiveModule extends React.Component {
 
         </Accordion.Title>
 
-        <Accordion.Content active={this.state.active}>
+        <Accordion.Content active={active}>
           <List divided verticalAlign="middle">
             {objectives.map(o => (
               <List.Item key={o.id} >
@@ -59,7 +57,7 @@ export class EditObjectiveModule extends React.Component {
                     basic
                     disabled={!includedInAssesment}
                     color={includedInAssesment ? o.includedInAssesment ? 'green' : 'red' : 'red'} //eslint-disable-line
-                    onClick={() => this.props.dispatchToggleFormPartAction(o.id, 'objective')}
+                    onClick={() => toggleFormPartAction(o.id, 'objective', dispatch)}
                   > {includedInAssesment ? o.includedInAssesment ? translate('includedButton') : translate('notIncludedButton') : translate('notIncludedButton') /* eslint-disable-line */}
                   </Button>
                 </List.Content>
@@ -75,13 +73,12 @@ export class EditObjectiveModule extends React.Component {
       </Accordion>
     )
   }
-}
 
 const mapDispatchToProps = dispatch => ({
   dispatchToggleFormPartAction: (id, type) =>
     dispatch(toggleFormPartAction(id, type))
 })
-
+/*
 EditObjectiveModule.propTypes = {
   dispatchToggleFormPartAction: PropTypes.func.isRequired,
   data: PropTypes.shape({
@@ -92,6 +89,6 @@ EditObjectiveModule.propTypes = {
   }).isRequired,
   translate: PropTypes.func.isRequired
 }
+*/
 
-
-export default withLocalize(connect(null, mapDispatchToProps)(EditObjectiveModule))
+export default withLocalize(connect()(EditObjectiveModule))

@@ -365,21 +365,15 @@
         "Do you wish to save your response despite this",
         "Haluatko tallentaa vastauksesi tästä huolimatta"
       ],
-      "modalButton1": ["Save", "Tallenna"],
-      "modalButton2": ["Cancel", "Peru"],
-      "editButton": ["Edit", "Takaisin"],
-      "previewButton": ["Preview", "Esikatsele"],
-      "saveButton": ["Save", "Tallenna"],
-      "updateButton": ["Save changes", "Tallenna muutokset"],
-      "prompt": [
-        "You have unsaved changes. Are you sure you want to exit?",
-        "Sinulla on tallentamattomia muutoksia. Haluatko varmasti poistua?"
-      ],
-      "back_button": ["Back to course page", "Takaisin kurssisivulle"],
-      "defineMatrixFirstError": [
-        "Define course-objective matrix first",
-        "Määritä kurssin tavoitematriisi ensin"
-      ]
+      "modalButton1": "Tallenna",
+      "modalButton2": "Peru",
+      "editButton": "Takaisin",
+      "previewButton": "Esikatsele",
+      "saveButton": "Tallenna",
+      "updateButton": "Tallenna muutokset",
+      "prompt": "Sinulla on tallentamattomia muutoksia. Haluatko varmasti poistua?",
+      "back_button": "Takaisin kurssisivulle",
+      "defineMatrixFirstError": "Määritä kurssin tavoitematriisi ensin"
     },
     "QuestionModules": {
       "CategoryQuestionModule": {

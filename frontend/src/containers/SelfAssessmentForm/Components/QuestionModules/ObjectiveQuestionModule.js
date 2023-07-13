@@ -1,48 +1,41 @@
+import React, {useState,useEffect} from 'react'
 import { Form, Card, List, Grid, Segment, Message } from 'semantic-ui-react'
-import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-
+import { connect, useDispatch } from 'react-redux'
 import { gradeObjectiveAction, clearErrorAction } from '../../actions/selfAssesment'
-
 import MathJaxText from '../../../../utils/components/MathJaxText'
 import { objectiveGrades } from '../../utils'
 import '../../Components/selfAssesment.css'
 
 
-class ObjectiveQuestionModule extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = { ratings: {}, grades: {} }
-  }
+const ObjectiveQuestionModule = (props) => {
+  const [ratings, setRatings] = useState({})
+  const [grades, setGrades] = useState({})
+  const dispatch = useDispatch()
 
-  componentDidMount() {
-    const ratings = {}
-    this.props.data.objectives.forEach((value) => {
+  const { objectives, name,id } = props.data
+  const { gradeError, existingAnswer } = props
+
+
+  useEffect(() => {
+    props.data.objectives.forEach((value) => {
       ratings[value.id] = -1
     })
     const grades = objectiveGrades()
-    this.setState({ ratings, grades })
-  }
+    setRatings(ratings)
+    setGrades(grades)
+  },[])
 
-  handleChange = (objective, value) => {
-    const { ratings } = { ...this.state }
+  const handleChange = (objective, value) => {
     ratings[objective] = value
-    this.props.dispatchGradeObjectiveAction({ id: objective, value, final: false })
-    this.setState({ ratings })
+    gradeObjectiveAction({ id: objective, value, final: false },dispatch)
+    setRatings(ratings)
   }
 
-  handleCheckboxChange = (e, { objective, value }) => {
-    const { id } = this.props.data
-    this.handleChange(objective, value)
-    this.props.dispatchClearErrorAction({ type: 'qModErrors', errorType: 'grade', id, objective })
+  const handleCheckboxChange = (e, { objective, value }) => {
+    handleChange(objective, value)
+    clearErrorAction({ type: 'qModErrors', errorType: 'grade', id, objective },dispatch)
   }
-
-  render() {
-    const { objectives, name } = this.props.data
-    const { gradeError, existingAnswer } = this.props
-    const { ratings, grades } = this.state
-
 
     return (
       <Card fluid>
@@ -106,26 +99,9 @@ class ObjectiveQuestionModule extends React.Component {
         </Card.Content>
       </Card>
     )
-  }
 }
 
-const mapDispatchToProps = dispatch => ({
-  dispatchGradeObjectiveAction: data =>
-    dispatch(gradeObjectiveAction(data)),
-  dispatchClearErrorAction: data =>
-    dispatch(clearErrorAction(data))
-})
-
-ObjectiveQuestionModule.defaultProps = {
-  data: {
-    options: [],
-    name: 'Nothing',
-    objectives: [],
-    id: null
-  },
-  gradeError: { errors: {} },
-  existingAnswer: []
-}
+/*
 ObjectiveQuestionModule.propTypes = {
   data: PropTypes.shape({
     options: PropTypes.arrayOf(PropTypes.string),
@@ -143,5 +119,6 @@ ObjectiveQuestionModule.propTypes = {
   dispatchClearErrorAction: PropTypes.func.isRequired,
   existingAnswer: PropTypes.arrayOf(PropTypes.shape())
 }
+*/
 
 export default connect(null, mapDispatchToProps)(ObjectiveQuestionModule)

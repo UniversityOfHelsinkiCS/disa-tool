@@ -1,17 +1,16 @@
 import { Grid, Checkbox, Button, Divider } from 'semantic-ui-react'
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { connect, useDispatch } from 'react-redux'
 import UpOrDownToggle from '../UpOrDownToggle'
 import { toggleTextField, toggleFormPartAction } from '../../actions/selfAssesment'
 import Header from '../Header'
+import { useTranslation } from 'react-i18next'
 
 const EditCategorymodule = (props) => {
-  const { name, textFieldOn, id, includedInAssesment } = props.data
+  const { name, textFieldOn, id, includedInAssesment,headers } = props.data
   const { final } = props
-  const { headers } = props.data
-  const translate = translateId => props.translate(`SelfAssessmentForm.QuestionModules.EditCategoryModule.${translateId}`)
+const dispatch = useDispatch()
+  const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.questionModules.editCategoryModule"})
 
 
   return (
@@ -28,8 +27,8 @@ const EditCategorymodule = (props) => {
           <Checkbox
             style={{ marginTop: '10px' }}
             defaultChecked={textFieldOn}
-            onChange={() => props.dispatchTextFieldOnOff(id)}
-            label={translate('label')}
+            onChange={() => toggleTextField(id)}
+            label={t('label')}
             disabled={!includedInAssesment}
           />
         </Grid.Column>
@@ -40,8 +39,8 @@ const EditCategorymodule = (props) => {
             size="large"
             basic
             color={includedInAssesment ? 'green' : 'red'}
-            onClick={() => props.dispatchToggleFormPartAction(id, 'category')}
-          >{includedInAssesment ? translate('includedButton') : translate('notIncludedButton')}
+            onClick={() => toggleFormPartAction(id, 'category',dispatch)}
+          >{includedInAssesment ? t('includedButton') : t('notIncludedButton')}
           </Button>
         </Grid.Column>
         <Grid.Column verticalAlign="middle">
@@ -53,11 +52,7 @@ const EditCategorymodule = (props) => {
   )
 }
 
-EditCategorymodule.defaultProps = {
-  final: false
-}
-
-
+/*
 EditCategorymodule.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string,
@@ -69,14 +64,8 @@ EditCategorymodule.propTypes = {
   final: PropTypes.bool,
   dispatchTextFieldOnOff: PropTypes.func.isRequired,
   dispatchToggleFormPartAction: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired
 }
+*/
 
-const mapDispatchToProps = dispatch => ({
-  dispatchTextFieldOnOff: id =>
-    dispatch(toggleTextField(id)),
-  dispatchToggleFormPartAction: (id, type) =>
-    dispatch(toggleFormPartAction(id, type))
-})
-
-export default withLocalize(connect(null, mapDispatchToProps)(EditCategorymodule))
+export default connect()(EditCategorymodule)

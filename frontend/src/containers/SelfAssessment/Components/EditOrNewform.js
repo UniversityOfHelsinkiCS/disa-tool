@@ -1,34 +1,29 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import { Dropdown, Form } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 import AssessmentButtons from './AssessmentButtons'
 import SelfAssessmentList from './SelfAssessmentList'
+import { useTranslation } from 'react-i18next'
 
 
-export class EditOrNewForm extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      dropDownValue: null
-    }
-  }
+export const EditOrNewForm = (props )=> {
+  const [dropDownValue, setDropDownValue] = useState(null)
+  const [selectedView, setSelectedView] = useState(null)
 
-  componentDidMount() {
-    this.setState({ dropDownValue: parseInt(this.props.selectedCourse, 10) })
-  }
+  useEffect(() => {
+    setDropDownValue(parseInt(props.selectedCourse, 10))
+  },[])
 
   handleDropdownChange = (e, { value }) => {
-    this.setState({ dropDownValue: value })
+    setDropDownValue(value)
   }
 
-  translate = id => this.props.translate(`SelfAssessment.EditOrNewForm.${id}`)
+  const {t} = useTranslation("translation", {keyPrefix: "selfAssessment.editOrNewForm"})
 
-  render() {
-    const { selectedView } = this.state
-    const { dropDownCourse, selectedCourse, handleSubmit, selfAssessments } = this.props
+    const { dropDownCourse, selectedCourse, handleSubmit, selfAssessments } = props
     const selectedSelfAssessments = selfAssessments.filter(s =>
-      s.course_instance_id === parseInt(this.state.dropDownValue, 10))
+      s.course_instance_id === parseInt(dropDownValue, 10))
 
     return (
       <div>
@@ -36,8 +31,8 @@ export class EditOrNewForm extends React.Component {
           <Form.Field style={{ marginTop: '20px' }}>
             <Dropdown
               selection
-              placeholder={this.translate('placeholder')}
-              onChange={this.handleDropdownChange}
+              placeholder={t('placeholder')}
+              onChange={handleDropdownChange}
               options={dropDownCourse}
               defaultValue={parseInt(selectedCourse, 10)}
             />
@@ -54,7 +49,7 @@ export class EditOrNewForm extends React.Component {
             <AssessmentButtons
               selectedView={selectedView}
               onClick={handleSubmit}
-              value={this.state.dropDownValue}
+              value={dropDownValue}
             />
           </Form.Field>
         </Form>
@@ -62,18 +57,13 @@ export class EditOrNewForm extends React.Component {
 
     )
   }
-}
-
+/*
 EditOrNewForm.propTypes = {
   dropDownCourse: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   selfAssessments: PropTypes.arrayOf(PropTypes.shape()),
   selectedCourse: PropTypes.string,
-  translate: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
 }
-
-EditOrNewForm.defaultProps = {
-  selfAssessments: [],
-  selectedCourse: null
-}
-export default withLocalize(EditOrNewForm)
+*/
+export default EditOrNewForm
