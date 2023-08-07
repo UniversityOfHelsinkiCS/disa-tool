@@ -77,7 +77,7 @@ const ObjectiveQuestionModule = (props) => {
                                       objective={o.id}
                                       value={og}
                                       checked={ratings[o.id] === og || Boolean(existingAnswer.find(answer => answer.id === o.id && answer.grade === og))}
-                                      onChange={this.handleCheckboxChange}
+                                      onChange={handleCheckboxChange}
                                       radio
                                     />
                                   </div>))}
@@ -121,4 +121,4 @@ ObjectiveQuestionModule.propTypes = {
 }
 */
 
-export default connect(null, mapDispatchToProps)(ObjectiveQuestionModule)
+export default connect()(ObjectiveQuestionModule)
