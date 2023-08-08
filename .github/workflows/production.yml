@@ -14,13 +14,17 @@ jobs:
         - uses: actions/setup-node@v3
           with:
             node-version: 16
-        - name: npm install
-          run: npm install
+        - name: npm ci 
+          working-directory: ./frontend
+          run: npm ci
+          working-directory: ./backend
+          run: npm ci
         - name: docker-compose up -d
           run: docker-compose up -d
         - name: Install Playwright Browsers
           run: npx playwright install --with-deps
         - name: Run Playwright tests
+          working-directory: ./frontend
           run: npm run test-pw
         - uses: actions/upload-artifact@v3
           if: always()
