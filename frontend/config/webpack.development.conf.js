@@ -71,7 +71,7 @@ module.exports = {
   devServer: {
     port: devPort,
     proxy: {
-      '/api': `http://localhost:${apiPort}`
+      '/api': `http://disa_backend:${apiPort}`
     },
     historyApiFallback: true
   },
