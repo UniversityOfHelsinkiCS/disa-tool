@@ -1,6 +1,11 @@
 const fs = require('fs')
-require('dotenv').config({ path: `${__dirname}/.env` })
+const dotenv = require('dotenv')
 
+if (!process.env.GITHUB_ACTIONS) {
+  dotenv.config({ path: `${__dirname}/.env` })
+} else {
+  dotenv.config()
+}
 const readFile = (filename) => {
   let content
   try {
