@@ -4,7 +4,7 @@ const dotenv = require('dotenv')
 if (!process.env.GITHUB_ACTIONS) {
   dotenv.config({ path: `${__dirname}/.env` })
 } else {
-  dotenv.config()
+  dotenv.config({ path: process.env.DATABASE_URL })
 }
 const readFile = (filename) => {
   let content
