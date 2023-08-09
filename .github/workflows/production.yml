@@ -14,6 +14,8 @@ jobs:
         - uses: actions/setup-node@v3
           with:
             node-version: 16
+          env:
+            DATABASE_URL: ${{ secrets.DATABASE_URL }}
         - name: npm ci in frontend
           run: npm ci
           working-directory: frontend
