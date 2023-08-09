@@ -14,9 +14,6 @@ jobs:
         - uses: actions/setup-node@v3
           with:
             node-version: 16
-          env:
-            DATABASE_URL: ${{ secrets.DATABASE_URL }}
-            TESTING: ${{ secrets.TESTING }}
         - name: npm ci in frontend
           run: npm ci
           working-directory: frontend
@@ -29,6 +26,9 @@ jobs:
           run: npx playwright install --with-deps
           working-directory: frontend
         - name: Run Playwright tests
+          env:
+            DATABASE_URL: ${{ secrets.DATABASE_URL }}
+            TESTING: ${{ secrets.TESTING }}
           working-directory: ./frontend
           run: npm run test-pw
         - uses: actions/upload-artifact@v3
