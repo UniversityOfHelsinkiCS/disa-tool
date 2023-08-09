@@ -23,7 +23,7 @@ jobs:
         - name: docker-compose up -d
           run: docker-compose up -d
         - name: Install Playwright Browsers
-          run: npx playwright install --with-deps
+          run: npx playwright install
         - name: Run Playwright tests
           working-directory: ./frontend
           run: npm run test-pw
