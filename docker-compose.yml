@@ -1,14 +1,49 @@
-version: '3'
+version: '3.5'
 
 services:
-  db:
-    image: postgres:10
+  frontend:
+    build:
+      context: ./
+      dockerfile: frontend.Dockerfile
+    image: disa_frotend
+    volumes:
+      - ./:/usr/src/app
+    environment:
+      - DATABASE_URL=postgres://disa:dev@db:5432/disa_db
     ports:
-      - '5321:5432'
+      - 8080:8080
+    container_name: disa_frotend
+  backend:
+    build:
+      context: ./
+      dockerfile: backend.Dockerfile
+    image: disa_backend
+    volumes:
+      - ./:/usr/src/app
+    environment:
+      - DATABASE_URL=postgres://disa:dev@db:5432/disa_db
+    ports:
+      - 8000:8000
+    container_name: disa_backend
+  db:
+    container_name: disa_db
+    image: postgres:15
+    restart: always
+    ports:
+      - 5432:5432
     environment:
       - POSTGRES_USER=disa
       - POSTGRES_PASSWORD=dev
       - POSTGRES_DB=disa_db
+      - PG_DATA=/disa_pgdata
     volumes:
-      - ./disa_pgdata:/var/lib/postgresql/data
-    container_name: disa_db
+      - disa_pgdata:/data
+  adminer:
+    container_name: disa_adminer
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8081
+
+volumes:
+  disa_pgdata:
