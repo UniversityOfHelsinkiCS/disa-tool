@@ -15,8 +15,8 @@ test('Renders matrix page', async ({ page }) => {
   await expect(page.getByText('Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoidu')).toBeVisible()
   await expect(page.getByTestId('matrix-table').locator('div').filter({ hasText: '1-2' }).nth(2)).toBeVisible()
   await expect(courseHeader).toHaveText('Lineaarialgebra ja matriisilaskenta I kevät 2018')
-  await page.waitForLoadState('domcontentloaded')
-  await expect(page).toHaveScreenshot();
+  await page.waitForTimeout(200)
+  await expect(page).toHaveScreenshot()
 })
 
 test('Shows loading bar on wrong url', async ({ page }) => {
@@ -26,9 +26,9 @@ test('Shows loading bar on wrong url', async ({ page }) => {
   await page.getByRole('textbox').press('Enter');
   await page.goto('http://localhost:8080/course/1337');
   const loadingIcon =  page.locator('id=loading-icon')
-   expect(loadingIcon).toBeTruthy();
-  await page.waitForLoadState('domcontentloaded')
-  await expect(page).toHaveScreenshot();
+   expect(loadingIcon).toBeTruthy()
+  await page.waitForTimeout(200)
+  await expect(page).toHaveScreenshot()
 })
 
 })

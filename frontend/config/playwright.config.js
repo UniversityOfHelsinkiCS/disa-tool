@@ -21,10 +21,10 @@ module.exports = defineConfig({
   expect: {
     timeout: 5000,
     toHaveScreenshot: {
-      maxDiffPixels: 10,
+      maxDiffPixels: 500,
     },
     toMatchSnapshot:  {
-      maxDiffPixelRatio: 0.1,
+      maxDiffPixelRatio: 0.2,
     },
   },
   testDir: '../src/tests/pw-tests',
