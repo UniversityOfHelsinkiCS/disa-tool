@@ -19,6 +19,7 @@ test('Test adding a task', async ({ page }) => {
   await page.locator('input[name="info"]').fill('Tehtävä ei ole vaikea');
   await page.locator('input[name="points"]').click()
   await page.locator('input[name="points"]').fill('1');
+  await page.waitForTimeout(200)
   await expect(page).toHaveScreenshot("form-filled.png")
 
 
@@ -28,5 +29,6 @@ test('Test adding a task', async ({ page }) => {
    expect(page.getByTestId('course-page').locator('div').filter({ hasText: 'Tärkeä tehtäväReverse-engineered stable solutionEnhanced directional circuitUniv' }).first()).toBeTruthy()
    expect(page.getByText('Tehtävän lisätiedot: Tehtävän info')).toBeTruthy()
    expect(page.getByText('Maksimipisteet: 1')).toBeTruthy()
+   await page.waitForTimeout(200)
    await expect(page).toHaveScreenshot("task-added.png")
 });

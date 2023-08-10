@@ -13,9 +13,11 @@ test('Check that EditTaskTab renders', async ({ page }) => {
   await page.getByRole('link', { name: 'Tehtävät' }).click();
   await page.locator('div').filter({ hasText: /^Types$/ }).nth(3).click();
   // Edit field shows
+  await page.waitForTimeout(200)
   await expect(page).toHaveScreenshot("edit-field-expanded.png");
   await page.locator('div').filter({ hasText: /^Types$/ }).first().click();
   // Edit field collapses
+  await page.waitForTimeout(200)
   await expect(page).toHaveScreenshot("edit-field-collapsed.png");
 })
 
@@ -27,6 +29,7 @@ test('Edits are saved', async ({ page }) => {
   await page.getByRole('link', { name: 'Tehtävät' }).click();
   await page.getByTestId('course-page').getByRole('textbox').click();
   await page.getByTestId('course-page').getByRole('textbox').fill('Matrii');
+  await page.waitForTimeout(200)
   await expect(page).toHaveScreenshot("search-for-course.png");
   await page.getByRole('option', { name: 'Matriisikertolasku ruokakaupassa' }).click();
   expect(page.getByText('Matriisikertolasku ruokakaupassa')).toBeTruthy()
@@ -42,6 +45,7 @@ test('Edits are saved', async ({ page }) => {
   await page.locator('input[name="eng_description"]').click()
   await page.locator('input[name="eng_description"]').fill('Tehtävässä tutustutaan matriisikertolaskuun teoreettisen sovelluksen avulla');
   await page.locator('input[name="points"]').fill('2');
+  await page.waitForTimeout(200)
   await expect(page).toHaveScreenshot("edit-form-filled.png");
 
 
@@ -50,6 +54,7 @@ test('Edits are saved', async ({ page }) => {
   expect(page.getByText('Matriisikertolasku rautakaupassa')).toBeTruthy()
   expect(page.getByText('Tehtävässä tutustutaan matriisikertolaskuun teoreettisen sovelluksen avulla.Tehtävä')).toBeTruthy()
   expect(page.getByText('Default Multiplier: 0.14Viikko 5Sarja A')).toBeTruthy()
+  await page.waitForTimeout(200)
   await expect(page).toHaveScreenshot("edit-form-edited-and-saved.png");
 
 });
