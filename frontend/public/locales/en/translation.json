@@ -348,21 +348,21 @@
       "back_button": "Back to course page",
       "defineMatrixFirstError": "Define course-objective matrix first"
     },
-    "QuestionModules": {
-      "CategoryQuestionModule": {
+    "questionModules": {
+      "categoryQuestionModule": {
         "matrix": "Skill level matrix",
         "assessment": "Assess your skills by grade",
         "gradeSelect": "Select a grade",
         "basis": "Explanation for grade",
         "writeBasis": "Write an explanation for your grade"
       },
-      "EditCategoryModule": {
+      "editCategoryModule": {
         "label": "Explanation for grade",
         "includedButton": "Included in assessment",
 
         "notIncludedButton": "Not included in assessment"
       },
-      "OpenQuestionModule": {
+      "openQuestionModule": {
         "placeholder": "Write your response here",
 
         "modalHeader": "Remove open question",

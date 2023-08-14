@@ -89,7 +89,10 @@ const UserPage = (props) => {
   }
 
 
+
     const { self_assessments: assessments, tasks,id } = activeCourse
+    console.log(activeCourse)
+    if(!activeCourse.people) return <div></div>
     const isTeacher = activeCourse.courseRole === 'TEACHER'
     const isGlobalTeacher = user.role === 'TEACHER' || user.role === 'ADMIN'
     const students = activeCourse.id && isTeacher ?

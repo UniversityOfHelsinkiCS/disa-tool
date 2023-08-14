@@ -375,29 +375,20 @@
       "back_button": "Takaisin kurssisivulle",
       "defineMatrixFirstError": "Määritä kurssin tavoitematriisi ensin"
     },
-    "QuestionModules": {
-      "CategoryQuestionModule": {
-        "matrix": ["Skill level matrix", "Osaamismatriisi"],
-        "assessment": [
-          "Assess your skills by grade",
-          "Arvioi osaamisesi arvosanalla"
-        ],
-        "gradeSelect": ["Select a grade", "Valitse arvosana"],
-        "basis": ["Explanation for grade", "Perustelut arvosanalle"],
-        "writeBasis": [
-          "Write an explanation for your grade",
-          "Perustelut arvosanalle"
-        ]
+    "questionModules": {
+      "categoryQuestionModule": {
+        "matrix": "Osaamismatriisi",
+        "assessment": "Arvioi osaamisesi arvosanalla",
+        "gradeSelect": "Valitse arvosana",
+        "basis": "Perustelut arvosanalle",
+        "writeBasis": "Perustelut arvosanalle"
       },
-      "EditCategoryModule": {
-        "label": ["Explanation for grade", "Perustelut arvosanalle"],
-        "includedButton": ["Included in assessment", "Mukana itsearviossa"],
-        "notIncludedButton": [
-          "Not included in assessment",
-          "Ei mukana itsearviossa"
-        ]
+      "editCategoryModule": {
+        "label": "Perustelut arvosanalle",
+        "includedButton": "Mukana itsearviossa",
+        "notIncludedButton": "Ei mukana itsearviossa"
       },
-      "OpenQuestionModule": {
+      "openQuestionModule": {
         "placeholder": ["Write your response here", "Kirjoita vastaus tähän"],
         "modalHeader": ["Remove open question", "Poista avoin kysymys"],
         "modalConfirmation": [

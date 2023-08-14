@@ -60,12 +60,12 @@ export const CategoryQuestionModule = (props) => {
                       <Accordion style={{ marginTop: '10px' }} fluid styled>
                         <Accordion.Title
                           active={state.showMatrix}
-                          onClick={() => setShowMatrix(!state.showMatrix)}
+                          onClick={() => setShowMatrix(!showMatrix)}
                         >
                           <Icon name="dropdown" />
                           {t('matrix')}
                         </Accordion.Title>
-                        <Accordion.Content active={state.showMatrix}>
+                        <Accordion.Content active={showMatrix}>
                           <MatrixPage
                             courseId={courseInstanceId}
                             hideHeader
@@ -90,7 +90,7 @@ export const CategoryQuestionModule = (props) => {
                               options={grades}
                               error={gradeError !== undefined}
                               onChange={!edit ? handleDropdownChange : null}
-                              value={existingGrade ? existingGrade.value : state.value}
+                              value={existingGrade ? existingGrade.value : value}
                             />
                           </div>
                           <Message

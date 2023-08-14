@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { connect,useDispatch,useSelector } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
 import { Button, Dropdown, Form, Label } from 'semantic-ui-react'
 import asyncAction from '../../../utils/asyncAction'
 
@@ -59,7 +57,7 @@ const AddToCourseForm = (props) => {
 
   const changeRole = role => () => setRole(role)
 
-  const  {t} = useTranslation("translation", {keyPrefix: "Admin.AddToCourseForm"})
+  const  {t} = useTranslation("translation", {keyPrefix: "admin.addToCourseForm"})
 
 
     const contentPrompt = [
@@ -167,30 +165,5 @@ AddToCourseForm.propTypes = {
   addPersonToCourse: PropTypes.func.isRequired
 }
 */
-AddToCourseForm.defaultProps = {
-  selectedCourse: null,
-  selectedInstance: null
-}
 
-const mapStateToProps = (state, ownProps) => {
-  const alreadyOnCourse = ownProps.person.course_people.reduce((acc, curr) => ({
-    ...acc,
-    [curr.course_instance_id]: true
-  }), {})
-  return {
-    courses: state.listCourses.courses,
-    instances: state.listCourses.instances.filter(instance => !alreadyOnCourse[instance.id]),
-    selectedCourse: state.listCourses.selectedCourse,
-    selectedInstance: state.listCourses.selectedInstance
-  }
-}
-
-const mapDispatchToProps = dispatch => ({
-  getAllCourses: asyncAction(getAllCourses, dispatch),
-  getInstancesOfCourse: asyncAction(getInstancesOfCourse, dispatch),
-  selectCourse: selectCourse(dispatch),
-  selectInstance: selectInstance(dispatch),
-  addPersonToCourse: asyncAction(addPersonToCourse, dispatch)
-})
-
-export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(AddToCourseForm))
+export default connect()(AddToCourseForm)

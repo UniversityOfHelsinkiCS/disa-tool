@@ -364,7 +364,7 @@ export const resetErrorAction = () => async (dispatch) => {
   })
 }
 
-export const updateCategoryGradesAction = categoryGrades => async (dispatch) => {
+export const updateCategoryGradesAction = async (categoryGrades, dispatch) => {
   dispatch({
     type: types.GRADE_UPDATE_CATEGORY_GRADES_ATTEMPT,
     payload: categoryGrades
