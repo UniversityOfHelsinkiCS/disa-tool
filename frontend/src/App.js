@@ -17,12 +17,23 @@ const App = (props) => {
 
   const getUserAsync =async () => {
     await getUserAction(dispatch)
+
   }
 
   useEffect(() => {
-    getUserAsync()
+    sessionAliveInterval = setInterval(async () => {
+      try {
+        getUserAsync()
+      } catch (e) {}
+    }, 60 * 1000)
+    return () => {
+      if (sessionAliveInterval !== null) {
+        clearInterval(sessionAliveInterval)
+        sessionAliveInterval = null
+      }
+    }
   },[])
-  
+
   const logError = (err) => {
     console.log(err)
     Sentry.configureScope((context) => {

@@ -14,12 +14,21 @@ if (typeof document !== 'undefined') {
 
 if (!i18n.isInitialized) {
   i18n
+  .use(Backend)
   .use(initReactI18next)
   .init({
     fallbackLng: 'fi',
     debug: false,
     interpolation: {
       escapeValue: false, 
+    },
+    resources: {
+      fi: {
+        translation: fi
+      },
+      en: {
+        translation: en
+      }
     },
     defaultNS: 'translation',
     lng: 'fi',

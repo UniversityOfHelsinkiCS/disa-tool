@@ -1,12 +1,12 @@
-const { Person } = require('../database/models.js')
+const { Person } = require('../database/models')
 
 const getCurrentUser = async ({ username, studentnumber, name }) => {
   let person = null
   if (!person && username) {
-    person = await Person.findOne({ where: {username} })
+    person = await Person.findOne({ where: { username } })
   }
   if (!person && studentnumber) {
-    person = await Person.findOne({ where: {studentnumber} })
+    person = await Person.findOne({ where: { studentnumber } })
   }
   if (!person) {
     person = await Person.create({
@@ -26,7 +26,7 @@ const getCurrentUser = async ({ username, studentnumber, name }) => {
 
 const checkAuth = async (req) => {
   const { uid, schacpersonaluniquecode, displayname, hypersonstudentid } = req.headers
-  
+
   const studentnumber = hypersonstudentid || (schacpersonaluniquecode && schacpersonaluniquecode.length !== 0
     ? schacpersonaluniquecode.split(':')[6]
     : null)
