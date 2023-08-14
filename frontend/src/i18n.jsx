@@ -32,6 +32,10 @@ if (!i18n.isInitialized) {
     },
     defaultNS: 'translation',
     lng: 'fi',
+    react: {
+      wait: true,
+      useSuspense: false,
+   },
   });
 }
 

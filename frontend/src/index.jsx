@@ -26,10 +26,8 @@ try {
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-    <I18nextProvider i18n={i18n}> 
-    <Suspense fallback={<div>Loading... </div>}>
-      <App />
-      </Suspense>
+      <I18nextProvider i18n={i18n}> 
+        <App />
       </I18nextProvider>
     </BrowserRouter>
   </Provider>
