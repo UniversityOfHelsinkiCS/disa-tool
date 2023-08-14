@@ -21,9 +21,10 @@ const App = (props) => {
   }
 
   useEffect(() => {
+    getUserAsync()
     sessionAliveInterval = setInterval(async () => {
       try {
-        getUserAsync()
+await getUser()
       } catch (e) {}
     }, 60 * 1000)
     return () => {
