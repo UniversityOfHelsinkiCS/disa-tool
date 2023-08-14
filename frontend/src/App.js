@@ -21,7 +21,7 @@ const App = (props) => {
 
   useEffect(() => {
     getUserAsync()
-  },[user.id])
+  },[])
   
   const logError = (err) => {
     console.log(err)
