@@ -7,24 +7,26 @@ services:
       dockerfile: frontend.Dockerfile
     image: disa_frotend
     volumes:
-      - ./:/usr/src/app
+      - ./:/app-root/src/frontend
     environment:
       - DATABASE_URL=postgres://disa:dev@db:5432/disa_db
     ports:
       - 8080:8080
     container_name: disa_frotend
+    restart: always
   backend:
     build:
       context: ./
       dockerfile: backend.Dockerfile
     image: disa_backend
     volumes:
-      - ./:/usr/src/app
+      - ./:/app-root/src/backend
     environment:
       - DATABASE_URL=postgres://disa:dev@db:5432/disa_db
     ports:
       - 8000:8000
     container_name: disa_backend
+    restart: always
   db:
     container_name: disa_db
     image: postgres:15

@@ -7,7 +7,6 @@ if (!process.env.GITHUB_ACTIONS) {
 } else {
   dotenv.config()
 }
-console.log('Testing: ', process.env.TESTING)
 const readFile = (filename) => {
   let content
   try {

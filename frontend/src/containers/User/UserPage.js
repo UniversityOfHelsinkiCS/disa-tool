@@ -116,7 +116,7 @@ const UserPage = (props) => {
               handleChange={handleClick}
             />
           </Grid.Column>
-          <Grid.Column width={13}>
+          <Grid.Column width={13} data-testid="course-info" >
             {activeCourse.id ?
               <Item>
                 <Grid padded="horizontally" columns="equal">

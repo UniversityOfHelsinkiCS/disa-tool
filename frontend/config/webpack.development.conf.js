@@ -73,7 +73,13 @@ module.exports = {
     proxy: {
       '/api': `http://disa_backend:${apiPort}`
     },
-    historyApiFallback: true
+    historyApiFallback: true,
+    watchFiles: {
+      paths: ['src/**/*.js', 'public/**/*'],
+      options: {
+        usePolling: false,
+      },
+    },
   },
   devtool: 'source-map'
 }

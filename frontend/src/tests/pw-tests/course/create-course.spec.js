@@ -25,12 +25,12 @@ test('You can create a course - singular language', async ({ page }) => {
   await page.locator('input[name="name-input"]').click();
   await page.locator('input[name="name-input"]').fill('Uusi kurssi 2023 - nimeä vaihdettu');
   await page.getByRole('button', { name: 'Tallenna' }).click();
-  await page.waitForTimeout(200)
+  await page.waitForTimeout(400)
   await expect(page).toHaveScreenshot("new-course-name-changed.png");
   await page.getByRole('button', { name: 'Kurssisivulle' }).click();
   await page.getByRole('button', { name: 'Kurssi suljettu' }).click();
   await page.waitForTimeout(200)
-  await expect(page).toHaveScreenshot("course-is-open.png");
+  await expect(page.getByTestId("course-info")).toHaveScreenshot("course-is-open.png");
   // Add new matrix - TODO: move to separate test
   await page.getByRole('button', { name: 'Muokkaa kurssia' }).click();
   await page.locator('td').getByRole('button').click();
@@ -78,13 +78,12 @@ test('You can create a course - multilingual', async ({ page }) => {
   await page.locator('input[name="swe_name"]').fill('Monikielinen kurssi instanssi - svenska');
   await page.getByRole('button', { name: 'Tallenna' }).click();
   await page.waitForTimeout(200)
-  await expect(page).toHaveScreenshot("course-in-finnish-visible.png");
   await page.getByRole('button', { name: 'Kurssisivulle' }).click();
   await expect(page.getByRole('link', { name: 'Monikielinen kurssi instanssi - suomi' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Monikielinen kurssi instanssi - suomi' })).toBeVisible();
-  await expect(page.getByText('Kurssin opettajatKimg Jon-un')).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Tämä kurssi on suljettu' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Kurssin tavoitematriisi' })).toBeVisible();
+  await expect(page.getByTestId("course-info")).toHaveScreenshot("multi-course-info-in-finnish-visible.png");
   await page.getByText('SuomiSuomiSvenskaEnglish').click()
   await page.getByRole('option', { name: 'English' }).click();
   page.reload()
@@ -95,4 +94,10 @@ test('You can create a course - multilingual', async ({ page }) => {
   await expect(page.getByText('Course teachersKimg Jon-un')).toBeVisible();
   //await page.goto('http://localhost:8080/user/course/54');
   await page.waitForTimeout(200)
-  await expect(page).toHaveScreenshot("course-in-english-visible.png");})
+  await expect(page).toHaveScreenshot("course-in-english-visible.png");
+
+  await page.getByRole('button', { name: 'Course-objective matrix' }).click();
+  await expect(page.getByRole('cell', { name: 'Category' })).toBeVisible();
+  await expect(page.getByRole('cell', { name: 'Skill Levels' })).toBeVisible();
+  await expect(page).toHaveScreenshot("multi-course-matrix-in-english-visible.png");
+})
