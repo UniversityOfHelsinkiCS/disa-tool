@@ -21,7 +21,7 @@ jobs:
           run: npm ci
           working-directory: backend
         - name: docker-compose up -d
-          run: docker-compose up -d
+          run: docker-compose up -f ci-docker-compose.yml -d
         - name: Install Playwright Browsers
           run: npx playwright install --with-deps
           working-directory: frontend
