@@ -6,6 +6,7 @@
   "scripts": {
     "build": "rimraf ../backend/dist && webpack --config ./config/webpack.production.conf.js",
     "start": "webpack-dev-server --config ./config/webpack.development.conf.js --hot",
+    "start-ci": "webpack-dev-server --config ./config/ci-webpack.conf.js --hot",
     "test": "jest",
     "stats": "webpack --config ./config/webpack.production.js --profile --json > stats.json",
     "lint": "eslint --ext .js src || true",
