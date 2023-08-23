@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect,useDispatch, useSelector } from 'react-redux'
 import { Menu, Dropdown, Input } from 'semantic-ui-react'
-import { setActiveLanguage } from 'react-localize-redux'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 
@@ -71,6 +70,7 @@ const Nav = (props) => {
   const handleFakeUser = ({ target }) => {
     window.localStorage.setItem('fakeShibbo', target.value)
   }
+  console.log(process.env.NODE_ENV)
     return (
       <nav data-testid="navbar">
         <Menu tabular>

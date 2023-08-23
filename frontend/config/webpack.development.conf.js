@@ -71,15 +71,9 @@ module.exports = {
   devServer: {
     port: devPort,
     proxy: {
-      '/api': `http://disa_backend:${apiPort}`
+      '/api': `http://localhost:${apiPort}`
     },
     historyApiFallback: true,
-    watchFiles: {
-      paths: ['src/**/*.js', 'public/**/*'],
-      options: {
-        usePolling: false,
-      },
-    },
   },
   devtool: 'source-map'
 }

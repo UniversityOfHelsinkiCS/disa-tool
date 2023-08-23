@@ -1,36 +1,22 @@
 version: '3.5'
 
 services:
-  frontend:
+  app:
     build:
       context: ./
-      dockerfile: frontend.Dockerfile
-    image: disa_frotend
+      dockerfile: Dockerfile
+    image: disa_app
     volumes:
       - ./:/app-root/src/frontend
     environment:
       - DATABASE_URL=postgres://disa:dev@db:5432/disa_db
-    ports:
-      - 8080:8080
-    container_name: disa_frotend
-    restart: always
-  backend:
-    build:
-      context: ./
-      dockerfile: backend.Dockerfile
-    image: disa_backend
-    volumes:
-      - ./:/app-root/src/backend
-    environment:
-      - DATABASE_URL=postgres://disa:dev@db:5432/disa_db
+      - NODE_ENV=development
     ports:
       - 8000:8000
-    container_name: disa_backend
-    restart: always
+    container_name: disa_app
   db:
     container_name: disa_db
     image: postgres:15
-    restart: always
     ports:
       - 5432:5432
     environment:
