@@ -64,6 +64,7 @@ const UserPage = (props) => {
     // setState({ activeCourse: course })
     // Fetch all relevant course information: tasks with responses & assessments with responses.
     if (!loading && courseId) {
+
       await getCourseInstanceDataAction(course.id,dispatch)
     }
   }
@@ -91,7 +92,6 @@ const UserPage = (props) => {
 
 
     const { self_assessments: assessments, tasks,id } = activeCourse
-    console.log(activeCourse)
     if(!activeCourse.people) return <div></div>
     const isTeacher = activeCourse.courseRole === 'TEACHER'
     const isGlobalTeacher = user.role === 'TEACHER' || user.role === 'ADMIN'

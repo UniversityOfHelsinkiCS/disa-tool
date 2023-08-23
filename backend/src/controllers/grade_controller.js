@@ -1,9 +1,9 @@
 const router = require('express').Router()
 const logger = require('../utils/logger')
-const gradeService = require('../services/grade_service.js')
-const { errors } = require('../messages/global.js')
+const gradeService = require('../services/grade_service')
+const { errors } = require('../messages/global')
 const { checkPrivilege, onlyTeacherOnCourseHasAccess } = require('../services/privilege')
-const editRoutes = require('../utils/editRoutes.js')
+const editRoutes = require('../utils/editRoutes')
 
 const messages = {
   course: {

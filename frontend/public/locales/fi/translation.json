@@ -340,31 +340,13 @@
   },
   "selfAssessmentForm": {
     "selfAssessmentFormPage": {
-      "reviewMessage": [
-        "You're now reviewing the assessment. To edit it, first open it in the edit mode.",
-        "Olet tarkistustilassa. Muokataksesi itsearviolomaketta, avaa se ensin muokkaustilassa."
-      ],
-      "previewMessage": [
-        "You're now in preview mode. To save the assessment, return to the edit mode",
-        "Olet nyt esikatselutilassa, tallentaaksesi itsearvion palaa muokkaustilaan"
-      ],
-      "notOpenMessage": [
-        "The self-asseessment is not open for answering yet.",
-        "Itsearviota ei ole vielä avattu vastattavaksi"
-      ],
-      "existingResponse": [
-        "You've already responded to the assessment. The assessment is still open, so you can edit your responses.",
-        "Olet jo vastannut itsearvioon, mutta arvio on vielä auki, joten voit halutessasi muokata vastauksiasi."
-      ],
-      "modalHeader": ["Save you response", "Tallenna vastauksesi"],
-      "modalContent1": [
-        "You have empty explanation text fields",
-        "Sinulla on tyhjiä perustelukenttiä vastauksille"
-      ],
-      "modalContent2": [
-        "Do you wish to save your response despite this",
-        "Haluatko tallentaa vastauksesi tästä huolimatta"
-      ],
+      "reviewMessage": "Olet tarkistustilassa. Muokataksesi itsearviolomaketta, avaa se ensin muokkaustilassa.",
+      "previewMessage": "Olet nyt esikatselutilassa, tallentaaksesi itsearvion palaa muokkaustilaan",
+      "notOpenMessage": "Itsearviota ei ole vielä avattu vastattavaksi",
+      "existingResponse": "Olet jo vastannut itsearvioon, mutta arvio on vielä auki, joten voit halutessasi muokata vastauksiasi.",
+      "modalHeader": "Tallenna vastauksesi",
+      "modalContent1": "Sinulla on tyhjiä perustelukenttiä vastauksille",
+      "modalContent2": "Haluatko tallentaa vastauksesi tästä huolimatta",
       "modalButton1": "Tallenna",
       "modalButton2": "Peru",
       "editButton": "Takaisin",
@@ -402,21 +384,21 @@
         ]
       }
     },
-    "UpOrDownToggle": {
-      "downButton": ["Move category down", "Siirä kategoria alemmas"],
-      "upButton": ["Move category up", "Siirrä kategoria ylemmäs"]
+    "upOrDownToggle": {
+      "downButton": "Siirä kategoria alemmas",
+      "upButton": "Siirrä kategoria ylemmäs"
     },
     "addOpenQuestion": {
-      "addButton": ["Add open question", "Lisää avoin kysymys"],
-      "questionDisplay": ["Question", "Kysymys"]
+      "addButton": "Lisää avoin kysymys",
+      "questionDisplay": "Kysymys"
     },
-    "Header": {
-      "buttonSave": ["Save", "Aseta"],
-      "buttonEdit": ["Edit", "Muokkaa"]
+    "header": {
+      "buttonSave": "Aseta",
+      "buttonEdit": "Muokkaa"
     },
-    "Sections": {
-      "buttonSave": ["Save", "Aseta"],
-      "buttonEdit": ["Edit", "Muokkaa"]
+    "sections": {
+      "buttonSave": "Aseta",
+      "buttonEdit": "Muokkaa"
     }
   },
   "userPage": {

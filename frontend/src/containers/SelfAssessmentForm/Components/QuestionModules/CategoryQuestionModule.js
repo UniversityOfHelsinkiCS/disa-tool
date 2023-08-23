@@ -12,14 +12,17 @@ import { useTranslation } from 'react-i18next'
 export const CategoryQuestionModule = (props) => {
   const [showMatrix, setShowMatrix] = useState(false)
   const [value, setValue] = useState(null)
-  const answers = useSelector(state => state.selfAssessment.assesmentResponse) 
+  const answers = useSelector(state => state.selfAssesment.assesmentResponse) 
   const {edit,
     final,
     responseTextError,
     gradeError,
     courseInstanceId,
-    grades,
-    existingAnswer} = props
+    grades} = props
+  const existingAnswer = props.existingAnswer || [{
+    grade: null,
+    responseText: null
+  }]
     const { name, textFieldOn, id } = props.data
   const dispatch = useDispatch()
 
@@ -39,6 +42,7 @@ export const CategoryQuestionModule = (props) => {
   const handleTextFieldChange = () => {
     if (responseTextError) { clearErrorAction({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'responseText', id },dispatch) }
   }
+  
 
     const matchingResponse = final
       ? existingAnswer
@@ -59,7 +63,7 @@ export const CategoryQuestionModule = (props) => {
                     {!final &&
                       <Accordion style={{ marginTop: '10px' }} fluid styled>
                         <Accordion.Title
-                          active={state.showMatrix}
+                          active={showMatrix}
                           onClick={() => setShowMatrix(!showMatrix)}
                         >
                           <Icon name="dropdown" />

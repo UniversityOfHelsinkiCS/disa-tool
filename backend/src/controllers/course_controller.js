@@ -56,11 +56,11 @@ router.post('/instance/:courseId/tasks', async (req, res) => {
       return
     }
 
-    const people = await personService.getPeopleOnCourse(id, instance.tasks.map(task => task.id))
+    const people = await personService.getPeopleOnCourse(id, instance.tasks.map((task) => task.id))
     instance.people = people
-    instance.tasks = instance.tasks.map(task => ({
+    instance.tasks = instance.tasks.map((task) => ({
       ...task,
-      types: task.types.map(ttype => ({ ...ttype, name: `${ttype.type_header.name} ${ttype.name}` })
+      types: task.types.map((ttype) => ({ ...ttype, name: `${ttype.type_header.name} ${ttype.name}` })
       )
     }))
 
@@ -136,12 +136,12 @@ router.put('/details/:courseId', async (req, res) => {
     key: 'global_teacher',
     param: courseId
   }])
-  
+
   if (!isTeacher) {
     res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
     return
   }
-  const updatedCourse = await courseService.editCourse({id: courseId, eng_name, fin_name, swe_name})
+  const updatedCourse = await courseService.editCourse({ id: courseId, eng_name, fin_name, swe_name })
   res.status(200).json(updatedCourse)
 })
 
@@ -179,7 +179,5 @@ router.post('/create', async (req, res) => {
     }
   }
 })
-
-
 
 module.exports = router

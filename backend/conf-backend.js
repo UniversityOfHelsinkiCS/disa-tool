@@ -1,7 +1,6 @@
 const fs = require('fs')
 const dotenv = require('dotenv')
 
-console.log('process.env.GITHUB_ACTIONS', process.env.GITHUB_ACTIONS)
 if (!process.env.GITHUB_ACTIONS) {
   dotenv.config({ path: `${__dirname}/.env` })
 } else {

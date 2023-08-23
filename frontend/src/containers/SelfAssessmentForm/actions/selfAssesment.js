@@ -50,7 +50,7 @@ export const changeTextField = data => (dispatch) => {
   })
 }
 
-export const toggleFormPartAction = (id, type) => (dispatch) => {
+export const toggleFormPartAction = (id, type,dispatch) => {
   dispatch({
     type: types.TOGGLE_FORM_PART,
     payload: { id, type }

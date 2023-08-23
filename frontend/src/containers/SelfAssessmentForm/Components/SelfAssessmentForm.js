@@ -74,7 +74,7 @@ const SelfAssessmentForm = (props) => {
     </div>
   )
 }
-
+/*
 SelfAssessmentForm.defaultProps = {
   responseErrors: {
     qModErrors:
@@ -86,7 +86,8 @@ SelfAssessmentForm.defaultProps = {
   },
   existingAnswer: {}
 }
-
+*/
+/*
 SelfAssessmentForm.propTypes = {
   edit: PropTypes.bool.isRequired,
   formData: PropTypes.shape().isRequired,
@@ -99,6 +100,6 @@ SelfAssessmentForm.propTypes = {
   grades: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   existingAnswer: PropTypes.shape()
 }
-
+*/
 export default SelfAssessmentForm
 

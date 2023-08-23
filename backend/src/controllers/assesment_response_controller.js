@@ -3,7 +3,7 @@ const logger = require('../utils/logger')
 const { checkPrivilege, isTeacherOnCourse } = require('../services/privilege')
 const assessmentResponseService = require('../services/assesment_response_service')
 const selfAssessmentService = require('../services/self_assesment_service')
-const { errors } = require('../messages/global.js')
+const { errors } = require('../messages/global')
 
 const messages = {
   getBySelfAssesment: {
@@ -105,7 +105,6 @@ router.post('/', async (req, res) => {
     })
   }
 })
-
 
 /**
  * Verification and feedback generation. Done now one at a time.

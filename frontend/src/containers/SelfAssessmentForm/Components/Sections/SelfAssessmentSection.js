@@ -75,19 +75,7 @@ const SelfAssessmentSection = (props) => {
     </div>
   )
 }
-
-SelfAssessmentSection.defaultProps = {
-  question: false,
-  final: false,
-  headerType: null,
-  courseInstanceId: null,
-  clearError: null,
-  grades: null,
-  name: '',
-  headers: [],
-  infoBoxTranslationId: null
-}
-
+/*
 SelfAssessmentSection.propTypes = {
   formData: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -110,5 +98,5 @@ SelfAssessmentSection.propTypes = {
   headers: PropTypes.arrayOf(PropTypes.shape()),
   infoBoxTranslationId: PropTypes.string
 }
-
+*/
 export default SelfAssessmentSection

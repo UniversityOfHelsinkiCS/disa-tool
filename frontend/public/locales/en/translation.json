@@ -372,7 +372,7 @@
         "popup": "Remove the open question from here"
       }
     },
-    "UpOrDownToggle": {
+    "upOrDownToggle": {
       "downButton": "Move category down",
       "upButton": "Move category up"
     },
@@ -380,11 +380,11 @@
       "addButton": "Add open question",
       "questionDisplay": "Question"
     },
-    "Header": {
+    "header": {
       "buttonSave": "Save",
       "buttonEdit": "Edit"
     },
-    "Sections": {
+    "sections": {
       "buttonSave": "Save",
       "buttonEdit": "Edit"
     }

@@ -28,7 +28,7 @@ export const AddTaskForm = ({courseId, newOrder}) => {
       order: newOrder
     })
     await dispatch(addTaskPromise)
-    
+
     await getCourseInstanceDataAction(courseId,dispatch)
   }
 

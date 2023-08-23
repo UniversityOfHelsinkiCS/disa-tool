@@ -21,6 +21,7 @@ export const Task = (props) => {
   }
 
   const updateCourseInfo = async (courseId) => {
+
     await getCourseInstanceDataAction(courseId, dispatch)
   }
 

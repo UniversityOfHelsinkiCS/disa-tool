@@ -10,20 +10,20 @@ const {
   TypeHeader
 } = require('../database/models.js')
 
-const getCourse = courseId => Course.findOne({ where: { id: courseId } })
+const getCourse = (courseId) => Course.findOne({ where: { id: courseId } })
 
 const editCourse = async ({ id, eng_name, fin_name, swe_name }) => {
   const response = await Course.update({
-    eng_name: eng_name, fin_name: fin_name, swe_name: swe_name},
-    {returning: true, where: {id: id}
+    eng_name, fin_name, swe_name },
+  { returning: true, where: { id }
   })
 
   return response[1]
 }
 
-const instanceAttributes = lang => ['id', 'course_id', [`${lang}_name`, 'name'], 'active']
-const courseAttributes = lang => ['id', [`${lang}_name`, 'name']]
-const assessmentAttributes = lang => [
+const instanceAttributes = (lang) => ['id', 'course_id', [`${lang}_name`, 'name'], 'active']
+const courseAttributes = (lang) => ['id', [`${lang}_name`, 'name']]
+const assessmentAttributes = (lang) => [
   'id',
   [`${lang}_name`, 'name'],
   [`${lang}_instructions`, 'instructions'],
@@ -32,8 +32,8 @@ const assessmentAttributes = lang => [
   'active',
   'show_feedback',
   'course_instance_id']
-const typeAttributes = lang => ['id', [`${lang}_name`, 'name'], 'order']
-const taskAttributes = lang => [
+const typeAttributes = (lang) => ['id', [`${lang}_name`, 'name'], 'order']
+const taskAttributes = (lang) => [
   'course_instance_id',
   'id',
   [`${lang}_name`, 'name'],
@@ -53,8 +53,8 @@ const getCourseInstancesOfCourse = async (courseId, user, lang) => {
       attributes: ['id']
     },
     order: [['id', 'ASC']]
-  })).map(instance => instance.toJSON())
-  return instances.map(instance => ({
+  })).map((instance) => instance.toJSON())
+  return instances.map((instance) => ({
     ...instance,
     registered: instance.people.length > 0 ? instance.people[0].course_person.role : null,
     people: undefined
@@ -68,7 +68,7 @@ const getCoursesForPerson = (personId, lang) => (
   })
 )
 
-const getCourses = lang => Course.findAll({ attributes: courseAttributes(lang) })
+const getCourses = (lang) => Course.findAll({ attributes: courseAttributes(lang) })
 
 const getInstanceWithRelatedData = (instanceId, lang, userId) => (
   CourseInstance.findOne({
@@ -124,16 +124,16 @@ const getInstanceWithRelatedData = (instanceId, lang, userId) => (
 const toggleActivity = async (id) => {
   const instance = await CourseInstance.findByPk(id)
   return CourseInstance.update({ active: !instance.active }, { where: { id }, returning: true })
-    .then(res => res[1][0])
+    .then((res) => res[1][0])
 }
 
 const create = {
-  prepare: data => Course.build({
+  prepare: (data) => Course.build({
     eng_name: data.eng_name,
     fin_name: data.fin_name,
     swe_name: data.swe_name
   }),
-  execute: instance => instance.save(),
+  execute: (instance) => instance.save(),
   value: (instance, lang) => {
     const json = instance.toJSON()
     return {

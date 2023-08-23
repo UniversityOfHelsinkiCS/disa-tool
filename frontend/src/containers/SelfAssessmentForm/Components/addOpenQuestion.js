@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 
 const AddOpenQuestion = () => {
   const dispatch = useDispatch()
-  const { t } = useTranslation('selfAssessmentForm.addOpenQuestion')
+  const { t } = useTranslation("translation", {keyPrefix: 'selfAssessmentForm.addOpenQuestion'})
 
   const createQuestion = e => {
     dispatch(addOpenQuestion({

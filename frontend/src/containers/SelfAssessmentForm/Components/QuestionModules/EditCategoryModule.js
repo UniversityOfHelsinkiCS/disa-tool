@@ -27,7 +27,7 @@ const dispatch = useDispatch()
           <Checkbox
             style={{ marginTop: '10px' }}
             defaultChecked={textFieldOn}
-            onChange={() => toggleTextField(id)}
+            onChange={() => toggleTextField(id,dispatch)}
             label={t('label')}
             disabled={!includedInAssesment}
           />

@@ -17,7 +17,7 @@ const MatrixPage = (props) => {
   const loading = useSelector(state => state.course.loading)
 
   const dispatch = useDispatch()
-  const courseId = Number(useParams().id)
+  const courseId = Number(useParams().id) || props.courseId
 
   const getMatrixAsync = async() => {
     const response = await getMatrix({

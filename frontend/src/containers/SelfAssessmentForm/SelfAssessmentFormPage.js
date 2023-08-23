@@ -93,7 +93,6 @@ export const SelfAssessmentFormPage = ({
       await getCourseInstanceDataAction(courseInstanceId,dispatch)
     }
     if (formData) {
-      console.log("formData",formData)
       // Fetch the grades for the course
       const grades = await gradeOptions(courseInstanceId)
       setGrades(grades)
@@ -267,7 +266,6 @@ export const SelfAssessmentFormPage = ({
       </div>
     )
   }
-
     if (
       redirect ||
       error ||
