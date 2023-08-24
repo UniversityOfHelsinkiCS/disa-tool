@@ -1,21 +1,19 @@
 import React from 'react'
-import { arrayOf, shape, func } from 'prop-types'
 import { Link } from 'react-router-dom'
-import { connect, useDispatch } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { orderBy } from 'lodash'
 import { Button, List, Popup } from 'semantic-ui-react'
 import DeleteForm from '../../../utils/components/DeleteForm'
 import { removeSelfAssesment } from '../actions/selfAssesment'
-import asyncAction from '../../../utils/asyncAction'
 import Conditional from '../../../utils/components/Conditional'
 import { useTranslation } from 'react-i18next'
 
 const TeacherAssesmentList = ({
   assesments,
   toggleAssessment,
-  translate: baseTranslate,
-  deleteSelfAssesment
 }) => {
+  const courseInstanceId = useSelector(state => state.instance.id)
+
   const dispatch = useDispatch()
 
   const removeSelfAssesmentAsync =async (assessmentId) => {
@@ -23,7 +21,7 @@ const TeacherAssesmentList = ({
     dispatch(response)
   }
 
-  const {t} = useTranslation("translation", {keyPrefix: "UserPage.TeacherAssesmentList"})
+  const {t} = useTranslation("translation")
   return (
     <List selection divided size="big">
       {orderBy(assesments, 'name').map(assesment => (
@@ -43,30 +41,29 @@ const TeacherAssesmentList = ({
               <Popup
                 trigger={
                   <div style={{ display: 'inline' }}>
-                    <Button disabled icon="edit" circular size="mini" basic color="blue" as={Link} to={`/selfassessment/edit/${assesment.id}`} />
+                    <Button disabled icon="edit" circular size="mini" basic color="blue" as={Link} to={`/course-instance/${courseInstanceId}/selfassessment/edit/${assesment.id}`} />
                   </div>
                 }
-                content={t('cannot_edit_open_assessment')}
+                content={t('userPage.teacherAssesmentList.cannot_edit_open_assessment')}
               />
             </Conditional>
             <Conditional visible={!assesment.open}>
-              <Button icon="edit" circular size="mini" basic color="blue" as={Link} to={`/selfassessment/edit/${assesment.id}`} />
+              <Button icon="edit" circular size="mini" basic color="blue" as={Link} to={`/course-instance/${courseInstanceId}/selfassessment/edit/${assesment.id}`} />
             </Conditional>
             <DeleteForm
               onExecute={() => removeSelfAssesmentAsync(assesment.id)}
-              header={t('delete_header')}
+              header={t('userPage.teacherAssesmentList.delete_header')}
               prompt={[
-                t('delete_prompt_1'),
+                t('userPage.teacherAssesmentList.delete_prompt_1'),
                 assesment.name
               ]}
-              translate={baseTranslate}
             />
           </List.Content>
           <List.Content>
             <Button.Group size="small">
               <Button
                 name="assessmentHidden"
-                content={t('hidden')}
+                content={t('userPage.teacherAssesmentList.hidden')}
                 size="small"
                 value={assesment.id}
                 onClick={toggleAssessment}
@@ -75,7 +72,7 @@ const TeacherAssesmentList = ({
               <Button.Or />
               <Button
                 name="assessmentOpen"
-                content={t('open')}
+                content={t('userPage.teacherAssesmentList.open')}
                 size="small"
                 value={assesment.id}
                 onClick={toggleAssessment}
@@ -94,7 +91,7 @@ const TeacherAssesmentList = ({
             <Button
               name="feedbackOpen"
               color={assesment.show_feedback ? 'green' : 'red'}
-              content={assesment.show_feedback ? t('feedback_open') : translate('feedback_closed')}
+              content={assesment.show_feedback ? t('userPage.teacherAssesmentList.feedback_open') : t('userPage.teacherAssesmentList.feedback_closed')}
               size="small"
               value={assesment.id}
               onClick={toggleAssessment}

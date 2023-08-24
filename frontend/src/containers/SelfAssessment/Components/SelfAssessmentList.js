@@ -6,7 +6,7 @@ const SelfAssessmentList = ({selfAssessments,onClick}) => {
 
   const {t} = useTranslation("translation", {keyPrefix: "selfAssessment.selfAssessmentList"})
   return (
-    <List animated selection>
+    <List animated selection data-testid="self-assessment-list">
       <List.Header>{t('header')}</List.Header>
       {selfAssessments.map(sa => (
         <List.Item

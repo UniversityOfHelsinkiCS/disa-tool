@@ -1,6 +1,6 @@
 const { Op } = require('sequelize')
-const { SkillLevel, Grade, CategoryGrade, Category } = require('../database/models.js')
-const editServices = require('../utils/editServices.js')
+const { SkillLevel, Grade, CategoryGrade, Category } = require('../database/models')
+const editServices = require('../utils/editServices')
 
 const getByCourse = async (id, lang) => {
   const name = [`${lang}_name`, 'name']
@@ -19,7 +19,7 @@ const getByCourse = async (id, lang) => {
       [SkillLevel, 'order', 'ASC']
     ]
   })
-  return result.map(grade => ({ ...grade.toJSON(), skill_level: undefined }))
+  return result.map((grade) => ({ ...grade.toJSON(), skill_level: undefined }))
 }
 
 const create = {
@@ -43,7 +43,7 @@ const create = {
       skillLevel: skillLevel.toJSON()
     }
   },
-  execute: instance => instance.save(),
+  execute: (instance) => instance.save(),
   value: (instance, lang) => {
     const json = instance.toJSON()
     return {
@@ -58,7 +58,7 @@ const create = {
 }
 
 const deleteGrade = {
-  prepare: id => Grade.findByPk(id, {
+  prepare: (id) => Grade.findByPk(id, {
     attributes: ['id', 'skill_level_id'],
     include: {
       model: SkillLevel,
@@ -71,7 +71,7 @@ const deleteGrade = {
       id: json.id
     }
   },
-  execute: instance => instance.destroy()
+  execute: (instance) => instance.destroy()
 }
 
 const { details, edit } = editServices(
@@ -106,7 +106,7 @@ const { details, edit } = editServices(
 
 const createDefaultCategoryGrades = async (grade, courseInstanceId) => {
   const categories = await Category.findAll({ where: { course_instance_id: courseInstanceId } })
-  const categoryGrades = categories.map(category => ({
+  const categoryGrades = categories.map((category) => ({
     category_id: category.id,
     grade_id: grade.id,
     needed_for_grade: grade.needed_for_grade
@@ -116,15 +116,15 @@ const createDefaultCategoryGrades = async (grade, courseInstanceId) => {
 
 const filterCategoryGradesOnCourse = async (courseId, categoryGrades) => {
   const grades = await CategoryGrade.findAll({
-    where: { id: { [Op.in]: categoryGrades.map(cg => cg.id) } },
+    where: { id: { [Op.in]: categoryGrades.map((cg) => cg.id) } },
     include: Category
   })
-  return grades.filter(cg => cg.category.course_instance_id === courseId)
+  return grades.filter((cg) => cg.category.course_instance_id === courseId)
 }
 
 const updateCategoryGrades = (oldCategoryGrades, newValues) => (
   Promise.all(oldCategoryGrades.map(async (cg) => {
-    const newValue = newValues.find(val => val.id === cg.id)
+    const newValue = newValues.find((val) => val.id === cg.id)
     cg.set('needed_for_grade', newValue.neededForGrade)
     return cg.save({ returning: ['*'] })
   }))

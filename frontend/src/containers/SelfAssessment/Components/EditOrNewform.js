@@ -26,7 +26,7 @@ export const EditOrNewForm = (props )=> {
       s.course_instance_id === parseInt(dropDownValue, 10))
 
     return (
-      <div>
+      <div data-testid="edit-or-new-form">
         <Form>
           <Form.Field style={{ marginTop: '20px' }}>
             <Dropdown

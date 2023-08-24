@@ -67,14 +67,14 @@ const dispatch = useDispatch()
     }
 
     if (edit) {
-      return <Redirect to={`/selfassessment/edit/${assessmentId}`} />
+      return <Redirect to={`/course-instance/${courseInstanceId}/selfassessment/edit/${assessmentId}`} />
     }
 
     const courseDropdownOptions = createOptions(courses)
 
     return (
       <Container>
-        <div className="selfAssesmentCreateForm">
+        <div className="selfAssesmentCreateForm" data-testid="self-assessment-page">
           {!role ?
             <Loader active />
             :

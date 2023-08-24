@@ -6,7 +6,7 @@ const AssessmentButtons = (props) => {
   const { onClick, value } = props
   const {t} = useTranslation("translation", {keyPrefix: "selfAssessment.assessmentButtons"})
   return (
-    <div>
+    <div data-testid="assessment-buttons">
       <Form.Field>
         <Button
           size="tiny"

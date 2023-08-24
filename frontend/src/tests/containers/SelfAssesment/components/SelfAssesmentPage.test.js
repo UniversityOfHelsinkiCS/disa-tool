@@ -69,6 +69,6 @@ describe('Self assessment page', () => {
   it('redirects when state edit is true', () => {
     wrapper.setState({ edit: true, redirect: true, assessmentId: 1 })
     expect(wrapper.find(Redirect).exists()).toEqual(true)
-    expect(wrapper.find(Redirect).prop('to')).toEqual('/selfassessment/edit/1')
+    expect(wrapper.find(Redirect).prop('to')).toEqual('/course-instance/1/selfassessment/edit/1')
   })
 })

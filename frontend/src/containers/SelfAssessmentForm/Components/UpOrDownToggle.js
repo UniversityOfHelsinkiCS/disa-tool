@@ -14,6 +14,7 @@ const UpOrDownToggle = (props) => {
       <Popup
         trigger={
           <Icon
+          data-testid={`toggle-down-button-${id}`}
             color="red"
             name="arrow circle down"
             size="big"
@@ -24,6 +25,7 @@ const UpOrDownToggle = (props) => {
       <Popup
         trigger={
           <Icon
+          data-testid={`toggle-up-button-${id}`}
             color="green"
             name="arrow circle up"
             size="big"

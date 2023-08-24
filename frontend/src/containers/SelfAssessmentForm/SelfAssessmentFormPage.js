@@ -55,7 +55,6 @@ export const SelfAssessmentFormPage = ({
   const [preview, setPreview] = useState(false)
   const [grades, setGrades] = useState([])
   const { courseInstanceId, type, selfAssessmentId } = useParams()
-
   const dispatch = useDispatch()
 
   const { t } = useTranslation("translation", {keyPrefix: "selfAssessmentForm.selfAssessmentFormPage"})
@@ -175,7 +174,7 @@ export const SelfAssessmentFormPage = ({
     }
     return (
       <div>
-        <Container className="SelfAssessmentFormPage">
+        <Container className="SelfAssessmentFormPage" data-testid="self-assessment-form-page">
           <Segment>
             <Header as="h1" textAlign="center">
               <Button
@@ -228,6 +227,7 @@ export const SelfAssessmentFormPage = ({
           {preview || (!formData.open && !edit) ? null : (
             <Button
               positive
+              data-testid="submit-button-top"
               style={{ marginBottom: '25px' }}
               onClick={submitFunction}
             >
@@ -254,6 +254,7 @@ export const SelfAssessmentFormPage = ({
           {preview || (!formData.open && !edit) ? null : (
             <Button
               positive
+              data-testid="submit-button-bottom"
               style={{ marginBottom: '25px' }}
               onClick={submitFunction}
             >

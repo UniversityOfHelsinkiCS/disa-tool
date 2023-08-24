@@ -38,7 +38,7 @@ const ObjectiveQuestionModule = (props) => {
   }
 
     return (
-      <Card fluid>
+      <Card fluid data-testid="objective-question-module">
         <Card.Content>
           <Grid columns="equal">
             <Grid.Column>

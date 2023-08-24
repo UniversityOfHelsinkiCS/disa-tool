@@ -25,17 +25,18 @@ const SelfAssessmentSection = (props) => {
     edit ?
       formData.map(questionModules =>
         (
-          <QuestionModule
+          <li style={{listStyleType: "none", padding: 0, margin: 0}}><QuestionModule
             key={questionModules.id}
             data={questionModules}
             edit={edit}
             final={final}
           />
+          </li>
         ))
       :
       formData.map(questionModules =>
         ((questionModules.includedInAssesment || question) &&
-          (<QuestionModule
+          (<li style={{listStyleType: "none", padding: 0, margin: 0}}><QuestionModule
             key={questionModules.id}
             data={questionModules}
             edit={edit}
@@ -48,14 +49,14 @@ const SelfAssessmentSection = (props) => {
               responseText.find(e => e.id === questionModules.id)}
             clearError={clearError}
             grades={grades}
-          />)
+          /></li>)
         )))
 
-
+console.log(name, formData, edit, final, question, QuestionModule, errors, clearError, courseInstanceId, grades, name, headers, existingAnswer, infoBoxTranslationId)
   return (
 
     <div>
-      <Card fluid color="red" className="formCard">
+      <Card fluid color="red" className="formCard" data-testid="self-assessment-section">
         <Card.Content>
           {infoBoxTranslationId && <InfoBox translationid={infoBoxTranslationId} buttonProps={{ floated: 'right' }} />}
           <Header
@@ -66,7 +67,9 @@ const SelfAssessmentSection = (props) => {
             headers={headers}
             style={final ? { color: formData[0].includedInAssesment ? 'black' : 'grey' } : null}
           />
+          <ul data-testid={`self-assessment-section-list-${name}`}>
           {questions}
+          </ul>
           {(question && edit) &&
             <AddOpenQuestion />
           }

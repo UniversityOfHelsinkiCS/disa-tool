@@ -35,7 +35,7 @@ export const addOpenQuestion = questionData => (dispatch) => {
   })
 }
 
-export const removeOpenQuestion = id => (dispatch) => {
+export const removeOpenQuestion = (id, dispatch) => {
   dispatch({
     type: types.REMOVE_OPEN_QUESTION,
     payload: id

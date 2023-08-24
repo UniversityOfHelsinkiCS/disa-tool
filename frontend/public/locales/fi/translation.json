@@ -263,8 +263,8 @@
       "dropdown_null_value": "Ei pohjaa"
     },
     "editInstanceForm": {
-      "header": ["Edit course instance", "Muokkaa kurssi-instanssia"],
-      "prompt_1": ["Edit course instance", "Muokkaa kurssi-instanssia"]
+      "header": "Muokkaa kurssi-instanssia",
+      "prompt_1": "Muokkaa kurssi-instanssia"
     },
     "editCourseForm": {
       "rename_trigger": "Vaihda nimeä",
@@ -371,17 +371,11 @@
         "notIncludedButton": "Ei mukana itsearviossa"
       },
       "openQuestionModule": {
-        "placeholder": ["Write your response here", "Kirjoita vastaus tähän"],
-        "modalHeader": ["Remove open question", "Poista avoin kysymys"],
-        "modalConfirmation": [
-          "Do you wish to remove the open question",
-          "Haluatko poistaa avoimen kysymyksen"
-        ],
-        "modalCancel": ["Cancel", "Peru"],
-        "popup": [
-          "Remove the open question from here",
-          "Poista avoin kysymys tästä"
-        ]
+        "placeholder": "Kirjoita vastaus tähän",
+        "modalHeader": "Poista avoin kysymys",
+        "modalConfirmation": "Haluatko poistaa avoimen kysymyksen",
+        "modalCancel": "Peru",
+        "popup": "Poista avoin kysymys tästä"
       }
     },
     "upOrDownToggle": {
@@ -468,27 +462,21 @@
         "add": ["add", "lisää"]
       }
     },
-    "StudentAssesmentList": {
+    "studentAssesmentList": {
       "open": ["open", "avoin"],
       "answered": ["answered", "vastattu"],
       "unanswered": ["unanswered", "vastaamatta"]
     },
-    "TeacherAssesmentList": {
-      "open": ["open", "avoin"],
-      "visible": ["visible", "näkyvissä"],
-      "hidden": ["hidden", "piilotettu"],
-      "preview": ["preview", "esikatsele"],
-      "feedback_open": ["feedback visible", "palaute näkyy"],
-      "feedback_closed": ["no feedback", "ei palautetta"],
-      "delete_header": ["Remove self-asseessment", "Poista itsearviointi"],
-      "delete_prompt_1": [
-        "Really remove self-asseessment",
-        "Poistetaanko itsearviointi"
-      ],
-      "cannot_edit_open_assessment": [
-        "You can not edit open self-asseessment. Close or hide it first.",
-        "Et voi muokata avointa itsearviointia. Sulje tai piilota se ensin."
-      ]
+    "teacherAssesmentList": {
+      "open": "avoin",
+      "visible": "näkyvissä",
+      "hidden": "piilotettu",
+      "preview": "esikatsele",
+      "feedback_open": "palaute näkyy",
+      "feedback_closed": "ei palautetta",
+      "delete_header": "Poista itsearviointi",
+      "delete_prompt_1": "Poistetaanko itsearviointi",
+      "cannot_edit_open_assessment": "Et voi muokata avointa itsearviointia. Sulje tai piilota se ensin."
     }
   },
   "selfAssessmentList": {

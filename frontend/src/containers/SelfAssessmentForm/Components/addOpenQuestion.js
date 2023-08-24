@@ -1,14 +1,14 @@
 import React from 'react'
 import { Button } from 'semantic-ui-react'
 import { connect,useDispatch } from 'react-redux'
-import ModalForm, { saveActions } from '../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../utils/components/NewModalForm'
 import { addOpenQuestion } from '../actions/selfAssesment'
 import MultilingualField from '../../../utils/components/MultilingualField'
 import { useTranslation } from 'react-i18next'
 
 const AddOpenQuestion = () => {
   const dispatch = useDispatch()
-  const { t } = useTranslation("translation", {keyPrefix: 'selfAssessmentForm.addOpenQuestion'})
+  const { t } = useTranslation("translation")
 
   const createQuestion = e => {
     dispatch(addOpenQuestion({
@@ -19,14 +19,14 @@ const AddOpenQuestion = () => {
   }
   return (
     <ModalForm
-      header={t('addButton')}
-      trigger={<span><Button positive>{t('addButton')}</Button></span>}
+      header={t('selfAssessmentForm.addOpenQuestion.addButton')}
+      trigger={<span><Button data-testid="save-open-question-button" positive>{t('selfAssessmentForm.addOpenQuestion.addButton')}</Button></span>}
       actions={saveActions(t)}
       onSubmit={createQuestion}
     >
       <MultilingualField
         field="name"
-        fieldDisplay={t('questionDisplay')}
+        fieldDisplay={t('selfAssessmentForm.addOpenQuestion.questionDisplay')}
       />
     </ModalForm>
   )

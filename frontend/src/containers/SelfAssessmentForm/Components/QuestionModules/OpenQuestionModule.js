@@ -13,24 +13,25 @@ const OpenQuestionModule = (props) => {
   const { id, name } = props.data
   const dispatch = useDispatch()
 
-  const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.questionModules.openQuestionModule."})
+  const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.questionModules.openQuestionModule"})
 
   const handleTextAreaBlur = e => openQuestionResponseAction({ id, value: e.target.value },dispatch) //eslint-disable-line
   const handleTextAreaChange = () => clearErrorAction({ type: 'openQErrors', errorType: 'responseText', id },dispatch)
 
   return (
-    <Form error={responseTextError !== undefined}>
+    <Form error={responseTextError !== undefined} data-testid="open-question-module-wrapper">
       <Form.Field key={id}>
         <Card.Group centered>
           <Card fluid>
             <Card.Content>
-              <Card.Header style={{ paddingBottom: '1.5em' }}>
+              <Card.Header data-testid="open-question-module-question" style={{ paddingBottom: '1.5em' }}>
                 {name}
               </Card.Header>
               <Grid verticalAlign="middle" columns={3}>
                 <Grid.Row>
                   <Grid.Column width={10}>
                     <Form.TextArea
+                      data-testid="open-question-module-text-area"
                       autoheight="true"
                       error={responseTextError !== undefined}
                       placeholder={t('placeholder')}
@@ -55,13 +56,14 @@ const OpenQuestionModule = (props) => {
                             <Button color="red">
                               {t('modalCancel')}
                             </Button>
-                            <Button color="green" onClick={() => removeOpenQuestion(id,dispatch)} type="submit">Ok</Button>
+                            <Button data-testid={`open-question-module-ok-remove-button-${id}`} color="green" onClick={() => removeOpenQuestion(id,dispatch)} type="submit">Ok</Button>
                           </div>
                         }
                         trigger={
                           <Popup
                             trigger={
                               <Icon
+                               data-testid={`open-question-module-remove-button-${id}`}
                                 name="minus circle"
                                 size="big"
                                 color="red"

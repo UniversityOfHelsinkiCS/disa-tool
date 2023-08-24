@@ -36,7 +36,7 @@ export const CategoryQuestionModule = (props) => {
   }
 
  const handleTextFieldOnBlur = (e) => {
-    textfieldResponseAction({ id, value: e.target.value, final },data)
+    textfieldResponseAction({ id, value: e.target.value, final },dispatch)
   }
 
   const handleTextFieldChange = () => {

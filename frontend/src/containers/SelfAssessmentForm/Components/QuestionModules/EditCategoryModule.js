@@ -12,9 +12,8 @@ const EditCategorymodule = (props) => {
 const dispatch = useDispatch()
   const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.questionModules.editCategoryModule"})
 
-
   return (
-    <div>
+    <div data-testid={`edit-category-module-${id}`}>
       <Grid columns="4" padded >
         <Grid.Column width={final ? 8 : null}>
           <Header
@@ -25,6 +24,7 @@ const dispatch = useDispatch()
             style={{ color: (includedInAssesment ? 'black' : 'grey'), textAlign: 'left' }}
           />
           <Checkbox
+            data-testid={`show-explanation-button-${id}`}
             style={{ marginTop: '10px' }}
             defaultChecked={textFieldOn}
             onChange={() => toggleTextField(id,dispatch)}
@@ -34,6 +34,7 @@ const dispatch = useDispatch()
         </Grid.Column>
         <Grid.Column floated="right">
           <Button
+            data-testid={`toggle-category-included-button-${id}`}
             style={{ marginTop: '20px' }}
             className="toggleFormPartButton"
             size="large"
