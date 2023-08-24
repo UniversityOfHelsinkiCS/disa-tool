@@ -9,7 +9,7 @@ test('test', async ({ page }) => {
   await page.getByRole('link', { name: 'Oma sivu' }).click();
   await page.getByRole('link', { name: 'Lineaarialgebra ja matriisilaskenta I kevät 2019' }).click();
   await page.getByRole('button', { name: 'Luo kategoriapohjainen itsearviointi' }).click();
-  await page.locator("[data-testid='self-assessment-form-page']").screenshot({ path: 'self-assessment-category-page.png' });
+  await expect(page).toHaveScreenshot({ path: 'self-assessment-category-page.png' });
   await page.getByRole('heading', { name: 'Itsearviointitehtävä Muokkaa' }).getByRole('button').click();
   await page.getByRole('button', { name: 'Aseta' }).click();
   await page.locator('div').filter({ hasText: /^OhjeitaMuokkaa$/ }).getByRole('button').click();

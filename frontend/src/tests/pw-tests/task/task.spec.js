@@ -21,7 +21,7 @@ test('Individual task renders correctly', async ({ page }) => {
   await expect(page).toHaveScreenshot("edit-task-multiplier.png");
   await page.getByRole('button', { name: 'Peru' }).click();
   await page.getByText('Matriisi', { exact: true }).nth(1).click();
-  await page.locator("table[data-testid='matrix-table']").screenshot({ path: 'task-matrix.png' });
+  await expect(page).toHaveScreenshot({ path: 'task-matrix.png' });
 
 
 });
