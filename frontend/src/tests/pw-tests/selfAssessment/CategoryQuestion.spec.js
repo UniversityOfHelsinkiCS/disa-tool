@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.only('test', async ({ page }) => {
+test('test', async ({ page }) => {
   await page.goto('http://localhost:8080/');
   await page.getByRole('textbox').click();
   await page.getByRole('textbox').fill('terhit');
