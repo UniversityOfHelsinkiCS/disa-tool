@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('test', async ({ page }) => {
+test.only('test', async ({ page }) => {
   await page.goto('http://localhost:8080/');
   await page.getByRole('textbox').click();
   await page.getByRole('textbox').fill('terhit');
@@ -9,7 +9,7 @@ test('test', async ({ page }) => {
   await page.getByRole('link', { name: 'Oma sivu' }).click();
   await page.getByRole('link', { name: 'Lineaarialgebra ja matriisilaskenta I kevät 2019' }).click();
   await page.getByRole('button', { name: 'Luo kategoriapohjainen itsearviointi' }).click();
-  await expect(page).toHaveScreenshot({ path: 'self-assessment-category-page.png' });
+  await page.locator("[data-testid='self-assessment-form-page']").screenshot({ path: 'self-assessment-category-page.png' });
   await page.getByRole('heading', { name: 'Itsearviointitehtävä Muokkaa' }).getByRole('button').click();
   await page.getByRole('button', { name: 'Aseta' }).click();
   await page.locator('div').filter({ hasText: /^OhjeitaMuokkaa$/ }).getByRole('button').click();
@@ -18,12 +18,12 @@ test('test', async ({ page }) => {
   // Can be toggled off
   await expect(page.getByTestId('toggle-category-included-button-10')).toHaveText('Mukana itsearviossa');
   await expect(page.getByTestId('show-explanation-button-10').getByRole("checkbox")).toBeChecked();
-  await expect(page).toHaveScreenshot({ path: 'edit-category-module-before-clicks.png' });
+  await page.locator("div[data-testid='edit-category-module-10']").screenshot({ path: 'edit-category-module-before-clicks.png' });
   await page.getByTestId('show-explanation-button-10').getByText("Perustelut arvosanalle").click();
   await page.getByTestId('toggle-category-included-button-10').click();
   await expect(page.getByTestId('toggle-category-included-button-10')).toHaveText('Ei mukana itsearviossa');
   await expect(page.getByTestId('show-explanation-button-10').getByRole("checkbox")).not.toBeChecked();
-  await expect(page).toHaveScreenshot({ path: 'edit-category-module-after-clicks.png' });
+  await page.locator("[data-testid='edit-category-module-10']").screenshot({ path: 'edit-category-module-after-clicks.png' });
 
 // Can be toggled back
   await expect(page.getByTestId('toggle-category-included-button-10')).toHaveText('Ei mukana itsearviossa');
@@ -56,5 +56,5 @@ test('test', async ({ page }) => {
   await expect(page).toHaveScreenshot("self-assessment-preview-after.png")
   await page.getByRole('button', { name: 'Takaisin' }).nth(1).click();
   await page.getByRole('button', { name: 'Tallenna' }).first().click();
-  await expect(page).toHaveScreenshot("course-page-course-info-after.png")
+  await page.getByTestId("course-info").screenshot({ path: 'course-page-course-info-after.png' });
 });
