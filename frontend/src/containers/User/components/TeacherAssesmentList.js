@@ -23,7 +23,7 @@ const TeacherAssesmentList = ({
 
   const {t} = useTranslation("translation")
   return (
-    <List selection divided size="big">
+    <List data-testid={`teacher-assessment-list`} selection divided size="big">
       {orderBy(assesments, 'name').map(assesment => (
         <List.Item key={assesment.id} style={{ display: 'flex' }}>
           <List.Content
