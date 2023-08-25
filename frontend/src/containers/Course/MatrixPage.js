@@ -1,20 +1,18 @@
 import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { connect, useDispatch,useSelector } from 'react-redux'
 import { Link,useParams } from 'react-router-dom'
 import { Loader, Button, Container, Segment } from 'semantic-ui-react'
-import asyncAction from '../../utils/asyncAction'
-
 import { getMatrix, resetCourse } from './actions/course'
-
 import Matrix from './components/matrix/Matrix'
 import CourseHeader from './components/header/CourseHeader'
 import Conditional from '../../utils/components/Conditional'
 import { getCourseInstanceDataAction } from '../../actions/actions'
+import { useTranslation } from 'react-i18next'
 
 const MatrixPage = (props) => {
   const isTeacher = useSelector(state => state.instance.courseRole === "TEACHER")
   const loading = useSelector(state => state.course.loading)
+  const {t} = useTranslation("translation", {keyPrefix: "course.matrix.common"})
 
   const dispatch = useDispatch()
   const courseId = Number(useParams().id) || props.courseId
@@ -39,7 +37,7 @@ const MatrixPage = (props) => {
       <div className="MatrixPage">
         {props.hideHeader ? null : <CourseHeader renderReturnLink={false} />}
         <Conditional visible={isTeacher}>
-          <Button as={Link} to={`/course/${courseId}/matrix`} fluid style={{ marginBottom: '10px' }}>Edit matrix</Button>
+          <Button as={Link} to={`/course/${courseId}/matrix`} fluid style={{ marginBottom: '10px' }}>{t("editMatrix")}</Button>
         </Conditional>
         <Container>
           <Segment style={{ overflowX: 'auto', padding: 0 }}>

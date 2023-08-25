@@ -81,19 +81,19 @@ const CategoryGradeTable = (props) => {
     setGradeState([])
   }
 
-  const {t} = useTranslation("translation", {keyPrefix: "course.grades.categoryGradeTable"})
+  const {t} = useTranslation("translation")
 
     return (
       <Container>
         <Segment>
           <InfoBox translationid="EditCategoryGradesPage" buttonProps={{ floated: 'right' }} />
-          <Header as="h3" content={t('header')} />
-          <Button color="green" content={t('save')} onClick={submitChanges} />
-          <Button color="red" content={t('cancel_button')} onClick={cancelChanges} />
+          <Header as="h3" content={t('course.grades.categoryGradeTable.header')} />
+          <Button color="green" content={t('common.save')} onClick={submitChanges} />
+          <Button color="red" content={t('course.grades.categoryGradeTable.cancel_button')} onClick={cancelChanges} />
           <Table definition>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>{t('header_cell')}</Table.HeaderCell>
+                <Table.HeaderCell>{t('course.grades.categoryGradeTable.header_cell')}</Table.HeaderCell>
                 {props.grades.map(grade => (
                   <Table.HeaderCell key={grade.id}>
                     {grade.name}
@@ -123,8 +123,8 @@ const CategoryGradeTable = (props) => {
                   ))}
             </Table.Body>
           </Table>
-          <Button color="green" content={t('save')} onClick={submitChanges} />
-          <Button color="red" content={t('cancel_button')} onClick={cancelChanges} />
+          <Button color="green" content={t('common.save')} onClick={submitChanges} />
+          <Button color="red" content={t('course.grades.categoryGradeTable.cancel_button')} onClick={cancelChanges} />
         </Segment>
       </Container>
     )

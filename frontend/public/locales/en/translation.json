@@ -137,6 +137,9 @@
       }
     },
     "matrix": {
+      "common": {
+        "editMatrix": "Edit matrix"
+      },
       "CreateCategoryForm": {
         "header": "Create a new category",
         "prompt_1": "Create a new category"

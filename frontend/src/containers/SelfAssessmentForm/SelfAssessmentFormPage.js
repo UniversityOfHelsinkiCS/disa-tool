@@ -37,10 +37,7 @@ import './Components/selfAssesment.css'
 import { validationErrors, gradeOptions } from './utils'
 import { useTranslation } from 'react-i18next'
 
-export const SelfAssessmentFormPage = ({
-  newAssessment = false,
-  edit = false
-}) => {
+export const SelfAssessmentFormPage = (props) => {
   const formData = useSelector(state => state.selfAssesment.createForm)
   const courseInstance = useSelector(state => state.instance)
   const assessmentResponse = useSelector(state => state.selfAssesment.assesmentResponse)
@@ -56,7 +53,12 @@ export const SelfAssessmentFormPage = ({
   const [grades, setGrades] = useState([])
   const { courseInstanceId, type, selfAssessmentId } = useParams()
   const dispatch = useDispatch()
-
+  const {
+    newAssessment = false,
+    edit = false
+  } = props
+console.log(props)
+console.log(useParams())
   const { t } = useTranslation("translation", {keyPrefix: "selfAssessmentForm.selfAssessmentFormPage"})
 
   const asyncMount = async () => {
@@ -93,6 +95,7 @@ export const SelfAssessmentFormPage = ({
     }
     if (formData) {
       // Fetch the grades for the course
+      console.log(courseInstanceId)
       const grades = await gradeOptions(courseInstanceId)
       setGrades(grades)
     } else {

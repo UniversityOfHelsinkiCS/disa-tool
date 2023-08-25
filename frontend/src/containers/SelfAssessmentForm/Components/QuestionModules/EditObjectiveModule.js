@@ -1,7 +1,6 @@
 import { Grid, Button, List, Accordion, Icon } from 'semantic-ui-react'
 import React,{useState} from 'react'
 import { connect, useDispatch } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
 import { toggleFormPartAction } from '../../actions/selfAssesment'
 import MathJaxText from '../../../../utils/components/MathJaxText'
 import { useTranslation } from 'react-i18next'
@@ -10,12 +9,10 @@ import { useTranslation } from 'react-i18next'
 export const EditObjectiveModule = (props) => {
   const [active, setActive] = useState(false)
   const dispatch = useDispatch()
-
   const { objectives, name, id, includedInAssesment } = props.data
+  const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.questionModules.editCategoryModule"})
 
   const handleClick = () => setActive(!active)
-
-    const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.questionModules.editObjectiveModule"})
 
     return (
       <Accordion data-testid="edit-objective-module" style={{ marginTop: '20px', marginBottom: '20px' }} fluid styled>
@@ -76,10 +73,6 @@ export const EditObjectiveModule = (props) => {
     )
   }
 
-const mapDispatchToProps = dispatch => ({
-  dispatchToggleFormPartAction: (id, type) =>
-    dispatch(toggleFormPartAction(id, type))
-})
 /*
 EditObjectiveModule.propTypes = {
   dispatchToggleFormPartAction: PropTypes.func.isRequired,
@@ -93,4 +86,4 @@ EditObjectiveModule.propTypes = {
 }
 */
 
-export default withLocalize(connect()(EditObjectiveModule))
+export default connect()(EditObjectiveModule)

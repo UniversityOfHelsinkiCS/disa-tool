@@ -57,7 +57,7 @@ export const CourseInfo = (props) => {
               </Button>
               <Button
                 as={Link}
-                to={{ pathname: `${course.id}/tasksAndPeople`, state: { courseId: course.id } }}
+                to={{ pathname: `user/course/${course.id}/tasksAndPeople`, state: { courseId: course.id } }}
                 basic
                 color="blue"
                 icon

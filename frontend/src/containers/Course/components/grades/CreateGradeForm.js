@@ -1,49 +1,48 @@
 import React, { useState, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { connect, useDispatch } from 'react-redux'
 import { Button, Form, Input, Label, Dropdown } from 'semantic-ui-react'
-import asyncAction from '../../../../utils/asyncAction'
-
 import { addGrade } from '../../actions/grades'
-
-import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/NewModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 import InfoBox from '../../../../utils/components/InfoBox'
+import { useTranslation } from 'react-i18next'
 
  const CreateGradeForm = (props) => {
   const [values, setValues] = useState({})
+const dispatch = useDispatch()
+const {t} = useTranslation("translation", {keyPrefix: "course.grades"})
 
-  const addGradeSubmit = e => props.addGrade({
-    eng_name: e.target.eng_name.value,
-    fin_name: e.target.fin_name.value,
-    swe_name: e.target.swe_name.value,
-    skill_level_id: values.skill_level,
-    needed_for_grade: e.target.needed_for_grade.value,
-    prerequisite: values.prerequisite,
-    order: props.newOrder
-  })
+  const asyncAddGrade = async (e) => {
+    const response = await addGrade({
+      eng_name: e.target.eng_name.value,
+      fin_name: e.target.fin_name.value,
+      swe_name: e.target.swe_name.value,
+      skill_level_id: values.skill_level,
+      needed_for_grade: e.target.needed_for_grade.value,
+      prerequisite: values.prerequisite,
+      order: props.newOrder
+    })
+    dispatch(response)
+  }
 
   const changeDropdown = field => (e, { value }) => setValues({
       ...values,
       [field]: value
   })
 
-  const translate = id => props.translate(`Course.grades.CreateGradeForm.${id}`)
-
     const label = {
-      name: translate('grade'),
-      skill_level: translate('skill_level'),
-      needed_for_grade: translate('needed_for_grade'),
-      prerequisite: translate('prerequisite')
+      name: t('common.grade'),
+      skill_level: t('common.skill_level'),
+      needed_for_grade: t('common.needed_for_grade'),
+      prerequisite: t('common.prerequisite')
     }
     return (
       <div className="CreateGradeForm">
         <ModalForm
-          header={<Fragment>{translate('header')}<InfoBox translateFunc={props.translate} translationid="AddGradeModal" buttonProps={{ floated: 'right' }} /></Fragment>}
+          header={<Fragment>{t('createGradeForm.header')}<InfoBox tFunc={props.t} translationid="AddGradeModal" buttonProps={{ floated: 'right' }} /></Fragment>}
           trigger={<Button basic className="addGradeButton" icon={{ name: 'add' }} />}
-          actions={saveActions(translate)}
-          onSubmit={addGradeSubmit}
+          actions={saveActions(t)}
+          onSubmit={asyncAddGrade}
         >
           <MultilingualField field="name" fieldDisplay={label.name} />
           <Form.Field>
@@ -86,7 +85,7 @@ import InfoBox from '../../../../utils/components/InfoBox'
       </div>
     )
   }
-
+/*
 CreateGradeForm.propTypes = {
   levels: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -97,12 +96,9 @@ CreateGradeForm.propTypes = {
     name: PropTypes.string.isRequired
   })).isRequired,
   addGrade: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
   newOrder: PropTypes.number.isRequired
 }
+*/
 
-const mapDispatchToProps = dispatch => ({
-  addGrade: asyncAction(addGrade, dispatch)
-})
-
-export default withLocalize(connect(null, mapDispatchToProps)(CreateGradeForm))
+export default connect()(CreateGradeForm)

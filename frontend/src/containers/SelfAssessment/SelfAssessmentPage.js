@@ -24,6 +24,7 @@ export const SelfAssessmentPage = (props) => {
   const [courseInstanceId, setCourseInstanceId] = useState('')
   const [assessmentId, setAssessmentId] = useState('')
   const {courseId} = useParams()
+  console.log("courseId",useParams())
 
 const dispatch = useDispatch()
   useEffect(() => {

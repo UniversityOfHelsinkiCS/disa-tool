@@ -1,6 +1,5 @@
 import React, {useState,useEffect} from 'react'
 import { Form, Card, List, Grid, Segment, Message } from 'semantic-ui-react'
-import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux'
 import { gradeObjectiveAction, clearErrorAction } from '../../actions/selfAssesment'
 import MathJaxText from '../../../../utils/components/MathJaxText'

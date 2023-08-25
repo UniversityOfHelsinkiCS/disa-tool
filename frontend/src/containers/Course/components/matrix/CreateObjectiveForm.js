@@ -23,17 +23,17 @@ export const CreateObjectiveForm = (props) => {
       })
       dispatch(response)
     }
-    const {t} = useTranslation("translation", {keyPrefix: "course.matrix.createObjectiveForm"})
+    const {t} = useTranslation("translation")
       const contentPrompt = [
-        t('prompt_1'),
+        t('course.matrix.createObjectiveForm.prompt_1'),
         `"${props.category.name}"`,
-        t('prompt_2'),
+        t('course.matrix.createObjectiveForm.prompt_2'),
         `"${level.name}"`
       ].join(' ')
       return (
         <div className="CreateObjectiveForm">
           <ModalForm
-            header={t('header')}
+            header={t('course.matrix.createObjectiveForm.header')}
             trigger={<Button basic className="addObjectiveButton" icon={{ name: 'add' }} />}
             actions={saveActions()}
             onSubmit={addObjectiveSubmit}

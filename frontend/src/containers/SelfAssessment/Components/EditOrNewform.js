@@ -1,21 +1,19 @@
 import React, {useState, useEffect} from 'react'
-import PropTypes from 'prop-types'
 import { Dropdown, Form } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
 import AssessmentButtons from './AssessmentButtons'
 import SelfAssessmentList from './SelfAssessmentList'
 import { useTranslation } from 'react-i18next'
-
 
 export const EditOrNewForm = (props )=> {
   const [dropDownValue, setDropDownValue] = useState(null)
   const [selectedView, setSelectedView] = useState(null)
 
   useEffect(() => {
+    console.log(props)
     setDropDownValue(parseInt(props.selectedCourse, 10))
   },[])
 
-  handleDropdownChange = (e, { value }) => {
+  const handleDropdownChange = (e, { value }) => {
     setDropDownValue(value)
   }
 

@@ -39,7 +39,7 @@ const getUserKey = () => {
 
   const userRoutes = [
     <Route exact path="/course-instance/:courseInstanceId/selfassessment/edit/:selfAssessmentId" render={({ match }) => <SelfAssessmentFormPage edit match={match} />} key={() => getUserKey()} />,
-    <Route exact path="/selfassessment/preview/:selfAssessmentId" render={({ match }) => <SelfAssessmentFormPage preview edit={false} match={match} />} key={() => getUserKey()} />,
+    <Route exact path="/course-instance/:courseInstanceId/selfassessment/preview/:selfAssessmentId" render={({ match }) => <SelfAssessmentFormPage preview edit={false} match={match} />} key={() => getUserKey()} />,
     <Route exact path="/selfassessment/create/:courseInstanceId/:type" render={({ match }) => <SelfAssessmentFormPage edit newAssessment match={match} />} key={() => getUserKey()} />,
     <Route exact path="/selfassessment/response/:selfAssessmentId" render={({ match }) => <SelfAssessmentFormPage edit={false} match={match} />} key={() => getUserKey()} />,
     <Route path="/selfassessment/list/:selfAssesmentId" render={({ match }) => <SelfAssesmentListPage selfAssesmentId={Number(match.params.selfAssesmentId)} />} key={() => getUserKey()} />,

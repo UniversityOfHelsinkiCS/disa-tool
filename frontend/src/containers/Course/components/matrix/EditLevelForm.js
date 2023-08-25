@@ -48,12 +48,12 @@ const dispatch = useDispatch()
     setLoading(false)
   }
 
-  const {t} = useTranslation("translation", {keyPrefix: "Course.matrix.EditLevelForm."})
+  const {t} = useTranslation("translation")
 
     return (
       <div className="EditLevelForm">
         <ModalForm
-          header={t('header')}
+          header={t('course.matrix.editLevelForm.header')}
           trigger={<Button basic circular onClick={loadDetails} icon={{ name: 'edit' }} size="mini" />}
           onSubmit={editLevelSubmit}
           loading={loading}

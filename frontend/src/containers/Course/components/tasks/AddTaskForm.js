@@ -2,11 +2,9 @@ import React, { Fragment } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Button, Grid, Form, Input, Label } from 'semantic-ui-react'
-import asyncAction from '../../../../utils/asyncAction'
-
 import { addTask } from '../../actions/tasks'
 import { useTranslation } from 'react-i18next'
-import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/NewModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 import { getCourseInstanceDataAction } from '../../../../actions/actions'
 import InfoBox from '../../../../utils/components/InfoBox'
@@ -41,8 +39,8 @@ export const AddTaskForm = ({courseId, newOrder}) => {
     const label = {
       name: t('common.name'),
       description: t('common.description'),
-      info: 'info',
-      maxPoints: 'max points'
+      info: t('task.info'),
+      maxPoints: t('task.maxPoints')
     }
     return (
       <Grid.Row>
