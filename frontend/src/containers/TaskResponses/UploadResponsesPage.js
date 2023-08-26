@@ -10,13 +10,15 @@ import CsvTaskMapping from './CsvTaskMapping'
 import InfoBox from '../../utils/components/InfoBox'
 
 export const UploadResponsesPage = (props) => {
-  const [activeType, setActiveType] = useState(0)
-  const [csv, setCsv] = useState(undefined)
-  const [csvMappings, setCsvMappings] = useState({})
-  const [studentHeader, setStudentHeader] = useState(undefined)
-  const [pointsMapping, setPointsMapping] = useState({})
-  const [responsesCreated, setResponsesCreated] = useState(false)
-  const [types, setTypes] = useState([{ id: 0, text: 'Kaikki' }])
+  const [state, setState] = useState({
+    activeType: 0,
+    csv: undefined,
+    csvMappings: {},
+    studentHeader: undefined,
+    pointsMapping: {},
+    responsesCreated: false,
+    types: [{ id: 0, text: 'Kaikki' }]
+  })
 
   const { activeCourse } = props
 
@@ -53,8 +55,8 @@ export const UploadResponsesPage = (props) => {
         csv: header
       }
     })
-    const studentHeader = headers.findIndex(header => header.includes('Opiskelijanumero'))
-    setState({ csvMappings: suggestions, studentHeader })
+    const newStudentHeader = headers.findIndex(header => header.includes('Opiskelijanumero'))
+    setState({ csvMappings: suggestions, newStudentHeader })
   }
 
   const handleMapTask = (e, { value, suggestion }) => {

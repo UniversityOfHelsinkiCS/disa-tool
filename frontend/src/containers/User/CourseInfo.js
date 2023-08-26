@@ -20,7 +20,7 @@ export const CourseInfo = (props) => {
           <Conditional visible={props.isTeacher}>{
             <Button floated="right" color={course.active ? 'green' : 'red'} onClick={props.toggleActivation}>{t(course.active ? 'userPage.courseInfo.close_course' : 'userPage.courseInfo.start_course')}</Button>}
           </Conditional>
-          <InfoBox translationid="UserPage" buttonProps={{ floated: 'right' }} useCourseRole />
+          <InfoBox translationid="userPage" buttonProps={{ floated: 'right' }} useCourseRole />
         </Grid.Column>
       </Grid.Row>
       <Grid.Row>

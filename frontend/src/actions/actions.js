@@ -319,7 +319,7 @@ export const postTaskResponseActions = async (tasks,dispatch) => {
   }
 }
 
-export const updateCoursePersonsAction = coursePersons => async (dispatch) => {
+export const updateCoursePersonsAction = async (coursePersons, dispatch) => {
   dispatch({
     type: types.COURSE_INSTANCE_UPDATE_PERSON_ATTEMPT,
     payload: coursePersons
@@ -338,7 +338,7 @@ export const updateCoursePersonsAction = coursePersons => async (dispatch) => {
   }
 }
 
-export const deleteCoursePersonAction = coursePerson => async (dispatch) => {
+export const deleteCoursePersonAction = async (coursePerson,dispatch) => {
   dispatch({
     type: types.COURSE_INSTANCE_DELETE_PERSON_ATTEMPT,
     payload: coursePerson

@@ -1,23 +1,20 @@
 import React from 'react'
 import { Button, Popup } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from "rehype-raw";
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next';
 
 const InfoBox = ({
   translationid,
-  buttonProps,
-  popupProps,
-  translate,
-  translateFunc,
-  user,
-  courseInstance,
-  useCourseRole
+  buttonProps= {},
+  popupProps = {},
+  useCourseRole= false
 }) => {
+  const user = useSelector(state => state.user)
+  const courseInstance = useSelector(state => state.instance)
+  const {t} = useTranslation("translation", {keyPrefix: `infobox`})
   // modals cannot use translate, so they must pass translate as translateFunc prop to InfoBox
-  const translationFunction = translateFunc || translate
 
   const isTeacher = useCourseRole
     ? courseInstance.courseRole === 'TEACHER'
@@ -25,23 +22,14 @@ const InfoBox = ({
   const isAdmin = user.role === 'ADMIN'
   const isStudent = !isTeacher && !isAdmin
 
-  const translateidStudent = `InfoBox.${translationid}.Student`
-  const translateidTeacher = `InfoBox.${translationid}.Teacher`
-  const textStudent = translationFunction(translateidStudent, null, {
-    renderInnerHtml: false
-  })
-  const textTeacher = translationFunction(translateidTeacher, null, {
-    renderInnerHtml: false
-  })
+  const explainStudent = t('common.student')
+  const textStudent = t(`${translationid}.student`)
+  const explainTeacher = t('common.teacher')
+  const textTeacher = t(`${translationid}.teacher`)
 
   let text = isStudent ? textStudent : textTeacher
-
-  if (!isAdmin) {
-    if (text.match('missing translation')) return null
-  } else {
-    text = `<span style="color: gray;">${translateidStudent}</span><br />${textStudent}<br /><br /><span style="color: gray;">${translateidTeacher}</span><br />${textTeacher}`
-  }
-
+  text = `<span style="color: gray;">${explainStudent}</span><br />${textStudent}<br /><br /><span style="color: gray;">${explainTeacher}</span><br />${textTeacher}`
+  
   return (
     <Popup
       wide="very"
@@ -52,7 +40,7 @@ const InfoBox = ({
     />
   )
 }
-
+/*
 InfoBox.propTypes = {
   translate: PropTypes.func.isRequired,
   translationid: PropTypes.string.isRequired,
@@ -66,18 +54,6 @@ InfoBox.propTypes = {
   translateFunc: PropTypes.func,
   useCourseRole: PropTypes.bool
 }
+*/
 
-InfoBox.defaultProps = {
-  buttonProps: {},
-  popupProps: {},
-  courseInstance: {},
-  translateFunc: null,
-  useCourseRole: false
-}
-
-const mapStatetoProps = state => ({
-  user: state.user,
-  courseInstance: state.instance
-})
-
-export default withLocalize(connect(mapStatetoProps)(InfoBox))
+export default connect()(InfoBox)

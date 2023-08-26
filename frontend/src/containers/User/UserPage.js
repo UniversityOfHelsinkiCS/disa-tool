@@ -134,7 +134,7 @@ const UserPage = (props) => {
                     <Grid.Row>
                       <Grid.Column>
                         <Item.Content>
-                          <InfoBox translationid="UserPageSelfAssessments" buttonProps={{ floated: 'right' }} useCourseRole />
+                          <InfoBox translationid="userPageSelfAssessments" buttonProps={{ floated: 'right' }} useCourseRole />
                           <Header as="h2">
                             {t('self_assessments')}
                           </Header>
@@ -173,7 +173,7 @@ const UserPage = (props) => {
                     <Grid.Row>
                       <Grid.Column>
                         <Item.Content>
-                          <InfoBox translationid="UserPageTasks" buttonProps={{ floated: 'right' }} useCourseRole />
+                          <InfoBox translationid="userPageTasks" buttonProps={{ floated: 'right' }} useCourseRole />
                           <Header as="h2">{t('tasks')}</Header>
                           <Accordion
                             defaultActiveIndex={-1}

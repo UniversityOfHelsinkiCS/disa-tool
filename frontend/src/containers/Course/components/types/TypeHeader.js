@@ -1,22 +1,19 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { connect, useDispatch } from 'react-redux'
 import { Segment, Header } from 'semantic-ui-react'
-
-import asyncAction from '../../../../utils/asyncAction'
-import { removeHeader, editHeader } from '../../actions/types'
+import { removeHeader } from '../../actions/types'
 import Typelist from './Typelist'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditHeaderForm from './EditHeaderForm'
 import dndItem from '../../../../utils/components/DnDItem'
+import { useTranslation } from 'react-i18next'
 
 const DnDItem = dndItem('type_header')
 
 export const TypeHeader = (props) => {
   const {
     header,
-    activeTask,
+    activeTask = null,
     editing,
     moveHeader,
     slots
@@ -27,7 +24,14 @@ export const TypeHeader = (props) => {
       activeMap[type] = true
     })
   }
-  const translate = id => props.translate(`Course.types.TypeHeader.${id}`)
+  const { t } = useTranslation('translation', {keyPrefix: 'course.types.typeHeader'})
+  const dispatch = useDispatch()
+
+  const asyncRemoveHeader = async () => {
+    const response = await removeHeader({ id: header.id })
+    dispatch(response)
+  }
+
   const content = (
     <Segment className="TypeHeader">
       <div className="flexContainer">
@@ -39,12 +43,12 @@ export const TypeHeader = (props) => {
             </div>
             <div className="paddedBlock">
               <DeleteForm
-                onExecute={() => props.removeHeader({ id: header.id })}
+                onExecute={() => asyncRemoveHeader({ id: header.id })}
                 prompt={[
-                  translate('delete_prompt_1'),
+                  t('delete_prompt_1'),
                   `"${props.header.name}"`
                 ]}
-                header={translate('delete_header')}
+                header={t('delete_header')}
               />
             </div>
           </div>
@@ -76,7 +80,7 @@ export const TypeHeader = (props) => {
     </div>
   )
 }
-
+/*
 TypeHeader.propTypes = {
   header: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -89,21 +93,12 @@ TypeHeader.propTypes = {
     id: PropTypes.number.isRequired,
     types: PropTypes.arrayOf(PropTypes.number).isRequired
   }),
-  translate: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
   moveHeader: PropTypes.func.isRequired,
   slots: PropTypes.shape({
     previous: PropTypes.number.isRequired,
     next: PropTypes.number.isRequired
   }).isRequired
 }
-
-TypeHeader.defaultProps = {
-  activeTask: null
-}
-
-const mapDispatchToProps = dispatch => ({
-  removeHeader: asyncAction(removeHeader, dispatch),
-  moveHeader: asyncAction(editHeader, dispatch)
-})
-
-export default withLocalize(connect(null, mapDispatchToProps)(TypeHeader))
+*/
+export default connect()(TypeHeader)

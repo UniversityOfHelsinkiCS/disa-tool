@@ -12,15 +12,23 @@
     "closed": "suljettu",
     "course_matrix": "Kurssin tavoitematriisi"
   },
-  "InfoBox": {
-    "EditGradesPage": {
-      "Teacher": [
-        "Here you'll define the grades for the course. The 'required completion' fields in the list refer to the requirements of the final grade of the course. In the lower table you can edit grading criteria by category. If you do, remember to press the Save button when you're done.",
-        "Tähän määritellään kurssin arvosanat. Jotta oppilas saa vähintään kyseisen arvosanan, täytyy hänen olla suorittanut määritelty prosenttimäärä arvosanaan liittyvistä tehtävistä, sekä kaikki vaaditut alemmat arvosanasuoritukset. Alemmassa taulukossa voit muokata osiokohtaisia arvosanarajoja. Jos muokkaat osiokohtaisia rajoja, muista painaa Tallenna -nappia muokkauksien jälkeen."
-      ]
+  "infobox": {
+    "common": {
+      "teacher": "Suomenkielinen käännös opettajille.",
+      "student": "Suomenkielinen käännös opiskelijoille."
     },
-    "CoursesPage": {
-      "Teacher": ["Here you can add a course", "Tästä voit lisätä kurssin"]
+    "editGradesPage": {
+      "teacher": "Tähän määritellään kurssin arvosanat. Jotta oppilas saa vähintään kyseisen arvosanan, täytyy hänen olla suorittanut määritelty prosenttimäärä arvosanaan liittyvistä tehtävistä, sekä kaikki vaaditut alemmat arvosanasuoritukset. Alemmassa taulukossa voit muokata osiokohtaisia arvosanarajoja. Jos muokkaat osiokohtaisia rajoja, muista painaa Tallenna -nappia muokkauksien jälkeen."
+    },
+    "coursesPage": {
+      "teacher": "Tästä voit lisätä kurssin"
+    },
+    "userPageTasks": {
+      "teacher": "Suomenkielinen käännös opettajille.",
+      "student": "Suomenkielinen käännös opiskelijoille."
+    },
+    "userPage": {
+      "teacher": "Tästä voi avata ja sulkea kurssin."
     }
   },
   "nav": {
@@ -35,8 +43,8 @@
   },
   "Admin": {
     "common": {
-      "student_button": ["Student", "Opiskelija"],
-      "teacher_button": ["Teacher", "Opettaja"]
+      "student_button": "Opiskelija",
+      "teacher_button": "Opettaja"
     },
     "AddToCourseForm": {
       "header": ["Register user to a course", "Rekisteröi käyttäjä kurssille"],
@@ -216,8 +224,8 @@
         "header": ["Add new type", "Lisää uusi tyyppi"],
         "prompt_1": ["Add new type", "Lisää uusi tyyppi"]
       },
-      "EditHeaderForm": {
-        "header": ["Edit type header", "Muokkaa tyyppiotsaketta"]
+      "editHeaderForm": {
+        "header": "Muokkaa tyyppiotsaketta"
       },
       "EditTypeForm": {
         "header": ["Edit type", "Muokkaa tyyppiä"],
@@ -416,7 +424,7 @@
         "course_page": "Kurssisivu"
       }
     },
-    "ManageCoursePeople": {
+    "manageCoursePeople": {
       "add_a_user": ["Add a user to the course", "Lisää käyttäjä kurssille"],
       "add_teacher": ["Add teacher", "Lisää opettaja"],
       "select_teacher": ["Select teacher(s)", "Valitse lisättävät opettajat"],
@@ -425,13 +433,10 @@
         "Search people outside of course",
         "Etsi kurssin ulkopuolisia henkilöitä"
       ],
-      "teacher": ["Teacher", "Opettaja"],
-      "student": ["Student", "Opiskelija"],
-      "manage_course_people": [
-        "Manage people on course",
-        "Hallinnoi kurssin osallistujia"
-      ],
-      "remove_from_course": ["Remove from course", "Poista kurssilta"]
+      "teacher": "Opettaja",
+      "student": "Opiskelija",
+      "manage_course_people": "Hallinnoi kurssin osallistujia",
+      "remove_from_course": "Poista kurssilta"
     },
     "UploadResponses": {
       "CsvTable": {
