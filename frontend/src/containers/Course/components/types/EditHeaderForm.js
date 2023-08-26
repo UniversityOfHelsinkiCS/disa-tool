@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { connect, useDispatch } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
 import { Button } from 'semantic-ui-react'
-import asyncAction from '../../../../utils/asyncAction'
 import { headerDetails } from '../../../../api/types'
 import { editHeader } from '../../actions/types'
 import ModalForm, { saveActions } from '../../../../utils/components/NewModalForm'
@@ -69,9 +67,5 @@ EditHeaderForm.propTypes = {
   t: PropTypes.func.isRequired
 }
 */
-const mapDispatchToProps = dispatch => ({
-  editHeader: asyncAction(editHeader, dispatch),
-  headerDetails
-})
 
-export default withLocalize(connect(null, mapDispatchToProps)(EditHeaderForm))
+export default connect()(EditHeaderForm)

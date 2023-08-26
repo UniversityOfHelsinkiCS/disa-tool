@@ -1,10 +1,6 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
 import { Button } from 'semantic-ui-react'
-import asyncAction from '../../../../utils/asyncAction'
-
 import { details } from '../../../../api/skillLevels'
 import { editLevel } from '../../actions/levels'
 
@@ -35,7 +31,7 @@ const dispatch = useDispatch()
 
 }
   const loadDetails = async () => {
-    const levelDetails = (await props.details({
+    const levelDetails = (await details({
       id: props.levelId
     })).data.data
     setValues({
@@ -72,9 +68,5 @@ EditLevelForm.propTypes = {
   t: PropTypes.func.isRequired
 }
 */
-const mapDispatchToProps = dispatch => ({
-  editLevel: asyncAction(editLevel, dispatch),
-  details
-})
 
-export default withLocalize(connect(null, mapDispatchToProps)(EditLevelForm))
+export default connect()(EditLevelForm)

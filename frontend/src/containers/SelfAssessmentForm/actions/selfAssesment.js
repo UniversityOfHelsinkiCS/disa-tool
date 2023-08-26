@@ -14,14 +14,14 @@ export const initNewFormAction = (data,dispatch) => {
   })
 }
 
-export const toggleUp = id => (dispatch) => {
+export const toggleUp = (id,dispatch) => {
   dispatch({
     type: types.TOGGLE_UP,
     payload: id
   })
 }
 
-export const toggleDown = id => (dispatch) => {
+export const toggleDown = (id, dispatch) => {
   dispatch({
     type: types.TOGGLE_DOWN,
     payload: id

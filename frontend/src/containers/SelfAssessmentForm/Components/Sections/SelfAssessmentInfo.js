@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import { connect, useDispatch } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
 import { Form, Button, Card, TextArea } from 'semantic-ui-react'
 import ReactMarkdown from 'react-markdown'
 
@@ -15,10 +14,8 @@ const SelfAssessmentInfo = (props) => {
   const { formData, edit } = props
   const { structure } = formData
   const { formInfo } = structure
-
   const dispatch = useDispatch()
-
-const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.sections"})
+  const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.sections"})
 
   const handleChange = (e, { id }) => {
     const oldValue = values

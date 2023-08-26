@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect, useDispatch, useSelector } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
 import { Header, Dropdown } from 'semantic-ui-react'
 import _ from 'lodash'
 import { editTask } from '../../actions/tasks'
@@ -96,4 +95,4 @@ SelectTaskDropdown.propTypes = {
 }
 */
 
-export default connect()(withLocalize(SelectTaskDropdown))
+export default connect()(SelectTaskDropdown)

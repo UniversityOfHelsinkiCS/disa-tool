@@ -1,13 +1,21 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { Icon, Popup } from 'semantic-ui-react'
-import PropTypes from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
 import { toggleUp, toggleDown } from '../actions/selfAssesment'
+import { useTranslation } from 'react-i18next'
 
 const UpOrDownToggle = (props) => {
   const { id } = props
-  const translate = translateId => props.translate(`SelfAssessmentForm.UpOrDownToggle.${translateId}`)
+  const dispatch = useDispatch()
+  const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.upOrDownToggle"})
+
+  const asyncToggleUp = async (id) => {
+    toggleUp(id,dispatch)
+  }
+
+  const asyncToggleDown = async (id) => {
+    toggleDown(id,dispatch)
+  }
 
   return (
     <div>
@@ -18,9 +26,9 @@ const UpOrDownToggle = (props) => {
             color="red"
             name="arrow circle down"
             size="big"
-            onClick={() => props.dispatchDown(id)}
+            onClick={() => asyncToggleDown(id)}
           />}
-        content={translate('downButton')}
+        content={t('downButton')}
       />
       <Popup
         trigger={
@@ -29,26 +37,20 @@ const UpOrDownToggle = (props) => {
             color="green"
             name="arrow circle up"
             size="big"
-            onClick={() => props.dispatchUp(id)}
+            onClick={() => asyncToggleUp(id)}
           />}
-        content={translate('upButton')}
+        content={t('upButton')}
       />
     </div>
   )
 }
-
+/*
 UpOrDownToggle.propTypes = {
   id: PropTypes.number.isRequired,
   dispatchDown: PropTypes.func.isRequired,
   dispatchUp: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired
 }
+*/
 
-const mapDispatchToProps = dispatch => ({
-  dispatchUp: id =>
-    dispatch(toggleUp(id)),
-  dispatchDown: id =>
-    dispatch(toggleDown(id))
-})
-
-export default withLocalize(connect(null, mapDispatchToProps)(UpOrDownToggle))
+export default connect()(UpOrDownToggle)

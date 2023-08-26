@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { connect, useDispatch } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
 import { Button, Grid, Form, Input, Label } from 'semantic-ui-react'
 import { addTask } from '../../actions/tasks'
 import { useTranslation } from 'react-i18next'
@@ -79,4 +78,4 @@ AddTaskForm.propTypes = {
 }
 */
 
-export default withLocalize(connect()(AddTaskForm))
+export default connect()(AddTaskForm)

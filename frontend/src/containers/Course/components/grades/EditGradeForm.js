@@ -1,10 +1,6 @@
 import React, { useState, Fragment } from 'react'
-import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
 import { Button, Form, Input, Dropdown, Label } from 'semantic-ui-react'
-import asyncAction from '../../../../utils/asyncAction'
-
 import { details } from '../../../../api/grades'
 import { editGrade } from '../../actions/grades'
 

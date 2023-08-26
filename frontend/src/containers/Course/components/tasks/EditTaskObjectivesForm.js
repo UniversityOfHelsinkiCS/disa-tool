@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { connect, useSelector } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
 import { Button, Form, Modal, Container } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -196,4 +195,4 @@ EditTaskObjectivesForm.propTypes = {
 }
 */
 
-export default withLocalize(connect()(EditTaskObjectivesForm))
+export default connect()(EditTaskObjectivesForm)

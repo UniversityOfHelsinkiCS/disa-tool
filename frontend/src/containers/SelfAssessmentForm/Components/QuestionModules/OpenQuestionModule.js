@@ -1,8 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux'
 import { Form, Card, Grid, Icon, Popup, Button, Message } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
 import ModalForm from '../../../../utils/components/ModalForm'
 import { removeOpenQuestion, openQuestionResponseAction, clearErrorAction } from '../../actions/selfAssesment'
 import { useTranslation } from 'react-i18next'
@@ -12,7 +10,6 @@ const OpenQuestionModule = (props) => {
   const { edit, responseTextError, existingAnswer } = props
   const { id, name } = props.data
   const dispatch = useDispatch()
-
   const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.questionModules.openQuestionModule"})
 
   const handleTextAreaBlur = e => openQuestionResponseAction({ id, value: e.target.value },dispatch) //eslint-disable-line
