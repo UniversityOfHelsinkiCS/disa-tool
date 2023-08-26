@@ -9,7 +9,6 @@ export const EditOrNewForm = (props )=> {
   const [selectedView, setSelectedView] = useState(null)
 
   useEffect(() => {
-    console.log(props)
     setDropDownValue(parseInt(props.selectedCourse, 10))
   },[])
 

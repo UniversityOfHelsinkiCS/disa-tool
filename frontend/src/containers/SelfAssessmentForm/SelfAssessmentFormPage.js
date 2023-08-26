@@ -57,8 +57,6 @@ export const SelfAssessmentFormPage = (props) => {
     newAssessment = false,
     edit = false
   } = props
-console.log(props)
-console.log(useParams())
   const { t } = useTranslation("translation", {keyPrefix: "selfAssessmentForm.selfAssessmentFormPage"})
 
   const asyncMount = async () => {
@@ -95,7 +93,6 @@ console.log(useParams())
     }
     if (formData) {
       // Fetch the grades for the course
-      console.log(courseInstanceId)
       const grades = await gradeOptions(courseInstanceId)
       setGrades(grades)
     } else {

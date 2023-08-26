@@ -52,7 +52,6 @@ const SelfAssessmentSection = (props) => {
           /></li>)
         )))
 
-console.log(name, formData, edit, final, question, QuestionModule, errors, clearError, courseInstanceId, grades, name, headers, existingAnswer, infoBoxTranslationId)
   return (
 
     <div>

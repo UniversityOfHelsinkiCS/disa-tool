@@ -70,7 +70,6 @@ const Nav = (props) => {
   const handleFakeUser = ({ target }) => {
     window.localStorage.setItem('fakeShibbo', target.value)
   }
-  console.log(process.env.NODE_ENV)
     return (
       <nav data-testid="navbar">
         <Menu tabular>

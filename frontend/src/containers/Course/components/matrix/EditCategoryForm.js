@@ -1,83 +1,68 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import React, { useState } from 'react'
+import { connect,useDispatch } from 'react-redux'
 import { Button } from 'semantic-ui-react'
-import asyncAction from '../../../../utils/asyncAction'
-
 import { details } from '../../../../api/categories'
 import { editCategory } from '../../actions/categories'
-
-import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/NewModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
+import { useTranslation } from 'react-i18next'
 
-class EditCategoryForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: true,
-      values: {
-        name: {
-          eng: '',
-          fin: '',
-          swe: ''
-        }
-      }
+const EditCategoryForm = (props) => {
+  const [loading, setLoading] = useState(true)
+  const [values, setValues] = useState({
+    name: {
+      eng: '',
+      fin: '',
+      swe: ''
     }
+  })
+  const dispatch = useDispatch()
+  const {t} = useTranslation('translation', {keyPrefix: 'course.matrix.editCategoryForm'})
+
+  const editCategorySubmitAsync = async (e) => {
+    const response = await editCategory({
+      id: props.categoryId,
+      eng_name: e.target.eng_name.value,
+      fin_name: e.target.fin_name.value,
+      swe_name: e.target.swe_name.value
+    })
+    dispatch(response)
   }
 
-  editCategorySubmit = e => this.props.editCategory({
-    id: this.props.categoryId,
-    eng_name: e.target.eng_name.value,
-    fin_name: e.target.fin_name.value,
-    swe_name: e.target.swe_name.value
-  })
-
-  loadDetails = async () => {
-    const categoryDetails = (await this.props.details({
-      id: this.props.categoryId
+  const loadDetails = async () => {
+    const categoryDetails = (await details({
+      id: props.categoryId
     })).data.data
-    this.setState({
-      loading: false,
-      values: {
-        name: {
-          eng: categoryDetails.eng_name,
-          fin: categoryDetails.fin_name,
-          swe: categoryDetails.swe_name
-        }
+    setLoading(false)
+    setValues({
+      name: {
+        eng: categoryDetails.eng_name,
+        fin: categoryDetails.fin_name,
+        swe: categoryDetails.swe_name
       }
     })
   }
 
-  translate = id => this.props.translate(`Course.matrix.EditCategoryForm.${id}`)
-
-  render() {
     return (
       <div className="EditCategoryForm">
         <ModalForm
-          header={this.translate('header')}
-          trigger={<Button basic circular onClick={this.loadDetails} icon={{ name: 'edit' }} size="mini" />}
-          actions={saveActions(this.translate)}
-          onSubmit={this.editCategorySubmit}
-          loading={this.state.loading}
+          header={t('header')}
+          trigger={<Button basic circular onClick={loadDetails} icon={{ name: 'edit' }} size="mini" />}
+          actions={saveActions(t)}
+          onSubmit={editCategorySubmitAsync}
+          loading={loading}
         >
-          <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />
+          <MultilingualField field="name" fieldDisplay={t('name')} values={values.name} />
         </ModalForm>
       </div>
     )
   }
-}
-
+/*
 EditCategoryForm.propTypes = {
   editCategory: PropTypes.func.isRequired,
   categoryId: PropTypes.number.isRequired,
   details: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired
 }
-
-const mapDispatchToProps = dispatch => ({
-  editCategory: asyncAction(editCategory, dispatch),
-  details
-})
-
-export default withLocalize(connect(null, mapDispatchToProps)(EditCategoryForm))
+*/
+export default connect()(EditCategoryForm)
