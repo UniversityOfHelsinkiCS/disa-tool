@@ -5,7 +5,7 @@ import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 import { headerDetails } from '../../../../api/types'
 import { editHeader } from '../../actions/types'
-import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/NewModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 import { useTranslation } from 'react-i18next'
 
@@ -22,7 +22,7 @@ const EditHeaderForm = (props) => {
 
   const {t} = useTranslation('translation')
 
-  const asyncEditHeaderSubmit = async () => {
+  const asyncEditHeaderSubmit = async (e) => {
     const data ={
       id: props.headerId,
       eng_name: e.target.eng_name.value,

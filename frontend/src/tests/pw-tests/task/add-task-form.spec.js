@@ -23,7 +23,7 @@ test('Test adding a task', async ({ page }) => {
   await expect(page).toHaveScreenshot("form-filled.png")
 
 
-  await page.getByRole('button', { name: 'course.tasks.save' }).click();
+  await page.getByRole('button', { name: 'Tallenna' }).click();
 
    expect(page.getByTestId('course-page').getByRole('alert').getByText('Tärkeä tehtävä')).toBeTruthy()
    expect(page.getByTestId('course-page').locator('div').filter({ hasText: 'Tärkeä tehtäväReverse-engineered stable solutionEnhanced directional circuitUniv' }).first()).toBeTruthy()

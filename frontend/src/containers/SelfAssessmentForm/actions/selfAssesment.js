@@ -42,7 +42,7 @@ export const removeOpenQuestion = (id, dispatch) => {
   })
 }
 
-export const changeTextField = data => (dispatch) => {
+export const changeTextField = async (data,dispatch) => {
   dispatch({
     type: types.CHANGE_TEXT_FIELD,
     payload: data

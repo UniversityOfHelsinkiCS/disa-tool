@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { Button, Input, List } from 'semantic-ui-react'
-import { func, shape } from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
 import { useTranslation } from 'react-i18next'
 
 const  PointMapping = (props) => {
+  
   const [pointKey, setPointKey] = useState('')
   const [pointValue, setPointValue] = useState(0)
   const { pointsMapping } = props
@@ -13,7 +12,11 @@ const  PointMapping = (props) => {
   const {t} = useTranslation("translation", {keyPrefix: "userPage.uploadResponses.pointMapping"})
 
   const handleChange = (e, { value }) => {
-    setState({ [e.target.name]: value })
+    if(e.target.name === "pointKey") {
+      setPointKey(value)
+    } else if(e.target.name === "pointValue") {
+      setPointValue(value)
+    }
   }
 
   const handleAdd = () => {

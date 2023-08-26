@@ -1,6 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React, {useState} from 'react'
+import { connect, useDispatch } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Form, Button, Card, TextArea } from 'semantic-ui-react'
 import ReactMarkdown from 'react-markdown'
@@ -8,46 +7,37 @@ import ReactMarkdown from 'react-markdown'
 import Header from '../Header'
 import { changeTextField } from '../../actions/selfAssesment'
 import InfoBox from '../../../../utils/components/InfoBox'
+import { useTranslation } from 'react-i18next'
 
-class SelfAssessmentInfo extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      values: {},
-      editInstructions: false
-    }
-  }
+const SelfAssessmentInfo = (props) => {
+  const [values, setValues] = useState({})
+  const [editInstructions, setEditInstructions] = useState(false)
+  const { formData, edit } = props
+  const { structure } = formData
+  const { formInfo } = structure
 
-  handleChange = (e, { id }) => {
-    const oldValue = this.state.values
+  const dispatch = useDispatch()
+
+const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.sections"})
+
+  const handleChange = (e, { id }) => {
+    const oldValue = values
     oldValue[id] = e.target.value
-    this.setState({ values: oldValue })
-  }
-  toggleInstructions = () => {
-    const { values } = this.state
-    this.props.dispatchTextFieldChange({ values, type: 'instructions' })
-    this.setState({
-      editInstructions: !this.state.editInstructions,
-      values: {}
-    })
+    setValues(oldValue)
   }
 
-  toggleHeader = (values) => {
-    this.props.dispatchTextFieldChange({ values, type: 'name' })
+  const toggleInstructions = () => {
+    changeTextField({ values, type: 'instructions' },dispatch)
+    setEditInstructions(!editInstructions)
+    setValues({})
   }
 
-  render() {
-    const translate = (id) =>
-      this.props.translate(`SelfAssessmentForm.Sections.${id}`)
+  const toggleHeader = async (values) => {
+    changeTextField({type:"name", values},dispatch)
+  }
 
-    const { formData } = this.props
-    const { structure } = formData
-    const { formInfo } = structure
     const instructions = formInfo.filter((d) => d.type.includes('instruction'))
     const names = formInfo.filter((d) => d.type.includes('name'))
-    const { values } = this.state
-    const { edit } = this.props
-
     return (
       <Form style={{ padding: '20px' }}>
         <Form.Field>
@@ -56,7 +46,7 @@ class SelfAssessmentInfo extends React.Component {
             edit={edit}
             editButton
             headers={names}
-            dispatchChange={this.toggleHeader}
+            dispatchChange={toggleHeader}
             nestedForms={true}
           />
         </Form.Field>
@@ -69,15 +59,15 @@ class SelfAssessmentInfo extends React.Component {
                 {edit && (
                   <Button
                     style={{ marginLeft: '10px' }}
-                    onClick={this.toggleInstructions}
+                    onClick={toggleInstructions}
                   >
-                    {!this.state.editInstructions
-                      ? translate('buttonEdit')
-                      : translate('buttonSave')}
+                    {!editInstructions
+                      ? t('buttonEdit')
+                      : t('buttonSave')}
                   </Button>
                 )}
               </Card.Header>
-              {!this.state.editInstructions ? (
+              {!editInstructions ? (
                 <Card.Description>
                   <ReactMarkdown>{formData.instructions.value}</ReactMarkdown>
                 </Card.Description>
@@ -85,7 +75,7 @@ class SelfAssessmentInfo extends React.Component {
                 instructions.map((d) => (
                   <Form.Field key={d.id}>
                     <label>{d.prefix}</label>
-                    <TextArea autoheight="true" id={d.id} value={values[d.id] ? values[d.id] : d.value} onChange={this.handleChange}>
+                    <TextArea autoheight="true" id={d.id} value={values[d.id] ? values[d.id] : d.value} onChange={handleChange}>
                       
                     </TextArea>
                   </Form.Field>
@@ -97,8 +87,7 @@ class SelfAssessmentInfo extends React.Component {
       </Form>
     )
   }
-}
-
+/*
 SelfAssessmentInfo.propTypes = {
   dispatchTextFieldChange: PropTypes.func.isRequired,
   formData: PropTypes.shape({
@@ -107,25 +96,9 @@ SelfAssessmentInfo.propTypes = {
     })
   }),
   edit: PropTypes.bool.isRequired,
-  translate: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired
 }
+*/
 
-SelfAssessmentInfo.defaultProps = {
-  formData: {
-    structure: {
-      formInfo: []
-    }
-  }
-}
+export default connect()(SelfAssessmentInfo)
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatchTextFieldChange: (type, value) =>
-    dispatch(changeTextField(type, value))
-})
-
-export default withLocalize(
-  connect(
-    null,
-    mapDispatchToProps
-  )(SelfAssessmentInfo)
-)

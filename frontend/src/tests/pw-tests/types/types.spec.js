@@ -9,7 +9,7 @@ test('test', async ({ page }) => {
   await page.reload()
   await page.getByRole('link', { name: 'Lineaarialgebra ja matriisilaskenta I kevät 2019' }).click();
   await page.getByRole('button', { name: 'Kurssin tavoitematriisi' }).click();
-  await page.getByRole('button', { name: 'Edit matrix' }).click();
+  await page.getByRole('button', { name: 'Muokkaa matriisia' }).click();
   await page.getByRole('link', { name: 'Tyypit' }).click();
   await expect(page).toHaveScreenshot("type-page.png");
   await page.locator('.CreateHeaderForm > div > .ui').click();
@@ -38,15 +38,15 @@ test('test', async ({ page }) => {
   await page.waitForTimeout(200)
   await expect(page).toHaveScreenshot("type-header-edited.png");
   await page.locator('div:nth-child(3) > div > .Typelist > div > div > div:nth-child(3) > .removeBlock > div > .ui').click();
-  await page.getByRole('button', { name: 'utils.components.DeleteForm..remove' }).click();
+  await page.getByRole('button', { name: 'Poista' }).click();
   await page.waitForTimeout(200)
   await expect(page).toHaveScreenshot("type-added-removed.png");
   await page.locator('div:nth-child(3) > div > div > .flexContainer > div:nth-child(2) > div > .ui').click();
-  await page.getByRole('button', { name: 'utils.components.DeleteForm..remove' }).click();
+  await page.getByRole('button', { name: 'Poista' }).click();
   await page.waitForTimeout(200)
   await expect(page).toHaveScreenshot("type-header-added-removed.png");
   await page.locator('div:nth-child(2) > div > div > .flexContainer > div:nth-child(2) > div > .ui').click();
-  await page.getByRole('button', { name: 'utils.components.DeleteForm..remove' }).click();
+  await page.getByRole('button', { name: 'Poista' }).click();
   await page.waitForTimeout(200)
   await expect(page).toHaveScreenshot("whole-old-type-removed.png");
 });
