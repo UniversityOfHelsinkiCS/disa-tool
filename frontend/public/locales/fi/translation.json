@@ -291,40 +291,27 @@
       "objectiveButton": "Itsearvio tavoitteiden pohjalta"
     }
   },
-  "FeedbackPage": {
+  "feedbackPage": {
     "common": {
-      "selfAssessedGrade": ["Self Assessed grade", "Itsearvioitu arvosana"],
-      "machineGrade": ["Machine Review", "Konearvio"]
+      "selfAssessedGrade": "Itsearvioitu arvosana",
+      "machineGrade": "Konearvio"
     },
-    "CategoryFeedback": {
+    "categoryFeedback": {
       "message": [
-        "You've already responded to this assessment. You can see your responses below",
         "Olet jo vastannut tähän itsearviointiin. Voit tarkastella vastauksiasi alla."
       ],
-      "general_feedback": ["General feedback", "Yleinen palaute"],
-      "explanation": ["explanation", "perustelut"],
-      "feedback": ["Feedback", "Palaute"]
+      "general_feedback": "Yleinen palaute",
+      "explanation": "perustelut",
+      "feedback": "Palaute"
     },
-    "ObjectivesFeedback": {
-      "message": [
-        "You've already responded to this assessment. You can see your responses below",
-        "Olet jo vastannut tähän itsearviointiin. Voit tarkastella vastauksiasi alla."
-      ],
-      "objective": ["Objective", "Tavoite"],
-      "assessment": ["Your assessment", "Arvio osaamisesta"],
+    "objectivesFeedback": {
+      "message": "Olet jo vastannut tähän itsearviointiin. Voit tarkastella vastauksiasi alla.",
+      "objective": "Tavoite",
+      "assessment": "Arvio osaamisesta",
       "objectiveAssessment": {
-        "good": [
-          "I know the the objectives of this category well",
-          "Osaan osion tavoitteet hyvin"
-        ],
-        "decent": [
-          "Osaan osion tavoitteet kohtalaisesti",
-          "I know the the objectives of this category decently"
-        ],
-        "poor": [
-          "Vielä selkeästi kehitettävää osion tavoitteiden suhteen",
-          "I still have a lot of room for development regarding the objectives"
-        ]
+        "good": "Osaan osion tavoitteet hyvin",
+        "decent": "Osaan osion tavoitteet kohtalaisesti",
+        "poor": "Vielä selkeästi kehitettävää osion tavoitteiden suhteen"
       }
     },
     "QuestionAndGradeFeedback": {

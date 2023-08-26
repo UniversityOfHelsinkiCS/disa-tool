@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
 import { Accordion, Card, Icon, Progress } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 
 const findVerificationGrade = (verification, categoryName) => {
   if (!verification) return null
@@ -10,21 +9,22 @@ const findVerificationGrade = (verification, categoryName) => {
   if (!category) return null
   return category.earnedGrade.name
 }
+
 export const CategoryFeedback = (props) => {
-  const { questionModuleResponses, feedback, verification } = props
-  const translate = id => props.translate(`FeedbackPage.CategoryFeedback.${id}`)
+  const { questionModuleResponses=null, feedback=null, verification=null,teacher=null } = props
+  const { t } = useTranslation('feedbackPage.categoryFeedback')
   return (
     <div>
       {props.teacher ? null : (
         <h2>
-          {translate('message')}
+          {t('message')}
         </h2>
       )}
       {feedback ?
         <Card fluid color="yellow">
           <Card.Content>
             <Card.Header>
-              <h3>{translate('general_feedback')}</h3>
+              <h3>{t('general_feedback')}</h3>
             </Card.Header>
             <Card.Description>
               {feedback.generalFeedback}
@@ -40,17 +40,17 @@ export const CategoryFeedback = (props) => {
               </Card.Header>
               <Card.Description textAlign="center">
                 <h4>
-                  {translate('selfAssessedGrade')}: {questionModule.grade_name || questionModule.grade}
+                  {t('selfAssessedGrade')}: {questionModule.grade_name || questionModule.grade}
                   {props.teacher && verification && (
                     <Fragment>
                       <br />
-                      {translate('machineGrade')}: {findVerificationGrade(verification, questionModule.name)}
+                      {t('machineGrade')}: {findVerificationGrade(verification, questionModule.name)}
                     </Fragment>
                   )}
                 </h4>
                 {questionModule.textFieldOn ?
                   <div>
-                    <h5>{(translate('explanation'))}:</h5>
+                    <h5>{(t('explanation'))}:</h5>
                     <p>{questionModule.responseText}</p>
                   </div>
                   :
@@ -62,7 +62,7 @@ export const CategoryFeedback = (props) => {
             <Card fluid color="red">
               <Card.Content >
                 <Card.Header textAlign="center">
-                  <h3>{translate('feedback')}</h3>
+                  <h3>{t('feedback')}</h3>
                 </Card.Header>
                 <Card.Description textAlign="center">
                   {feedback.categoryFeedback.find(f => f.categoryId === questionModule.id).text}
@@ -107,19 +107,13 @@ export const CategoryFeedback = (props) => {
   )
 }
 
-CategoryFeedback.defaultProps = {
-  questionModuleResponses: [],
-  feedback: null,
-  teacher: false,
-  verification: null
-}
-
+/*
 CategoryFeedback.propTypes = {
   questionModuleResponses: PropTypes.arrayOf(PropTypes.shape()),
   feedback: PropTypes.shape(),
   teacher: PropTypes.bool,
-  translate: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
   verification: PropTypes.shape({})
 }
-
-export default withLocalize(CategoryFeedback)
+*/
+export default CategoryFeedback

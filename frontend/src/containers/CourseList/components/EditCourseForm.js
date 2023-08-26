@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 import { connect, useDispatch } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
 import { Button } from 'semantic-ui-react'
-import asyncAction from '../../../utils/asyncAction'
-
 import { getCourse } from '../../../api/courses'
 import { editCourse, getAllCourses } from '../actions/courses'
 

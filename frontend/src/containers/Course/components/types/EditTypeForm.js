@@ -1,81 +1,69 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import React, { useState } from 'react'
+import { connect, useDispatch } from 'react-redux'
 import { Button, Form, Label, Input } from 'semantic-ui-react'
-import asyncAction from '../../../../utils/asyncAction'
-
 import { editType } from '../../actions/types'
 import { details } from '../../../../api/types'
 
 import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
+import { useTranslation } from 'react-i18next'
 
-export class EditTypeForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: true,
-      values: {
-        name: {
-          eng: '',
-          fin: '',
-          swe: ''
-        },
-        multiplier: 0
-      }
-    }
-  }
+export const EditTypeForm = (props) => {
+  const [loading, setLoading] = useState(true)
+  const [multiplier, setMultiplier] = useState(0)
+  const [values, setValues] = useState({
+    name: {
+      eng: '',
+      fin: '',
+      swe: ''
+    },
+  })
+  const dispatch = useDispatch()
+  const {t} = useTranslation('course.types.editTypeForm')
 
-  editTypeSubmit = (e) => {
-    this.props.editType({
-      id: this.props.typeId,
+  const editTypeSubmit = async(e) => {
+    const response = await editType({
+      id: props.typeId,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
       swe_name: e.target.swe_name.value,
       multiplier: Number(e.target.multiplier.value)
     })
-    this.setState({
-      loading: true
-    })
+    dispatch(response)
+    setLoading(true)
   }
 
-  loadDetails = async () => {
-    const typeDetails = (await this.props.details({
-      id: this.props.typeId
+ const  loadDetails = async () => {
+    const typeDetails = (await details({
+      id: props.typeId
     })).data.data
-    this.setState({
-      values: {
-        name: {
-          eng: typeDetails.eng_name,
-          fin: typeDetails.fin_name,
-          swe: typeDetails.swe_name
-        },
-        multiplier: typeDetails.multiplier
-      },
-      loading: false
+    setLoading(false)
+    setMultiplier(typeDetails.multiplier)
+    setValues({
+      name: {
+        eng: typeDetails.eng_name,
+        fin: typeDetails.fin_name,
+        swe: typeDetails.swe_name
+      }
     })
   }
 
-  translate = id => this.props.translate(`Course.types.EditTypeForm.${id}`)
-
-  render() {
-    const contentPrompt = this.translate('prompt_1')
+    const contentPrompt = t('prompt_1')
     const label = {
-      name: this.translate('name'),
-      multiplier: this.translate('multiplier')
+      name: t('name'),
+      multiplier: t('multiplier')
     }
     return (
       <div className="EditTypeForm">
         <ModalForm
-          header={this.translate('header')}
-          trigger={<Button basic circular onClick={this.loadDetails} className="editTypeButton" icon={{ name: 'edit' }} size="mini" />}
-          actions={saveActions(this.translate)}
-          onSubmit={this.editTypeSubmit}
-          loading={this.state.loading}
+          header={t('header')}
+          trigger={<Button basic circular onClick={loadDetails} className="editTypeButton" icon={{ name: 'edit' }} size="mini" />}
+          actions={saveActions(t)}
+          onSubmit={editTypeSubmit}
+          loading={loading}
         >
           <p>{contentPrompt}.</p>
-          <MultilingualField field="name" fieldDisplay={label.name} values={this.state.values.name} />
+          <MultilingualField field="name" fieldDisplay={label.name} values={values.name} />
           <Form.Field inline>
             <Label size="large">{label.multiplier}</Label>
             <Input
@@ -84,28 +72,21 @@ export class EditTypeForm extends Component {
               min={0}
               max={1}
               step={0.01}
-              value={this.state.values.multiplier}
-              onChange={e => this.setState({
-                values: { ...this.state.values, multiplier: e.target.value }
-              })}
+              value={state.values.multiplier}
+              onChange={e => setMultiplier(e.target.value)}
             />
           </Form.Field>
         </ModalForm>
       </div>
     )
-  }
 }
-
+/*
 EditTypeForm.propTypes = {
   editType: PropTypes.func.isRequired,
   details: PropTypes.func.isRequired,
   typeId: PropTypes.number.isRequired,
-  translate: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired
 }
+*/
 
-const mapDispatchToProps = dispatch => ({
-  editType: asyncAction(editType, dispatch),
-  details
-})
-
-export default withLocalize(connect(null, mapDispatchToProps)(EditTypeForm))
+export default connect()(EditTypeForm)
