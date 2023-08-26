@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { connect ,useDispatch} from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
 import { Button, Grid, Form, Input, Label } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 
@@ -137,4 +136,4 @@ EditTaskForm.propTypes = {
 }
 */
 
-export default withLocalize(connect()(EditTaskForm))
+export default connect()(EditTaskForm)
