@@ -25,8 +25,7 @@ const SelfAssessmentSection = (props) => {
     edit ?
       formData.map(questionModules =>
         (
-          <li style={{listStyleType: "none", padding: 0, margin: 0}}><QuestionModule
-            key={questionModules.id}
+          <li key={questionModules.id} style={{listStyleType: "none", padding: 0, margin: 0}}><QuestionModule
             data={questionModules}
             edit={edit}
             final={final}
@@ -36,8 +35,7 @@ const SelfAssessmentSection = (props) => {
       :
       formData.map(questionModules =>
         ((questionModules.includedInAssesment || question) &&
-          (<li style={{listStyleType: "none", padding: 0, margin: 0}}><QuestionModule
-            key={questionModules.id}
+          (<li key={questionModules.id}  style={{listStyleType: "none", padding: 0, margin: 0}}><QuestionModule
             data={questionModules}
             edit={edit}
             final={final}

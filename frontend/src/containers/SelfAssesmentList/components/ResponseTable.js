@@ -1,9 +1,7 @@
 import React from 'react'
-import { arrayOf, bool, func, shape, number } from 'prop-types'
-import { connect } from 'react-redux'
+import { connect,useDispatch } from 'react-redux'
 import { Button, Table } from 'semantic-ui-react'
 import ResponseAccordion from './ResponseAccordion'
-import { responseProp } from '../propTypes'
 import { selectResponse } from '../actions/selfAssesmentList'
 
 const finalGradeMatches = (response) => {
@@ -38,8 +36,14 @@ const responseDifferences = (response) => {
 
 const ResponseTable = (props) => {
   const { headerindex: index, asc } = props.sortedHeader
-  const { onSort } = props
+  const { onSort, selected= false } = props
   const direction = asc ? 'ascending' : 'descending'
+  const dispatch = useDispatch()
+
+  const selectResponseAsync = (response) => {
+    selectResponse(response,dispatch)
+  }
+  
   return (
     <Table sortable>
       <Table.Header>
@@ -68,7 +72,7 @@ const ResponseTable = (props) => {
                 color="blue"
                 icon={props.selected ? 'minus' : 'plus'}
                 value={response.id}
-                onClick={props.selectResponse(response)}
+                onClick={selectResponseAsync(response)}
               />
             </Table.Cell>
             <Table.Cell collapsing>{response.person.studentnumber}</Table.Cell>
@@ -83,7 +87,7 @@ const ResponseTable = (props) => {
     </Table>
   )
 }
-
+/*
 ResponseTable.propTypes = {
   responses: arrayOf(responseProp).isRequired,
   selected: bool,
@@ -91,13 +95,11 @@ ResponseTable.propTypes = {
   onSort: func.isRequired,
   sortedHeader: shape({ headerindex: number.isRequired, asc: bool.isRequired }).isRequired
 }
-
+*/
+/*
 ResponseTable.defaultProps = {
   selected: false
 }
+*/
 
-const mapDispatchToProps = dispatch => ({
-  selectResponse: response => () => selectResponse(dispatch)(response)
-})
-
-export default connect(null, mapDispatchToProps)(ResponseTable)
+export default connect()(ResponseTable)

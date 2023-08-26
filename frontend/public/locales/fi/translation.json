@@ -474,36 +474,27 @@
   },
   "selfAssessmentList": {
     "selfAssessmentListPage": {
-      "back": ["Back", "Takaisin"],
-      "inspect": ["Inspect", "Tarkastele"],
-      "self_assessment": ["Self-asseessment", "Itsearvio"],
-      "machine_review": ["Machine Review", "Konearvio"],
-      "difference": ["Difference", "Erotus"],
-      "final_grade": ["Final Grade", "Loppuarvosana"],
-      "link": ["Link to assessment form", "Linkki vastauslomakkeeseen"],
-      "generate_feedback": ["Regenerate feedbacks", "Luo palautteet uudestaan"],
-      "selected_header": ["Selected self-asseessments", "Valitut itsearviot"],
-      "non-selected_header": [
-        "Non-selected self-asseessments",
-        "Ei-valitut itsearviot"
-      ]
+      "back": "Takaisin",
+      "inspect": "Tarkastele",
+      "self_assessment": "Itsearvio",
+      "machine_review": "Konearvio",
+      "difference": "Erotus",
+      "final_grade": "Loppuarvosana",
+      "link": "Linkki vastauslomakkeeseen",
+      "generate_feedback": "Luo palautteet uudestaan",
+      "selected_header": "Valitut itsearviot",
+      "non-selected_header": "Ei-valitut itsearviot"
     },
-    "ResponseList": {
-      "Filter": [
-        "Filter by name or student number",
-        "Rajaa nimen tai opiskelijanumeron avulla"
-      ],
-      "SelectWarning": ["Select students first", "Valitse ensin opiskelijoita"]
+    "responseList": {
+      "filter": "Rajaa nimen tai opiskelijanumeron avulla",
+      "selectWarning": "Valitse ensin opiskelijoita"
     },
-    "SelectionButtons": {
-      "select": ["select all", "valitse kaikki"],
-      "deselect": ["remove selections", "poista valinnat"]
+    "selectionButtons": {
+      "select": "valitse kaikki",
+      "deselect": "poista valinnat"
     },
-    "SelfAssesmentCSVDownload": {
-      "download_csv": [
-        "Download responses as csv",
-        "Lataa vastaukset csv-muodossa"
-      ]
+    "selfAssesmentCSVDownload": {
+      "download_csv": "Lataa vastaukset csv-muodossa"
     }
   },
   "utils": {
