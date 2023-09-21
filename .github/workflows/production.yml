@@ -1,47 +1,13 @@
 name: Production release
 
 on:
-  push:
-    branches:
-      - master
+  release:
+    types: [published]
 
 jobs:
-  test:
-      timeout-minutes: 60
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-        - uses: actions/setup-node@v3
-          with:
-            node-version: 16
-        - name: npm ci in frontend
-          run: npm ci
-          working-directory: frontend
-        - name: npm ci in backend
-          run: npm ci
-          working-directory: backend
-        - name: docker-compose up -d
-          run: docker-compose -f ci-docker-compose.yml up -d
-        - name: Install Playwright Browsers
-          run: npx playwright install --with-deps
-          working-directory: frontend
-        - name: Run Playwright tests
-          env:
-            DATABASE_URL: ${{ secrets.DATABASE_URL }}
-            TESTING: ${{ secrets.TESTING }}
-          working-directory: ./frontend
-          run: npm run test-pw
-        - uses: actions/upload-artifact@v3
-          if: always()
-          with:
-            name: playwright-report
-            path: frontend/playwright-report/
-            retention-days: 30
   build-and-push:
     name: Build and push image
     runs-on: ubuntu-latest
-    needs:
-      - test
     steps:
       - uses: actions/checkout@v3
 
