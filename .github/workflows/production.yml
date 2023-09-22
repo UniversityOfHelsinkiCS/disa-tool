@@ -3,7 +3,7 @@ name: Production release
 on:
   push:
     branches:
-      - master
+      - prod
 
 jobs:
   build-and-push:
