@@ -1,8 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { connect, useSelector } from 'react-redux'
 import { Table } from 'semantic-ui-react'
+import { useTranslation } from 'react-i18next'
 
 import './matrix.css'
 import MatrixCategory from './MatrixCategory'
@@ -10,19 +9,37 @@ import CreateCategoryForm from './CreateCategoryForm'
 import CreateLevelForm from './CreateLevelForm'
 import HeaderLevel from './HeaderLevel'
 
-export const Matrix = (props) => {
+export const Matrix = ({ 
+  courseId =null,
+  categoryId,
+  editing,
+  showDetails = false
+}) => {
+  const categories = useSelector(state => state.category.categories)
+  const levels = useSelector(state => state.level.levels).sort((a, b) => a.order - b.order)
+  const task = useSelector(state => state.task)
+
+  const activeTask = task.active === null ? (
+    null
+  ) : (
+    task.tasks.find(t => t.id === task.active)
+  )
+
+  const categoriesFiltered = categoryId ? (
+  categories.filter(c => c.id === categoryId)
+  ) : categories
+
   const activeMap = {}
   let activeTaskId = null
-  if (props.activeTask !== null) {
-    activeTaskId = props.activeTask.id
-    props.activeTask.objectives.forEach((objective) => {
+  if (activeTask !== null) {
+    activeTaskId = activeTask.id
+    activeTask.objectives.forEach((objective) => {
       activeMap[objective.id] = true
     })
   }
-  const translate = id => props.translate(`Course.matrix.Matrix.${id}`)
-  const categories = props.categories.sort((a, b) => a.order - b.order)
+  const {t} = useTranslation("translation", {keyPrefix: "common"})
   let newCategoryOrder = 1
-  const categoriesNode = categories.map((category, index, categoryArray) => {
+  const categoriesNode = categoriesFiltered.map((category, index, categoryArray) => {
     const slots = {
       previous: index > 0 ? (
         (category.order + categoryArray[index - 1].order) / 2
@@ -36,16 +53,15 @@ export const Matrix = (props) => {
       <MatrixCategory
         key={category.id}
         category={category}
-        courseId={props.courseId}
-        editing={props.editing}
+        courseId={courseId}
+        editing={editing}
         activeMap={activeMap}
         activeTaskId={activeTaskId}
-        showDetails={props.showDetails}
+        showDetails={showDetails}
         slots={slots}
       />
     )
   })
-  const levels = props.levels.sort((a, b) => a.order - b.order)
   let newLevelOrder = 1
   const levelsNode = levels.map((level, index, levelArray) => {
     const slots = {
@@ -58,7 +74,7 @@ export const Matrix = (props) => {
     }
     if (index === levelArray.length - 1) { newLevelOrder = slots.next }
     return (
-      <HeaderLevel key={level.id} level={level} editing={props.editing} slots={slots} />
+      <HeaderLevel key={level.id} level={level} editing={editing} slots={slots} />
     )
   })
   return (
@@ -66,16 +82,16 @@ export const Matrix = (props) => {
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell rowSpan={2}>
-            <span className="capitalize">{translate('category')}</span>
+            <span className="capitalize">{t('category')}</span>
           </Table.HeaderCell>
-          <Table.HeaderCell colSpan={levels.length + props.editing} textAlign="center">
-            <span className="capitalize">{translate('skill_levels')}</span>
+          <Table.HeaderCell colSpan={levels.length + editing} textAlign="center">
+            <span className="capitalize">{t('skill_levels')}</span>
           </Table.HeaderCell>
         </Table.Row>
         <Table.Row>
           {levelsNode}
-          {props.editing ? (
-            <CreateLevelForm courseId={props.courseId} newOrder={newLevelOrder} />
+          {editing ? (
+            <CreateLevelForm courseId={courseId} newOrder={newLevelOrder} />
           ) : (
               null
             )}
@@ -84,9 +100,9 @@ export const Matrix = (props) => {
 
       <Table.Body>
         {categoriesNode}
-        {props.editing ? (
+        {editing ? (
           <CreateCategoryForm
-            courseId={props.courseId}
+            courseId={courseId}
             newOrder={newCategoryOrder}
             colSpan={levels.length + 2}
           />
@@ -97,7 +113,7 @@ export const Matrix = (props) => {
     </Table>
   )
 }
-
+/*
 Matrix.propTypes = {
   courseId: PropTypes.number,
   levels: PropTypes.arrayOf(PropTypes.shape({
@@ -115,23 +131,6 @@ Matrix.propTypes = {
   showDetails: PropTypes.bool,
   translate: PropTypes.func.isRequired
 }
+*/
 
-Matrix.defaultProps = {
-  courseId: null,
-  activeTask: null,
-  showDetails: false
-}
-
-const mapStateToProps = (state, ownProps) => ({
-  categories: ownProps.categoryId ? (
-    state.category.categories.filter(c => c.id === ownProps.categoryId)
-  ) : state.category.categories,
-  levels: state.level.levels,
-  activeTask: state.task.active === null ? (
-    null
-  ) : (
-    state.task.tasks.find(task => task.id === state.task.active)
-  )
-})
-
-export default withLocalize(connect(mapStateToProps, null)(Matrix))
+export default connect()(Matrix)
