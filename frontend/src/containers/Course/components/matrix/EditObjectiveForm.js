@@ -19,7 +19,7 @@ const EditObjectiveForm = (props) => {
     }
   })
   const dispatch = useDispatch()
-  const {t} = useTranslation('translation', {keyPrefix: 'course.matrix.editObjectiveForm'})
+  const {t} = useTranslation('translation')
 
   const editObjectiveSubmitAsync = async (e) => {
     const response = await editObjective({
@@ -45,16 +45,20 @@ const EditObjectiveForm = (props) => {
     })
   }
 
+  const labels = {
+    header: t('course.matrix.editObjectiveForm.header'),
+  }
+
     return (
       <div className="EditObjectiveForm">
         <ModalForm
-          header={t('header')}
+          header={labels.header}
           trigger={<Button basic circular onClick={loadDetails} icon={{ name: 'edit' }} size="mini" />}
           actions={saveActions(t)}
           onSubmit={editObjectiveSubmitAsync}
           loading={loading}
         >
-          <MultilingualField field="name" fieldDisplay={t('name')} values={values.name} />
+          <MultilingualField field="name" fieldDisplay={t('common.name')} values={values.name} />
         </ModalForm>
       </div>
     )

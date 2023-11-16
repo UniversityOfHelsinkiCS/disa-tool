@@ -1,42 +1,34 @@
-import React, { PureComponent, Fragment } from 'react'
-import { arrayOf, string, number, bool, func } from 'prop-types'
+import React, { useState, Fragment } from 'react'
 import { Header, Pagination, Segment, Form, Button, Message } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
 import _ from 'lodash'
 import ResponseTable, { calculateDifference } from './ResponseTable'
-import { responseProp } from '../propTypes'
 import { DeselectAllButton, SelectAllButton } from './SelectionButtons'
 import SelfAssesmentCSVDownload from './SelfAssesmentCSVDownload'
+import { useTranslation } from 'react-i18next'
 
-class ResponseList extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = {
-      activePage: 1,
-      sorted: {
-        headerindex: 0,
-        asc: true
-      },
-      searched: ''
-    }
-  }
+const ResponseList = ({responses, responsesOnPage = 20, selected = false, regenarateFeedback = null, subheader}) => {
+  const [activePage, setActivePage] = useState(1)
+  const [headerIndex, setHeaderIndex] = useState(0)
+  const [asc, setAsc] = useState(true)
+  const [searched, setSearched] = useState('')
+  const {t} = useTranslation('translation', {keyPrefix: 'selfAssessmentList'})
 
-  handlePaginationChange = (e, { activePage }) => (
-    this.setState({ activePage })
+  const handlePaginationChange = (e, { activePage }) => (
+    setActivePage(activePage)
   )
 
-  handleOnSearch = (_, { value }) => {
-    this.setState({ searched: value, activePage: 1 })
+  const handleOnSearch = (_, { value }) => {
+    setSearched(value)
+    setActivePage(1)
   }
 
-  handleOnSort = (headerindex) => {
-    const { headerindex: prevheaderindex, asc } = this.state.sorted
-    this.setState({ sorted: { headerindex, asc: headerindex === prevheaderindex ? !asc : true } })
-  }
+  const handleOnSort = (headerindex) => {
+    const prevheaderindex = headerIndex
+    const prevasc = asc
+    setHeaderIndex(headerindex)
+    setAsc(headerindex === prevheaderindex ? !prevasc : true)
+    }
 
-  render() {
-    const { responses, responsesOnPage, selected, regenarateFeedback, translate } = this.props
-    const { activePage, sorted, searched } = this.state
     const searchedLower = searched.toLowerCase()
     const responsesFiltered = searchedLower.length === 0 ? responses : responses.filter(
       e =>
@@ -73,10 +65,10 @@ class ResponseList extends PureComponent {
     return (
       <Segment>
         <Header as="h2">
-          {this.props.header}
-          {this.props.subheader ? (
+          {props.header}
+          {props.subheader ? (
             <Header.Subheader>
-              {this.props.subheader}
+              {props.subheader}
             </Header.Subheader>
           ) : null}
         </Header>
@@ -90,7 +82,7 @@ class ResponseList extends PureComponent {
                     disabled={responses.length === 0}
                     basic
                     color="blue"
-                    content={translate('SelfAssessmentList.SelfAssessmentListPage.generate_feedback')}
+                    content={translate('selfAssessmentListPage.generate_feedback')}
                     onClick={regenarateFeedback}
                   />}
                   <SelfAssesmentCSVDownload />
@@ -102,23 +94,23 @@ class ResponseList extends PureComponent {
           </Form.Group>
         </Form>
         {selected && responses.length === 0 ?
-          <Message warning content={translate('SelfAssessmentList.ResponseList.SelectWarning')} />
+          <Message warning content={translate('responseList.selectWarning')} />
           :
           <Fragment>
             <Form>
               <Form.Field>
-                <Form.Input placeholder={translate('SelfAssessmentList.ResponseList.Filter')} onChange={this.handleOnSearch} />
+                <Form.Input placeholder={translate('responseList.filter')} onChange={handleOnSearch} />
               </Form.Field>
             </Form>
             <ResponseTable
               responses={displayed}
               selected={selected}
-              onSort={this.handleOnSort}
+              onSort={handleOnSort}
               sortedHeader={sorted}
             />
             <Pagination
               activePage={activePageReal}
-              onPageChange={this.handlePaginationChange}
+              onPageChange={handlePaginationChange}
               totalPages={totalPages}
             />
           </Fragment>
@@ -126,8 +118,7 @@ class ResponseList extends PureComponent {
       </Segment>
     )
   }
-}
-
+/*
 ResponseList.propTypes = {
   responses: arrayOf(responseProp).isRequired,
   header: string.isRequired,
@@ -137,12 +128,6 @@ ResponseList.propTypes = {
   selected: bool,
   regenarateFeedback: func
 }
+*/
 
-ResponseList.defaultProps = {
-  subheader: null,
-  responsesOnPage: 20,
-  selected: false,
-  regenarateFeedback: null
-}
-
-export default withLocalize(ResponseList)
+export default ResponseList

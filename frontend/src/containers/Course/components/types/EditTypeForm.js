@@ -4,7 +4,7 @@ import { Button, Form, Label, Input } from 'semantic-ui-react'
 import { editType } from '../../actions/types'
 import { details } from '../../../../api/types'
 
-import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/NewModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 import { useTranslation } from 'react-i18next'
 
@@ -19,7 +19,7 @@ export const EditTypeForm = (props) => {
     },
   })
   const dispatch = useDispatch()
-  const {t} = useTranslation('course.types.editTypeForm')
+  const {t} = useTranslation('translation')
 
   const editTypeSubmit = async(e) => {
     const response = await editType({
@@ -48,18 +48,19 @@ export const EditTypeForm = (props) => {
     })
   }
 
-    const contentPrompt = t('prompt_1')
+    const contentPrompt = t('course.types.editTypeForm.prompt_1')
     const label = {
-      name: t('name'),
-      multiplier: t('multiplier')
+      name: t('common.name'),
+      multiplier: t('course.types.editTypeForm.multiplier')
     }
+    console.log(label.name)
     return (
       <div className="EditTypeForm">
         <ModalForm
           header={t('header')}
           trigger={<Button basic circular onClick={loadDetails} className="editTypeButton" icon={{ name: 'edit' }} size="mini" />}
-          actions={saveActions(t)}
           onSubmit={editTypeSubmit}
+          actions={saveActions(t)}
           loading={loading}
         >
           <p>{contentPrompt}.</p>
@@ -72,7 +73,7 @@ export const EditTypeForm = (props) => {
               min={0}
               max={1}
               step={0.01}
-              value={state.values.multiplier}
+              value={values.multiplier}
               onChange={e => setMultiplier(e.target.value)}
             />
           </Form.Field>

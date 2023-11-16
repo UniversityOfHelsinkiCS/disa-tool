@@ -137,13 +137,13 @@
       "common": {
         "editMatrix": "Muokkaa matriisia"
       },
-      "CreateCategoryForm": {
-        "header": ["Create a new category", "Luo uusi osio"],
-        "prompt_1": ["Create a new category", "Luo uusi osio"]
+      "createCategoryForm": {
+        "header": "Luo uusi osio",
+        "prompt_1": "Luo uusi osio"
       },
       "createLevelForm": {
-        "header": ["Create a new skill level", "Luo uusi taitotaso"],
-        "prompt_1": ["Create a new skill level", "Luo uusi taitotaso"]
+        "header": "Luo uusi taitotaso",
+        "prompt_1": "Luo uusi taitotaso"
       },
       "createObjectiveForm": {
         "header": "Luo uusi oppimistavoite",
@@ -214,33 +214,30 @@
     },
     "types": {
       "common": {
-        "multiplier": ["multiplier", "kerroin"]
+        "multiplier": "kerroin"
       },
-      "CreateHeaderForm": {
-        "header": ["Add new type header", "Lisää uusi tyyppiotsake"],
-        "prompt_1": ["Add new type header", "Lisää uusi tyyppiotsake"]
+      "createHeaderForm": {
+        "header": "Lisää uusi tyyppiotsake",
+        "prompt_1": "Lisää uusi tyyppiotsake"
       },
-      "CreateTypeForm": {
-        "header": ["Add new type", "Lisää uusi tyyppi"],
-        "prompt_1": ["Add new type", "Lisää uusi tyyppi"]
+      "createTypeForm": {
+        "header": "Lisää uusi tyyppi",
+        "prompt_1": "Lisää uusi tyyppi"
       },
       "editHeaderForm": {
         "header": "Muokkaa tyyppiotsaketta"
       },
-      "EditTypeForm": {
-        "header": ["Edit type", "Muokkaa tyyppiä"],
-        "prompt_1": ["Edit type", "Muokkaa tyyppiä"]
+      "editTypeForm": {
+        "header": "Muokkaa tyyppiä",
+        "prompt_1": "Muokkaa tyyppiä"
       },
-      "Type": {
-        "delete_header": ["Delete type", "Poista tyyppi"],
-        "delete_prompt_1": ["Really remove type", "Poistetaanko tyyppi"]
+      "type": {
+        "delete_header": "Poista tyyppi",
+        "delete_prompt_1": "Poistetaanko tyyppi"
       },
-      "TypeHeader": {
-        "delete_header": ["Delete type header", "Poista tyyppiotsake"],
-        "delete_prompt_1": [
-          "Really remove type header",
-          "Poistetaanko tyyppiotsake"
-        ]
+      "typeHeader": {
+        "delete_header": "Poista tyyppiotsake",
+        "delete_prompt_1": "Poistetaanko tyyppiotsake"
       }
     }
   },

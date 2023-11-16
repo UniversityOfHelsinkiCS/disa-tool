@@ -140,27 +140,27 @@
       "common": {
         "editMatrix": "Edit matrix"
       },
-      "CreateCategoryForm": {
+      "createCategoryForm": {
         "header": "Create a new category",
         "prompt_1": "Create a new category"
       },
-      "CreateLevelForm": {
+      "createLevelForm": {
         "header": "Create a new skill level",
         "prompt_1": "Create a new skill level"
       },
-      "CreateObjectiveForm": {
+      "createObjectiveForm": {
         "header": "Create a new objective",
         "prompt_1": "Add a new objective to category",
 
         "prompt_2": "and level"
       },
-      "EditCategoryForm": {
+      "editCategoryForm": {
         "header": "Edit category"
       },
-      "EditLevelForm": {
+      "editLevelForm": {
         "header": "Edit skill level"
       },
-      "EditObjectiveForm": {
+      "editObjectiveForm": {
         "header": "Edit objective"
       },
       "Matrix": {},
@@ -214,26 +214,26 @@
       "common": {
         "multiplier": "multiplier"
       },
-      "CreateHeaderForm": {
+      "createHeaderForm": {
         "header": "Add new type header",
         "prompt_1": "Add new type header"
       },
-      "CreateTypeForm": {
+      "createTypeForm": {
         "header": "Add new type",
         "prompt_1": "Add new type"
       },
-      "EditHeaderForm": {
+      "editHeaderForm": {
         "header": "Edit type header"
       },
-      "EditTypeForm": {
+      "editTypeForm": {
         "header": "Edit type",
         "prompt_1": "Edit type"
       },
-      "Type": {
+      "type": {
         "delete_header": "Delete type",
         "delete_prompt_1": "Really remove type"
       },
-      "TypeHeader": {
+      "typeHeader": {
         "delete_header": "Delete type header",
         "delete_prompt_1": "Really remove type header"
       }

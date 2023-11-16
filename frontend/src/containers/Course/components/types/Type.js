@@ -1,15 +1,14 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import React from 'react'
+import { connect,useDispatch } from 'react-redux'
 import { Segment, Header, Label } from 'semantic-ui-react'
 
-import asyncAction from '../../../../utils/asyncAction'
 import { removeType, editType } from '../../actions/types'
 import { addTypeToTask, removeTypeFromTask } from '../../actions/tasks'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditTypeForm from './EditTypeForm'
 import dndItem, { defaults } from '../../../../utils/components/DnDItem'
+import { useTranslation } from 'react-i18next'
+
 
 export const dropSpec = {
   ...defaults.dropSpec,
@@ -47,27 +46,47 @@ const DnDItem = dndItem('type', {
   }
 })
 
-export class Type extends Component {
-  toggleType = () => {
-    if (this.props.activeTaskId) {
-      this.props.toggleType({
-        type_id: this.props.type.id,
-        task_id: this.props.activeTaskId
+export const Type = ( 
+{  activeTaskId = null,
+  active,
+  editing,
+  type,
+  slots,
+  headerId
+  }) => {
+    const dispatch = useDispatch()
+
+    const toggleTypeAsync = async ({type_id,task_id}) => {
+      let response = null
+      if(active) {
+        response = await removeTypeFromTask({ type_id,task_id })
+      } else {
+        response = await addTypeToTask({ type_id,task_id})
+
+      } addTypeToTask, dispatch
+      dispatch(response)
+    }
+
+    const moveTypeAsync = async () => {
+      const response = await editType()
+      dispatch(response)
+    }
+
+    const removeTypeAsync = async ({id}) => {
+      const response = await removeType({ id })
+      dispatch(response)
+    }
+  const toggleType = () => {
+    if (activeTaskId) {
+      toggleTypeAsync({
+        type_id: type.id,
+        task_id: activeTaskId
       })
     }
   }
 
-  translate = id => this.props.translate(`Course.types.Type.${id}`)
+  const {t} = useTranslation('translation', {keyPrefix: 'course.types.type'})
 
-  render() {
-    const {
-      activeTaskId,
-      active,
-      type,
-      slots,
-      moveType,
-      headerId
-    } = this.props
     const content = (
       <Segment
         className="Type"
@@ -75,7 +94,7 @@ export class Type extends Component {
             cursor: activeTaskId === null ? undefined : 'pointer',
             backgroundColor: active ? '#21ba45' : undefined
           }}
-        onClick={this.toggleType}
+        onClick={toggleType}
       >
         <div className="headerBlock">
           <Header className="typeHeader">{type.name}</Header>
@@ -83,19 +102,19 @@ export class Type extends Component {
         <div className="multiplierBlock">
           <Label size="large" >{type.multiplier.toFixed(2)}</Label>
         </div>
-        {this.props.editing ? (
+        {editing ? (
           <div>
             <div className="editBlock">
               <EditTypeForm typeId={type.id} />
             </div>
             <div className="removeBlock">
               <DeleteForm
-                onExecute={() => this.props.removeType({ id: type.id })}
+                onExecute={() => removeTypeAsync({ id: type.id })}
                 prompt={[
-                  this.translate('delete_prompt_1'),
+                  t('delete_prompt_1'),
                   `"${type.name}"`
                 ]}
-                header={this.translate('delete_header')}
+                header={t('delete_header')}
               />
             </div>
           </div>
@@ -104,7 +123,7 @@ export class Type extends Component {
         )}
       </Segment>
     )
-    if (this.props.editing) {
+    if (editing) {
       return (
         <DnDItem
           element={{
@@ -112,7 +131,7 @@ export class Type extends Component {
             type_header_id: headerId
           }}
           slots={slots}
-          mover={moveType}
+          mover={moveTypeAsync}
         >
           {content}
         </DnDItem>
@@ -120,8 +139,8 @@ export class Type extends Component {
     }
     return content
   }
-}
 
+/*
 Type.propTypes = {
   type: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -141,16 +160,6 @@ Type.propTypes = {
   }).isRequired,
   headerId: PropTypes.number.isRequired
 }
+*/
 
-Type.defaultProps = {
-  activeTaskId: null
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  ...ownProps,
-  removeType: asyncAction(removeType, dispatch),
-  toggleType: asyncAction(ownProps.active ? removeTypeFromTask : addTypeToTask, dispatch),
-  moveType: asyncAction(editType, dispatch)
-})
-
-export default withLocalize(connect(null, mapDispatchToProps)(Type))
+export default connect()(Type)

@@ -44,7 +44,7 @@ const EditHeaderForm = (props) => {
       }
     })
   }
-
+console.log(t('common.name'))
     return (
       <div className="EditHeaderForm">
         <ModalForm

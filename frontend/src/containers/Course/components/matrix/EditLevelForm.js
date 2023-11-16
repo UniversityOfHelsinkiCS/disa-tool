@@ -46,16 +46,20 @@ const dispatch = useDispatch()
 
   const {t} = useTranslation("translation")
 
+  const labels = {
+    header: t('course.matrix.editLevelForm.header'),
+  }
+
     return (
       <div className="EditLevelForm">
         <ModalForm
-          header={t('course.matrix.editLevelForm.header')}
+          header={labels.header}
           trigger={<Button basic circular onClick={loadDetails} icon={{ name: 'edit' }} size="mini" />}
           onSubmit={editLevelSubmit}
           loading={loading}
           actions={saveActions()}
         >
-          <MultilingualField field="name" fieldDisplay={t('name')} values={values.name} />
+          <MultilingualField field="name" fieldDisplay={t('common.name')} values={values.name} />
         </ModalForm>
       </div>
     )

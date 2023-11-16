@@ -20,19 +20,24 @@ export const CreateCategoryForm = (props) => {
     dispatch(response)
   }
 
-  const {t} = useTranslation("translation", {keyPrefix: "course.matrix.createCategoryForm"})
+  const {t} = useTranslation("translation")
+
+  const labels = {
+    header: t('course.matrix.createCategoryForm.header'),
+    prompt_1: t('course.matrix.createCategoryForm.prompt_1'),
+  }
 
     return (
       <Table.Row className="CreateCategoryForm">
         <Table.Cell colSpan={props.colSpan}>
           <ModalForm
-            header={t('header')}
+            header={labels.header}
             trigger={<Button basic className="addCategoryButton" icon={{ name: 'add' }} />}
             actions={saveActions()}
             onSubmit={addCategorySubmit}
           >
-            <p>{t('prompt_1')}.</p>
-            <MultilingualField field="name" fieldDisplay={t('name')} />
+            <p>{labels.prompt_1}.</p>
+            <MultilingualField field="name" fieldDisplay={t('common.name')} />
           </ModalForm>
         </Table.Cell>
       </Table.Row>

@@ -1,4 +1,4 @@
-import React, {  Fragment } from 'react'
+import React, { useState, Fragment } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { Button } from 'semantic-ui-react'
 import { addHeader } from '../../actions/types'
@@ -8,6 +8,7 @@ import InfoBox from '../../../../utils/components/InfoBox'
 import { useTranslation } from 'react-i18next'
 
 export const CreateHeaderForm = (props) => {
+  const [expanded, setExpanded] = useState(false)
   const dispatch = useDispatch()
   const addHeaderSubmit = async (e) => {
     const response = await addHeader({
@@ -20,17 +21,17 @@ export const CreateHeaderForm = (props) => {
     dispatch(response)
   }
 
-  const {t} = useTranslation('course.types.createHeaderForm')
+  const {t} = useTranslation('translation')
 
-    const contentPrompt = t('prompt_1')
+    const contentPrompt = t('course.types.createHeaderForm.prompt_1')
     const label = {
       name: t('name')
     }
     return (
       <div className="CreateHeaderForm">
         <ModalForm
-          header={<Fragment>{t('header')}<InfoBox tFunc={props.t} translationid="AddTypeHeaderModal" buttonProps={{ floated: 'right' }} /></Fragment>}
-          trigger={<Button basic onClick={expand} className="addHeaderButton" icon={{ name: 'add' }} />}
+          header={<Fragment>{t('course.types.createHeaderForm.header')}<InfoBox buttonProps={{ floated: 'right' }} /></Fragment>}
+          trigger={<Button basic onClick={() => setExpanded(!expanded)} className="addHeaderButton" icon={{ name: 'add' }} />}
           actions={saveActions(t)}
           onSubmit={addHeaderSubmit}
         >

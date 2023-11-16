@@ -28,16 +28,21 @@ export const CreateObjectiveForm = (props) => {
         t('course.matrix.createObjectiveForm.prompt_2'),
         `"${level.name}"`
       ].join(' ')
+
+      const labels = {
+        header: t('course.matrix.createObjectiveForm.header'),
+      }
+
       return (
         <div className="CreateObjectiveForm">
           <ModalForm
-            header={t('course.matrix.createObjectiveForm.header')}
+            header={labels.header}
             trigger={<Button basic className="addObjectiveButton" icon={{ name: 'add' }} />}
             actions={saveActions()}
             onSubmit={addObjectiveSubmit}
           >
             <p>{contentPrompt}.</p>
-            <MultilingualField field="name" fieldDisplay={t('name')} />
+            <MultilingualField field="name" fieldDisplay={t('common.name')} />
           </ModalForm>
         </div>
       )

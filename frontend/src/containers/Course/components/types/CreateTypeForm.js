@@ -1,8 +1,6 @@
-import React, {  Fragment } from 'react'
+import React, {  useState,Fragment } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { Button, Form, Label, Input } from 'semantic-ui-react'
-import asyncAction from '../../../../utils/asyncAction'
-
 import { addType } from '../../actions/types'
 
 import ModalForm, { saveActions } from '../../../../utils/components/NewModalForm'
@@ -11,8 +9,9 @@ import InfoBox from '../../../../utils/components/InfoBox'
 import { useTranslation } from 'react-i18next'
 
 export const CreateTypeForm = (props) => {
+  const [expanded, setExpanded] = useState(false)
   const dispatch = useDispatch()
-  const {t} = useTranslation('course.types.createTypeForm')
+  const {t} = useTranslation("translation", {keyPrefix: 'course.types.createTypeForm'})
 
   const addTypeSubmit = async (e) => {
     const response = await addType({
@@ -34,8 +33,8 @@ export const CreateTypeForm = (props) => {
     return (
       <div className="CreateTypeForm">
         <ModalForm
-          header={<Fragment>{t('header')}<InfoBox tFunc={props.t} translationid="AddTypeModal" buttonProps={{ floated: 'right' }} /></Fragment>}
-          trigger={<Button basic onClick={expand} className="addTypeButton" icon={{ name: 'add' }} />}
+          header={<Fragment>{t('header')}<InfoBox buttonProps={{ floated: 'right' }} /></Fragment>}
+          trigger={<Button basic onClick={() => setExpanded(!expanded)} className="addTypeButton" icon={{ name: 'add' }} />}
           actions={saveActions(t)}
           onSubmit={addTypeSubmit}
         >

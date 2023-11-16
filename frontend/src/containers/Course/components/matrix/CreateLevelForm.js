@@ -1,9 +1,6 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { Table, Button } from 'semantic-ui-react'
-import asyncAction from '../../../../utils/asyncAction'
-
 import { addLevel } from '../../actions/levels'
 
 import ModalForm, { saveActions } from '../../../../utils/components/NewModalForm'
@@ -23,18 +20,23 @@ export const CreateLevelForm = (props) => {
     dispatch(response)
   }
 
-  const {t} = useTranslation("translation", {keyPrefix: "course.matrix.createLevelForm"})
+  const {t} = useTranslation("translation")
+
+  const labels = {
+    header: t('course.matrix.createLevelForm.header'),
+    prompt_1: t('course.matrix.createLevelForm.prompt_1'),
+  }
 
     return (
       <Table.HeaderCell className="CreateLevelForm">
         <ModalForm
-          header={t('header')}
+          header={labels.header}
           trigger={<Button basic className="addLevelButton" icon={{ name: 'add' }} />}
           actions={saveActions()}
           onSubmit={addLevelSubmit}
         >
-          <p>{t('prompt_1')}.</p>
-          <MultilingualField field="name" fieldDisplay={t('name')} />
+          <p>{labels.prompt_1}.</p>
+          <MultilingualField field="name" fieldDisplay={t('common.name')} />
         </ModalForm>
       </Table.HeaderCell>
     )
