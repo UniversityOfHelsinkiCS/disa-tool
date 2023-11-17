@@ -74,7 +74,4 @@ backend/dist/
 *.csv
 *.pem
 
-# Ignore package-lock.json files
-package-lock.json
-
 backup
