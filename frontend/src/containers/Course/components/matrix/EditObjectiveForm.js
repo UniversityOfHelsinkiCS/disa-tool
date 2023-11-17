@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux'
 import { Button } from 'semantic-ui-react'
 import { details } from '../../../../api/objectives'

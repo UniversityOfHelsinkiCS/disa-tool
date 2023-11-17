@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect,useSelector } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
 import { Button, Label, Popup, Header, Loader, Segment, Grid } from 'semantic-ui-react'
-
-import asyncAction from '../../../../utils/asyncAction'
 import { removeObjective, editObjective } from '../../actions/objectives'
 import { addObjectiveToTask, removeObjectiveFromTask } from '../../actions/tasks'
 import { taskDetails } from '../../../../api/objectives'

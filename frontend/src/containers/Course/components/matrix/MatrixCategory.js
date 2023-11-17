@@ -1,9 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
 import { Table, Segment, Header } from 'semantic-ui-react'
-
-import asyncAction from '../../../../utils/asyncAction'
 import MatrixLevel from './MatrixLevel'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import { removeCategory, editCategory } from '../../actions/categories'
