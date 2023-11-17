@@ -25,9 +25,23 @@ const DnDItem = dndItem('objective', {
   }
 })
 
-export const MatrixLevel = (props) => {
-  const objectives = props.level.objectives.sort((a, b) => a.order - b.order)
+export const MatrixLevel = ({  
+  courseId= null,
+  activeTaskId= null,
+  showDetails = false,
+  category,
+  level, 
+  editing, 
+  activeMap, 
+}) => {
+  const objectives = level.objectives.sort((a, b) => a.order - b.order)
   let newOrder = 1
+
+  const asyncEditObjective = async (props) => {
+    const response = await editObjective(props)
+        dispatch(response)
+    }
+
   const objectivesNode = objectives.map((objective, index, objectivesArray) => {
     const slots = {
       previous: index > 0 ? (
@@ -42,34 +56,34 @@ export const MatrixLevel = (props) => {
       <MatrixObjective
         key={objective.id}
         objective={objective}
-        editing={props.editing}
-        active={Boolean(props.activeMap[objective.id])}
-        activeTaskId={props.activeTaskId}
-        showDetails={props.showDetails}
-        categoryId={props.category.id}
-        skillLevelId={props.level.id}
+        editing={editing}
+        active={Boolean(activeMap[objective.id])}
+        activeTaskId={activeTaskId}
+        showDetails={showDetails}
+        categoryId={category.id}
+        skillLevelId={level.id}
         slots={slots}
       />
     )
   })
   return (
-    <Table.Cell textAlign="center" key={props.level.id} className="MatrixLevel">
+    <Table.Cell textAlign="center" key={level.id} className="MatrixLevel">
       <div>
         {objectivesNode}
       </div>
-      {props.editing ? (
+      {editing ? (
         <DnDItem
           element={{
             order: newOrder,
-            category_id: props.category.id,
-            skill_level_id: props.level.id
+            category_id: category.id,
+            skill_level_id: level.id
           }}
-          mover={props.moveObjective}
+          mover={asyncEditObjective}
         >
           <CreateObjectiveForm
-            levelId={props.level.id}
-            category={props.category}
-            courseId={props.courseId}
+            levelId={level.id}
+            category={category}
+            courseId={courseId}
             newOrder={newOrder}
           />
         </DnDItem>
@@ -77,7 +91,7 @@ export const MatrixLevel = (props) => {
     </Table.Cell>
   )
 }
-
+/*
 MatrixLevel.propTypes = {
   category: PropTypes.shape({
     id: PropTypes.number.isRequired
@@ -95,15 +109,6 @@ MatrixLevel.propTypes = {
   showDetails: PropTypes.bool,
   moveObjective: PropTypes.func.isRequired
 }
+*/
 
-MatrixLevel.defaultProps = {
-  courseId: null,
-  activeTaskId: null,
-  showDetails: false
-}
-
-const mapDispatchToProps = dispatch => ({
-  moveObjective: asyncAction(editObjective, dispatch)
-})
-
-export default connect(null, mapDispatchToProps)(MatrixLevel)
+export default connect()(MatrixLevel)

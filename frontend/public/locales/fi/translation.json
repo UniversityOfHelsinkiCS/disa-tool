@@ -159,19 +159,16 @@
       "editObjectiveForm": {
         "header": "Muokkaa oppimistavoitetta"
       },
-      "Matrix": {},
-      "HeaderLevel": {
-        "delete_header": ["Delete skill level", "Poista oppimistaso"],
-        "delete_prompt_1": [
-          "Warning! Deleting a skill level will also delete grades attached to it. Really remove skill level",
-          "Varoitus! Taitotason poistaminen poistaa myös siihen liitetyt arvosanat. Poistetaanko taitotaso"
-        ]
+      "matrix": {},
+      "headerLevel": {
+        "delete_header": "Poista oppimistaso",
+        "delete_prompt_1": "Varoitus! Taitotason poistaminen poistaa myös siihen liitetyt arvosanat. Poistetaanko taitotaso"
       },
-      "MatrixCategory": {
-        "delete_header": ["Delete category", "Poista osio"],
-        "delete_prompt_1": ["Really remove category", "Poistetaanko osio"]
+      "matrixCategory": {
+        "delete_header": "Poista osio",
+        "delete_prompt_1": "Poistetaanko osio"
       },
-      "MatrixObjective": {
+      "matrixObjective": {
         "delete_header": ["Delete objective", "Poista oppimistavoite"],
         "delete_prompt_1": [
           "Really remove objective",

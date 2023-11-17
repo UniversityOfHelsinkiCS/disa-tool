@@ -163,16 +163,16 @@
       "editObjectiveForm": {
         "header": "Edit objective"
       },
-      "Matrix": {},
-      "HeaderLevel": {
+      "matrix": {},
+      "headerLevel": {
         "delete_header": "Delete skill level",
         "delete_prompt_1": "Warning! Deleting a skill level will also delete grades attached to it. Really remove skill level"
       },
-      "MatrixCategory": {
+      "matrixCategory": {
         "delete_header": "Delete category",
         "delete_prompt_1": "Really remove category"
       },
-      "MatrixObjective": {
+      "matrixObjective": {
         "delete_header": "Delete objective",
         "delete_prompt_1": "Really remove objective",
         "cumulative": "Cumulative multiplier: "

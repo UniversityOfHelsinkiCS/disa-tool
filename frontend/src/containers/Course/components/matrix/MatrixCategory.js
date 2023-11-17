@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Table, Segment, Header } from 'semantic-ui-react'
@@ -10,27 +9,43 @@ import DeleteForm from '../../../../utils/components/DeleteForm'
 import { removeCategory, editCategory } from '../../actions/categories'
 import EditCategoryForm from './EditCategoryForm'
 import dndItem from '../../../../utils/components/DnDItem'
+import { useTranslation } from 'react-i18next'
 
 const DnDItem = dndItem('category')
 
-export const MatrixCategory = (props) => {
-  const translate = id => props.translate(`Course.matrix.MatrixCategory.${id}`)
+export const MatrixCategory = ({  courseId = null,
+  activeTaskId = null,
+  showDetails = false,
+editing, category,slots, activeMap}) => {
+  const {t} = useTranslation("translation", {keyPrefix: "course.matrix.matrixCategory"})
+
+const asyncRemoveCategory = async (props) => {
+  const response = await removeCategory(props)
+  dispatch(response)
+
+}
+
+const asyncEditCategory = async (props) => {
+const response = await editCategory(props)
+    dispatch(response)
+}
+
   const cellContent = (
     <div>
-      <Header>{props.category.name}</Header>
-      {props.editing ? (
+      <Header>{category.name}</Header>
+      {editing ? (
         <div className="flexContainer">
           <div className="paddedBlock">
-            <EditCategoryForm categoryId={props.category.id} />
+            <EditCategoryForm categoryId={category.id} />
           </div>
           <div className="paddedBlock">
             <DeleteForm
-              onExecute={() => props.removeCategory({ id: props.category.id })}
+              onExecute={() => asyncRemoveCategory({ id: category.id })}
               prompt={[
-                translate('delete_prompt_1'),
-                `"${props.category.name}"`
+                t('delete_prompt_1'),
+                `"${category.name}"`
               ]}
-              header={translate('delete_header')}
+              header={t('delete_header')}
             />
           </div>
         </div>
@@ -42,11 +57,11 @@ export const MatrixCategory = (props) => {
   return (
     <Table.Row className="MatrixCategory">
       <Table.Cell>
-        {props.editing ? (
+        {editing ? (
           <DnDItem
-            element={props.category}
-            mover={props.moveCategory}
-            slots={props.slots}
+            element={category}
+            mover={asyncEditCategory}
+            slots={slots}
           >
             <Segment>
               {cellContent}
@@ -54,22 +69,22 @@ export const MatrixCategory = (props) => {
           </DnDItem>
         ) : cellContent}
       </Table.Cell>
-      {props.category.skill_levels.sort((a, b) => a.order - b.order).map(level => (
+      {category.skill_levels.sort((a, b) => a.order - b.order).map(level => (
         <MatrixLevel
           key={level.id}
-          category={props.category}
+          category={category}
           level={level}
-          courseId={props.courseId}
-          editing={props.editing}
-          activeMap={props.activeMap}
-          activeTaskId={props.activeTaskId}
-          showDetails={props.showDetails}
+          courseId={courseId}
+          editing={editing}
+          activeMap={activeMap}
+          activeTaskId={activeTaskId}
+          showDetails={showDetails}
         />
       ))}
     </Table.Row>
   )
 }
-
+/*
 MatrixCategory.propTypes = {
   category: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -92,16 +107,6 @@ MatrixCategory.propTypes = {
     next: PropTypes.number.isRequired
   }).isRequired
 }
+*/
 
-MatrixCategory.defaultProps = {
-  courseId: null,
-  activeTaskId: null,
-  showDetails: false
-}
-
-const mapDispatchToProps = dispatch => ({
-  removeCategory: asyncAction(removeCategory, dispatch),
-  moveCategory: asyncAction(editCategory, dispatch)
-})
-
-export default withLocalize(connect(null, mapDispatchToProps)(MatrixCategory))
+export default connect()(MatrixCategory)

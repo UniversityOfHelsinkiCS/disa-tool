@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { connect,useSelector } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Button, Label, Popup, Header, Loader, Segment, Grid } from 'semantic-ui-react'
 
@@ -12,6 +11,7 @@ import EditObjectiveForm from './EditObjectiveForm'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import MathJaxText from '../../../../utils/components/MathJaxText'
 import dndItem, { defaults } from '../../../../utils/components/DnDItem'
+import {useTranslation} from 'react-i18next'
 
 export const dropSpec = {
   ...defaults.dropSpec,
@@ -54,118 +54,140 @@ const DnDItem = dndItem('objective', {
   }
 })
 
-export class MatrixObjective extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      triggered: false,
-      loading: true,
-      cumulative_multiplier: 0,
-      tasks: []
-    }
+export const MatrixObjective = ({
+  activeTaskId = null,
+  showDetails = false,
+  objective,
+  editing,
+  active,
+  categoryId,
+  skillLevelId,
+  slots
+  
+}) => {
+  const [triggered, setTriggered] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [cumulativeMultiplier, setCumulativeMultiplier] = useState(0)
+  const [tasks, setTasks] = useState([])
+  const lastMultiplierUpdate = useSelector(state => state.task.lastMultiplierUpdate)
+
+  const reset = () => {
+    setTriggered(false)
+    setLoading(true)
   }
 
-  componentDidUpdate(oldProps) {
-    if (oldProps.lastMultiplierUpdate !== this.props.lastMultiplierUpdate) {
-      if (this.state.triggered) {
-        this.reset()
+  const asyncRemoveObjective = async (props) => {
+    const response = await removeObjective(props)
+        dispatch(response)
+    }
+
+    const asyncToggleObjective = async (props) => {
+      let response = null
+      if(active) {
+      response = await removeObjectiveFromTask(props)
+    } else {
+      response = await addObjectiveToTask(props)
+    }
+          dispatch(response)
       }
+
+  const asyncTaskDetails = async (props) => {
+        const response = await taskDetails(props)
+            dispatch(response)
+        }
+
+        const asyncMoveObjective = async (props) => {
+          const response = await editObjective(props)
+              dispatch(response)
+          }
+
+  useEffect(() => {
+    if (triggered) {
+      reset()
     }
-  }
+  },[lastMultiplierUpdate])
 
-  reset() {
-    this.setState({
-      triggered: false,
-      loading: true
-    })
-  }
-
-  toggleObjective = () => {
-    if (this.props.activeTaskId !== null) {
-      this.props.toggleObjective({
-        objective_id: this.props.objective.id,
-        task_id: this.props.activeTaskId
+  const toggleObjective = () => {
+    if (activeTaskId !== null) {
+      asyncToggleObjective({
+        objective_id: objective.id,
+        task_id: activeTaskId
       })
     }
   }
 
-  loadDetails = async () => {
-    if (this.state.triggered) {
+  const loadDetails = async () => {
+    if (triggered) {
       return
     }
-    this.setState({
-      triggered: true
-    })
+    setTriggered(true)
     const objectiveDetails = (
-      await this.props.taskDetails({ id: this.props.objective.id })
+      await asyncTaskDetails({ id: objective.id })
     ).data.data
     let cumMultiplier = 0
     objectiveDetails.tasks.forEach((task) => {
       cumMultiplier += task.multiplier
     })
-    this.setState({
-      cumulative_multiplier: cumMultiplier,
-      tasks: objectiveDetails.tasks,
-      loading: false
-    })
+    setCumulativeMultiplier(cumMultiplier)
+    setTasks(objectiveDetails.tasks)
+    setLoading(false)
   }
 
-  translate = id => this.props.translate(`Course.matrix.MatrixObjective.${id}`)
-  
-  render() {
+  const {t} = useTranslation("translation", {keyPrefix: "course.matrix.matrixObjective"})
+
     const content = (
       <div className="flexContainer">
         <div className="objectiveBlock flexContainer">
-          {this.props.showDetails ? (
+          {showDetails ? (
             <Button
               className="objectiveButton"
               toggle
-              active={this.props.active}
+              active={active}
               compact
               basic
               fluid
-              style={{ borderRadius: '0px', cursor: this.props.activeTaskId ? undefined : 'default' }}
-              onClick={this.toggleObjective}
+              style={{ borderRadius: '0px', cursor: activeTaskId ? undefined : 'default' }}
+              onClick={toggleObjective}
             >
-              <MathJaxText content={this.props.objective.name} />
+              <MathJaxText content={objective.name} />
             </Button>
           ) : (
             <Segment
               className="objectiveSegment"
               style={{ borderRadius: '0px' }}
             >
-              <MathJaxText content={this.props.objective.name} />
+              <MathJaxText content={objective.name} />
             </Segment>
           )}
-          {this.props.showDetails ? (
+          {showDetails ? (
             <div>
               <Popup
                 trigger={<Label
                   size="large"
                   circular
-                  content={this.props.objective.task_count}
-                  onMouseOver={this.loadDetails}
-                  onFocus={this.loadDetails}
+                  content={objective.task_count}
+                  onMouseOver={loadDetails}
+                  onFocus={loadDetails}
                   style={{
-                    color: this.props.objective.task_count === 0 ? 'red' : undefined
+                    color: objective.task_count === 0 ? 'red' : undefined
                   }}
                 />}
                 content={
-                  this.state.loading ? (
+                  loading ? (
                     <Loader active inline />
                   ) : (
                     <div>
                       <div>
-                        <span>{this.translate('cumulative')}</span>
+                        <span>{t('cumulative')}</span>
                         <Label>
-                          <strong>{this.state.cumulative_multiplier.toFixed(2)}</strong>
+                          <strong>{cumulativeMultiplier.toFixed(2)}</strong>
                         </Label>
                       </div>
                       <Header>
-                        <span className="capitalize">{this.translate('tasks')}</span>
+                        <span className="capitalize">{t('tasks')}</span>
                       </Header>
                       <Grid>
-                        {this.state.tasks.map(task => (
+                        {tasks.map(task => (
                           <Grid.Row key={task.name}>
                             <Grid.Column width={12}>
                               <span>{task.name}</span>
@@ -186,17 +208,17 @@ export class MatrixObjective extends Component {
             null
           )}
         </div>
-        {this.props.editing ? (
+        {editing ? (
           <div className="removeBlock">
-            <EditObjectiveForm style={{ margin: '5px auto 5px auto' }} objectiveId={this.props.objective.id} />
+            <EditObjectiveForm style={{ margin: '5px auto 5px auto' }} objectiveId={objective.id} />
             <DeleteForm
               style={{ margin: '5px auto 5px auto' }}
-              onExecute={() => this.props.removeObjective({ id: this.props.objective.id })}
+              onExecute={() => asyncRemoveObjective({ id: objective.id })}
               prompt={[
-                this.translate('delete_prompt_1'),
-                `"${this.props.objective.name}"`
+                t('delete_prompt_1'),
+                `"${objective.name}"`
               ]}
-              header={this.translate('delete_header')}
+              header={t('delete_header')}
             />
           </div>
         ) : (
@@ -204,17 +226,17 @@ export class MatrixObjective extends Component {
         )}
       </div>
     )
-    if (this.props.editing) {
+    if (editing) {
       return (
         <div className="MatrixObjective">
           <DnDItem
             element={{
-              ...this.props.objective,
-              category_id: this.props.categoryId,
-              skill_level_id: this.props.skillLevelId
+              ...objective,
+              category_id: categoryId,
+              skill_level_id: skillLevelId
             }}
-            mover={this.props.moveObjective}
-            slots={this.props.slots}
+            mover={asyncMoveObjective}
+            slots={slots}
           >
             {content}
           </DnDItem>
@@ -227,8 +249,8 @@ export class MatrixObjective extends Component {
       </div>
     )
   }
-}
 
+/*
 MatrixObjective.propTypes = {
   objective: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -243,7 +265,7 @@ MatrixObjective.propTypes = {
   taskDetails: PropTypes.func.isRequired,
   showDetails: PropTypes.bool,
   lastMultiplierUpdate: PropTypes.instanceOf(Date),
-  translate: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
   moveObjective: PropTypes.func.isRequired,
   categoryId: PropTypes.number.isRequired,
   skillLevelId: PropTypes.number.isRequired,
@@ -252,26 +274,7 @@ MatrixObjective.propTypes = {
     next: PropTypes.number.isRequired
   }).isRequired
 }
+*/
 
-MatrixObjective.defaultProps = {
-  activeTaskId: null,
-  showDetails: false,
-  lastMultiplierUpdate: null
-}
 
-const mapStateToProps = state => ({
-  lastMultiplierUpdate: state.task.lastMultiplierUpdate
-})
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  removeObjective: asyncAction(removeObjective, dispatch),
-  toggleObjective: ownProps.active ? (
-    asyncAction(removeObjectiveFromTask, dispatch)
-  ) : (
-    asyncAction(addObjectiveToTask, dispatch)
-  ),
-  taskDetails,
-  moveObjective: asyncAction(editObjective, dispatch)
-})
-
-export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(MatrixObjective))
+export default connect()(MatrixObjective)
