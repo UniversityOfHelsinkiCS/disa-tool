@@ -1,4 +1,3 @@
-
 const defaults = {
   old: 'University of Helsinki',
   new: 'helsinki.fi'

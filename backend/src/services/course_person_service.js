@@ -6,7 +6,7 @@ const create = {
     personId: user.id,
     role: 'STUDENT'
   }),
-  execute: instance => instance.save(),
+  execute: (instance) => instance.save(),
   value: (instance) => {
     const json = instance.toJSON()
     return {
@@ -36,7 +36,7 @@ const deleteCourseperson = {
       role: json.role
     }
   },
-  execute: instance => instance.destroy()
+  execute: (instance) => instance.destroy()
 }
 
 const updateRole = async (data) => {

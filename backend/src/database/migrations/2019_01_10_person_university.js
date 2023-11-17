@@ -70,7 +70,7 @@ module.exports = {
             name: 'person_studentnumber_key',
             fields: ['studentnumber']
           }
-        ),
+        )
       ]).then(() => done())
     })
   }

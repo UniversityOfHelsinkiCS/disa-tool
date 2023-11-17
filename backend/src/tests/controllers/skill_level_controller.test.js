@@ -114,7 +114,7 @@ describe('skill level controller', () => {
       options,
       {
         id: expect.any(Number),
-        course_instance_id: asymmetricMatcher(actual => actual === superIds.courseInstance),
+        course_instance_id: asymmetricMatcher((actual) => actual === superIds.courseInstance),
         ...data
       },
       SkillLevel,
@@ -163,7 +163,7 @@ describe('skill level controller', () => {
       common: {
         message: expect.any(String),
         deleted: {
-          id: asymmetricMatcher(actual => actual === ids.skill_level),
+          id: asymmetricMatcher((actual) => actual === ids.skill_level),
           tasks: []
         }
       }
@@ -242,8 +242,8 @@ describe('skill level controller', () => {
         message: expect.any(String),
         data: {
           ...data,
-          course_instance_id: asymmetricMatcher(actual => actual === superIds.courseInstance),
-          id: asymmetricMatcher(actual => actual === ids.level)
+          course_instance_id: asymmetricMatcher((actual) => actual === superIds.courseInstance),
+          id: asymmetricMatcher((actual) => actual === ids.level)
         }
       }
     })
@@ -285,7 +285,7 @@ describe('skill level controller', () => {
 
     afterEach((done) => {
       SkillLevel.findByPk(ids.level).then(
-        instance => instance.update({
+        (instance) => instance.update({
           eng_name: 'en',
           fin_name: 'fn',
           swe_name: 'sn',
@@ -313,7 +313,7 @@ describe('skill level controller', () => {
       common: {
         message: expect.any(String),
         edited: {
-          id: asymmetricMatcher(actual => actual === ids.level),
+          id: asymmetricMatcher((actual) => actual === ids.level),
           order: data.order
         }
       },
@@ -338,12 +338,12 @@ describe('skill level controller', () => {
       options,
       {
         ...data,
-        id: asymmetricMatcher(actual => actual === ids.level),
-        course_instance_id: asymmetricMatcher(actual => actual === superIds.courseInstance),
-        createdAt: asymmetricMatcher(actual => !(
+        id: asymmetricMatcher((actual) => actual === ids.level),
+        course_instance_id: asymmetricMatcher((actual) => actual === superIds.courseInstance),
+        createdAt: asymmetricMatcher((actual) => !(
           actual < databaseExpectation.createdAt || actual > databaseExpectation.createdAt
         )),
-        updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.updatedAt)
+        updatedAt: asymmetricMatcher((actual) => actual > databaseExpectation.updatedAt)
       },
       SkillLevel,
       {

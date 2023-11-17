@@ -1,6 +1,6 @@
 const { CoursePerson, Person } = require('../database/models')
 
-const validatePerson = role => async (param, user) => {
+const validatePerson = (role) => async (param, user) => {
   if (Number.isNaN(Number(param)) || !user) {
     return false
   }
@@ -56,11 +56,11 @@ const validators = {
  * }
  */
 const checkPrivilege = async (req, privileges) => {
-  const results = privileges.map(privilege => validators[privilege.key](privilege.param, req.user))
+  const results = privileges.map((privilege) => validators[privilege.key](privilege.param, req.user))
   if (req.user) {
     if (req.user.role === 'ADMIN') return true
   }
-  return (await Promise.all(results)).every(value => value)
+  return (await Promise.all(results)).every((value) => value)
 }
 
 const onlyTeacherOnCourseHasAccess = async (req, res, courseId) => {
@@ -83,8 +83,7 @@ const onlyGlobalTeacherHasAccess = async (req, res) => {
   return true
 }
 
-
-const isGlobalTeacher = req => checkPrivilege(req, [{ key: 'global_teacher' }])
+const isGlobalTeacher = (req) => checkPrivilege(req, [{ key: 'global_teacher' }])
 
 const isTeacherOnCourse = (req, courseId) => (
   checkPrivilege(req, [{

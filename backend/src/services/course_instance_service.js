@@ -14,7 +14,7 @@ const {
 } = require('../database/models.js')
 const editServices = require('../utils/editServices.js')
 
-const getOne = courseInstanceId => CourseInstance.findOne({ where: { id: courseInstanceId } })
+const getOne = (courseInstanceId) => CourseInstance.findOne({ where: { id: courseInstanceId } })
 
 const getCourseInstanceData = async (courseInstanceId, lang) => {
   const name = [`${lang}_name`, 'name']
@@ -87,9 +87,9 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
 const mapTasks = (value) => {
   const returnValue = { ...value }
   const objectiveMap = {}
-  returnValue.categories = value.categories.map(category => ({
+  returnValue.categories = value.categories.map((category) => ({
     ...category,
-    skill_levels: category.skill_levels.map(level => ({
+    skill_levels: category.skill_levels.map((level) => ({
       ...level,
       objectives: level.objectives.map((objective) => {
         const newObjective = {
@@ -101,7 +101,7 @@ const mapTasks = (value) => {
       })
     }))
   }))
-  returnValue.tasks = value.tasks.map(task => ({
+  returnValue.tasks = value.tasks.map((task) => ({
     ...task,
     objectives: task.task_objectives.map((taskObjective) => {
       objectiveMap[taskObjective.objective_id].task_count += 1
@@ -112,16 +112,16 @@ const mapTasks = (value) => {
     }),
     defaultMultiplier: task.task_types.map((tt) => {
       const types = value.type_headers.map((header) => {
-        const type = header.types.find(t => tt.type_id === t.id)
+        const type = header.types.find((t) => tt.type_id === t.id)
         if (type) {
           return type.multiplier
         }
         return undefined
       })
-      return types.filter(type => type !== undefined)
+      return types.filter((type) => type !== undefined)
     }).reduce((acc, curr) => acc * curr, 1),
     task_objectives: undefined,
-    types: task.task_types.map(taskType => taskType.type_id),
+    types: task.task_types.map((taskType) => taskType.type_id),
     task_types: undefined
   }))
   return returnValue
@@ -140,18 +140,18 @@ const mapCourse = (value) => {
 
 const mapObjectives = (value) => {
   const returnValue = { ...value }
-  returnValue.levels = value.skill_levels.map(skillLevel => ({
+  returnValue.levels = value.skill_levels.map((skillLevel) => ({
     ...skillLevel,
     objectives: undefined
   }))
-  returnValue.categories = value.categories.map(category => ({
+  returnValue.categories = value.categories.map((category) => ({
     ...category,
-    skill_levels: value.skill_levels.map(skillLevel => ({
+    skill_levels: value.skill_levels.map((skillLevel) => ({
       ...skillLevel,
       name: undefined,
-      objectives: skillLevel.objectives.filter(objective => (
+      objectives: skillLevel.objectives.filter((objective) => (
         category.id === objective.category_id
-      )).map(objective => ({ ...objective, skill_level_id: undefined, category_id: undefined }))
+      )).map((objective) => ({ ...objective, skill_level_id: undefined, category_id: undefined }))
     })),
     objectives: undefined
   }))
@@ -223,7 +223,7 @@ const copyCourseInstance = async (data, user, lang) => {
   let copyData = mapToBuild(data, original)
   copyData = inferRequirements(copyData)
   const built = await buildCopy(copyData)
-  const copy = built.find(table => table.model === CourseInstance).instances[0]
+  const copy = built.find((table) => table.model === CourseInstance).instances[0]
   await CoursePerson.create({
     course_instance_id: copy.dataValues.id,
     personId: user.id,
@@ -232,13 +232,13 @@ const copyCourseInstance = async (data, user, lang) => {
   return create.value(copy, lang)
 }
 
-const mapNames = node => ({
+const mapNames = (node) => ({
   eng_name: node.eng_name,
   fin_name: node.fin_name,
   swe_name: node.swe_name
 })
 
-const mapDescriptions = node => ({
+const mapDescriptions = (node) => ({
   eng_description: node.eng_description,
   fin_description: node.fin_description,
   swe_description: node.swe_description
@@ -263,7 +263,7 @@ const mapToBuild = (data, original) => {
     },
     {
       model: Category,
-      data: original.categories.map(category => ({
+      data: original.categories.map((category) => ({
         ref: category.id,
         course_instance_id: reference(CourseInstance, copy.ref),
         ...mapNames(category),
@@ -272,7 +272,7 @@ const mapToBuild = (data, original) => {
     },
     {
       model: SkillLevel,
-      data: original.skill_levels.map(level => ({
+      data: original.skill_levels.map((level) => ({
         ref: level.id,
         course_instance_id: reference(CourseInstance, copy.ref),
         ...mapNames(level),
@@ -282,7 +282,7 @@ const mapToBuild = (data, original) => {
     {
       model: Objective,
       data: original.skill_levels.reduce(
-        (acc, level) => acc.concat(level.objectives.map(objective => ({
+        (acc, level) => acc.concat(level.objectives.map((objective) => ({
           ref: objective.id,
           ...mapNames(objective),
           course_instance_id: reference(CourseInstance, objective.course_instance_id),
@@ -295,7 +295,7 @@ const mapToBuild = (data, original) => {
     },
     {
       model: Task,
-      data: original.tasks.map(task => ({
+      data: original.tasks.map((task) => ({
         ref: task.id,
         course_instance_id: reference(CourseInstance, copy.ref),
         ...mapNames(task),
@@ -308,7 +308,7 @@ const mapToBuild = (data, original) => {
     {
       model: TaskObjective,
       data: original.tasks.reduce(
-        (acc, task) => acc.concat(task.task_objectives.map(to => ({
+        (acc, task) => acc.concat(task.task_objectives.map((to) => ({
           multiplier: to.multiplier,
           task_id: reference(Task, to.task_id),
           objective_id: reference(Objective, to.objective_id)
@@ -318,7 +318,7 @@ const mapToBuild = (data, original) => {
     },
     {
       model: TypeHeader,
-      data: original.type_headers.map(th => ({
+      data: original.type_headers.map((th) => ({
         ref: th.id,
         course_instance_id: reference(CourseInstance, copy.ref),
         ...mapNames(th),
@@ -328,7 +328,7 @@ const mapToBuild = (data, original) => {
     {
       model: Type,
       data: original.type_headers.reduce(
-        (acc, th) => acc.concat(th.types.map(type => ({
+        (acc, th) => acc.concat(th.types.map((type) => ({
           ref: type.id,
           multiplier: type.multiplier,
           ...mapNames(type),
@@ -341,7 +341,7 @@ const mapToBuild = (data, original) => {
     {
       model: TaskType,
       data: original.tasks.reduce(
-        (acc, task) => acc.concat(task.task_types.map(tt => ({
+        (acc, task) => acc.concat(task.task_types.map((tt) => ({
           task_id: reference(Task, tt.task_id),
           type_id: reference(Type, tt.type_id)
         }))),
@@ -352,7 +352,7 @@ const mapToBuild = (data, original) => {
       model: Grade,
       circular: 'prerequisite',
       data: original.skill_levels.reduce(
-        (acc, level) => acc.concat(level.grades.map(grade => ({
+        (acc, level) => acc.concat(level.grades.map((grade) => ({
           ref: grade.id,
           ...mapNames(grade),
           needed_for_grade: grade.needed_for_grade,
@@ -366,7 +366,7 @@ const mapToBuild = (data, original) => {
     {
       model: CategoryGrade,
       data: original.categories.reduce(
-        (acc, category) => acc.concat(category.category_grades.map(cg => ({
+        (acc, category) => acc.concat(category.category_grades.map((cg) => ({
           needed_for_grade: cg.needed_for_grade,
           category_id: reference(Category, cg.category_id),
           grade_id: reference(Grade, cg.grade_id)
@@ -377,7 +377,7 @@ const mapToBuild = (data, original) => {
   ]
 }
 
-const inferRequirements = data => data.map(table => ({
+const inferRequirements = (data) => data.map((table) => ({
   ...table,
   requires: table.data.length === 0 ? [] : Object.values(table.data[0]).reduce(
     (acc, value) => {
@@ -402,8 +402,8 @@ const orderByCircularField = (data, field) => {
   let nextNodes = [null]
   while (done.length < data.length) {
     // The filter depends on the value of nextNodes and as such must be remade every pass.
-    const next = data.filter(row => nextNodes.includes(row[field].ref)) // eslint-disable-line no-loop-func
-    nextNodes = next.map(row => row.ref)
+    const next = data.filter((row) => nextNodes.includes(row[field].ref)) // eslint-disable-line no-loop-func
+    nextNodes = next.map((row) => row.ref)
     done = done.concat(next)
   }
   return done
@@ -413,8 +413,8 @@ const buildCopy = async (data) => {
   const refs = {}
   let built = []
   let left = data
-  const nextFilter = table => table.requires.reduce(
-    (acc, requirement) => acc && built.map(builtTable => builtTable.model.name).includes(requirement),
+  const nextFilter = (table) => table.requires.reduce(
+    (acc, requirement) => acc && built.map((builtTable) => builtTable.model.name).includes(requirement),
     true
   )
   const buildTable = async (table) => {
@@ -445,20 +445,20 @@ const buildCopy = async (data) => {
     const next = left.filter(nextFilter)
     // eslint-disable-next-line no-await-in-loop
     built = built.concat(await Promise.all(next.map(buildTable)))
-    left = left.filter(table => !next.map(nextTable => nextTable.model.name).includes(table.model.name))
+    left = left.filter((table) => !next.map((nextTable) => nextTable.model.name).includes(table.model.name))
   }
   return built
 }
 
 const create = {
-  prepare: data => CourseInstance.build({
+  prepare: (data) => CourseInstance.build({
     course_id: data.course_id,
     eng_name: data.eng_name,
     fin_name: data.fin_name,
     swe_name: data.swe_name,
     active: false
   }),
-  execute: (instance, user) => instance.save().then(result => CoursePerson.create({
+  execute: (instance, user) => instance.save().then((result) => CoursePerson.create({
     course_instance_id: result.dataValues.id,
     personId: user.id,
     role: 'TEACHER'

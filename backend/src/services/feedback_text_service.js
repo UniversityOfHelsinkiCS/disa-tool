@@ -1,10 +1,9 @@
-
 const texts = {
   noFeedback: ['There is no feedback for this category.', 'Tästä kategoriasta ei ole palautetta.'],
   categoryGood: ['Very nice', 'Arvioimasi arvosana on hyvin linjassa tekemiesi tehtävien kanssa. Hienoa!'],
   categoryLow: ['Too low', 'Arvioimasi arvosana on matalampi kuin mitä tekemäsi tehtävät antaisivat olettaa.'],
   categoryHigh: ['Too high', 'Arvioimasi arvosana on korkeampi kuin mitä tekemäsi tehtävät antaisivat olettaa.'],
-  extraDone: amount => [
+  extraDone: (amount) => [
     `You have done ${amount} extra`,
     `Olet kuitenkin tehnyt tehtäviä korkeammilta taitotasoilta ${amount} joten on mahdollista, että arvosanasi tulisi olla korkeampi kuin mitä tämä laskenta osoittaa.`],
   lotDone: ['a lot', 'paljon'],
@@ -15,13 +14,13 @@ const texts = {
   generalLotDone: ['very nicely', 'oikein hyvin'],
   generalSomeDone: ['pretty nicely', 'ihan kivasti'],
   generalLittleDone: ['quite little', 'aika heikosti'],
-  generalAmount: amount => [
+  generalAmount: (amount) => [
     `You have done ${amount} work during the course.`,
     `Olet tehnyt ${amount} töitä kurssilla tehtävien parissa.`],
-  generalMost: category => [
+  generalMost: (category) => [
     `The most you have worked on tasks from category ${category}.`,
     `Suhteessa eniten tehtäviä olet tehnyt osiosta ${category}.`],
-  generalLeast: category => [
+  generalLeast: (category) => [
     `You should probably focus more on tasks from category ${category}.`,
     `Enemmän sinun kannattaisi ehkä panostaa osion ${category} tehtäviin.`],
   generalGood: ['Your self assessments seem very accurate', 'Arviosi ovat erittäin osuvia.'],
@@ -36,9 +35,9 @@ const texts = {
     'Arviosi heittelehtivät jonkin verran.']
 }
 
-const mapLang = lang => (lang === 'eng' ? 0 : 1)
+const mapLang = (lang) => (lang === 'eng' ? 0 : 1)
 
-const generateText = list => (
+const generateText = (list) => (
   list.reduce((acc, cur) => `${acc} ${cur}`, '')
 )
 

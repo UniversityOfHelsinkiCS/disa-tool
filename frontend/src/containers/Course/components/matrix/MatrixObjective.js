@@ -81,25 +81,25 @@ export const MatrixObjective = ({
         dispatch(response)
     }
 
-    const asyncToggleObjective = async (props) => {
-      let response = null
-      if(active) {
-      response = await removeObjectiveFromTask(props)
-    } else {
-      response = await addObjectiveToTask(props)
+  const asyncToggleObjective = async (props) => {
+    let response = null
+    if(active) {
+    response = await removeObjectiveFromTask(props)
+  } else {
+    response = await addObjectiveToTask(props)
+  }
+        dispatch(response)
     }
-          dispatch(response)
-      }
 
   const asyncTaskDetails = async (props) => {
-        const response = await taskDetails(props)
-            dispatch(response)
-        }
+    const response = await taskDetails(props)
+        dispatch(response)
+    }
 
-        const asyncMoveObjective = async (props) => {
-          const response = await editObjective(props)
-              dispatch(response)
-          }
+  const asyncMoveObjective = async (props) => {
+    const response = await editObjective(props)
+        dispatch(response)
+    }
 
   useEffect(() => {
     if (triggered) {

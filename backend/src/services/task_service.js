@@ -2,9 +2,8 @@ const { Op } = require('sequelize')
 const { Task, TaskResponse, Type, Objective, TaskObjective, TaskType, TypeHeader } = require('../database/models.js')
 const editServices = require('../utils/editServices')
 
-const taskAttributes = lang => ['id', [`${lang}_name`, 'name'], [`${lang}_description`, 'description'], 'max_points']
-const typeAttributes = lang => ['id', [`${lang}_name`, 'name']]
-
+const taskAttributes = (lang) => ['id', [`${lang}_name`, 'name'], [`${lang}_description`, 'description'], 'max_points']
+const typeAttributes = (lang) => ['id', [`${lang}_name`, 'name']]
 
 const getUserTasksForCourse = (courseId, lang, userId) => Task.findAll({
   where: { course_instance_id: courseId },
@@ -21,7 +20,7 @@ const getUserTasksForCourse = (courseId, lang, userId) => Task.findAll({
       include: {
         model: TypeHeader,
         where: { course_instance_id: courseId },
-        attributes: typeAttributes(lang),
+        attributes: typeAttributes(lang)
       },
       required: false
     }
@@ -35,14 +34,14 @@ const getUserTasksForCourse = (courseId, lang, userId) => Task.findAll({
 const validateTaskResponses = async (taskResponses, courseId) => {
   // find only tasks that are on this course
   const tasks = await Task.findAll({ where: {
-    id: { [Op.in]: taskResponses.map(resp => resp.taskId) },
+    id: { [Op.in]: taskResponses.map((resp) => resp.taskId) },
     course_instance_id: courseId
   } })
   const registeredResponses = []
   const nonRegisteredResponses = []
   for (let i = 0; i < taskResponses.length; i += 1) {
     const resp = taskResponses[i]
-    const originalTask = tasks.find(t => t.id === resp.taskId)
+    const originalTask = tasks.find((t) => t.id === resp.taskId)
     // not in task-list, not on the course
     if (originalTask) {
       const respObject = {
@@ -66,12 +65,12 @@ const validateTaskResponses = async (taskResponses, courseId) => {
 const createOrUpdateTaskResponses = (taskResponses) => {
   // Check for any duplicate responses and remove them
   const uniqueResponses = taskResponses.filter((resp, i) => taskResponses
-    .findIndex(r => resp.personId === r.personId && resp.task_id === r.task_id) === i)
+    .findIndex((r) => resp.personId === r.personId && resp.task_id === r.task_id) === i)
   // go through each response
   return Promise.all(uniqueResponses.map(async (resp) => {
     if (resp.personId && resp.task_id && resp.points) {
       // find an existing response or build a new one
-      const [response,created] = await TaskResponse.findOrBuild({
+      const [response, created] = await TaskResponse.findOrBuild({
         where: {
           personId: resp.personId,
           task_id: resp.task_id
@@ -86,7 +85,7 @@ const createOrUpdateTaskResponses = (taskResponses) => {
 }
 
 const mapPersonsAndResponses = (taskResponses, coursePersons) => taskResponses.reduce((acc, curr) => {
-  const coursePerson = coursePersons.find(person => person.studentnumber === curr.studentnumber)
+  const coursePerson = coursePersons.find((person) => person.studentnumber === curr.studentnumber)
   if (!coursePerson) return acc
   return [
     ...acc,
@@ -99,7 +98,7 @@ const mapPersonsAndResponses = (taskResponses, coursePersons) => taskResponses.r
 }, [])
 
 const create = {
-  prepare: data => Task.build({
+  prepare: (data) => Task.build({
     course_instance_id: data.course_instance_id,
     eng_name: data.eng_name,
     fin_name: data.fin_name,
@@ -111,7 +110,7 @@ const create = {
     max_points: data.max_points,
     order: data.order
   }),
-  execute: instance => instance.save(),
+  execute: (instance) => instance.save(),
   value: (instance, lang) => {
     const json = instance.toJSON()
     return {
@@ -129,14 +128,14 @@ const create = {
 }
 
 const deleteTask = {
-  prepare: async id => Task.findByPk(id),
+  prepare: async (id) => Task.findByPk(id),
   value: (instance) => {
     const json = instance.toJSON()
     return {
       id: json.id
     }
   },
-  execute: instance => instance.destroy()
+  execute: (instance) => instance.destroy()
 }
 
 const attachObjective = {
@@ -174,7 +173,7 @@ const attachObjective = {
       instance
     }
   },
-  execute: instance => instance.save(),
+  execute: (instance) => instance.save(),
   value: (instance) => {
     const json = instance.toJSON()
     return {
@@ -186,7 +185,7 @@ const attachObjective = {
 }
 
 const detachObjective = {
-  prepare: data => TaskObjective.findOne({
+  prepare: (data) => TaskObjective.findOne({
     where: {
       task_id: data.task_id,
       objective_id: data.objective_id
@@ -209,7 +208,7 @@ const detachObjective = {
       objective_id: json.objective_id
     }
   },
-  execute: instance => instance.destroy()
+  execute: (instance) => instance.destroy()
 }
 
 const updateMultipliers = async (taskType) => {
@@ -321,7 +320,7 @@ const attachType = {
 }
 
 const detachType = {
-  prepare: data => TaskType.findOne({
+  prepare: (data) => TaskType.findOne({
     where: {
       task_id: data.task_id,
       type_id: data.type_id
@@ -382,7 +381,7 @@ const { details, edit } = editServices(
 
 const editTaskObjectives = {
   prepare: (data) => {
-    const objectiveIds = data.objectives.map(objective => objective.id)
+    const objectiveIds = data.objectives.map((objective) => objective.id)
     return Promise.all([
       TaskObjective.findAll({
         where: {
@@ -395,17 +394,17 @@ const editTaskObjectives = {
     ])
   },
   execute: (instances, data) => Promise.all(instances.map((instance) => {
-    const dataObjective = data.objectives.find(objective => objective.id === instance.dataValues.objective_id)
+    const dataObjective = data.objectives.find((objective) => objective.id === instance.dataValues.objective_id)
     return instance.update({
       multiplier: Number(dataObjective.multiplier),
       modified: dataObjective.modified
     })
   })),
   value: (instances, data) => {
-    const json = instances.map(instance => instance.toJSON())
+    const json = instances.map((instance) => instance.toJSON())
     return {
       task_id: data.task_id,
-      task_objectives: json.map(instance => ({
+      task_objectives: json.map((instance) => ({
         multiplier: instance.multiplier,
         objective_id: instance.objective_id,
         modified: instance.modified
@@ -414,14 +413,14 @@ const editTaskObjectives = {
   }
 }
 
-const taskObjectivesDetails = id => new Promise((resolve) => {
+const taskObjectivesDetails = (id) => new Promise((resolve) => {
   TaskObjective.findAll({
     where: {
       task_id: id
     },
     attributes: ['task_id', 'objective_id', 'multiplier', 'modified']
-  }).then(result => resolve(
-    result.map(row => row.toJSON())
+  }).then((result) => resolve(
+    result.map((row) => row.toJSON())
   ))
 })
 

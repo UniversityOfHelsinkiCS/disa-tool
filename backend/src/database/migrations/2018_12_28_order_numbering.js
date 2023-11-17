@@ -12,7 +12,7 @@ module.exports = {
   up: (queryInterface, Sequelize, done) => {
     Promise.all(
       affectedTables.map(
-        table => queryInterface.addColumn(
+        (table) => queryInterface.addColumn(
           table,
           'order',
           {
@@ -25,7 +25,7 @@ module.exports = {
     ).then(() => {
       Promise.all(
         affectedTables.map(
-          table => queryInterface.sequelize.query(`UPDATE ${table} SET "order"=id;`)
+          (table) => queryInterface.sequelize.query(`UPDATE ${table} SET "order"=id;`)
         )
       ).then(() => done())
     })
@@ -33,7 +33,7 @@ module.exports = {
   down: (queryInterface, Sequelize, done) => {
     Promise.all(
       affectedTables.map(
-        table => queryInterface.removeColumn(table, 'order')
+        (table) => queryInterface.removeColumn(table, 'order')
       )
     ).then(() => done())
   }

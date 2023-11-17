@@ -12,7 +12,7 @@ const create = {
     })
     return instance
   },
-  execute: instance => instance.save(),
+  execute: (instance) => instance.save(),
   value: (instance, lang) => {
     const json = instance.toJSON()
     return {

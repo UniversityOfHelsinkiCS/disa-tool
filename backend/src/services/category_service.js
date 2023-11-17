@@ -35,13 +35,13 @@ const create = {
     })
     return [instance, skillLevels]
   },
-  execute: instance => instance.save(),
+  execute: (instance) => instance.save(),
   value: (instance, skillLevels, lang) => {
     const json = instance.toJSON()
     return {
       id: json.id,
       name: json[`${lang}_name`],
-      skill_levels: skillLevels.map(level => ({
+      skill_levels: skillLevels.map((level) => ({
         id: level.id,
         objectives: []
       })),
@@ -51,7 +51,7 @@ const create = {
 }
 
 const deleteCategory = {
-  prepare: id => Category.findByPk(id, {
+  prepare: (id) => Category.findByPk(id, {
     include: {
       model: Objective,
       attributes: ['id'],
@@ -80,7 +80,7 @@ const deleteCategory = {
       tasks: Object.values(tasks)
     }
   },
-  execute: instance => instance.destroy()
+  execute: (instance) => instance.destroy()
 }
 
 const { details, edit } = editServices(

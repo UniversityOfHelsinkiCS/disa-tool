@@ -26,7 +26,7 @@ const create = {
       skillLevel
     }
   },
-  execute: instance => instance.save(),
+  execute: (instance) => instance.save(),
   value: (instance, lang) => {
     const json = instance.toJSON()
     return {
@@ -40,7 +40,7 @@ const create = {
 }
 
 const deleteObjective = {
-  prepare: id => Objective.findByPk(id, {
+  prepare: (id) => Objective.findByPk(id, {
     include: {
       model: TaskObjective,
       attributes: ['task_id']
@@ -52,10 +52,10 @@ const deleteObjective = {
       id: json.id,
       category_id: json.category_id,
       skill_level_id: json.skill_level_id,
-      task_ids: json.task_objectives.map(taskObjective => taskObjective.task_id)
+      task_ids: json.task_objectives.map((taskObjective) => taskObjective.task_id)
     }
   },
-  execute: instance => instance.destroy()
+  execute: (instance) => instance.destroy()
 }
 
 const taskDetails = async (id, lang) => {
@@ -74,7 +74,7 @@ const taskDetails = async (id, lang) => {
       [Task, 'order', 'ASC']
     ]
   })).toJSON()
-  result.tasks = result.tasks.map(task => ({
+  result.tasks = result.tasks.map((task) => ({
     ...task,
     multiplier: task.task_objective.multiplier,
     types: undefined,

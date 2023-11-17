@@ -157,7 +157,7 @@ describe('course_controller', () => {
       common: {
         ...courseInstanceData,
         active: !courseInstanceData.active,
-        id: asymmetricMatcher(actual => actual === ids.courseInstance)
+        id: asymmetricMatcher((actual) => actual === ids.courseInstance)
       }
     })
 
@@ -166,7 +166,7 @@ describe('course_controller', () => {
       {
         ...courseInstanceData,
         active: !courseInstanceData.active,
-        id: asymmetricMatcher(actual => actual === ids.courseInstance)
+        id: asymmetricMatcher((actual) => actual === ids.courseInstance)
       },
       CourseInstance,
       {
@@ -318,48 +318,48 @@ describe('course_controller', () => {
 
     testBody(options, {
       common: {
-        id: asymmetricMatcher(actual => actual === ids.courseInstance),
+        id: asymmetricMatcher((actual) => actual === ids.courseInstance),
         course_id: courseInstanceData.course_id,
         active: courseInstanceData.active,
         courseRole: 'STUDENT',
         tasks: [{
-          id: asymmetricMatcher(actual => actual === ids.task),
-          course_instance_id: asymmetricMatcher(actual => actual === ids.courseInstance),
+          id: asymmetricMatcher((actual) => actual === ids.task),
+          course_instance_id: asymmetricMatcher((actual) => actual === ids.courseInstance),
           max_points: taskData.max_points,
           task_responses: [{
-            id: asymmetricMatcher(actual => actual === ids.taskResponse),
+            id: asymmetricMatcher((actual) => actual === ids.taskResponse),
             personId: taskResponseData.personId,
-            task_id: asymmetricMatcher(actual => actual === ids.task)
+            task_id: asymmetricMatcher((actual) => actual === ids.task)
           }],
           types: [{
-            id: asymmetricMatcher(actual => actual === ids.type),
+            id: asymmetricMatcher((actual) => actual === ids.type),
             order: typeData.order,
             type_header: {
-              id: asymmetricMatcher(actual => actual === ids.typeHeader),
+              id: asymmetricMatcher((actual) => actual === ids.typeHeader),
               order: typeHeaderData.order
             }
           }]
         }],
         self_assessments: [{
-          id: asymmetricMatcher(actual => actual === ids.selfAssessment),
+          id: asymmetricMatcher((actual) => actual === ids.selfAssessment),
           structure: selfAssessmentData.structure,
           open: selfAssessmentData.open,
           active: selfAssessmentData.active,
           show_feedback: selfAssessmentData.show_feedback,
-          course_instance_id: asymmetricMatcher(actual => actual === ids.courseInstance),
+          course_instance_id: asymmetricMatcher((actual) => actual === ids.courseInstance),
           assessment_responses: [{
             ...assesmentResponseData,
-            id: asymmetricMatcher(actual => actual === ids.assesmentResponse),
-            self_assessment_id: asymmetricMatcher(actual => actual === ids.selfAssessment)
+            id: asymmetricMatcher((actual) => actual === ids.assesmentResponse),
+            self_assessment_id: asymmetricMatcher((actual) => actual === ids.selfAssessment)
           }]
         }],
         people: [{
           id: 410
         }],
         type_headers: [{
-          id: asymmetricMatcher(actual => actual === ids.typeHeader),
+          id: asymmetricMatcher((actual) => actual === ids.typeHeader),
           types: [{
-            id: asymmetricMatcher(actual => actual === ids.type),
+            id: asymmetricMatcher((actual) => actual === ids.type),
             order: typeData.order
           }]
         }]
@@ -447,19 +447,19 @@ describe('course_controller', () => {
     beforeAll((done) => {
       Promise.all([
         Person.create(personData),
-        ...courseInstanceData.map(data => CourseInstance.create(data))
+        ...courseInstanceData.map((data) => CourseInstance.create(data))
       ]).then(([person, ...courseInstances]) => {
         options.preamble.set = ['uid', 'plizkillme']
         ids.person = person.id
-        ids.courseInstance = courseInstances.map(courseInstance => courseInstance.id)
+        ids.courseInstance = courseInstances.map((courseInstance) => courseInstance.id)
         Promise.all((
-          courseInstances.map(courseInstance => CoursePerson.create({
+          courseInstances.map((courseInstance) => CoursePerson.create({
             ...coursePersonData,
             course_instance_id: courseInstance.id,
             personId: person.id
           }))
         )).then((coursePersons) => {
-          ids.coursePerson = coursePersons.map(coursePerson => coursePerson.id)
+          ids.coursePerson = coursePersons.map((coursePerson) => coursePerson.id)
           done()
         }).catch(done)
       }).catch(done)
@@ -482,21 +482,21 @@ describe('course_controller', () => {
     testBody(options, {
       common: unorderedListMatcher([
         {
-          id: asymmetricMatcher(actual => actual === ids.courseInstance[0]),
+          id: asymmetricMatcher((actual) => actual === ids.courseInstance[0]),
           course_id: courseInstanceData[0].course_id,
           active: courseInstanceData[0].active,
           people: [{
             ...personData,
-            id: asymmetricMatcher(actual => actual === ids.person)
+            id: asymmetricMatcher((actual) => actual === ids.person)
           }]
         },
         {
-          id: asymmetricMatcher(actual => actual === ids.courseInstance[1]),
+          id: asymmetricMatcher((actual) => actual === ids.courseInstance[1]),
           course_id: courseInstanceData[1].course_id,
           active: courseInstanceData[1].active,
           people: [{
             ...personData,
-            id: asymmetricMatcher(actual => actual === ids.person)
+            id: asymmetricMatcher((actual) => actual === ids.person)
           }]
         }
       ]),
@@ -560,7 +560,7 @@ describe('course_controller', () => {
             course_id: course.id
           }).then((courseInstance1) => {
             courseInstances.push(courseInstance1)
-            ids.courseInstances = courseInstances.map(courseInstance => courseInstance.id)
+            ids.courseInstances = courseInstances.map((courseInstance) => courseInstance.id)
             CoursePerson.create({
               personId: 370,
               course_instance_id: courseInstances[0].id,
@@ -586,14 +586,14 @@ describe('course_controller', () => {
     testBody(options, {
       common: unorderedListMatcher([
         {
-          id: asymmetricMatcher(actual => actual === ids.courseInstances[0]),
-          course_id: asymmetricMatcher(actual => actual === ids.course),
+          id: asymmetricMatcher((actual) => actual === ids.courseInstances[0]),
+          course_id: asymmetricMatcher((actual) => actual === ids.course),
           active: courseInstanceData[0].active,
           registered: 'STUDENT'
         },
         {
-          id: asymmetricMatcher(actual => actual === ids.courseInstances[1]),
-          course_id: asymmetricMatcher(actual => actual === ids.course),
+          id: asymmetricMatcher((actual) => actual === ids.courseInstances[1]),
+          course_id: asymmetricMatcher((actual) => actual === ids.course),
           active: courseInstanceData[1].active,
           registered: null
         }

@@ -5,10 +5,10 @@ const {
   Person
 } = require('../database/models.js')
 
-const categoryService = require('../services/category_service')
-const courseInstanceService = require('../services/course_instance_service')
+const categoryService = require('./category_service')
+const courseInstanceService = require('./course_instance_service')
 
-const assessmentAttributes = lang => [
+const assessmentAttributes = (lang) => [
   'id',
   [`${lang}_name`, 'name'],
   [`${lang}_instructions`, 'instructions'],
@@ -22,7 +22,7 @@ const addSelfAssesment = async (data, lang) => {
   const inputData = { ...data, id: undefined }
   const name = [`${lang}_name`, 'name']
   const instructions = [`${lang}_instructions`, 'instructions']
-  const created = await SelfAssessment.create(inputData).then(createdSA => SelfAssessment.findByPk(createdSA.id, {
+  const created = await SelfAssessment.create(inputData).then((createdSA) => SelfAssessment.findByPk(createdSA.id, {
     attributes: ['id', name, instructions, 'structure', 'open', 'active', 'show_feedback', 'course_instance_id']
   }))
   return created
@@ -31,7 +31,6 @@ const addSelfAssesment = async (data, lang) => {
 const getUserSelfAssesments = async (user, lang) => {
   const name = [`${lang}_name`, 'name']
   const instructions = [`${lang}_instructions`, 'instructions']
-
 
   const data = await SelfAssessment.findAll({
     attributes: ['id', name, instructions, 'structure', 'open', 'active', 'show_feedback', 'course_instance_id'],
@@ -56,7 +55,7 @@ const getUserSelfAssesments = async (user, lang) => {
       }
     ]
   })
-  return data.filter(selfAssesment => (
+  return data.filter((selfAssesment) => (
     selfAssesment.active || selfAssesment.course_instance.people[0].course_person.role === 'TEACHER'
   ))
 }
@@ -109,7 +108,7 @@ const toggleAssessment = {
     instance[attribute] = !instance[attribute]
     return instance
   },
-  execute: async instance => instance.save()
+  execute: async (instance) => instance.save()
 }
 
 const setAssessmentStatus = {
@@ -118,7 +117,7 @@ const setAssessmentStatus = {
     attributes.forEach((a) => { instance[a.name] = !!a.value })
     return instance
   },
-  execute: async instance => instance.save()
+  execute: async (instance) => instance.save()
 }
 
 const isFeedbackActive = async (id) => {
@@ -126,8 +125,8 @@ const isFeedbackActive = async (id) => {
   return assessment.show_feedback
 }
 
-const getAssessmentType = id => (
-  SelfAssessment.findByPk(id).then(res => res.structure.type)
+const getAssessmentType = (id) => (
+  SelfAssessment.findByPk(id).then((res) => res.structure.type)
 )
 
 const setAssessmentLanguage = async (selfAssessment, lang) => {
@@ -139,40 +138,40 @@ const setAssessmentLanguage = async (selfAssessment, lang) => {
   const instructions = `${lang}_instructions`
 
   assessmentCopy.name = assessmentCopy[name]
-  const oldInst = structure.formInfo.find(h => h.type === instructions)
+  const oldInst = structure.formInfo.find((h) => h.type === instructions)
   assessmentCopy.instructions = { header: oldInst.header, value: oldInst.value }
 
-  structure.finalGrade.name = (structure.finalGrade.headers.find(h => h.type === name)).value
-  structure.openQuestions.name = (structure.headers.openQ.find(h => h.type === name)).value
-  structure.questionModuleName = (structure.headers.questionHeaders.find(h => h.type === name)).value
+  structure.finalGrade.name = (structure.finalGrade.headers.find((h) => h.type === name)).value
+  structure.openQuestions.name = (structure.headers.openQ.find((h) => h.type === name)).value
+  structure.questionModuleName = (structure.headers.questionHeaders.find((h) => h.type === name)).value
   structure.finalGrade = {
     ...structure.finalGrade,
-    header: structure.headers.grade.find(h => h.type === name).value,
-    value: structure.finalGrade.headers.find(h => h.type === name).value
+    header: structure.headers.grade.find((h) => h.type === name).value,
+    value: structure.finalGrade.headers.find((h) => h.type === name).value
   }
 
-  const categories = (await categoryService.getCourseCategories(course_instance_id, lang)).map(category => category.get({ plain: true }))
+  const categories = (await categoryService.getCourseCategories(course_instance_id, lang)).map((category) => category.get({ plain: true }))
   structure.displayCoursename = ((await courseInstanceService.getOne(course_instance_id)).get({ plain: true }))[name]
   const categoryNames = {}
   const objNames = {}
 
   categories.forEach(cat => (categoryNames[cat.id] = cat.name)) //eslint-disable-line
   categories.forEach(cat => cat.objectives.forEach(o => objNames[o.id] = o.name))  //eslint-disable-line
-  structure.openQuestions.questions = structure.openQuestions.questions.map(openQ => ({ ...openQ, name: openQ[name] }))
+  structure.openQuestions.questions = structure.openQuestions.questions.map((openQ) => ({ ...openQ, name: openQ[name] }))
 
   if (type === 'category') {
     structure.questionModules = structure.questionModules.map(
-      qMod => ({
+      (qMod) => ({
         ...qMod, name: categoryNames[qMod.id.toString()]
       }))
 
     return assessmentCopy
   }
 
-  structure.questionModules = assessmentCopy.structure.questionModules.map(qMod => ({
+  structure.questionModules = assessmentCopy.structure.questionModules.map((qMod) => ({
     ...qMod,
     name: categoryNames[qMod.id.toString()],
-    objectives: qMod.objectives.map(categoryOb => (
+    objectives: qMod.objectives.map((categoryOb) => (
       { ...categoryOb, name: objNames[categoryOb.id] }
     ))
   }))
@@ -182,7 +181,7 @@ const setAssessmentLanguage = async (selfAssessment, lang) => {
 }
 
 const deleteSelfAssesment = {
-  prepare: id => SelfAssessment.findByPk(id),
+  prepare: (id) => SelfAssessment.findByPk(id),
   value: (instance) => {
     const json = instance.toJSON()
     return {
@@ -190,7 +189,7 @@ const deleteSelfAssesment = {
       course_instance_id: json.course_instance_id
     }
   },
-  execute: instance => instance.destroy()
+  execute: (instance) => instance.destroy()
 }
 
 module.exports = {

@@ -6,8 +6,7 @@ const Course = sequelize.define('course', {
   eng_name: { type: Sequelize.STRING },
   fin_name: { type: Sequelize.STRING },
   swe_name: { type: Sequelize.STRING }
-},
-{
+}, {
   tableName: 'course',
   underscored: true,
   timestamps: true
@@ -29,8 +28,7 @@ const CourseInstance = sequelize.define('course_instance', {
     },
     onDelete: 'CASCADE'
   }
-},
-{
+}, {
   tableName: 'course_instance',
   underscored: true,
   timestamps: true
@@ -57,8 +55,7 @@ const Task = sequelize.define('task', {
     onDelete: 'CASCADE'
   },
   order: { type: Sequelize.FLOAT }
-},
-{
+}, {
   tableName: 'task',
   underscored: true,
   timestamps: true
@@ -80,8 +77,7 @@ const TypeHeader = sequelize.define('type_header', {
     onDelete: 'CASCADE'
   },
   order: { type: Sequelize.FLOAT }
-},
-{
+}, {
   tableName: 'type_header',
   underscored: true,
   timestamps: true
@@ -104,8 +100,7 @@ const Type = sequelize.define('type', {
     onDelete: 'CASCADE'
   },
   order: { type: Sequelize.FLOAT }
-},
-{
+}, {
   tableName: 'type',
   underscored: true,
   timestamps: true
@@ -115,8 +110,7 @@ const TaskType = sequelize.define('task_type', {
   id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
   task_id: { type: Sequelize.BIGINT, allowNull: false },
   type_id: { type: Sequelize.BIGINT, allowNull: false }
-},
-{
+}, {
   tableName: 'task_type',
   underscored: true,
   timestamps: true
@@ -138,8 +132,7 @@ const Category = sequelize.define('category', {
     onDelete: 'CASCADE'
   },
   order: { type: Sequelize.FLOAT }
-},
-{
+}, {
   tableName: 'category',
   underscored: true,
   timestamps: true
@@ -161,8 +154,7 @@ const SkillLevel = sequelize.define('skill_level', {
     onDelete: 'CASCADE'
   },
   order: { type: Sequelize.FLOAT }
-},
-{
+}, {
   tableName: 'skill_level',
   underscored: true,
   timestamps: true
@@ -204,8 +196,7 @@ const Objective = sequelize.define('objective', {
     onDelete: 'CASCADE'
   },
   order: { type: Sequelize.FLOAT }
-},
-{
+}, {
   tableName: 'objective',
   underscored: true,
   timestamps: true
@@ -235,8 +226,7 @@ const TaskObjective = sequelize.define('task_objective', {
     },
     onDelete: 'CASCADE'
   }
-},
-{
+}, {
   tableName: 'task_objective',
   underscored: true,
   timestamps: true
@@ -263,8 +253,7 @@ const Grade = sequelize.define('grade', {
     allowNull: true
   },
   order: { type: Sequelize.FLOAT }
-},
-{
+}, {
   tableName: 'grade',
   underscored: true,
   timestamps: true
@@ -293,8 +282,7 @@ const CategoryGrade = sequelize.define('category_grade', {
     },
     onDelete: 'CASCADE'
   }
-},
-{
+}, {
   tableName: 'category_grade',
   underscored: true,
   timestamps: true
@@ -307,8 +295,7 @@ const Person = sequelize.define('person', {
   name: { type: Sequelize.STRING },
   role: { type: Sequelize.STRING },
   university: { type: Sequelize.STRING, defaultValue: 'helsinki.fi' }
-},
-{
+}, {
   tableName: 'person',
   underscored: true,
   timestamps: true
@@ -337,8 +324,7 @@ const CoursePerson = sequelize.define('course_person', {
     onDelete: 'CASCADE'
   },
   role: { type: Sequelize.STRING }
-},
-{
+}, {
   tableName: 'course_person',
   underscored: true,
   timestamps: true
@@ -366,8 +352,7 @@ const SelfAssessment = sequelize.define('self_assessment', {
     },
     onDelete: 'CASCADE'
   }
-},
-{
+}, {
   tableName: 'self_assessment',
   underscored: true,
   timestamps: true
@@ -396,8 +381,7 @@ const TaskResponse = sequelize.define('task_response', {
     },
     onDelete: 'CASCADE'
   }
-},
-{
+}, {
   tableName: 'task_response',
   underscored: true,
   timestamps: true
@@ -426,8 +410,7 @@ const AssessmentResponse = sequelize.define('assessment_response', {
     },
     onDelete: 'CASCADE'
   }
-},
-{
+}, {
   tableName: 'assessment_response',
   underscored: true,
   timestamps: true
@@ -441,7 +424,7 @@ Type.addHook('afterUpdate', 'updateMultipliers', (type) => {
       attributes: ['id', 'multiplier']
     }
   }).then((tasks) => {
-    const updatedTasks = tasks.filter(task => task.dataValues.types.find(ttype => ttype.id === type.id))
+    const updatedTasks = tasks.filter((task) => task.dataValues.types.find((ttype) => ttype.id === type.id))
     updatedTasks.forEach((task) => {
       const defaultMultiplier = task.dataValues.types.reduce((acc, curr) => acc * curr.multiplier, 1)
       TaskObjective.update({

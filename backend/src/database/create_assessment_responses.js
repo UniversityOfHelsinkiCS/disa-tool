@@ -9,7 +9,7 @@ const randGrade = () => (Math.floor(Math.random() * 5 + 1))
 const textResp = () => `
 ${faker.hacker.phrase()} ${faker.hacker.phrase()} ${faker.hacker.phrase()} ${faker.hacker.phrase()}`
 
-const genResp = assessmentId => ({
+const genResp = (assessmentId) => ({
   assessmentId,
   course_instance_id: 1,
   questionModuleResponses: [{

@@ -25,7 +25,7 @@ const {
 
 const names = ['eng_name', 'fin_name', 'swe_name']
 const descriptions = ['eng_description', 'fin_description', 'swe_description']
-const findCopyData = id => CourseInstance.findByPk(id, {
+const findCopyData = (id) => CourseInstance.findByPk(id, {
   attributes: ['id', ...names, 'course_id'],
   include: [
     {
@@ -293,7 +293,7 @@ describe('course_instance_controller', () => {
       common: {
         message: expect.any(String),
         data: {
-          id: asymmetricMatcher(actual => actual === ids.courseInstance),
+          id: asymmetricMatcher((actual) => actual === ids.courseInstance),
           course_id: 1,
           eng_name: 'en',
           fin_name: 'fn',
@@ -362,7 +362,7 @@ describe('course_instance_controller', () => {
       common: {
         message: expect.any(String),
         edited: {
-          id: asymmetricMatcher(actual => actual === ids.courseInstance),
+          id: asymmetricMatcher((actual) => actual === ids.courseInstance),
           course_id: 1
         }
       },
@@ -387,13 +387,13 @@ describe('course_instance_controller', () => {
       options,
       {
         ...data,
-        id: asymmetricMatcher(actual => actual === ids.courseInstance),
+        id: asymmetricMatcher((actual) => actual === ids.courseInstance),
         course_id: 1,
-        createdAt: asymmetricMatcher(actual => !(
+        createdAt: asymmetricMatcher((actual) => !(
           actual > databaseExpectation.createdAt
           || actual < databaseExpectation.createdAt
         )),
-        updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.updatedAt)
+        updatedAt: asymmetricMatcher((actual) => actual > databaseExpectation.updatedAt)
       },
       CourseInstance,
       {

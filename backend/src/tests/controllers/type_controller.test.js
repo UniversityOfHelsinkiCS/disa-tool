@@ -86,7 +86,7 @@ describe('type_controller', () => {
         message: expect.any(String),
         created: {
           id: expect.any(Number),
-          type_header_id: asymmetricMatcher(actual => actual === ids.typeHeader),
+          type_header_id: asymmetricMatcher((actual) => actual === ids.typeHeader),
           multiplier: data.multiplier,
           order: data.order
         }
@@ -215,8 +215,8 @@ describe('type_controller', () => {
       common: {
         message: expect.any(String),
         deleted: {
-          id: asymmetricMatcher(actual => actual === ids.type),
-          type_header_id: asymmetricMatcher(actual => actual === ids.typeHeader),
+          id: asymmetricMatcher((actual) => actual === ids.type),
+          type_header_id: asymmetricMatcher((actual) => actual === ids.typeHeader),
           task_ids: []
         }
       }
@@ -257,7 +257,7 @@ describe('type_controller', () => {
       common: {
         message: expect.any(String),
         deleted: {
-          id: asymmetricMatcher(actual => actual === ids.deleteTypeHeader)
+          id: asymmetricMatcher((actual) => actual === ids.deleteTypeHeader)
         }
       }
     })
@@ -359,7 +359,7 @@ describe('type_controller', () => {
     })
 
     afterEach((done) => {
-      Type.findByPk(ids.editType).then(instance => instance.update({
+      Type.findByPk(ids.editType).then((instance) => instance.update({
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
@@ -382,9 +382,9 @@ describe('type_controller', () => {
       common: {
         message: expect.any(String),
         edited: {
-          id: asymmetricMatcher(actual => actual === ids.editType),
+          id: asymmetricMatcher((actual) => actual === ids.editType),
           multiplier: data.multiplier,
-          type_header_id: asymmetricMatcher(actual => actual === ids.typeHeader),
+          type_header_id: asymmetricMatcher((actual) => actual === ids.typeHeader),
           order: data.order
         }
       },
@@ -409,12 +409,12 @@ describe('type_controller', () => {
       options,
       {
         ...data,
-        id: asymmetricMatcher(actual => actual === ids.editType),
-        type_header_id: asymmetricMatcher(actual => actual === ids.typeHeader),
-        createdAt: asymmetricMatcher(actual => !(
+        id: asymmetricMatcher((actual) => actual === ids.editType),
+        type_header_id: asymmetricMatcher((actual) => actual === ids.typeHeader),
+        createdAt: asymmetricMatcher((actual) => !(
           actual < databaseExpectation.createdAt || actual > databaseExpectation.createdAt
         )),
-        updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.updatedAt)
+        updatedAt: asymmetricMatcher((actual) => actual > databaseExpectation.updatedAt)
       },
       Type,
       {
@@ -459,7 +459,7 @@ describe('type_controller', () => {
         message: expect.any(String),
         data: {
           ...data,
-          id: asymmetricMatcher(actual => actual === ids.getHeader)
+          id: asymmetricMatcher((actual) => actual === ids.getHeader)
         }
       }
     })
@@ -499,7 +499,7 @@ describe('type_controller', () => {
 
     afterEach((done) => {
       TypeHeader.findByPk(ids.editHeader).then(
-        instance => instance.update({
+        (instance) => instance.update({
           eng_name: 'en',
           fin_name: 'fn',
           swe_name: 'sn',
@@ -518,7 +518,7 @@ describe('type_controller', () => {
       common: {
         message: expect.any(String),
         edited: {
-          id: asymmetricMatcher(actual => actual === ids.editHeader),
+          id: asymmetricMatcher((actual) => actual === ids.editHeader),
           order: data.order
         }
       },
@@ -543,12 +543,12 @@ describe('type_controller', () => {
       options,
       {
         ...data,
-        id: asymmetricMatcher(actual => actual === ids.editHeader),
-        course_instance_id: asymmetricMatcher(actual => actual === ids.courseInstance),
-        createdAt: asymmetricMatcher(actual => !(
+        id: asymmetricMatcher((actual) => actual === ids.editHeader),
+        course_instance_id: asymmetricMatcher((actual) => actual === ids.courseInstance),
+        createdAt: asymmetricMatcher((actual) => !(
           actual < databaseExpectation.createdAt || actual > databaseExpectation.createdAt
         )),
-        updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.createdAt)
+        updatedAt: asymmetricMatcher((actual) => actual > databaseExpectation.createdAt)
       },
       TypeHeader,
       {
@@ -592,11 +592,11 @@ describe('type_controller', () => {
           course_instance_id: courseInstance.id
         }).then((typeHeader) => {
           ids.getCourseTypeHeader = typeHeader.id
-          Promise.all(typeData.map(data => Type.create({
+          Promise.all(typeData.map((data) => Type.create({
             ...data,
             type_header_id: typeHeader.id
           }))).then((types) => {
-            ids.getCourseTypes = types.map(type => type.id)
+            ids.getCourseTypes = types.map((type) => type.id)
             done()
           }).catch(done)
         }).catch(done)
@@ -613,8 +613,8 @@ describe('type_controller', () => {
 
     testStatusCode(options, 200)
 
-    const expectedData = lang => expect.arrayContaining(typeData.map((type, index) => ({
-      id: asymmetricMatcher(actual => actual === ids.getCourseTypes[index]),
+    const expectedData = (lang) => expect.arrayContaining(typeData.map((type, index) => ({
+      id: asymmetricMatcher((actual) => actual === ids.getCourseTypes[index]),
       text: `${typeHeaderData[`${lang}_name`]} ${type[`${lang}_name`]}`
     })))
 

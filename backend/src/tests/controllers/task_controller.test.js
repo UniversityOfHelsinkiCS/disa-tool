@@ -222,7 +222,7 @@ describe('task_controller', () => {
       common: {
         message: expect.any(String),
         deleted: {
-          id: asymmetricMatcher(actual => actual === ids.task)
+          id: asymmetricMatcher((actual) => actual === ids.task)
         }
       }
     })
@@ -320,8 +320,8 @@ describe('task_controller', () => {
             {
               id: expect.any(Number),
               points: data.tasks[0].points,
-              task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
-              personId: asymmetricMatcher(actual => actual === data.tasks[0].personId)
+              task_id: asymmetricMatcher((actual) => actual === data.tasks[0].taskId),
+              personId: asymmetricMatcher((actual) => actual === data.tasks[0].personId)
             }
           ]
         }
@@ -332,8 +332,8 @@ describe('task_controller', () => {
         {
           id: expect.any(Number),
           points: data.tasks[0].points,
-          task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
-          personId: asymmetricMatcher(actual => actual === data.tasks[0].personId)
+          task_id: asymmetricMatcher((actual) => actual === data.tasks[0].taskId),
+          personId: asymmetricMatcher((actual) => actual === data.tasks[0].personId)
         },
         TaskResponse,
         {
@@ -406,10 +406,10 @@ describe('task_controller', () => {
           message: expect.any(String),
           createdResponses: [
             {
-              id: asymmetricMatcher(actual => actual === data.tasks[0].responseId),
+              id: asymmetricMatcher((actual) => actual === data.tasks[0].responseId),
               points: data.tasks[0].points,
-              task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
-              personId: asymmetricMatcher(actual => actual === data.tasks[0].personId)
+              task_id: asymmetricMatcher((actual) => actual === data.tasks[0].taskId),
+              personId: asymmetricMatcher((actual) => actual === data.tasks[0].personId)
             }
           ]
         }
@@ -418,14 +418,14 @@ describe('task_controller', () => {
       testDatabaseSave(
         options,
         {
-          id: asymmetricMatcher(actual => actual === data.tasks[0].responseId),
+          id: asymmetricMatcher((actual) => actual === data.tasks[0].responseId),
           points: data.tasks[0].points,
-          task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
-          personId: asymmetricMatcher(actual => actual === data.tasks[0].personId),
-          createdAt: asymmetricMatcher(actual => !(
+          task_id: asymmetricMatcher((actual) => actual === data.tasks[0].taskId),
+          personId: asymmetricMatcher((actual) => actual === data.tasks[0].personId),
+          createdAt: asymmetricMatcher((actual) => !(
             actual > databaseExpectation.createdAt || actual < databaseExpectation.createdAt
           )),
-          updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.createdAt)
+          updatedAt: asymmetricMatcher((actual) => actual > databaseExpectation.createdAt)
         },
         TaskResponse,
         {
@@ -486,7 +486,7 @@ describe('task_controller', () => {
             {
               id: expect.any(Number),
               points: data.tasks[0].points,
-              task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
+              task_id: asymmetricMatcher((actual) => actual === data.tasks[0].taskId),
               personId: expect.any(Number)
             }
           ]
@@ -498,7 +498,7 @@ describe('task_controller', () => {
         {
           id: expect.any(Number),
           points: data.tasks[0].points,
-          task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
+          task_id: asymmetricMatcher((actual) => actual === data.tasks[0].taskId),
           personId: expect.any(Number)
         },
         TaskResponse,
@@ -543,7 +543,7 @@ describe('task_controller', () => {
         testBody(options, {
           common: {
             message: expect.any(String),
-            createdResponses: asymmetricMatcher(actual => actual.length === 0)
+            createdResponses: asymmetricMatcher((actual) => actual.length === 0)
           }
         })
       })
@@ -592,7 +592,7 @@ describe('task_controller', () => {
         testBody(options, {
           common: {
             message: expect.any(String),
-            createdResponses: asymmetricMatcher(actual => actual.length === 0)
+            createdResponses: asymmetricMatcher((actual) => actual.length === 0)
           }
         })
       })
@@ -681,7 +681,7 @@ describe('task_controller', () => {
     })
 
     afterEach((done) => {
-      Task.findByPk(ids.task).then(instance => instance.update({
+      Task.findByPk(ids.task).then((instance) => instance.update({
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
@@ -707,7 +707,7 @@ describe('task_controller', () => {
       common: {
         message: expect.any(String),
         edited: {
-          id: asymmetricMatcher(actual => actual === ids.task),
+          id: asymmetricMatcher((actual) => actual === ids.task),
           info: data.info,
           order: data.order
         }
@@ -736,12 +736,12 @@ describe('task_controller', () => {
       options,
       {
         ...data,
-        id: asymmetricMatcher(actual => actual === ids.task),
-        course_instance_id: asymmetricMatcher(actual => actual === superIds.courseInstance),
-        createdAt: asymmetricMatcher(actual => !(
+        id: asymmetricMatcher((actual) => actual === ids.task),
+        course_instance_id: asymmetricMatcher((actual) => actual === superIds.courseInstance),
+        createdAt: asymmetricMatcher((actual) => !(
           actual < databaseExpectation.createdAt || actual > databaseExpectation.createdAt
         )),
-        updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.updatedAt)
+        updatedAt: asymmetricMatcher((actual) => actual > databaseExpectation.updatedAt)
       },
       Task,
       {
@@ -857,21 +857,21 @@ describe('task_controller', () => {
 
     testBody(options, {
       common: [{
-        id: asymmetricMatcher(actual => actual === ids.task),
+        id: asymmetricMatcher((actual) => actual === ids.task),
         max_points: taskData.max_points,
         task_responses: [{
           ...taskResponseData,
-          task_id: asymmetricMatcher(actual => actual === ids.task)
+          task_id: asymmetricMatcher((actual) => actual === ids.task)
         }]
       }],
       eng: [{
         name: taskData.eng_name,
         description: taskData.eng_description,
         types: [{
-          id: asymmetricMatcher(actual => actual === ids.type),
+          id: asymmetricMatcher((actual) => actual === ids.type),
           name: typeData.eng_name,
           type_header: {
-            id: asymmetricMatcher(actual => actual === ids.type_header),
+            id: asymmetricMatcher((actual) => actual === ids.type_header),
             name: typeHeaderData.eng_name
           }
         }]
@@ -880,10 +880,10 @@ describe('task_controller', () => {
         name: taskData.fin_name,
         description: taskData.fin_description,
         types: [{
-          id: asymmetricMatcher(actual => actual === ids.type),
+          id: asymmetricMatcher((actual) => actual === ids.type),
           name: typeData.fin_name,
           type_header: {
-            id: asymmetricMatcher(actual => actual === ids.type_header),
+            id: asymmetricMatcher((actual) => actual === ids.type_header),
             name: typeHeaderData.fin_name
           }
         }]
@@ -892,10 +892,10 @@ describe('task_controller', () => {
         name: taskData.swe_name,
         description: taskData.swe_description,
         types: [{
-          id: asymmetricMatcher(actual => actual === ids.type),
+          id: asymmetricMatcher((actual) => actual === ids.type),
           name: typeData.swe_name,
           type_header: {
-            id: asymmetricMatcher(actual => actual === ids.type_header),
+            id: asymmetricMatcher((actual) => actual === ids.type_header),
             name: typeHeaderData.swe_name
           }
         }]
@@ -999,8 +999,8 @@ describe('task_controller', () => {
       common: {
         message: expect.any(String),
         created: {
-          task_id: asymmetricMatcher(actual => actual === data.task_id),
-          objective_id: asymmetricMatcher(actual => actual === data.objective_id)
+          task_id: asymmetricMatcher((actual) => actual === data.task_id),
+          objective_id: asymmetricMatcher((actual) => actual === data.objective_id)
         }
       }
     })
@@ -1009,8 +1009,8 @@ describe('task_controller', () => {
       options,
       {
         id: expect.any(Number),
-        task_id: asymmetricMatcher(actual => actual === data.task_id),
-        objective_id: asymmetricMatcher(actual => actual === data.objective_id),
+        task_id: asymmetricMatcher((actual) => actual === data.task_id),
+        objective_id: asymmetricMatcher((actual) => actual === data.objective_id),
         multiplier: expect.any(Number),
         modified: false
       },
@@ -1171,8 +1171,8 @@ describe('task_controller', () => {
       common: {
         message: expect.any(String),
         deleted: {
-          task_id: asymmetricMatcher(actual => actual === data.task_id),
-          objective_id: asymmetricMatcher(actual => actual === data.objective_id)
+          task_id: asymmetricMatcher((actual) => actual === data.task_id),
+          objective_id: asymmetricMatcher((actual) => actual === data.objective_id)
         }
       }
     })
@@ -1324,11 +1324,11 @@ describe('task_controller', () => {
       common: {
         message: expect.any(String),
         edited: {
-          task_id: asymmetricMatcher(actual => actual === ids.task),
+          task_id: asymmetricMatcher((actual) => actual === ids.task),
           task_objectives: [{
             multiplier: data.objectives[0].multiplier,
             modified: data.objectives[0].modified,
-            objective_id: asymmetricMatcher(actual => actual === ids.objective)
+            objective_id: asymmetricMatcher((actual) => actual === ids.objective)
           }]
         }
       }
@@ -1337,8 +1337,8 @@ describe('task_controller', () => {
     testDatabaseSave(
       options,
       {
-        task_id: asymmetricMatcher(actual => actual === ids.task),
-        objective_id: asymmetricMatcher(actual => actual === ids.objective),
+        task_id: asymmetricMatcher((actual) => actual === ids.task),
+        objective_id: asymmetricMatcher((actual) => actual === ids.objective),
         multiplier: data.objectives[0].multiplier,
         modified: data.objectives[0].modified
       },
@@ -1444,8 +1444,8 @@ describe('task_controller', () => {
       common: {
         message: expect.any(String),
         created: {
-          task_id: asymmetricMatcher(actual => actual === ids.task),
-          type_id: asymmetricMatcher(actual => actual === ids.type)
+          task_id: asymmetricMatcher((actual) => actual === ids.task),
+          type_id: asymmetricMatcher((actual) => actual === ids.type)
         },
         deleted: null,
         multiplier: typeData.multiplier
@@ -1456,8 +1456,8 @@ describe('task_controller', () => {
       options,
       {
         id: expect.any(Number),
-        task_id: asymmetricMatcher(actual => actual === ids.task),
-        type_id: asymmetricMatcher(actual => actual === ids.type)
+        task_id: asymmetricMatcher((actual) => actual === ids.task),
+        type_id: asymmetricMatcher((actual) => actual === ids.type)
       },
       TaskType,
       {
@@ -1508,12 +1508,12 @@ describe('task_controller', () => {
         common: {
           message: expect.any(String),
           created: {
-            task_id: asymmetricMatcher(actual => actual === ids.task),
-            type_id: asymmetricMatcher(actual => actual === ids.type)
+            task_id: asymmetricMatcher((actual) => actual === ids.task),
+            type_id: asymmetricMatcher((actual) => actual === ids.type)
           },
           deleted: {
-            task_id: asymmetricMatcher(actual => actual === ids.task),
-            type_id: asymmetricMatcher(actual => actual === ids.other_type)
+            task_id: asymmetricMatcher((actual) => actual === ids.task),
+            type_id: asymmetricMatcher((actual) => actual === ids.other_type)
           },
           multiplier: typeData.multiplier
         }
@@ -1598,13 +1598,13 @@ describe('task_controller', () => {
         common: {
           message: expect.any(String),
           created: {
-            task_id: asymmetricMatcher(actual => actual === ids.task),
-            type_id: asymmetricMatcher(actual => actual === ids.type)
+            task_id: asymmetricMatcher((actual) => actual === ids.task),
+            type_id: asymmetricMatcher((actual) => actual === ids.type)
           },
           deleted: null,
           multiplier: typeData.multiplier,
           taskObjectives: [{
-            id: asymmetricMatcher(actual => actual === ids.objective[1]),
+            id: asymmetricMatcher((actual) => actual === ids.objective[1]),
             multiplier: typeData.multiplier
           }]
         }
@@ -1792,8 +1792,8 @@ describe('task_controller', () => {
         message: expect.any(String),
         multiplier: 1,
         deleted: {
-          task_id: asymmetricMatcher(actual => actual === ids.task),
-          type_id: asymmetricMatcher(actual => actual === ids.type)
+          task_id: asymmetricMatcher((actual) => actual === ids.task),
+          type_id: asymmetricMatcher((actual) => actual === ids.type)
         }
       }
     })
@@ -1863,12 +1863,12 @@ describe('task_controller', () => {
         common: {
           message: expect.any(String),
           deleted: {
-            task_id: asymmetricMatcher(actual => actual === ids.task),
-            type_id: asymmetricMatcher(actual => actual === ids.type)
+            task_id: asymmetricMatcher((actual) => actual === ids.task),
+            type_id: asymmetricMatcher((actual) => actual === ids.type)
           },
           multiplier: 1,
           taskObjectives: [{
-            id: asymmetricMatcher(actual => actual === ids.objective[1]),
+            id: asymmetricMatcher((actual) => actual === ids.objective[1]),
             multiplier: 1
           }]
         }
@@ -1991,14 +1991,14 @@ describe('task_controller', () => {
           Objective.create(objectiveInput),
           Objective.create(objectiveInput)
         ]).then((objectives) => {
-          ids.objectives = objectives.map(objective => objective.id)
+          ids.objectives = objectives.map((objective) => objective.id)
           Promise.all(objectives.map((objective, index) => TaskObjective.create({
             task_id: task.id,
             objective_id: objective.id,
             modified: false,
             multiplier: 0.4 * index
           }))).then((taskObjectives) => {
-            ids.taskObjectives = taskObjectives.map(taskObjective => taskObjective.id)
+            ids.taskObjectives = taskObjectives.map((taskObjective) => taskObjective.id)
             done()
           }).catch(done)
         }).catch(done)

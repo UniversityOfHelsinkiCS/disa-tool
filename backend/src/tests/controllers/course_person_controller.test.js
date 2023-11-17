@@ -175,7 +175,7 @@ describe('course_person_controller', () => {
       common: {
         data: {
           id: expect.any(Number),
-          personId: asymmetricMatcher(actual => actual === ids.person),
+          personId: asymmetricMatcher((actual) => actual === ids.person),
           course_instance_id: coursePersonData.course_instance_id,
           role: data.role
         }
@@ -195,7 +195,7 @@ describe('course_person_controller', () => {
       options,
       {
         id: expect.any(Number),
-        personId: asymmetricMatcher(actual => actual === ids.person),
+        personId: asymmetricMatcher((actual) => actual === ids.person),
         course_instance_id: coursePersonData.course_instance_id,
         role: data.role
       },
@@ -227,8 +227,8 @@ describe('course_person_controller', () => {
       testBody(options, {
         common: {
           data: {
-            id: asymmetricMatcher(actual => actual === ids.coursePerson),
-            personId: asymmetricMatcher(actual => actual === ids.person),
+            id: asymmetricMatcher((actual) => actual === ids.coursePerson),
+            personId: asymmetricMatcher((actual) => actual === ids.person),
             course_instance_id: coursePersonData.course_instance_id,
             role: data.role
           }
@@ -247,8 +247,8 @@ describe('course_person_controller', () => {
       testDatabaseSave(
         options,
         {
-          id: asymmetricMatcher(actual => actual === ids.coursePerson),
-          personId: asymmetricMatcher(actual => actual === ids.person),
+          id: asymmetricMatcher((actual) => actual === ids.coursePerson),
+          personId: asymmetricMatcher((actual) => actual === ids.person),
           course_instance_id: coursePersonData.course_instance_id,
           role: data.role
         },
@@ -354,8 +354,8 @@ describe('course_person_controller', () => {
         message: expect.any(String),
         deleted: {
           ...coursePersonData,
-          id: asymmetricMatcher(actual => actual === ids.coursePerson),
-          personId: asymmetricMatcher(actual => actual === ids.person)
+          id: asymmetricMatcher((actual) => actual === ids.coursePerson),
+          personId: asymmetricMatcher((actual) => actual === ids.person)
         }
       }
     })

@@ -2,7 +2,6 @@ const { faker } = require('@faker-js/faker')
 
 const { Person, CoursePerson } = require('./models')
 
-
 const createStudentsOnCourse = async (studentNumbers, courseId) => {
   console.log(`trying to create ${studentNumbers.length} students`)
   const students = await Promise.all(studentNumbers.map(async (number) => {
@@ -11,7 +10,7 @@ const createStudentsOnCourse = async (studentNumbers, courseId) => {
     if (find) return find
     const student = { name: faker.person.findName(), studentnumber: number, role: 'STUDENT' }
     console.log(`creating ${student.name}`)
-    return Person.create(student, { returning: ['*'] }).then(res => res).catch(e => console.log('I AM DYING', e))
+    return Person.create(student, { returning: ['*'] }).then((res) => res).catch((e) => console.log('I AM DYING', e))
   }))
   console.log('--------------------------------------------------')
   console.log('starting to create course persons')

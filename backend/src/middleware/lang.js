@@ -1,4 +1,3 @@
-
 const isLangCorrect = (lang) => {
   if (!lang) return false
   if (lang !== 'eng' && lang !== 'fin' && lang !== 'swe') return false

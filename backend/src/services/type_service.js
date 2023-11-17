@@ -17,7 +17,7 @@ const create = {
       header: header.toJSON()
     }
   },
-  execute: instance => instance.save(),
+  execute: (instance) => instance.save(),
   value: (instance, lang) => {
     const json = instance.toJSON()
     return {
@@ -31,7 +31,7 @@ const create = {
 }
 
 const deleteType = {
-  prepare: id => Type.findByPk(id, {
+  prepare: (id) => Type.findByPk(id, {
     include: [
       {
         model: TaskType,
@@ -45,25 +45,25 @@ const deleteType = {
   }),
   value: (instance) => {
     const json = instance.toJSON()
-    const taskIds = json.task_types.map(taskType => taskType.task_id)
+    const taskIds = json.task_types.map((taskType) => taskType.task_id)
     return {
       id: json.id,
       type_header_id: json.type_header_id,
       task_ids: taskIds
     }
   },
-  execute: instance => instance.destroy()
+  execute: (instance) => instance.destroy()
 }
 
 const createHeader = {
-  prepare: data => TypeHeader.build({
+  prepare: (data) => TypeHeader.build({
     eng_name: data.eng_name,
     fin_name: data.fin_name,
     swe_name: data.swe_name,
     course_instance_id: data.course_instance_id,
     order: data.order
   }),
-  execute: instance => instance.save(),
+  execute: (instance) => instance.save(),
   value: (instance, lang) => {
     const json = instance.toJSON()
     return {
@@ -76,14 +76,14 @@ const createHeader = {
 }
 
 const deleteHeader = {
-  prepare: id => TypeHeader.findByPk(id),
+  prepare: (id) => TypeHeader.findByPk(id),
   value: (instance) => {
     const json = instance.toJSON()
     return {
       id: json.id
     }
   },
-  execute: instance => instance.destroy()
+  execute: (instance) => instance.destroy()
 }
 
 const { details, edit } = editServices(
@@ -113,7 +113,7 @@ const { details, edit } = editServices(
       'type_header_id',
       'order'
     ]
-  },
+  }
 )
 
 const headerEdit = editServices(

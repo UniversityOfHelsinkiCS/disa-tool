@@ -187,7 +187,7 @@ const testBody = (options, match, config = {}) => {
   })
 }
 
-const checkBodyInLanguage = lang => (options, match, config) => (done) => {
+const checkBodyInLanguage = (lang) => (options, match, config) => (done) => {
   makeRequest({
     ...options,
     preamble: {
@@ -330,7 +330,7 @@ const testDatabaseDestroy = (options, model, config = {}) => {
     findBy
   } = config
 
-  const checkCascade = cascade.map(params => (response, cascadeStep, done) => {
+  const checkCascade = cascade.map((params) => (response, cascadeStep, done) => {
     params.model.findByPk(params.getId()).then((result) => {
       try {
         expect(result).toEqual(null)
@@ -376,7 +376,7 @@ const testDatabaseDestroy = (options, model, config = {}) => {
   })
 }
 
-const asymmetricMatcher = matcher => ({
+const asymmetricMatcher = (matcher) => ({
   $$typeof: Symbol.for('jest.asymmetricMatcher'),
   asymmetricMatch: matcher
 })
@@ -394,7 +394,7 @@ const testStatusCode = (options, code) => {
   })
 }
 
-const unorderedListMatcher = list => ({
+const unorderedListMatcher = (list) => ({
   $$typeof: Symbol.for('jest.asymmetricMatcher'),
   mergeType: 'unorderedList',
   list,

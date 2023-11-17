@@ -146,7 +146,7 @@ describe('objective_controller', () => {
       common: {
         message: expect.any(String),
         deleted: {
-          id: asymmetricMatcher(actual => actual === ids.objective),
+          id: asymmetricMatcher((actual) => actual === ids.objective),
           category_id: 1,
           skill_level_id: 1,
           task_ids: []
@@ -243,7 +243,7 @@ describe('objective_controller', () => {
 
     afterEach((done) => {
       Objective.findByPk(ids.objective).then(
-        instance => instance.update({
+        (instance) => instance.update({
           eng_name: 'en',
           fin_name: 'fn',
           swe_name: 'sn',
@@ -267,7 +267,7 @@ describe('objective_controller', () => {
       common: {
         message: expect.any(String),
         edited: {
-          id: asymmetricMatcher(actual => actual === ids.objective),
+          id: asymmetricMatcher((actual) => actual === ids.objective),
           skill_level_id: data.skill_level_id,
           category_id: data.category_id,
           order: data.order
@@ -294,11 +294,11 @@ describe('objective_controller', () => {
       options,
       {
         ...data,
-        id: asymmetricMatcher(actual => actual === ids.objective),
-        createdAt: asymmetricMatcher(actual => !(
+        id: asymmetricMatcher((actual) => actual === ids.objective),
+        createdAt: asymmetricMatcher((actual) => !(
           actual < databaseExpectation.createdAt || actual > databaseExpectation.createdAt
         )),
-        updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.updatedAt)
+        updatedAt: asymmetricMatcher((actual) => actual > databaseExpectation.updatedAt)
       },
       Objective,
       {

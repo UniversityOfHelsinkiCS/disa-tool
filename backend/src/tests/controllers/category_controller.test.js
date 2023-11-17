@@ -102,7 +102,7 @@ describe('category_controller', () => {
       common: {
         message: expect.any(String),
         deleted: {
-          id: asymmetricMatcher(actual => actual === ids.category),
+          id: asymmetricMatcher((actual) => actual === ids.category),
           tasks: []
         }
       }
@@ -169,7 +169,7 @@ describe('category_controller', () => {
         message: expect.any(String),
         data: {
           ...data,
-          id: asymmetricMatcher(actual => actual === ids.category)
+          id: asymmetricMatcher((actual) => actual === ids.category)
         }
       }
     })
@@ -211,7 +211,7 @@ describe('category_controller', () => {
 
     afterEach((done) => {
       Category.findByPk(ids.category).then(
-        instance => instance.update({
+        (instance) => instance.update({
           eng_name: 'en',
           fin_name: 'fn',
           swe_name: 'sn',
@@ -233,7 +233,7 @@ describe('category_controller', () => {
       common: {
         message: expect.any(String),
         edited: {
-          id: asymmetricMatcher(actual => actual === ids.category),
+          id: asymmetricMatcher((actual) => actual === ids.category),
           order: data.order
         }
       },
@@ -258,12 +258,12 @@ describe('category_controller', () => {
       options,
       {
         ...data,
-        id: asymmetricMatcher(actual => actual === ids.category),
+        id: asymmetricMatcher((actual) => actual === ids.category),
         course_instance_id: 1,
-        createdAt: asymmetricMatcher(actual => !(
+        createdAt: asymmetricMatcher((actual) => !(
           actual < databaseExpectation.createdAt || actual > databaseExpectation.createdAt
         )),
-        updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.updatedAt)
+        updatedAt: asymmetricMatcher((actual) => actual > databaseExpectation.updatedAt)
       },
       Category,
       {

@@ -109,12 +109,12 @@ describe('person_controller', () => {
     const matcher = {
       eng: [{
         ...personData,
-        id: asymmetricMatcher(actual => actual === ids.person),
+        id: asymmetricMatcher((actual) => actual === ids.person),
         course_people: [{
           ...coursePersonData,
-          id: asymmetricMatcher(actual => actual === ids.coursePerson),
-          course_instance_id: asymmetricMatcher(actual => actual === ids.courseInstance),
-          personId: asymmetricMatcher(actual => actual === ids.person),
+          id: asymmetricMatcher((actual) => actual === ids.coursePerson),
+          course_instance_id: asymmetricMatcher((actual) => actual === ids.courseInstance),
+          personId: asymmetricMatcher((actual) => actual === ids.person),
           course_instance: {
             name: courseInstanceData.eng_name
           }
@@ -122,12 +122,12 @@ describe('person_controller', () => {
       }],
       fin: [{
         ...personData,
-        id: asymmetricMatcher(actual => actual === ids.person),
+        id: asymmetricMatcher((actual) => actual === ids.person),
         course_people: [{
           ...coursePersonData,
-          id: asymmetricMatcher(actual => actual === ids.coursePerson),
-          course_instance_id: asymmetricMatcher(actual => actual === ids.courseInstance),
-          personId: asymmetricMatcher(actual => actual === ids.person),
+          id: asymmetricMatcher((actual) => actual === ids.coursePerson),
+          course_instance_id: asymmetricMatcher((actual) => actual === ids.courseInstance),
+          personId: asymmetricMatcher((actual) => actual === ids.person),
           course_instance: {
             name: courseInstanceData.fin_name
           }
@@ -135,12 +135,12 @@ describe('person_controller', () => {
       }],
       swe: [{
         ...personData,
-        id: asymmetricMatcher(actual => actual === ids.person),
+        id: asymmetricMatcher((actual) => actual === ids.person),
         course_people: [{
           ...coursePersonData,
-          id: asymmetricMatcher(actual => actual === ids.coursePerson),
-          course_instance_id: asymmetricMatcher(actual => actual === ids.courseInstance),
-          personId: asymmetricMatcher(actual => actual === ids.person),
+          id: asymmetricMatcher((actual) => actual === ids.coursePerson),
+          course_instance_id: asymmetricMatcher((actual) => actual === ids.courseInstance),
+          personId: asymmetricMatcher((actual) => actual === ids.person),
           course_instance: {
             name: courseInstanceData.swe_name
           }
@@ -187,7 +187,7 @@ describe('person_controller', () => {
       testBody(
         derivativeOptions,
         {
-          common: asymmetricMatcher(actual => actual.length >= expectations.peopleCount)
+          common: asymmetricMatcher((actual) => actual.length >= expectations.peopleCount)
         },
         {
           do_not_spread: true,
@@ -340,47 +340,47 @@ describe('person_controller', () => {
       common: {
         message: expect.any(String),
         updatedPeople: [{
-          id: asymmetricMatcher(actual => actual === ids.coursePerson),
-          course_instance_id: asymmetricMatcher(actual => actual === ids.courseInstance),
-          personId: asymmetricMatcher(actual => actual === ids.person[0]),
+          id: asymmetricMatcher((actual) => actual === ids.coursePerson),
+          course_instance_id: asymmetricMatcher((actual) => actual === ids.courseInstance),
+          personId: asymmetricMatcher((actual) => actual === ids.person[0]),
           role: data[0].role,
-          createdAt: asymmetricMatcher(actual => !(
+          createdAt: asymmetricMatcher((actual) => !(
             new Date(actual) < expectations.coursePerson.createdAt
             || new Date(actual) > expectations.coursePerson.createdAt
           )),
-          updatedAt: asymmetricMatcher(actual => new Date(actual) > expectations.coursePerson.updatedAt)
+          updatedAt: asymmetricMatcher((actual) => new Date(actual) > expectations.coursePerson.updatedAt)
         }],
         newPeople: [{
           ...personData,
-          id: asymmetricMatcher(actual => actual === ids.person[1]),
-          createdAt: asymmetricMatcher(actual => !(
+          id: asymmetricMatcher((actual) => actual === ids.person[1]),
+          createdAt: asymmetricMatcher((actual) => !(
             new Date(actual) < expectations.person[1].createdAt || new Date(actual) > expectations.person[1].createdAt
           )),
-          updatedAt: asymmetricMatcher(actual => !(
+          updatedAt: asymmetricMatcher((actual) => !(
             new Date(actual) < expectations.person[1].updatedAt || new Date(actual) > expectations.person[1].updatedAt
           )),
           course_instances: [{
             ...courseInstanceData,
-            id: asymmetricMatcher(actual => actual === ids.courseInstance),
-            createdAt: asymmetricMatcher(actual => !(
+            id: asymmetricMatcher((actual) => actual === ids.courseInstance),
+            createdAt: asymmetricMatcher((actual) => !(
               new Date(actual) < expectations.courseInstance.createdAt
               || new Date(actual) > expectations.courseInstance.createdAt
             )),
-            updatedAt: asymmetricMatcher(actual => !(
+            updatedAt: asymmetricMatcher((actual) => !(
               new Date(actual) < expectations.courseInstance.updatedAt
               || new Date(actual) > expectations.courseInstance.updatedAt
             ))
           }],
           task_responses: [{
             ...taskResponseData,
-            id: asymmetricMatcher(actual => actual === ids.taskResponse),
-            task_id: asymmetricMatcher(actual => actual === ids.task),
-            personId: asymmetricMatcher(actual => actual === ids.person[1]),
-            createdAt: asymmetricMatcher(actual => !(
+            id: asymmetricMatcher((actual) => actual === ids.taskResponse),
+            task_id: asymmetricMatcher((actual) => actual === ids.task),
+            personId: asymmetricMatcher((actual) => actual === ids.person[1]),
+            createdAt: asymmetricMatcher((actual) => !(
               new Date(actual) < expectations.taskResponse.createdAt
               || new Date(actual) > expectations.taskResponse.createdAt
             )),
-            updatedAt: asymmetricMatcher(actual => !(
+            updatedAt: asymmetricMatcher((actual) => !(
               new Date(actual) < expectations.taskResponse.updatedAt
               || new Date(actual) > expectations.taskResponse.updatedAt
             ))
@@ -392,14 +392,14 @@ describe('person_controller', () => {
     testDatabaseSave(
       options,
       {
-        id: asymmetricMatcher(actual => actual === ids.coursePerson),
-        course_instance_id: asymmetricMatcher(actual => actual === ids.courseInstance),
-        personId: asymmetricMatcher(actual => actual === ids.person[0]),
+        id: asymmetricMatcher((actual) => actual === ids.coursePerson),
+        course_instance_id: asymmetricMatcher((actual) => actual === ids.courseInstance),
+        personId: asymmetricMatcher((actual) => actual === ids.person[0]),
         role: data[0].role,
-        createdAt: asymmetricMatcher(actual => !(
+        createdAt: asymmetricMatcher((actual) => !(
           actual < expectations.coursePerson.createdAt || actual > expectations.coursePerson.createdAt
         )),
-        updatedAt: asymmetricMatcher(actual => actual > expectations.coursePerson.updatedAt)
+        updatedAt: asymmetricMatcher((actual) => actual > expectations.coursePerson.updatedAt)
       },
       CoursePerson,
       {
@@ -412,8 +412,8 @@ describe('person_controller', () => {
       options,
       {
         id: expect.any(Number),
-        course_instance_id: asymmetricMatcher(actual => actual === ids.courseInstance),
-        personId: asymmetricMatcher(actual => actual === ids.person[1]),
+        course_instance_id: asymmetricMatcher((actual) => actual === ids.courseInstance),
+        personId: asymmetricMatcher((actual) => actual === ids.person[1]),
         role: data[1].role,
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date)
@@ -509,7 +509,7 @@ describe('person_controller', () => {
         data: {
           ...personData,
           role: data.role,
-          id: asymmetricMatcher(actual => actual === ids.person)
+          id: asymmetricMatcher((actual) => actual === ids.person)
         }
       }
     })
@@ -519,11 +519,11 @@ describe('person_controller', () => {
       {
         ...personData,
         role: data.role,
-        id: asymmetricMatcher(actual => actual === ids.person),
-        createdAt: asymmetricMatcher(actual => !(
+        id: asymmetricMatcher((actual) => actual === ids.person),
+        createdAt: asymmetricMatcher((actual) => !(
           actual < expectations.person.createdAt || actual > expectations.person.createdAt
         )),
-        updatedAt: asymmetricMatcher(actual => actual > expectations.person.updatedAt)
+        updatedAt: asymmetricMatcher((actual) => actual > expectations.person.updatedAt)
       },
       Person,
       {
@@ -586,7 +586,7 @@ describe('person_controller', () => {
     testBody(options, {
       common: [{
         ...personData,
-        id: asymmetricMatcher(actual => actual === ids.person)
+        id: asymmetricMatcher((actual) => actual === ids.person)
       }]
     })
   })

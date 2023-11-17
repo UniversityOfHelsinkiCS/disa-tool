@@ -134,9 +134,9 @@ describe('grade controller', () => {
       common: {
         message: expect.any(String),
         created: {
-          skill_level_id: asymmetricMatcher(actual => actual === data.skill_level_id),
+          skill_level_id: asymmetricMatcher((actual) => actual === data.skill_level_id),
           needed_for_grade: data.needed_for_grade,
-          prerequisite: asymmetricMatcher(actual => actual === ids.grade),
+          prerequisite: asymmetricMatcher((actual) => actual === ids.grade),
           order: data.order
         }
       },
@@ -211,7 +211,7 @@ describe('grade controller', () => {
       common: {
         message: expect.any(String),
         deleted: {
-          id: asymmetricMatcher(actual => actual === ids.toDelete)
+          id: asymmetricMatcher((actual) => actual === ids.toDelete)
         }
       }
     })
@@ -240,8 +240,8 @@ describe('grade controller', () => {
         message: expect.any(String),
         data: {
           ...gradeData,
-          id: asymmetricMatcher(actual => actual === ids.grade),
-          skill_level_id: asymmetricMatcher(actual => actual === ids.skillLevel)
+          id: asymmetricMatcher((actual) => actual === ids.grade),
+          skill_level_id: asymmetricMatcher((actual) => actual === ids.skillLevel)
         }
       }
     })
@@ -299,7 +299,7 @@ describe('grade controller', () => {
     })
 
     afterEach((done) => {
-      Grade.findByPk(ids.toEdit).then(instance => instance.update({
+      Grade.findByPk(ids.toEdit).then((instance) => instance.update({
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
@@ -332,10 +332,10 @@ describe('grade controller', () => {
       common: {
         message: expect.any(String),
         edited: {
-          id: asymmetricMatcher(actual => actual === ids.toEdit),
-          skill_level_id: asymmetricMatcher(actual => actual === ids.newSkillLevel),
+          id: asymmetricMatcher((actual) => actual === ids.toEdit),
+          skill_level_id: asymmetricMatcher((actual) => actual === ids.newSkillLevel),
           needed_for_grade: data.needed_for_grade,
-          prerequisite: asymmetricMatcher(actual => actual === ids.grade),
+          prerequisite: asymmetricMatcher((actual) => actual === ids.grade),
           order: data.order
         }
       },
@@ -358,12 +358,12 @@ describe('grade controller', () => {
 
     testDatabaseSave(options, {
       ...data,
-      id: asymmetricMatcher(actual => actual === ids.toEdit),
-      skill_level_id: asymmetricMatcher(actual => actual === ids.newSkillLevel),
+      id: asymmetricMatcher((actual) => actual === ids.toEdit),
+      skill_level_id: asymmetricMatcher((actual) => actual === ids.newSkillLevel),
       createdAt: asymmetricMatcher(
-        actual => !(actual < databaseExpectation.createdAt || actual > databaseExpectation.createdAt)
+        (actual) => !(actual < databaseExpectation.createdAt || actual > databaseExpectation.createdAt)
       ),
-      updatedAt: asymmetricMatcher(actual => actual > databaseExpectation.updatedAt)
+      updatedAt: asymmetricMatcher((actual) => actual > databaseExpectation.updatedAt)
     }, Grade, {
       pathToId: ['body', 'edited', 'id'],
       includeTimestamps: false
@@ -443,19 +443,19 @@ describe('grade controller', () => {
         ]).then(([catSkillLevel, catCategory]) => {
           ids.catSkillLevel = catSkillLevel.id
           ids.catCategory = catCategory.id
-          Promise.all(catGradeData.map(rowData => Grade.create({
+          Promise.all(catGradeData.map((rowData) => Grade.create({
             ...rowData,
             skill_level_id: catSkillLevel.id
           }))).then((catGrades) => {
-            ids.catGrades = catGrades.map(grade => grade.id)
-            Promise.all(ids.catGrades.map(gradeId => CategoryGrade.create({
+            ids.catGrades = catGrades.map((grade) => grade.id)
+            Promise.all(ids.catGrades.map((gradeId) => CategoryGrade.create({
               needed_for_grade: 1,
               category_id: catCategory.id,
               grade_id: gradeId
             }))).then((catCategoryGrades) => {
-              ids.catCategoryGrades = catCategoryGrades.map(categoryGrade => categoryGrade.id)
+              ids.catCategoryGrades = catCategoryGrades.map((categoryGrade) => categoryGrade.id)
               data.categoryGrades = data.categoryGrades.concat(
-                catCategoryGrades.map(categoryGrade => ({
+                catCategoryGrades.map((categoryGrade) => ({
                   id: categoryGrade.id,
                   neededForGrade: 0.8
                 }))
@@ -494,13 +494,13 @@ describe('grade controller', () => {
         message: expect.any(String),
         updatedCategoryGrades: [
           {
-            id: asymmetricMatcher(actual => ids.catCategoryGrades.includes(actual)),
-            category_id: asymmetricMatcher(actual => actual === ids.catCategory),
+            id: asymmetricMatcher((actual) => ids.catCategoryGrades.includes(actual)),
+            category_id: asymmetricMatcher((actual) => actual === ids.catCategory),
             needed_for_grade: 0.8
           },
           {
-            id: asymmetricMatcher(actual => ids.catCategoryGrades.includes(actual)),
-            category_id: asymmetricMatcher(actual => actual === ids.catCategory),
+            id: asymmetricMatcher((actual) => ids.catCategoryGrades.includes(actual)),
+            category_id: asymmetricMatcher((actual) => actual === ids.catCategory),
             needed_for_grade: 0.8
           }
         ]
@@ -510,8 +510,8 @@ describe('grade controller', () => {
     testDatabaseSave(
       options,
       {
-        id: asymmetricMatcher(actual => ids.catCategoryGrades.includes(actual)),
-        category_id: asymmetricMatcher(actual => actual === ids.catCategory),
+        id: asymmetricMatcher((actual) => ids.catCategoryGrades.includes(actual)),
+        category_id: asymmetricMatcher((actual) => actual === ids.catCategory),
         needed_for_grade: 0.8
       },
       CategoryGrade,
@@ -539,8 +539,8 @@ describe('grade controller', () => {
       testDatabaseSave(
         options,
         {
-          id: asymmetricMatcher(actual => actual === ids.catCategoryGrades[0]),
-          category_id: asymmetricMatcher(actual => actual === ids.catCategory),
+          id: asymmetricMatcher((actual) => actual === ids.catCategoryGrades[0]),
+          category_id: asymmetricMatcher((actual) => actual === ids.catCategory),
           needed_for_grade: 1
         },
         CategoryGrade,

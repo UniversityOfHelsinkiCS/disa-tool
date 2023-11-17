@@ -160,7 +160,7 @@ describe('assesment response controller', () => {
             personId: 370,
             task_id: task.id
           }),
-          ...gradeData.map(data => Grade.create({
+          ...gradeData.map((data) => Grade.create({
             ...data,
             skill_level_id: skillLevel.id,
             course_instance_id: courseInstance.id
@@ -168,7 +168,7 @@ describe('assesment response controller', () => {
         ]).then(([objective, taskResponse, ...grades]) => {
           ids.objective = objective.id
           ids.taskResponse = taskResponse.id
-          ids.grades = grades.map(grade => grade.id)
+          ids.grades = grades.map((grade) => grade.id)
           grades.forEach((grade, index) => {
             if (index === 0) return
             // eslint-disable-next-line no-param-reassign
@@ -203,8 +203,8 @@ describe('assesment response controller', () => {
               objective_id: objective.id,
               task_id: task.id
             }),
-            ...grades.map(grade => grade.save()),
-            ...grades.map(grade => CategoryGrade.create({
+            ...grades.map((grade) => grade.save()),
+            ...grades.map((grade) => CategoryGrade.create({
               category_id: category.id,
               grade_id: grade.id,
               needed_for_grade: grade.needed_for_grade
@@ -246,20 +246,20 @@ describe('assesment response controller', () => {
     testBody(options, {
       common: {
         data: {
-          id: asymmetricMatcher(actual => actual === ids.assesmentResponse),
+          id: asymmetricMatcher((actual) => actual === ids.assesmentResponse),
           personId: 370,
-          self_assessment_id: asymmetricMatcher(actual => actual === ids.selfAssesment),
+          self_assessment_id: asymmetricMatcher((actual) => actual === ids.selfAssesment),
           response: {
             finalGradeResponse: {
-              grade: asymmetricMatcher(actual => actual === ids.grades[0]),
+              grade: asymmetricMatcher((actual) => actual === ids.grades[0]),
               grade_name: gradeData[0].eng_name,
               headers: finalGradeResponseHeaders
             },
             questionModuleResponses: expect.arrayContaining([
               {
-                id: asymmetricMatcher(actual => actual === ids.category),
+                id: asymmetricMatcher((actual) => actual === ids.category),
                 name: categoryData.fin_name,
-                grade: asymmetricMatcher(actual => actual === ids.grades[1]),
+                grade: asymmetricMatcher((actual) => actual === ids.grades[1]),
                 grade_name: gradeData[1].fin_name,
                 responseText: 'Some text.',
                 textFieldOn: true
@@ -379,15 +379,15 @@ describe('assesment response controller', () => {
         message: expect.any(String),
         data: {
           id: expect.any(Number),
-          self_assessment_id: asymmetricMatcher(actual => actual === ids.selfAssesment),
-          personId: asymmetricMatcher(actual => actual === ids.createPerson),
+          self_assessment_id: asymmetricMatcher((actual) => actual === ids.selfAssesment),
+          personId: asymmetricMatcher((actual) => actual === ids.createPerson),
           response: {
             ...dataToResponse(data),
             finalGradeResponse: {
-              grade: asymmetricMatcher(actual => actual === ids.grades[0]),
-              grade_name: asymmetricMatcher(actual => actual === gradeData[0].eng_name)
+              grade: asymmetricMatcher((actual) => actual === ids.grades[0]),
+              grade_name: asymmetricMatcher((actual) => actual === gradeData[0].eng_name)
             },
-            course_instance_id: asymmetricMatcher(actual => actual === ids.courseInstance)
+            course_instance_id: asymmetricMatcher((actual) => actual === ids.courseInstance)
           }
         }
       }
@@ -397,15 +397,15 @@ describe('assesment response controller', () => {
       options,
       {
         id: expect.any(Number),
-        self_assessment_id: asymmetricMatcher(actual => actual === ids.selfAssesment),
-        personId: asymmetricMatcher(actual => actual === ids.createPerson),
+        self_assessment_id: asymmetricMatcher((actual) => actual === ids.selfAssesment),
+        personId: asymmetricMatcher((actual) => actual === ids.createPerson),
         response: {
           ...dataToResponse(data),
           finalGradeResponse: {
-            grade: asymmetricMatcher(actual => actual === ids.grades[0]),
-            grade_name: asymmetricMatcher(actual => actual === gradeData[0].eng_name)
+            grade: asymmetricMatcher((actual) => actual === ids.grades[0]),
+            grade_name: asymmetricMatcher((actual) => actual === gradeData[0].eng_name)
           },
-          course_instance_id: asymmetricMatcher(actual => actual === ids.courseInstance)
+          course_instance_id: asymmetricMatcher((actual) => actual === ids.courseInstance)
         }
       },
       AssessmentResponse,
@@ -430,16 +430,16 @@ describe('assesment response controller', () => {
         common: {
           message: expect.any(String),
           data: {
-            id: asymmetricMatcher(actual => actual === ids.existingAssesmentResponse),
-            self_assessment_id: asymmetricMatcher(actual => actual === ids.selfAssesment),
-            personId: asymmetricMatcher(actual => actual === ids.createPerson),
+            id: asymmetricMatcher((actual) => actual === ids.existingAssesmentResponse),
+            self_assessment_id: asymmetricMatcher((actual) => actual === ids.selfAssesment),
+            personId: asymmetricMatcher((actual) => actual === ids.createPerson),
             response: {
               ...dataToResponse(data),
               finalGradeResponse: {
-                grade: asymmetricMatcher(actual => actual === ids.grades[0]),
-                grade_name: asymmetricMatcher(actual => actual === gradeData[0].eng_name)
+                grade: asymmetricMatcher((actual) => actual === ids.grades[0]),
+                grade_name: asymmetricMatcher((actual) => actual === gradeData[0].eng_name)
               },
-              course_instance_id: asymmetricMatcher(actual => actual === ids.courseInstance)
+              course_instance_id: asymmetricMatcher((actual) => actual === ids.courseInstance)
             }
           }
         }
@@ -448,16 +448,16 @@ describe('assesment response controller', () => {
       testDatabaseSave(
         options,
         {
-          id: asymmetricMatcher(actual => actual === ids.existingAssesmentResponse),
-          self_assessment_id: asymmetricMatcher(actual => actual === ids.selfAssesment),
-          personId: asymmetricMatcher(actual => actual === ids.createPerson),
+          id: asymmetricMatcher((actual) => actual === ids.existingAssesmentResponse),
+          self_assessment_id: asymmetricMatcher((actual) => actual === ids.selfAssesment),
+          personId: asymmetricMatcher((actual) => actual === ids.createPerson),
           response: {
             ...dataToResponse(data),
             finalGradeResponse: {
-              grade: asymmetricMatcher(actual => actual === ids.grades[0]),
-              grade_name: asymmetricMatcher(actual => actual === gradeData[0].eng_name)
+              grade: asymmetricMatcher((actual) => actual === ids.grades[0]),
+              grade_name: asymmetricMatcher((actual) => actual === gradeData[0].eng_name)
             },
-            course_instance_id: asymmetricMatcher(actual => actual === ids.courseInstance)
+            course_instance_id: asymmetricMatcher((actual) => actual === ids.courseInstance)
           }
         },
         AssessmentResponse,
@@ -483,16 +483,16 @@ describe('assesment response controller', () => {
           message: expect.any(String),
           data: {
             id: expect.any(Number),
-            self_assessment_id: asymmetricMatcher(actual => actual === ids.selfAssesment),
-            personId: asymmetricMatcher(actual => actual === ids.createPerson),
+            self_assessment_id: asymmetricMatcher((actual) => actual === ids.selfAssesment),
+            personId: asymmetricMatcher((actual) => actual === ids.createPerson),
             response: {
               ...dataToResponse(data),
               assessmentType: 'objectives',
               finalGradeResponse: {
-                grade: asymmetricMatcher(actual => actual === ids.grades[0]),
-                grade_name: asymmetricMatcher(actual => actual === gradeData[0].eng_name)
+                grade: asymmetricMatcher((actual) => actual === ids.grades[0]),
+                grade_name: asymmetricMatcher((actual) => actual === gradeData[0].eng_name)
               },
-              course_instance_id: asymmetricMatcher(actual => actual === ids.courseInstance)
+              course_instance_id: asymmetricMatcher((actual) => actual === ids.courseInstance)
             }
           }
         }
