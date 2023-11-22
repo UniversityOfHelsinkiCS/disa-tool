@@ -1,24 +1,17 @@
 import React from 'react'
 import { Button, Popup } from 'semantic-ui-react'
 import ReactMarkdown from 'react-markdown'
-import rehypeRaw from "rehype-raw";
+import rehypeRaw from 'rehype-raw'
 import { connect, useSelector } from 'react-redux'
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next'
 
-const InfoBox = ({
-  translationid,
-  buttonProps= {},
-  popupProps = {},
-  useCourseRole= false
-}) => {
-  const user = useSelector(state => state.user)
-  const courseInstance = useSelector(state => state.instance)
-  const {t} = useTranslation("translation", {keyPrefix: `infobox`})
+const InfoBox = ({ translationid, buttonProps = {}, popupProps = {}, useCourseRole = false }) => {
+  const user = useSelector((state) => state.user)
+  const courseInstance = useSelector((state) => state.instance)
+  const { t } = useTranslation('translation', { keyPrefix: `infobox` })
   // modals cannot use translate, so they must pass translate as translateFunc prop to InfoBox
 
-  const isTeacher = useCourseRole
-    ? courseInstance.courseRole === 'TEACHER'
-    : user.role === 'TEACHER'
+  const isTeacher = useCourseRole ? courseInstance.courseRole === 'TEACHER' : user.role === 'TEACHER'
   const isAdmin = user.role === 'ADMIN'
   const isStudent = !isTeacher && !isAdmin
 
@@ -29,7 +22,7 @@ const InfoBox = ({
 
   let text = isStudent ? textStudent : textTeacher
   text = `<span style="color: gray;">${explainStudent}</span><br />${textStudent}<br /><br /><span style="color: gray;">${explainTeacher}</span><br />${textTeacher}`
-  
+
   return (
     <Popup
       wide="very"

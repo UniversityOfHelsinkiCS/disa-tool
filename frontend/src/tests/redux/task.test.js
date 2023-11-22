@@ -5,7 +5,7 @@ import * as types from '../../redux/action_types'
 const INITIAL_STATE = {
   tasks: [],
   active: null,
-  lastMultiplierUpdate: null
+  lastMultiplierUpdate: null,
 }
 
 const courseGetDataResponse = {
@@ -20,17 +20,14 @@ const courseGetDataResponse = {
         objectives: [
           {
             id: 10,
-            multiplier: 1
+            multiplier: 1,
           },
           {
             id: 11,
-            multiplier: 0.9
-          }
+            multiplier: 0.9,
+          },
         ],
-        types: [
-          100,
-          101
-        ]
+        types: [100, 101],
       },
       {
         id: 6,
@@ -40,20 +37,17 @@ const courseGetDataResponse = {
         objectives: [
           {
             id: 11,
-            multiplier: 0.8
+            multiplier: 0.8,
           },
           {
             id: 12,
-            multiplier: 0.7
-          }
+            multiplier: 0.7,
+          },
         ],
-        types: [
-          100,
-          102
-        ]
-      }
-    ]
-  }
+        types: [100, 102],
+      },
+    ],
+  },
 }
 
 const courseGetDataExpectation = {
@@ -67,17 +61,14 @@ const courseGetDataExpectation = {
       objectives: [
         {
           id: 10,
-          multiplier: 1
+          multiplier: 1,
         },
         {
           id: 11,
-          multiplier: 0.9
-        }
+          multiplier: 0.9,
+        },
       ],
-      types: [
-        100,
-        101
-      ]
+      types: [100, 101],
     },
     {
       id: 6,
@@ -87,20 +78,17 @@ const courseGetDataExpectation = {
       objectives: [
         {
           id: 11,
-          multiplier: 0.8
+          multiplier: 0.8,
         },
         {
           id: 12,
-          multiplier: 0.7
-        }
+          multiplier: 0.7,
+        },
       ],
-      types: [
-        100,
-        102
-      ]
-    }
+      types: [100, 102],
+    },
   ],
-  active: null
+  active: null,
 }
 
 const taskCreateResponse = {
@@ -111,8 +99,8 @@ const taskCreateResponse = {
     description: 'td2',
     info: 'ti2',
     objectives: [],
-    types: []
-  }
+    types: [],
+  },
 }
 
 const taskCreateExpectation = {
@@ -126,17 +114,14 @@ const taskCreateExpectation = {
       objectives: [
         {
           id: 10,
-          multiplier: 1
+          multiplier: 1,
         },
         {
           id: 11,
-          multiplier: 0.9
-        }
+          multiplier: 0.9,
+        },
       ],
-      types: [
-        100,
-        101
-      ]
+      types: [100, 101],
     },
     {
       id: 6,
@@ -146,17 +131,14 @@ const taskCreateExpectation = {
       objectives: [
         {
           id: 11,
-          multiplier: 0.8
+          multiplier: 0.8,
         },
         {
           id: 12,
-          multiplier: 0.7
-        }
+          multiplier: 0.7,
+        },
       ],
-      types: [
-        100,
-        102
-      ]
+      types: [100, 102],
     },
     {
       id: 9,
@@ -164,17 +146,17 @@ const taskCreateExpectation = {
       description: 'td2',
       info: 'ti2',
       objectives: [],
-      types: []
-    }
+      types: [],
+    },
   ],
-  active: 9
+  active: 9,
 }
 
 const taskDeleteResponse = {
   message: 'test message',
   deleted: {
-    id: 6
-  }
+    id: 6,
+  },
 }
 
 const taskDeleteExpectation = {
@@ -188,20 +170,17 @@ const taskDeleteExpectation = {
       objectives: [
         {
           id: 10,
-          multiplier: 1
+          multiplier: 1,
         },
         {
           id: 11,
-          multiplier: 0.9
-        }
+          multiplier: 0.9,
+        },
       ],
-      types: [
-        100,
-        101
-      ]
-    }
+      types: [100, 101],
+    },
   ],
-  active: null
+  active: null,
 }
 
 const taskAttachObjectiveResponse = {
@@ -209,8 +188,8 @@ const taskAttachObjectiveResponse = {
   created: {
     task_id: 5,
     objective_id: 100,
-    multiplier: 1
-  }
+    multiplier: 1,
+  },
 }
 
 const taskAttachObjectiveExpectation = {
@@ -224,21 +203,18 @@ const taskAttachObjectiveExpectation = {
       objectives: [
         {
           id: 10,
-          multiplier: 1
+          multiplier: 1,
         },
         {
           id: 11,
-          multiplier: 0.9
+          multiplier: 0.9,
         },
         {
           id: 100,
-          multiplier: 1
-        }
+          multiplier: 1,
+        },
       ],
-      types: [
-        100,
-        101
-      ]
+      types: [100, 101],
     },
     {
       id: 6,
@@ -248,28 +224,25 @@ const taskAttachObjectiveExpectation = {
       objectives: [
         {
           id: 11,
-          multiplier: 0.8
+          multiplier: 0.8,
         },
         {
           id: 12,
-          multiplier: 0.7
-        }
+          multiplier: 0.7,
+        },
       ],
-      types: [
-        100,
-        102
-      ]
-    }
+      types: [100, 102],
+    },
   ],
-  active: null
+  active: null,
 }
 
 const taskDetachObjectiveResponse = {
   message: 'test message',
   deleted: {
     task_id: 6,
-    objective_id: 12
-  }
+    objective_id: 12,
+  },
 }
 
 const taskDetachObjectiveExpectation = {
@@ -283,17 +256,14 @@ const taskDetachObjectiveExpectation = {
       objectives: [
         {
           id: 10,
-          multiplier: 1
+          multiplier: 1,
         },
         {
           id: 11,
-          multiplier: 0.9
-        }
+          multiplier: 0.9,
+        },
       ],
-      types: [
-        100,
-        101
-      ]
+      types: [100, 101],
     },
     {
       id: 6,
@@ -303,25 +273,22 @@ const taskDetachObjectiveExpectation = {
       objectives: [
         {
           id: 11,
-          multiplier: 0.8
-        }
+          multiplier: 0.8,
+        },
       ],
-      types: [
-        100,
-        102
-      ]
-    }
+      types: [100, 102],
+    },
   ],
-  active: null
+  active: null,
 }
 
 const taskAttachTypeResponse = {
   message: 'test message',
   created: {
     task_id: 6,
-    type_id: 200
+    type_id: 200,
   },
-  taskObjectives: []
+  taskObjectives: [],
 }
 
 const taskAttachTypeExpectation = {
@@ -335,17 +302,14 @@ const taskAttachTypeExpectation = {
       objectives: [
         {
           id: 10,
-          multiplier: 1
+          multiplier: 1,
         },
         {
           id: 11,
-          multiplier: 0.9
-        }
+          multiplier: 0.9,
+        },
       ],
-      types: [
-        100,
-        101
-      ]
+      types: [100, 101],
     },
     {
       id: 6,
@@ -355,30 +319,26 @@ const taskAttachTypeExpectation = {
       objectives: [
         {
           id: 11,
-          multiplier: 0.8
+          multiplier: 0.8,
         },
         {
           id: 12,
-          multiplier: 0.7
-        }
+          multiplier: 0.7,
+        },
       ],
-      types: [
-        100,
-        102,
-        200
-      ]
-    }
+      types: [100, 102, 200],
+    },
   ],
-  active: null
+  active: null,
 }
 
 const taskDetachTypeResponse = {
   message: 'test message',
   deleted: {
     task_id: 6,
-    type_id: 100
+    type_id: 100,
   },
-  taskObjectives: []
+  taskObjectives: [],
 }
 
 const taskDetachTypeExpectation = {
@@ -392,17 +352,14 @@ const taskDetachTypeExpectation = {
       objectives: [
         {
           id: 10,
-          multiplier: 1
+          multiplier: 1,
         },
         {
           id: 11,
-          multiplier: 0.9
-        }
+          multiplier: 0.9,
+        },
       ],
-      types: [
-        100,
-        101
-      ]
+      types: [100, 101],
     },
     {
       id: 6,
@@ -412,27 +369,25 @@ const taskDetachTypeExpectation = {
       objectives: [
         {
           id: 11,
-          multiplier: 0.8
+          multiplier: 0.8,
         },
         {
           id: 12,
-          multiplier: 0.7
-        }
+          multiplier: 0.7,
+        },
       ],
-      types: [
-        102
-      ]
-    }
+      types: [102],
+    },
   ],
-  active: null
+  active: null,
 }
 
 const objectiveDeleteResponse = {
   message: 'test message',
   deleted: {
     id: 11,
-    task_ids: [5, 6]
-  }
+    task_ids: [5, 6],
+  },
 }
 
 const objectiveDeleteExpectation = {
@@ -446,13 +401,10 @@ const objectiveDeleteExpectation = {
       objectives: [
         {
           id: 10,
-          multiplier: 1
-        }
+          multiplier: 1,
+        },
       ],
-      types: [
-        100,
-        101
-      ]
+      types: [100, 101],
     },
     {
       id: 6,
@@ -462,24 +414,21 @@ const objectiveDeleteExpectation = {
       objectives: [
         {
           id: 12,
-          multiplier: 0.7
-        }
+          multiplier: 0.7,
+        },
       ],
-      types: [
-        100,
-        102
-      ]
-    }
+      types: [100, 102],
+    },
   ],
-  active: null
+  active: null,
 }
 
 const typeDeleteResponse = {
   message: 'test message',
   deleted: {
     id: 100,
-    task_ids: [5, 6]
-  }
+    task_ids: [5, 6],
+  },
 }
 
 const typeDeleteExpectation = {
@@ -493,16 +442,14 @@ const typeDeleteExpectation = {
       objectives: [
         {
           id: 10,
-          multiplier: 1
+          multiplier: 1,
         },
         {
           id: 11,
-          multiplier: 0.9
-        }
+          multiplier: 0.9,
+        },
       ],
-      types: [
-        101
-      ]
+      types: [101],
     },
     {
       id: 6,
@@ -512,19 +459,17 @@ const typeDeleteExpectation = {
       objectives: [
         {
           id: 11,
-          multiplier: 0.8
+          multiplier: 0.8,
         },
         {
           id: 12,
-          multiplier: 0.7
-        }
+          multiplier: 0.7,
+        },
       ],
-      types: [
-        102
-      ]
-    }
+      types: [102],
+    },
   ],
-  active: null
+  active: null,
 }
 
 const categoryDeleteResponse = {
@@ -534,14 +479,14 @@ const categoryDeleteResponse = {
     tasks: [
       {
         id: 5,
-        objective_ids: [10, 11]
+        objective_ids: [10, 11],
       },
       {
         id: 6,
-        objective_ids: [11]
-      }
-    ]
-  }
+        objective_ids: [11],
+      },
+    ],
+  },
 }
 
 const categoryDeleteExpectation = {
@@ -553,10 +498,7 @@ const categoryDeleteExpectation = {
       description: 'td0',
       info: 'ti0',
       objectives: [],
-      types: [
-        100,
-        101
-      ]
+      types: [100, 101],
     },
     {
       id: 6,
@@ -566,16 +508,13 @@ const categoryDeleteExpectation = {
       objectives: [
         {
           id: 12,
-          multiplier: 0.7
-        }
+          multiplier: 0.7,
+        },
       ],
-      types: [
-        100,
-        102
-      ]
-    }
+      types: [100, 102],
+    },
   ],
-  active: null
+  active: null,
 }
 
 const levelDeleteResponse = {
@@ -585,14 +524,14 @@ const levelDeleteResponse = {
     tasks: [
       {
         id: 5,
-        objective_ids: [11]
+        objective_ids: [11],
       },
       {
         id: 6,
-        objective_ids: [11, 12]
-      }
-    ]
-  }
+        objective_ids: [11, 12],
+      },
+    ],
+  },
 }
 
 const levelDeleteExpectation = {
@@ -606,13 +545,10 @@ const levelDeleteExpectation = {
       objectives: [
         {
           id: 10,
-          multiplier: 1
-        }
+          multiplier: 1,
+        },
       ],
-      types: [
-        100,
-        101
-      ]
+      types: [100, 101],
     },
     {
       id: 6,
@@ -620,13 +556,10 @@ const levelDeleteExpectation = {
       description: 'td1',
       info: 'ti1',
       objectives: [],
-      types: [
-        100,
-        102
-      ]
-    }
+      types: [100, 102],
+    },
   ],
-  active: null
+  active: null,
 }
 
 describe('task reducer', () => {
@@ -640,7 +573,7 @@ describe('task reducer', () => {
   it('parses data from COURSE_GET_DATA', () => {
     state = taskReducer(state, {
       type: types.COURSE_GET_DATA,
-      response: courseGetDataResponse
+      response: courseGetDataResponse,
     })
     expect(state).toEqual(courseGetDataExpectation)
   })
@@ -648,17 +581,17 @@ describe('task reducer', () => {
   it('changes active with CHANGE_ACTIVE.', () => {
     state = taskReducer(state, {
       type: types.TASK_CHANGE_ACTIVE,
-      id: 5
+      id: 5,
     })
     expect(state.active).toEqual(5)
     state = taskReducer(state, {
       type: types.TASK_CHANGE_ACTIVE,
-      id: 6
+      id: 6,
     })
     expect(state.active).toEqual(6)
     state = taskReducer(state, {
       type: types.TASK_CHANGE_ACTIVE,
-      id: 6
+      id: 6,
     })
     expect(state.active).toEqual(null)
   })
@@ -667,7 +600,7 @@ describe('task reducer', () => {
     beforeEach(() => {
       state = taskReducer(state, {
         type: types.COURSE_GET_DATA,
-        response: courseGetDataResponse
+        response: courseGetDataResponse,
       })
       deepFreeze(state)
     })
@@ -675,7 +608,7 @@ describe('task reducer', () => {
     it('appends a task with TASK_CREATE.', () => {
       state = taskReducer(state, {
         type: types.TASK_CREATE,
-        response: taskCreateResponse
+        response: taskCreateResponse,
       })
       expect(state).toEqual(taskCreateExpectation)
     })
@@ -683,7 +616,7 @@ describe('task reducer', () => {
     it('deletes a task with TASK_DELETE.', () => {
       state = taskReducer(state, {
         type: types.TASK_DELETE,
-        response: taskDeleteResponse
+        response: taskDeleteResponse,
       })
       expect(state).toEqual(taskDeleteExpectation)
     })
@@ -691,7 +624,7 @@ describe('task reducer', () => {
     it('appends an objective with TASK_ATTACH_OBJECTIVE.', () => {
       state = taskReducer(state, {
         type: types.TASK_ATTACH_OBJECTIVE,
-        response: taskAttachObjectiveResponse
+        response: taskAttachObjectiveResponse,
       })
       expect(state).toEqual(taskAttachObjectiveExpectation)
     })
@@ -699,7 +632,7 @@ describe('task reducer', () => {
     it('deletes an objective with TASK_DETACH_OBJECTIVE.', () => {
       state = taskReducer(state, {
         type: types.TASK_DETACH_OBJECTIVE,
-        response: taskDetachObjectiveResponse
+        response: taskDetachObjectiveResponse,
       })
       expect(state).toEqual(taskDetachObjectiveExpectation)
     })
@@ -707,7 +640,7 @@ describe('task reducer', () => {
     it('appends a type id with TASK_ATTACH_TYPE.', () => {
       state = taskReducer(state, {
         type: types.TASK_ATTACH_TYPE,
-        response: taskAttachTypeResponse
+        response: taskAttachTypeResponse,
       })
       expect(state).toEqual(taskAttachTypeExpectation)
     })
@@ -715,7 +648,7 @@ describe('task reducer', () => {
     it('deletes a type id with TASK_DETACH_TYPE.', () => {
       state = taskReducer(state, {
         type: types.TASK_DETACH_TYPE,
-        response: taskDetachTypeResponse
+        response: taskDetachTypeResponse,
       })
       expect(state).toEqual(taskDetachTypeExpectation)
     })
@@ -723,7 +656,7 @@ describe('task reducer', () => {
     it('deletes objective from all tasks with OBJECTIVE_DELETE.', () => {
       state = taskReducer(state, {
         type: types.OBJECTIVE_DELETE,
-        response: objectiveDeleteResponse
+        response: objectiveDeleteResponse,
       })
       expect(state).toEqual(objectiveDeleteExpectation)
     })
@@ -731,7 +664,7 @@ describe('task reducer', () => {
     it('deletes type from all tasks with TYPE_DELETE.', () => {
       state = taskReducer(state, {
         type: types.TYPE_DELETE,
-        response: typeDeleteResponse
+        response: typeDeleteResponse,
       })
       expect(state).toEqual(typeDeleteExpectation)
     })
@@ -739,7 +672,7 @@ describe('task reducer', () => {
     it('deletes all deleted objectives with CATEGORY_DELETE.', () => {
       state = taskReducer(state, {
         type: types.CATEGORY_DELETE,
-        response: categoryDeleteResponse
+        response: categoryDeleteResponse,
       })
       expect(state).toEqual(categoryDeleteExpectation)
     })
@@ -747,7 +680,7 @@ describe('task reducer', () => {
     it('deletes all deleted objectives with LEVEL_DELETE.', () => {
       state = taskReducer(state, {
         type: types.LEVEL_DELETE,
-        response: levelDeleteResponse
+        response: levelDeleteResponse,
       })
       expect(state).toEqual(levelDeleteExpectation)
     })

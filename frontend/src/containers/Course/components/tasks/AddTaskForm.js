@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { Button, Grid, Form, Input, Label } from 'semantic-ui-react'
-import { addTask } from '../../actions/tasks'
 import { useTranslation } from 'react-i18next'
+import { addTask } from '../../actions/tasks'
 import ModalForm, { saveActions } from '../../../../utils/components/NewModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 import { getCourseInstanceDataAction } from '../../../../actions/actions'
 import InfoBox from '../../../../utils/components/InfoBox'
 
-export const AddTaskForm = ({courseId, newOrder}) => {
+export const AddTaskForm = ({ courseId, newOrder }) => {
   const dispatch = useDispatch()
 
   const addTaskSubmit = async (e) => {
@@ -22,52 +22,60 @@ export const AddTaskForm = ({courseId, newOrder}) => {
       info: e.target.info.value,
       max_points: e.target.points.value,
       course_instance_id: courseId,
-      order: newOrder
+      order: newOrder,
     })
     await dispatch(addTaskPromise)
 
-    await getCourseInstanceDataAction(courseId,dispatch)
+    await getCourseInstanceDataAction(courseId, dispatch)
   }
 
-  const { t, i18n } = useTranslation('translation', {
+  const { t } = useTranslation('translation', {
     keyPrefix: 'course.tasks',
   })
-  
 
-    const contentPrompt = t('addTaskForm.prompt1')
-    const label = {
-      name: t('common.name'),
-      description: t('common.description'),
-      info: t('task.info'),
-      maxPoints: t('task.maxPoints')
-    }
-    return (
-      <Grid.Row>
-        <Grid.Column>
-          <div className="AddTaskForm">
-            <ModalForm
-              header={<Fragment>{t('addTaskForm.header')}<InfoBox translateFunc={t} translationid="AddTaskModal" buttonProps={{ floated: 'right' }} /></Fragment>}
-              trigger={<Button basic className="addTaskButton" data-testid="add-button" icon={{ name: 'add' }} />}
-              actions={saveActions(t)}
-              onSubmit={addTaskSubmit}
-            >
-              <p>{contentPrompt}.</p>
-              <MultilingualField required field="name" data-testid="add-form-name-field" fieldDisplay={label.name} />
-              <MultilingualField field="description" data-testid="add-form-description-field" fieldDisplay={label.description} />
-              <Form.Field>
-                <Label>{label.info}</Label>
-                <Input name="info" type="text" />
-              </Form.Field>
-              <Form.Field>
-                <Label>{label.maxPoints}</Label>
-                <Form.Input required name="points" type="number" />
-              </Form.Field>
-            </ModalForm>
-          </div>
-        </Grid.Column>
-      </Grid.Row>
-    )
+  const contentPrompt = t('addTaskForm.prompt1')
+  const label = {
+    name: t('common.name'),
+    description: t('common.description'),
+    info: t('task.info'),
+    maxPoints: t('task.maxPoints'),
   }
+  return (
+    <Grid.Row>
+      <Grid.Column>
+        <div className="AddTaskForm">
+          <ModalForm
+            header={
+              <>
+                {t('addTaskForm.header')}
+                <InfoBox translateFunc={t} translationid="AddTaskModal" buttonProps={{ floated: 'right' }} />
+              </>
+            }
+            trigger={<Button basic className="addTaskButton" data-testid="add-button" icon={{ name: 'add' }} />}
+            actions={saveActions(t)}
+            onSubmit={addTaskSubmit}
+          >
+            <p>{contentPrompt}.</p>
+            <MultilingualField required field="name" data-testid="add-form-name-field" fieldDisplay={label.name} />
+            <MultilingualField
+              field="description"
+              data-testid="add-form-description-field"
+              fieldDisplay={label.description}
+            />
+            <Form.Field>
+              <Label>{label.info}</Label>
+              <Input name="info" type="text" />
+            </Form.Field>
+            <Form.Field>
+              <Label>{label.maxPoints}</Label>
+              <Form.Input required name="points" type="number" />
+            </Form.Field>
+          </ModalForm>
+        </div>
+      </Grid.Column>
+    </Grid.Row>
+  )
+}
 /*
 AddTaskForm.propTypes = {
   courseId: PropTypes.number.isRequired,

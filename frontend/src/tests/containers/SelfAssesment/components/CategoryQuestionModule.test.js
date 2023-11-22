@@ -3,16 +3,12 @@ import { Dropdown, Form, Accordion } from 'semantic-ui-react'
 import { CategoryQuestionModule } from '../../../../containers/SelfAssessmentForm/Components/QuestionModules/CategoryQuestionModule'
 import MatrixPage from '../../../../containers/Course/MatrixPage'
 
-
 const data = {
   name: 'Testi',
   textFieldOn: true,
   id: 1,
   includedInAssesment: true,
-  headers: [
-    { value: 'eka' },
-    { value: 'toka' }
-  ]
+  headers: [{ value: 'eka' }, { value: 'toka' }],
 }
 let wrapper
 const dispatchTextFieldOnOff = jest.fn()
@@ -24,31 +20,34 @@ const dispatchGradeCategoryAction = jest.fn()
 const clearError = jest.fn()
 
 beforeEach(() => {
-  wrapper = shallow(<CategoryQuestionModule
-    data={data}
-    final={false}
-    textArea={jest.fn()}
-    dispatchTextFieldOnOff={dispatchTextFieldOnOff}
-    dispatchToggleFormPartAction={dispatchToggleFormPartAction}
-    dispatchHeaderChange={dispatchHeaderChange}
-    dispatchTextfieldResponseAction={dispatchTextfieldResponsection}
-    dispatchClearErrorAction={dispatchClearErrorAction}
-    dispatchGradeCategoryAction={dispatchGradeCategoryAction}
-    gradeError={{}}
-    clearError={clearError}
-    grades={[]}
-    edit={false}
-    translate={() => ''}
-    existingAnswer={[{
-      grade: null,
-      id: 1,
-      name: 'testi',
-      textFieldOn: true,
-      responseText: null
-    }]}
-  />)
+  wrapper = shallow(
+    <CategoryQuestionModule
+      data={data}
+      final={false}
+      textArea={jest.fn()}
+      dispatchTextFieldOnOff={dispatchTextFieldOnOff}
+      dispatchToggleFormPartAction={dispatchToggleFormPartAction}
+      dispatchHeaderChange={dispatchHeaderChange}
+      dispatchTextfieldResponseAction={dispatchTextfieldResponsection}
+      dispatchClearErrorAction={dispatchClearErrorAction}
+      dispatchGradeCategoryAction={dispatchGradeCategoryAction}
+      gradeError={{}}
+      clearError={clearError}
+      grades={[]}
+      edit={false}
+      translate={() => ''}
+      existingAnswer={[
+        {
+          grade: null,
+          id: 1,
+          name: 'testi',
+          textFieldOn: true,
+          responseText: null,
+        },
+      ]}
+    />
+  )
 })
-
 
 describe('Category question module', () => {
   it('renders', () => {
@@ -63,28 +62,33 @@ describe('Category question module', () => {
   })
 })
 describe('with no existing response', () => {
-  it('doesn\'t prefill dropdown when there isn\'t an existing grade', () => {
+  it("doesn't prefill dropdown when there isn't an existing grade", () => {
     const dropdown = wrapper.find(Dropdown)
-    expect((dropdown).props().value).toEqual(null)
+    expect(dropdown.props().value).toEqual(null)
   })
-  it('doesn\'t prefill textfield response when there isn\'t an existing text response', () => {
+  it("doesn't prefill textfield response when there isn't an existing text response", () => {
     const textfield = wrapper.find(Form.TextArea)
-    expect((textfield).props().defaultValue).toEqual(null)
+    expect(textfield.props().defaultValue).toEqual(null)
   })
 })
 
 describe('with existing response', () => {
   beforeEach(() => {
     wrapper.setProps({
-      existingAnswer: [{
-        grade_name: '1',
-        grade: 6,
-        id: 1,
-        name: 'testi',
-        textFieldOn: true,
-        responseText: 'Existing response'
-      }],
-      grades: [{ text: '1', value: 6 }, { text: '2', value: 7 }]
+      existingAnswer: [
+        {
+          grade_name: '1',
+          grade: 6,
+          id: 1,
+          name: 'testi',
+          textFieldOn: true,
+          responseText: 'Existing response',
+        },
+      ],
+      grades: [
+        { text: '1', value: 6 },
+        { text: '2', value: 7 },
+      ],
     })
   })
 
@@ -101,7 +105,10 @@ describe('with errors in form', () => {
   beforeEach(() => {
     wrapper.setProps({
       gradeError: { id: 1, error: 'You must select a value' },
-      grades: [{ text: '1', value: 6 }, { text: '2', value: 7 }]
+      grades: [
+        { text: '1', value: 6 },
+        { text: '2', value: 7 },
+      ],
     })
   })
   it('shows the form in error mode', () => {

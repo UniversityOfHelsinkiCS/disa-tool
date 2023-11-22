@@ -7,27 +7,21 @@ import RoleButtons from './RoleButtons'
 
 const RoleList = (props) => {
   const { user, deleteRole, changeRole } = props
-  const {t} = useTranslation("translation", {keyPrefix: "admin.adminPage"})
-
+  const { t } = useTranslation('translation', { keyPrefix: 'admin.adminPage' })
 
   return (
     <List divided>
       <List.Item>
         <List.Header>{t('course_roles')}</List.Header>
       </List.Item>
-      {user.course_people.map(ucp => (
+      {user.course_people.map((ucp) => (
         <List.Item key={ucp.id}>
           <List.Content floated="right">
             <div>
               <DeleteForm
                 onExecute={deleteRole(user.id, ucp.course_instance_id)}
                 header={t('delete_header')}
-                prompt={[
-                  t('delete_prompt_1'),
-                  user.name,
-                  t('delete_prompt_2'),
-                  ucp.course_instance.name
-                ]}
+                prompt={[t('delete_prompt_1'), user.name, t('delete_prompt_2'), ucp.course_instance.name]}
               />
             </div>
           </List.Content>
@@ -43,9 +37,7 @@ const RoleList = (props) => {
               />
             </div>
           </List.Content>
-          <List.Content>
-            {ucp.course_instance.name}
-          </List.Content>
+          <List.Content>{ucp.course_instance.name}</List.Content>
         </List.Item>
       ))}
       <List.Item>
@@ -63,9 +55,7 @@ const RoleList = (props) => {
             buttonTexts={[t('student_button'), t('teacher_button')]}
           />
         </List.Content>
-        <List.Content>
-          {t('global_role_label')}
-        </List.Content>
+        <List.Content>{t('global_role_label')}</List.Content>
       </List.Item>
     </List>
   )

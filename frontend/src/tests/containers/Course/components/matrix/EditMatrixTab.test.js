@@ -6,9 +6,7 @@ describe('EditMatrixTab component', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(<EditMatrixTab
-      courseId={1}
-    />)
+    wrapper = shallow(<EditMatrixTab courseId={1} />)
   })
 
   it('renders.', () => {

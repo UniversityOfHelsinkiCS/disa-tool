@@ -7,46 +7,46 @@ import ModalForm, { saveActions } from '../../../../utils/components/NewModalFor
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 export const CreateObjectiveForm = (props) => {
-  const level = useSelector(state => state.level.levels.find(level => level.id === props.levelId))
+  const level = useSelector((state) => state.level.levels.find((level) => level.id === props.levelId))
   const dispatch = useDispatch()
-   const addObjectiveSubmit = async(e) => {
-      const response = await addObjective({
-        eng_name: e.target.eng_name.value,
-        fin_name: e.target.fin_name.value,
-        swe_name: e.target.swe_name.value,
-        skill_level_id: props.levelId,
-        category_id: props.category.id,
-        course_instance_id: props.courseId,
-        order: props.newOrder
-      })
-      dispatch(response)
-    }
-    const {t} = useTranslation("translation")
-      const contentPrompt = [
-        t('course.matrix.createObjectiveForm.prompt_1'),
-        `"${props.category.name}"`,
-        t('course.matrix.createObjectiveForm.prompt_2'),
-        `"${level.name}"`
-      ].join(' ')
+  const addObjectiveSubmit = async (e) => {
+    const response = await addObjective({
+      eng_name: e.target.eng_name.value,
+      fin_name: e.target.fin_name.value,
+      swe_name: e.target.swe_name.value,
+      skill_level_id: props.levelId,
+      category_id: props.category.id,
+      course_instance_id: props.courseId,
+      order: props.newOrder,
+    })
+    dispatch(response)
+  }
+  const { t } = useTranslation('translation')
+  const contentPrompt = [
+    t('course.matrix.createObjectiveForm.prompt_1'),
+    `"${props.category.name}"`,
+    t('course.matrix.createObjectiveForm.prompt_2'),
+    `"${level.name}"`,
+  ].join(' ')
 
-      const labels = {
-        header: t('course.matrix.createObjectiveForm.header'),
-      }
+  const labels = {
+    header: t('course.matrix.createObjectiveForm.header'),
+  }
 
-      return (
-        <div className="CreateObjectiveForm">
-          <ModalForm
-            header={labels.header}
-            trigger={<Button basic className="addObjectiveButton" icon={{ name: 'add' }} />}
-            actions={saveActions()}
-            onSubmit={addObjectiveSubmit}
-          >
-            <p>{contentPrompt}.</p>
-            <MultilingualField field="name" fieldDisplay={t('common.name')}/>
-          </ModalForm>
-        </div>
-      )
-    }
+  return (
+    <div className="CreateObjectiveForm">
+      <ModalForm
+        header={labels.header}
+        trigger={<Button basic className="addObjectiveButton" icon={{ name: 'add' }} />}
+        actions={saveActions()}
+        onSubmit={addObjectiveSubmit}
+      >
+        <p>{contentPrompt}.</p>
+        <MultilingualField field="name" fieldDisplay={t('common.name')} />
+      </ModalForm>
+    </div>
+  )
+}
 /*
 CreateObjectiveForm.propTypes = {
   addObjective: PropTypes.func.isRequired,
@@ -63,6 +63,5 @@ CreateObjectiveForm.propTypes = {
   newOrder: PropTypes.number.isRequired
 }
 */
-
 
 export default connect()(CreateObjectiveForm)

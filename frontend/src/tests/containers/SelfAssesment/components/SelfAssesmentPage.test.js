@@ -15,32 +15,32 @@ describe('Self assessment page', () => {
     dispatchGetUserSelfAssessments = jest.fn()
     dispatchGetCourseInstanceData = jest.fn()
 
-    wrapper = shallow(<SelfAssessmentPage
-      match={{
-        url: '/selfassessment/1',
-        params: {
-          courseId: '1'
-        }
-      }}
-      user={user}
-      dispatchGetUsercourses={dispatchGetUsercourses}
-      dispatchGetUserSelfAssessments={dispatchGetUserSelfAssessments}
-      dispatchGetCourseInstanceData={dispatchGetCourseInstanceData}
-      dispatchClearError={jest.fn()}
-      courses={[]}
-      role="TEACHER"
-      error={false}
-      translate={() => ''}
-
-    />)
+    wrapper = shallow(
+      <SelfAssessmentPage
+        match={{
+          url: '/selfassessment/1',
+          params: {
+            courseId: '1',
+          },
+        }}
+        user={user}
+        dispatchGetUsercourses={dispatchGetUsercourses}
+        dispatchGetUserSelfAssessments={dispatchGetUserSelfAssessments}
+        dispatchGetCourseInstanceData={dispatchGetCourseInstanceData}
+        dispatchClearError={jest.fn()}
+        courses={[]}
+        role="TEACHER"
+        error={false}
+        translate={() => ''}
+      />
+    )
     user = {
       id: 422,
       name: 'Terhi Testaaja',
       studentnumber: '012345688',
-      role: 'Teacher'
+      role: 'Teacher',
     }
   })
-
 
   it('renders', () => {
     expect(wrapper.find('.selfAssesmentCreateForm').exists()).toEqual(true)

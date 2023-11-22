@@ -13,7 +13,7 @@ import dndItem from '../../../../utils/components/DnDItem'
 const DnDItem = dndItem('skill_level')
 
 const HeaderLevel = (props) => {
-  const translate = id => props.translate(`Course.matrix.HeaderLevel.${id}`)
+  const translate = (id) => props.translate(`Course.matrix.HeaderLevel.${id}`)
   const { level, editing, moveLevel, slots } = props
   const cellContent = (
     <div className="flexContainer">
@@ -28,32 +28,23 @@ const HeaderLevel = (props) => {
           <div className="paddedBlock">
             <DeleteForm
               onExecute={() => props.removeLevel({ id: level.id })}
-              prompt={[
-                translate('delete_prompt_1'),
-                `"${level.name}"`
-              ]}
+              prompt={[translate('delete_prompt_1'), `"${level.name}"`]}
               header={translate('delete_header')}
             />
           </div>
         </div>
-      ) : (
-          null
-        )}
+      ) : null}
     </div>
   )
   return (
     <Table.HeaderCell key={level.id} textAlign="center">
       {editing ? (
-        <DnDItem
-          element={level}
-          mover={moveLevel}
-          slots={slots}
-        >
-          <Segment>
-            {cellContent}
-          </Segment>
+        <DnDItem element={level} mover={moveLevel} slots={slots}>
+          <Segment>{cellContent}</Segment>
         </DnDItem>
-      ) : cellContent}
+      ) : (
+        cellContent
+      )}
     </Table.HeaderCell>
   )
 }
@@ -66,13 +57,13 @@ HeaderLevel.propTypes = {
   moveLevel: func.isRequired,
   slots: shape({
     previous: number.isRequired,
-    next: number.isRequired
-  }).isRequired
+    next: number.isRequired,
+  }).isRequired,
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   removeLevel: asyncAction(removeLevel, dispatch),
-  moveLevel: asyncAction(editLevel, dispatch)
+  moveLevel: asyncAction(editLevel, dispatch),
 })
 
 export default connect(null, mapDispatchToProps)(withLocalize(HeaderLevel))

@@ -3,7 +3,7 @@ import { Grid, Header } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 
 export const HomePage = (props) => {
-  const { t, i18n } = useTranslation('translation');
+  const { t, i18n } = useTranslation('translation')
 
   return (
     <Grid container>
@@ -27,9 +27,7 @@ export const HomePage = (props) => {
           <Header as="h2" content={t('home.homepage.background_header')} />
           <p>
             <span>{t('home.homepage.background_info_1_1')}</span>
-            <a href={t('home.homepage.background_link_1_href')}>
-              {t('home.homepage.background_link_1')}
-            </a>
+            <a href={t('home.homepage.background_link_1_href')}>{t('home.homepage.background_link_1')}</a>
             <span>{t('home.homepage.background_info_1_2')}</span>
           </p>
           <p>

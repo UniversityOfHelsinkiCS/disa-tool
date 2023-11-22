@@ -1,145 +1,124 @@
 import { Form, Card, Grid, Dropdown, Accordion, Icon, Message } from 'semantic-ui-react'
-import React,{useState} from 'react'
-import { connect,useDispatch,useSelector } from 'react-redux'
-import {
-  gradeCategoryAction,
-  textfieldResponseAction,
-  clearErrorAction
-} from '../../actions/selfAssesment'
+import React, { useState } from 'react'
+import { connect, useDispatch, useSelector } from 'react-redux'
+import { gradeCategoryAction, textfieldResponseAction, clearErrorAction } from '../../actions/selfAssesment'
 import MatrixPage from '../../../Course/MatrixPage'
 import { useTranslation } from 'react-i18next'
 
 export const CategoryQuestionModule = (props) => {
   const [showMatrix, setShowMatrix] = useState(false)
   const [value, setValue] = useState(null)
-  const answers = useSelector(state => state.selfAssesment.assesmentResponse) 
-  const {edit,
-    final,
-    responseTextError,
-    gradeError,
-    courseInstanceId,
-    grades} = props
-  const existingAnswer = props.existingAnswer || [{
-    grade: null,
-    responseText: null
-  }]
-    const { name, textFieldOn, id } = props.data
+  const answers = useSelector((state) => state.selfAssesment.assesmentResponse)
+  const { edit, final, responseTextError, gradeError, courseInstanceId, grades } = props
+  const existingAnswer = props.existingAnswer || [
+    {
+      grade: null,
+      responseText: null,
+    },
+  ]
+  const { name, textFieldOn, id } = props.data
   const dispatch = useDispatch()
 
-    const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.questionModules.categoryQuestionModule"})
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'selfAssessmentForm.questionModules.categoryQuestionModule',
+  })
 
   const handleDropdownChange = (e, { value }) => {
-    const gradeName = props.grades.find(g => g.value === value).text
-    gradeCategoryAction({ id, value, name: gradeName, final },dispatch)
+    const gradeName = props.grades.find((g) => g.value === value).text
+    gradeCategoryAction({ id, value, name: gradeName, final }, dispatch)
     setValue(value)
-    clearErrorAction({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'grade', id },dispatch)
+    clearErrorAction({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'grade', id }, dispatch)
   }
 
- const handleTextFieldOnBlur = (e) => {
-    textfieldResponseAction({ id, value: e.target.value, final },dispatch)
+  const handleTextFieldOnBlur = (e) => {
+    textfieldResponseAction({ id, value: e.target.value, final }, dispatch)
   }
 
   const handleTextFieldChange = () => {
-    if (responseTextError) { clearErrorAction({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'responseText', id },dispatch) }
+    if (responseTextError) {
+      clearErrorAction({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'responseText', id }, dispatch)
+    }
   }
-  
 
-    const matchingResponse = final
-      ? existingAnswer
-      : existingAnswer.find(answer => answer.id === id)
-    const { grade, responseText } = matchingResponse || {}
+  const matchingResponse = final ? existingAnswer : existingAnswer.find((answer) => answer.id === id)
+  const { grade, responseText } = matchingResponse || {}
 
-    const existingGrade = grades.find(g => g.value === grade)
+  const existingGrade = grades.find((g) => g.value === grade)
 
-    return (
-      <div className="CategoryQuestion">
-        <Form error={gradeError !== undefined || responseTextError !== undefined}>
-          <Form.Field>
-            <div>
-              <Card fluid>
-                <Card.Content >
-                  <Card.Header>
-                    {name}
-                    {!final &&
-                      <Accordion style={{ marginTop: '10px' }} fluid styled>
-                        <Accordion.Title
-                          active={showMatrix}
-                          onClick={() => setShowMatrix(!showMatrix)}
-                        >
-                          <Icon name="dropdown" />
-                          {t('matrix')}
-                        </Accordion.Title>
-                        <Accordion.Content active={showMatrix}>
-                          <MatrixPage
-                            courseId={courseInstanceId}
-                            hideHeader
-                            categoryId={id}
+  return (
+    <div className="CategoryQuestion">
+      <Form error={gradeError !== undefined || responseTextError !== undefined}>
+        <Form.Field>
+          <div>
+            <Card fluid>
+              <Card.Content>
+                <Card.Header>
+                  {name}
+                  {!final && (
+                    <Accordion style={{ marginTop: '10px' }} fluid styled>
+                      <Accordion.Title active={showMatrix} onClick={() => setShowMatrix(!showMatrix)}>
+                        <Icon name="dropdown" />
+                        {t('matrix')}
+                      </Accordion.Title>
+                      <Accordion.Content active={showMatrix}>
+                        <MatrixPage courseId={courseInstanceId} hideHeader categoryId={id} />
+                      </Accordion.Content>
+                    </Accordion>
+                  )}
+                </Card.Header>
+
+                <Grid verticalAlign="middle" padded columns={3}>
+                  <Grid.Row>
+                    <Form.Field width={10}>
+                      <Grid.Column>
+                        <div>
+                          <label> {t('assessment')}</label>
+                          <Dropdown
+                            className="gradeDropdown"
+                            style={{ marginLeft: '20px' }}
+                            placeholder={t('gradeSelect')}
+                            selection
+                            options={grades}
+                            error={gradeError !== undefined}
+                            onChange={!edit ? handleDropdownChange : null}
+                            value={existingGrade ? existingGrade.value : value}
                           />
-                        </Accordion.Content>
-                      </Accordion>
-                    }
-                  </Card.Header>
+                        </div>
+                        <Message error content={gradeError ? gradeError.error : null} />
+                      </Grid.Column>
+                    </Form.Field>
+                    <Grid.Column />
+                  </Grid.Row>
 
-                  <Grid verticalAlign="middle" padded columns={3}>
-                    <Grid.Row >
-                      <Form.Field width={10}>
-                        <Grid.Column>
+                  <Grid.Row>
+                    <Form.Field width={10}>
+                      <Grid.Column>
+                        {textFieldOn ? (
                           <div>
-                            <label> {t('assessment')}</label>
-                            <Dropdown
-                              className="gradeDropdown"
-                              style={{ marginLeft: '20px' }}
-                              placeholder={t('gradeSelect')}
-                              selection
-                              options={grades}
-                              error={gradeError !== undefined}
-                              onChange={!edit ? handleDropdownChange : null}
-                              value={existingGrade ? existingGrade.value : value}
+                            <Form.TextArea
+                              autoheight="true"
+                              error={responseTextError !== undefined}
+                              label={t('basis')}
+                              placeholder={t('writeBasis')}
+                              onBlur={!edit ? handleTextFieldOnBlur : undefined}
+                              onChange={!edit ? handleTextFieldChange : undefined}
+                              defaultValue={responseText}
                             />
+                            <Message error content={responseTextError ? responseTextError.error : null} />
                           </div>
-                          <Message
-                            error
-                            content={gradeError ? gradeError.error : null}
-                          />
-                        </Grid.Column>
-                      </Form.Field>
-                      <Grid.Column />
-                    </Grid.Row>
-
-                    <Grid.Row >
-                      <Form.Field width={10}>
-                        <Grid.Column>
-                          {textFieldOn ?
-                            <div>
-                              <Form.TextArea
-                                autoheight="true"
-                                error={responseTextError !== undefined}
-                                label={t('basis')}
-                                placeholder={t('writeBasis')}
-                                onBlur={!edit ? handleTextFieldOnBlur : undefined}
-                                onChange={!edit ? handleTextFieldChange : undefined}
-                                defaultValue={responseText}
-                              />
-                              <Message
-                                error
-                                content={responseTextError ? responseTextError.error : null}
-                              />
-                            </div>
-                            :
-                            null
-                          }
-                        </Grid.Column>
-                      </Form.Field>
-                    </Grid.Row>
-                  </Grid>
-                </Card.Content>
-              </Card>
-            </div>
-          </Form.Field>
-        </Form>
-      </div>
-    )
-  }
+                        ) : null}
+                      </Grid.Column>
+                    </Form.Field>
+                  </Grid.Row>
+                </Grid>
+              </Card.Content>
+            </Card>
+          </div>
+        </Form.Field>
+      </Form>
+    </div>
+  )
+}
 /*
 CategoryQuestionModule.propTypes = {
   data: PropTypes.shape({

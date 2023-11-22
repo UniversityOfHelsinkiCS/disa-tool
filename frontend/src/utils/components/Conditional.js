@@ -7,15 +7,12 @@ export const Conditional = ({ visible, children }) => {
 
 Conditional.propTypes = {
   visible: PropTypes.bool.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.arrayOf(PropTypes.element)
-  ])
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]),
 }
 
 Conditional.defaultProps = {
   render: null,
-  children: null
+  children: null,
 }
 
 export default Conditional

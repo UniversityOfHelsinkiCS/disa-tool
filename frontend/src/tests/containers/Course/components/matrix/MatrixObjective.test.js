@@ -7,7 +7,7 @@ MatrixObjective.propTypes = {}
 const objective = {
   id: 1,
   name: 'Test objective',
-  task_count: 0
+  task_count: 0,
 }
 const mockFn = () => {}
 
@@ -19,20 +19,22 @@ describe('MatrixObjective component', () => {
   beforeEach(() => {
     removeObjective = jest.fn()
     toggleObjective = jest.fn()
-    wrapper = shallow(<MatrixObjective
-      objective={objective}
-      editing={false}
-      removeObjective={removeObjective}
-      active={false}
-      toggleObjective={toggleObjective}
-      activeTaskId={null}
-      taskDetails={mockFn}
-      isCut={false}
-      wasCut={false}
-      cut={mockFn}
-      translate={() => ''}
-      moveObjective={() => {}}
-    />)
+    wrapper = shallow(
+      <MatrixObjective
+        objective={objective}
+        editing={false}
+        removeObjective={removeObjective}
+        active={false}
+        toggleObjective={toggleObjective}
+        activeTaskId={null}
+        taskDetails={mockFn}
+        isCut={false}
+        wasCut={false}
+        cut={mockFn}
+        translate={() => ''}
+        moveObjective={() => {}}
+      />
+    )
   })
 
   it('renders.', () => {
@@ -52,7 +54,7 @@ describe('MatrixObjective component', () => {
   describe('when editing', () => {
     beforeEach(() => {
       wrapper.setProps({
-        editing: true
+        editing: true,
       })
     })
 
@@ -68,7 +70,7 @@ describe('MatrixObjective component', () => {
 
       it('includes objective names in prompt.', () => {
         const prompt = deleteForm.prop('prompt')
-        expect(prompt.filter(segment => segment.includes(objective.name)).length).toBeGreaterThan(0)
+        expect(prompt.filter((segment) => segment.includes(objective.name)).length).toBeGreaterThan(0)
       })
 
       it('gets the removeObjective prop as part of onExecute.', () => {
@@ -81,7 +83,7 @@ describe('MatrixObjective component', () => {
   describe('when in task editing view', () => {
     beforeEach(() => {
       wrapper.setProps({
-        showDetails: true
+        showDetails: true,
       })
     })
 
@@ -95,7 +97,7 @@ describe('MatrixObjective component', () => {
     describe('when activeTaskId is not null', () => {
       beforeEach(() => {
         wrapper.setProps({
-          activeTaskId: 3
+          activeTaskId: 3,
         })
       })
 
@@ -103,7 +105,7 @@ describe('MatrixObjective component', () => {
         wrapper.find('.objectiveButton').prop('onClick')()
         expect(toggleObjective).toHaveBeenCalledWith({
           task_id: 3,
-          objective_id: objective.id
+          objective_id: objective.id,
         })
       })
     })
@@ -117,7 +119,7 @@ describe('MatrixObjective component', () => {
     describe('when active', () => {
       beforeEach(() => {
         wrapper.setProps({
-          active: true
+          active: true,
         })
       })
 

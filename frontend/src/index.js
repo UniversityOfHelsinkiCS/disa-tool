@@ -1,4 +1,4 @@
-import React, {Suspense} from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
@@ -11,7 +11,7 @@ import App from './App'
 
 import store from './store'
 
-import './i18n';
+import './i18n'
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
@@ -26,12 +26,12 @@ try {
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-    <I18nextProvider i18n={i18n}> 
-    <Suspense fallback={<div>Loading... </div>}>
-      <App />
-      </Suspense>
+      <I18nextProvider i18n={i18n}>
+        <Suspense fallback={<div>Loading... </div>}>
+          <App />
+        </Suspense>
       </I18nextProvider>
     </BrowserRouter>
-  </Provider>
-  , document.getElementById('app')
+  </Provider>,
+  document.getElementById('app')
 )

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
 
 export const Navbar = (props) => {
-  const translate = id => props.translate(`Course.navbar.Navbar.${id}`)
+  const translate = (id) => props.translate(`Course.navbar.Navbar.${id}`)
   return (
     <nav className="Navbar" data-testid="course-navbar">
       <Menu pointing>
@@ -49,7 +49,7 @@ export const Navbar = (props) => {
 Navbar.propTypes = {
   matchUrl: PropTypes.string.isRequired,
   pathname: PropTypes.string.isRequired,
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
 }
 
 export default withLocalize(Navbar)

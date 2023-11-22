@@ -1,7 +1,6 @@
 import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
-
 configure({ adapter: new Adapter() })
 
 const Enzyme = require('enzyme')
@@ -19,7 +18,7 @@ Enzyme.configure({ adapter: new EnzymeAdapter() })
 const localStorageMock = () => {
   let store = {}
   return {
-    getItem: key => store[key],
+    getItem: (key) => store[key],
     setItem: (key, value) => {
       store[key] = value.toString()
     },
@@ -28,7 +27,7 @@ const localStorageMock = () => {
     },
     removeItem: (key) => {
       delete store[key]
-    }
+    },
   }
 }
 Object.defineProperty(global, 'localStorage', { value: localStorageMock() })

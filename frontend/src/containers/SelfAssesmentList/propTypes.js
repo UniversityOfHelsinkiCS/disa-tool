@@ -8,12 +8,14 @@ export const responseProp = shape({
     verification: shape({
       overallVerification: shape({
         minGrade: string.isRequired,
-        maxGrade: string.isRequired
+        maxGrade: string.isRequired,
       }).isRequired,
-      categoryVerifications: arrayOf(shape({
-        wantedGrade: shape({ difference: number.isRequired }).isRequired
-      })).isRequired
+      categoryVerifications: arrayOf(
+        shape({
+          wantedGrade: shape({ difference: number.isRequired }).isRequired,
+        })
+      ).isRequired,
     }),
-    finalGradeResponse: shape({ grade_name: string })
-  }).isRequired
+    finalGradeResponse: shape({ grade_name: string }),
+  }).isRequired,
 })

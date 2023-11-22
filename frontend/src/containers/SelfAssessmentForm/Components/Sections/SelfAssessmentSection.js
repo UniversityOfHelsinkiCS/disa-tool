@@ -6,7 +6,8 @@ import Header from '../Header'
 import InfoBox from '../../../../utils/components/InfoBox'
 
 const SelfAssessmentSection = (props) => {
-  const { final,
+  const {
+    final,
     question,
     edit,
     QuestionModule,
@@ -18,40 +19,35 @@ const SelfAssessmentSection = (props) => {
     name,
     headers,
     existingAnswer,
-    infoBoxTranslationId
+    infoBoxTranslationId,
   } = props
   const { responseText, grade } = errors
-  const questions = (
-    edit ?
-      formData.map(questionModules =>
-        (
-          <li key={questionModules.id} style={{listStyleType: "none", padding: 0, margin: 0}}><QuestionModule
-            data={questionModules}
-            edit={edit}
-            final={final}
-          />
-          </li>
-        ))
-      :
-      formData.map(questionModules =>
-        ((questionModules.includedInAssesment || question) &&
-          (<li key={questionModules.id}  style={{listStyleType: "none", padding: 0, margin: 0}}><QuestionModule
-            data={questionModules}
-            edit={edit}
-            final={final}
-            existingAnswer={existingAnswer}
-            courseInstanceId={courseInstanceId}
-            gradeError={final ? grade[0] : grade.find(e => e.id === questionModules.id)}
-            responseTextError={final ?
-              responseText[0] :
-              responseText.find(e => e.id === questionModules.id)}
-            clearError={clearError}
-            grades={grades}
-          /></li>)
-        )))
+  const questions = edit
+    ? formData.map((questionModules) => (
+        <li key={questionModules.id} style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+          <QuestionModule data={questionModules} edit={edit} final={final} />
+        </li>
+      ))
+    : formData.map(
+        (questionModules) =>
+          (questionModules.includedInAssesment || question) && (
+            <li key={questionModules.id} style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+              <QuestionModule
+                data={questionModules}
+                edit={edit}
+                final={final}
+                existingAnswer={existingAnswer}
+                courseInstanceId={courseInstanceId}
+                gradeError={final ? grade[0] : grade.find((e) => e.id === questionModules.id)}
+                responseTextError={final ? responseText[0] : responseText.find((e) => e.id === questionModules.id)}
+                clearError={clearError}
+                grades={grades}
+              />
+            </li>
+          )
+      )
 
   return (
-
     <div>
       <Card fluid color="red" className="formCard" data-testid="self-assessment-section">
         <Card.Content>
@@ -64,12 +60,8 @@ const SelfAssessmentSection = (props) => {
             headers={headers}
             style={final ? { color: formData[0].includedInAssesment ? 'black' : 'grey' } : null}
           />
-          <ul data-testid={`self-assessment-section-list-${name}`}>
-          {questions}
-          </ul>
-          {(question && edit) &&
-            <AddOpenQuestion />
-          }
+          <ul data-testid={`self-assessment-section-list-${name}`}>{questions}</ul>
+          {question && edit && <AddOpenQuestion />}
         </Card.Content>
       </Card>
     </div>

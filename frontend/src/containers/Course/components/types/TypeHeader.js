@@ -11,20 +11,14 @@ import { useTranslation } from 'react-i18next'
 const DnDItem = dndItem('type_header')
 
 export const TypeHeader = (props) => {
-  const {
-    header,
-    activeTask = null,
-    editing,
-    moveHeader,
-    slots
-  } = props
+  const { header, activeTask = null, editing, moveHeader, slots } = props
   const activeMap = {}
   if (activeTask !== null) {
     activeTask.types.forEach((type) => {
       activeMap[type] = true
     })
   }
-  const { t } = useTranslation('translation', {keyPrefix: 'course.types.typeHeader'})
+  const { t } = useTranslation('translation', { keyPrefix: 'course.types.typeHeader' })
   const dispatch = useDispatch()
 
   const asyncRemoveHeader = async () => {
@@ -44,10 +38,7 @@ export const TypeHeader = (props) => {
             <div className="paddedBlock">
               <DeleteForm
                 onExecute={() => asyncRemoveHeader({ id: header.id })}
-                prompt={[
-                  t('delete_prompt_1'),
-                  `"${props.header.name}"`
-                ]}
+                prompt={[t('delete_prompt_1'), `"${props.header.name}"`]}
                 header={t('delete_header')}
               />
             </div>
@@ -65,20 +56,12 @@ export const TypeHeader = (props) => {
   )
   if (editing) {
     return (
-      <DnDItem
-        element={header}
-        mover={moveHeader}
-        slots={slots}
-      >
+      <DnDItem element={header} mover={moveHeader} slots={slots}>
         {content}
       </DnDItem>
     )
   }
-  return (
-    <div>
-      {content}
-    </div>
-  )
+  return <div>{content}</div>
 }
 /*
 TypeHeader.propTypes = {

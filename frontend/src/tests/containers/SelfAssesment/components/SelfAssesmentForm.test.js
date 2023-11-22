@@ -12,7 +12,6 @@ const dispatchGetAssesmentResponseAction = jest.fn()
 const dispatchGetSelfAssesmentAction = jest.fn()
 const dispatchGetCourseInstanceData = jest.fn()
 
-
 const formData = {
   course_instance_id: 2,
   open: false,
@@ -22,31 +21,33 @@ const formData = {
     headers: {
       openQ: {},
       questionHeaders: {},
-      grade: {}
+      grade: {},
     },
-    openQuestions: {}
-  }
+    openQuestions: {},
+  },
 }
 
 describe('Self assessment form', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(<SelfAssessmentForm
-      match={{
-        params: {
-          courseInstanceId: 1,
-          selfAssesmentId: 1,
-          type: 'category'
-        }
-      }}
-      edit={false}
-      preview={false}
-      grades={[]}
-      clearError={jest.fn}
-      responseErrors={{}}
-      translate={() => ''}
-    />)
+    wrapper = shallow(
+      <SelfAssessmentForm
+        match={{
+          params: {
+            courseInstanceId: 1,
+            selfAssesmentId: 1,
+            type: 'category',
+          },
+        }}
+        edit={false}
+        preview={false}
+        grades={[]}
+        clearError={jest.fn}
+        responseErrors={{}}
+        translate={() => ''}
+      />
+    )
   })
 
   describe.skip('with edit, new and category', () => {
@@ -57,7 +58,16 @@ describe('Self assessment form', () => {
         type: 'category',
         role: 'TEACHER',
         preview: 'false',
-        formData: { ...formData, structure: { ...formData.structure, type: 'category', questionModules: [{ includedinAssesment: false }], openQuestions: { questions: [] }, finalGrade: { includedinAssesment: false } } }
+        formData: {
+          ...formData,
+          structure: {
+            ...formData.structure,
+            type: 'category',
+            questionModules: [{ includedinAssesment: false }],
+            openQuestions: { questions: [] },
+            finalGrade: { includedinAssesment: false },
+          },
+        },
       })
     })
     it('renders correctly', () => {
@@ -77,8 +87,15 @@ describe('Self assessment form', () => {
           new: true,
           type: 'category',
           role: 'TEACHER',
-          formData: { ...formData, structure: { ...formData.structure, type: 'objective', openQuestions: { questions: [] }, finalGrade: { includedinAssesment: true } } }
-
+          formData: {
+            ...formData,
+            structure: {
+              ...formData.structure,
+              type: 'objective',
+              openQuestions: { questions: [] },
+              finalGrade: { includedinAssesment: true },
+            },
+          },
         })
       })
       it('contains question modules of type objective', () => {
@@ -95,7 +112,16 @@ describe('Self assessment form', () => {
           new: false,
           type: 'category',
           role: 'TEACHER',
-          formData: { ...formData, structure: { ...formData.structure, type: 'objectives', questionModules: [{ includedinAssesment: false }], openQuestions: { questions: [] }, finalGrade: { includedinAssesment: false } } }
+          formData: {
+            ...formData,
+            structure: {
+              ...formData.structure,
+              type: 'objectives',
+              questionModules: [{ includedinAssesment: false }],
+              openQuestions: { questions: [] },
+              finalGrade: { includedinAssesment: false },
+            },
+          },
         })
       })
 

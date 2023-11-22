@@ -7,11 +7,7 @@ describe('MultilingualField component', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(<MultilingualField
-      field="test"
-      fieldDisplay="test label"
-      translate={() => ''}
-    />)
+    wrapper = shallow(<MultilingualField field="test" fieldDisplay="test label" translate={() => ''} />)
   })
 
   it('renders.', () => {

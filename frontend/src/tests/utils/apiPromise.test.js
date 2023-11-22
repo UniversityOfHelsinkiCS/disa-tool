@@ -6,23 +6,26 @@ const testData = { test: true }
 const responseError = (data) => {
   const error = new Error(testError)
   error.response = {
-    data: { success: false, data }
+    data: { success: false, data },
   }
   return error
 }
 
-const apiCall = success => data => new Promise((resolve, reject) => (
-  success ? resolve({
-    data: { success: true, data }
-  }) : reject(responseError(data))
-))
+const apiCall = (success) => (data) =>
+  new Promise((resolve, reject) =>
+    success
+      ? resolve({
+          data: { success: true, data },
+        })
+      : reject(responseError(data))
+  )
 
 describe('apiPromise utility', () => {
   let action
 
   describe('when succeeding', () => {
     beforeEach(() => {
-      action = data => apiPromise(apiCall(true), data, {})
+      action = (data) => apiPromise(apiCall(true), data, {})
     })
 
     it('Resolves to default action type.', () => {
@@ -30,27 +33,28 @@ describe('apiPromise utility', () => {
         type: defaultSuccess,
         response: {
           success: true,
-          data: testData
-        }
+          data: testData,
+        },
       })
     })
 
     describe('When success action is defined', () => {
       beforeEach(() => {
-        action = data => apiPromise(apiCall(true), data, {
-          success: { type: 'TEST_SUCCESS', extra_field: 'extra' }
-        })
+        action = (data) =>
+          apiPromise(apiCall(true), data, {
+            success: { type: 'TEST_SUCCESS', extra_field: 'extra' },
+          })
       })
 
       it('Resolves to defined action type.', () => {
         expect(action(testData)).resolves.toMatchObject({
-          type: 'TEST_SUCCESS'
+          type: 'TEST_SUCCESS',
         })
       })
 
       it('Resolves to action with extra fields intact.', () => {
         expect(action(testData)).resolves.toMatchObject({
-          extra_field: 'extra'
+          extra_field: 'extra',
         })
       })
     })
@@ -58,7 +62,7 @@ describe('apiPromise utility', () => {
 
   describe('when failing', () => {
     beforeEach(() => {
-      action = data => apiPromise(apiCall(false), data, {})
+      action = (data) => apiPromise(apiCall(false), data, {})
     })
 
     it('Resolves to default action type.', () => {
@@ -66,27 +70,28 @@ describe('apiPromise utility', () => {
         type: defaultFailure,
         response: {
           success: false,
-          data: testData
-        }
+          data: testData,
+        },
       })
     })
 
     describe('When failure action is defined', () => {
       beforeEach(() => {
-        action = data => apiPromise(apiCall(false), data, {
-          failure: { type: 'TEST_FAILURE', extra_field: 'extra' }
-        })
+        action = (data) =>
+          apiPromise(apiCall(false), data, {
+            failure: { type: 'TEST_FAILURE', extra_field: 'extra' },
+          })
       })
 
       it('Resolves to defined action type.', () => {
         expect(action(testData)).resolves.toMatchObject({
-          type: 'TEST_FAILURE'
+          type: 'TEST_FAILURE',
         })
       })
 
       it('Resolves to action with extra fields intact.', () => {
         expect(action(testData)).resolves.toMatchObject({
-          extra_field: 'extra'
+          extra_field: 'extra',
         })
       })
     })

@@ -6,23 +6,22 @@ const RoleButtons = (props) => {
   const { action, id, role, roles, buttonTexts, courseInstanceId } = props
   return (
     <Button.Group>
-      {roles.map(r =>
-        (
-          <Button
-            key={id}
-            onClick={role === r ? null : () => action(id, courseInstanceId, r)}
-            inverted={role !== r}
-            color="green"
-          >
-            {buttonTexts[roles.indexOf(r)]}
-          </Button>
-        ))}
+      {roles.map((r) => (
+        <Button
+          key={id}
+          onClick={role === r ? null : () => action(id, courseInstanceId, r)}
+          inverted={role !== r}
+          color="green"
+        >
+          {buttonTexts[roles.indexOf(r)]}
+        </Button>
+      ))}
     </Button.Group>
   )
 }
 
 RoleButtons.defaultProps = {
-  courseInstanceId: null
+  courseInstanceId: null,
 }
 
 RoleButtons.propTypes = {
@@ -31,7 +30,7 @@ RoleButtons.propTypes = {
   role: PropTypes.string.isRequired,
   roles: PropTypes.arrayOf(PropTypes.string).isRequired,
   buttonTexts: PropTypes.arrayOf(PropTypes.string).isRequired,
-  courseInstanceId: PropTypes.number
+  courseInstanceId: PropTypes.number,
 }
 
 export default RoleButtons

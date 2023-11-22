@@ -35,7 +35,7 @@ const reducers = combineReducers({
   error,
   admin,
   validation,
-  selfAssesmentList
+  selfAssesmentList,
 })
 
 const rootReducer = (state, action) => {
@@ -47,9 +47,6 @@ const rootReducer = (state, action) => {
   return reducers(state, action)
 }
 
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(thunk))
-)
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
 
 export default store

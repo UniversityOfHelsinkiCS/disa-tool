@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect,useDispatch } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { Button, Table } from 'semantic-ui-react'
 import ResponseAccordion from './ResponseAccordion'
 import { selectResponse } from '../actions/selfAssesmentList'
@@ -7,8 +7,10 @@ import { selectResponse } from '../actions/selfAssesmentList'
 const finalGradeMatches = (response) => {
   const { verification, finalGradeResponse } = response.response
   if (verification && finalGradeResponse) {
-    return verification.overallVerification.minGrade === finalGradeResponse.grade_name
-    || verification.overallVerification.maxGrade === finalGradeResponse.grade_name
+    return (
+      verification.overallVerification.minGrade === finalGradeResponse.grade_name ||
+      verification.overallVerification.maxGrade === finalGradeResponse.grade_name
+    )
   }
   return true
 }
@@ -17,10 +19,10 @@ export const calculateDifference = (response) => {
   if (!response.response.verification) return null
   const { categoryVerifications } = response.response.verification
   const { length } = categoryVerifications
-  const mean = categoryVerifications
-    .reduce((acc, cur) => (acc + (cur.wantedGrade.difference / length)), 0)
-  const sd = Math.sqrt((1 / (length - 1)) * categoryVerifications
-    .reduce((acc, cur) => (acc + ((cur.wantedGrade.difference - mean) ** 2)), 0))
+  const mean = categoryVerifications.reduce((acc, cur) => acc + cur.wantedGrade.difference / length, 0)
+  const sd = Math.sqrt(
+    (1 / (length - 1)) * categoryVerifications.reduce((acc, cur) => acc + (cur.wantedGrade.difference - mean) ** 2, 0)
+  )
   return { mean, sd }
 }
 
@@ -36,14 +38,14 @@ const responseDifferences = (response) => {
 
 const ResponseTable = (props) => {
   const { headerindex: index, asc } = props.sortedHeader
-  const { onSort, selected= false } = props
+  const { onSort, selected = false } = props
   const direction = asc ? 'ascending' : 'descending'
   const dispatch = useDispatch()
 
   const selectResponseAsync = (response) => {
-    selectResponse(response,dispatch)
+    selectResponse(response, dispatch)
   }
-  
+
   return (
     <Table sortable>
       <Table.Header>
@@ -64,13 +66,13 @@ const ResponseTable = (props) => {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {props.responses.map(response => (
+        {props.responses.map((response) => (
           <Table.Row key={response.id}>
             <Table.Cell collapsing>
               <Button
                 basic
-                color="blue"
-                icon={props.selected ? 'minus' : 'plus'}
+                color="blparamIdue"
+                icon={selected ? 'minus' : 'plus'}
                 value={response.id}
                 onClick={selectResponseAsync(response)}
               />
@@ -82,7 +84,7 @@ const ResponseTable = (props) => {
             {responseDifferences(response)}
             <Table.Cell collapsing>{new Date(response.updated_at).toLocaleDateString()}</Table.Cell>
           </Table.Row>
-      ))}
+        ))}
       </Table.Body>
     </Table>
   )

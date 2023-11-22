@@ -1,7 +1,7 @@
-import React, { useState,useEffect } from 'react'
-import { connect, useSelector ,useDispatch} from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { connect, useSelector, useDispatch } from 'react-redux'
 import { Container, Segment } from 'semantic-ui-react'
-import {useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { changeActive } from '../../actions/tasks'
 
 import Task from './Task'
@@ -15,88 +15,78 @@ import InfoBox from '../../../../utils/components/InfoBox'
 
 export const EditTasksTab = () => {
   const [activeTask, setActiveTask] = useState(null)
-  const task = useSelector(state => state.task)
-  const {course} = useSelector(state => state.course)
+  const task = useSelector((state) => state.task)
+  const { course } = useSelector((state) => state.course)
   const dispatch = useDispatch()
-  const { t, i18n } = useTranslation('translation', {
+  const { t } = useTranslation('translation', {
     keyPrefix: 'course',
-})
+  })
 
- useEffect(() => {
-  if(task.active === null) {
-    setActiveTask(null)
-   } else { 
-    const tempActiveTask = task.tasks.find(t =>{
-       return t.id === task.active
+  useEffect(() => {
+    if (task.active === null) {
+      setActiveTask(null)
+    } else {
+      const tempActiveTask = task.tasks.find((t) => {
+        return t.id === task.active
       })
-    setActiveTask(tempActiveTask)
-   }
- },[task])
+      setActiveTask(tempActiveTask)
+    }
+  }, [task])
 
- const  handleActiveTask = (e, { value }) => {
+  const handleActiveTask = (e, { value }) => {
     dispatch(changeActive(value))
   }
-    return (
-      <div className="editTasksTab">
+  return (
+    <div className="editTasksTab">
+      <Container>
+        <Segment clearing basic>
+          <InfoBox translationid="editTasksPage" buttonProps={{ floated: 'right' }} />
+        </Segment>
+      </Container>
+      <Container style={{ display: 'flex' }}>
+        <div style={{ flexGrow: 1 }}>
+          <SelectTaskDropdown tasks={task.tasks} activeTask={activeTask} handleActiveTask={handleActiveTask} />
+        </div>
+        <div>
+          <AddTaskForm
+            courseId={course.id}
+            newOrder={task.tasks.reduce((acc, { order }) => Math.max(acc, order), 0) + 1}
+          />
+        </div>
+      </Container>
+      {activeTask ? (
         <Container>
-          <Segment clearing basic>
-            <InfoBox translationid="editTasksPage" buttonProps={{ floated: 'right' }} />
-          </Segment>
+          <Task task={activeTask} courseId={course.id} />
         </Container>
-        <Container style={{ display: 'flex' }}>
-          <div style={{ flexGrow: 1 }}>
-            <SelectTaskDropdown
-              tasks={task.tasks}
-              activeTask={activeTask}
-              handleActiveTask={handleActiveTask}
-            />
-          </div>
-          <div>
-            <AddTaskForm
-              courseId={course.id}
-              newOrder={task.tasks.reduce(
-                (acc, { order }) => Math.max(acc, order),
-                0
-              ) + 1}
-            />
-          </div>
-        </Container>
-        {activeTask ? (
-          <Container>
-            <Task task={activeTask} courseId={course.id} />
-          </Container>
-        ) : null}
-        <Container>
-          <SingleAccordion
-            title={(
-              <div style={{ display: 'flex' }}>
-                <span style={{ marginRight: '20px' }}>Types</span>
-                {activeTask ? (
-                  <TypesDisplay
-                    defaultText={t('tasks.common.default')}
-                    defaultMultiplier={activeTask.defaultMultiplier}
-                    types={activeTask.types}
-                  />
-                ) : null}
-              </div>
-            )}
-          >
-            <Headerlist
-              courseId={course.id}
-              editing={false}
-            />
-          </SingleAccordion>
-        </Container>
-        <Container>
-          <SingleAccordion title={t('common.matrix')}>
-            <div style={{ overflowX: 'auto' }}>
-              <Matrix editing={false} showDetails />
+      ) : null}
+      <Container>
+        <SingleAccordion
+          title={
+            <div style={{ display: 'flex' }}>
+              <span style={{ marginRight: '20px' }}>Types</span>
+              {activeTask ? (
+                <TypesDisplay
+                  defaultText={t('tasks.common.default')}
+                  defaultMultiplier={activeTask.defaultMultiplier}
+                  types={activeTask.types}
+                />
+              ) : null}
             </div>
-          </SingleAccordion>
-        </Container>
-      </div>
-    )
-  }
+          }
+        >
+          <Headerlist courseId={course.id} editing={false} />
+        </SingleAccordion>
+      </Container>
+      <Container>
+        <SingleAccordion title={t('common.matrix')}>
+          <div style={{ overflowX: 'auto' }}>
+            <Matrix editing={false} showDetails />
+          </div>
+        </SingleAccordion>
+      </Container>
+    </div>
+  )
+}
 /*
 EditTasksTab.propTypes = {
   courseId: PropTypes.number.isRequired,

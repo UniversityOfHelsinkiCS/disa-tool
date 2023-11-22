@@ -12,11 +12,11 @@ export const Headerlist = (props) => {
   const headersNode = headers.map((header, index, headersArray) => {
     const slots = {
       previous: index > 0 ? (header.order + headersArray[index - 1].order) / 2 : header.order - 1,
-      next: index < headersArray.length - 1 ? (
-        (header.order + headersArray[index + 1].order) / 2
-      ) : header.order + 1
+      next: index < headersArray.length - 1 ? (header.order + headersArray[index + 1].order) / 2 : header.order + 1,
     }
-    if (index === headersArray.length - 1) { newOrder = slots.next }
+    if (index === headersArray.length - 1) {
+      newOrder = slots.next
+    }
     return (
       <TypeHeader
         key={header.id}
@@ -31,38 +31,32 @@ export const Headerlist = (props) => {
   return (
     <div className="Headerlist">
       {headersNode}
-      {props.editing ? (
-        <CreateHeaderForm courseId={props.courseId} newOrder={newOrder} />
-      ) : (
-        null
-      )}
+      {props.editing ? <CreateHeaderForm courseId={props.courseId} newOrder={newOrder} /> : null}
     </div>
   )
 }
 
 Headerlist.propTypes = {
-  headers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number
-  })).isRequired,
+  headers: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+    })
+  ).isRequired,
   editing: PropTypes.bool.isRequired,
   courseId: PropTypes.number.isRequired,
   activeTask: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    types: PropTypes.arrayOf(PropTypes.number).isRequired
-  })
+    types: PropTypes.arrayOf(PropTypes.number).isRequired,
+  }),
 }
 
 Headerlist.defaultProps = {
-  activeTask: null
+  activeTask: null,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   headers: state.type.headers,
-  activeTask: state.task.active === null ? (
-    null
-  ) : (
-    state.task.tasks.find(task => task.id === state.task.active)
-  )
+  activeTask: state.task.active === null ? null : state.task.tasks.find((task) => task.id === state.task.active),
 })
 
 export default connect(mapStateToProps, null)(Headerlist)

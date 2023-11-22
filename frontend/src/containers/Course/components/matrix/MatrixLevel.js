@@ -15,43 +15,42 @@ const DnDItem = dndItem('objective', {
     drop: (props, monitor) => {
       const { element } = props
       const drag = monitor.getItem()
-      if (
-        element.category_id === drag.category_id
-        &&
-        element.skill_level_id === drag.skill_level_id
-      ) { return }
+      if (element.category_id === drag.category_id && element.skill_level_id === drag.skill_level_id) {
+        return
+      }
       dropSpec.drop(props, monitor)
-    }
-  }
+    },
+  },
 })
 
-export const MatrixLevel = ({  
-  courseId= null,
-  activeTaskId= null,
+export const MatrixLevel = ({
+  courseId = null,
+  activeTaskId = null,
   showDetails = false,
   category,
-  level, 
-  editing, 
-  activeMap, 
+  level,
+  editing,
+  activeMap,
 }) => {
   const objectives = level.objectives.sort((a, b) => a.order - b.order)
   let newOrder = 1
 
   const asyncEditObjective = async (props) => {
     const response = await editObjective(props)
-        dispatch(response)
-    }
+    dispatch(response)
+  }
 
   const objectivesNode = objectives.map((objective, index, objectivesArray) => {
     const slots = {
-      previous: index > 0 ? (
-        (objective.order + objectivesArray[index - 1].order) / 2
-      ) : objective.order - 1,
-      next: index < objectivesArray.length - 1 ? (
-        (objective.order + objectivesArray[index + 1].order) / 2
-      ) : objective.order + 1
+      previous: index > 0 ? (objective.order + objectivesArray[index - 1].order) / 2 : objective.order - 1,
+      next:
+        index < objectivesArray.length - 1
+          ? (objective.order + objectivesArray[index + 1].order) / 2
+          : objective.order + 1,
     }
-    if (index === objectivesArray.length - 1) { newOrder = slots.next }
+    if (index === objectivesArray.length - 1) {
+      newOrder = slots.next
+    }
     return (
       <MatrixObjective
         key={objective.id}
@@ -67,25 +66,23 @@ export const MatrixLevel = ({
     )
   })
   return (
-    <Table.Cell textAlign="center" key={level.id} className="MatrixLevel" data-testid={`matrix-level-${category.id}-${level.id}`}>
-      <div>
-        {objectivesNode}
-      </div>
+    <Table.Cell
+      textAlign="center"
+      key={level.id}
+      className="MatrixLevel"
+      data-testid={`matrix-level-${category.id}-${level.id}`}
+    >
+      <div>{objectivesNode}</div>
       {editing ? (
         <DnDItem
           element={{
             order: newOrder,
             category_id: category.id,
-            skill_level_id: level.id
+            skill_level_id: level.id,
           }}
           mover={asyncEditObjective}
         >
-          <CreateObjectiveForm
-            levelId={level.id}
-            category={category}
-            courseId={courseId}
-            newOrder={newOrder}
-          />
+          <CreateObjectiveForm levelId={level.id} category={category} courseId={courseId} newOrder={newOrder} />
         </DnDItem>
       ) : null}
     </Table.Cell>

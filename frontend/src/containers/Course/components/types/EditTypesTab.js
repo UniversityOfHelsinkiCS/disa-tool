@@ -5,7 +5,7 @@ import { Container, Segment } from 'semantic-ui-react'
 import Headerlist from './Headerlist'
 import InfoBox from '../../../../utils/components/InfoBox'
 
-const EditTypesTab = props => (
+const EditTypesTab = (props) => (
   <div className="EditTypesTab">
     <Container>
       <Segment clearing basic>
@@ -17,7 +17,7 @@ const EditTypesTab = props => (
 )
 
 EditTypesTab.propTypes = {
-  courseId: PropTypes.number.isRequired
+  courseId: PropTypes.number.isRequired,
 }
 
 export default EditTypesTab

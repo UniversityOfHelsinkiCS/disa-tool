@@ -5,7 +5,7 @@ import * as types from '../../redux/action_types'
 const INITIAL_STATE = {
   editing: false,
   course: {},
-  loading: true
+  loading: true,
 }
 
 const courseGetDataResponse = {
@@ -13,18 +13,18 @@ const courseGetDataResponse = {
   data: {
     course: {
       id: 10,
-      name: 'course0'
-    }
-  }
+      name: 'course0',
+    },
+  },
 }
 
 const courseGetDataExpectation = {
   editing: false,
   course: {
     id: 10,
-    name: 'course0'
+    name: 'course0',
   },
-  loading: false
+  loading: false,
 }
 
 describe('course reducer', () => {
@@ -38,7 +38,7 @@ describe('course reducer', () => {
   it('parses data from COURSE_GET_DATA.', () => {
     state = courseReducer(state, {
       type: types.COURSE_GET_DATA,
-      response: courseGetDataResponse
+      response: courseGetDataResponse,
     })
     expect(state).toEqual(courseGetDataExpectation)
   })

@@ -8,55 +8,68 @@ import { removeSelfAssesment } from '../actions/selfAssesment'
 import Conditional from '../../../utils/components/Conditional'
 import { useTranslation } from 'react-i18next'
 
-const TeacherAssesmentList = ({
-  assesments,
-  toggleAssessment,
-}) => {
-  const courseInstanceId = useSelector(state => state.instance.id)
+const TeacherAssesmentList = ({ assesments, toggleAssessment }) => {
+  const courseInstanceId = useSelector((state) => state.instance.id)
 
   const dispatch = useDispatch()
 
-  const removeSelfAssesmentAsync =async (assessmentId) => {
+  const removeSelfAssesmentAsync = async (assessmentId) => {
     const response = await removeSelfAssesment(assessmentId)
     dispatch(response)
   }
 
-  const {t} = useTranslation("translation")
+  const { t } = useTranslation('translation')
   return (
     <List data-testid={`teacher-assessment-list`} selection divided size="big">
-      {orderBy(assesments, 'name').map(assesment => (
+      {orderBy(assesments, 'name').map((assesment) => (
         <List.Item key={assesment.id} style={{ display: 'flex' }}>
-          <List.Content
-            as={Link}
-            to={`/selfassessment/list/${assesment.id}`}
-            style={{ flexGrow: 1 }}
-          >
+          <List.Content as={Link} to={`/selfassessment/list/${assesment.id}`} style={{ flexGrow: 1 }}>
             {assesment.name}
           </List.Content>
-          <List.Content
-            style={{ paddingRight: '10px', paddingLeft: '10px' }}
-          >
-            <Button icon="eye" circular size="mini" basic color="teal" as={Link} to={`/course-instance/${courseInstanceId}/selfassessment/preview/${assesment.id}`} />
+          <List.Content style={{ paddingRight: '10px', paddingLeft: '10px' }}>
+            <Button
+              icon="eye"
+              circular
+              size="mini"
+              basic
+              color="teal"
+              as={Link}
+              to={`/course-instance/${courseInstanceId}/selfassessment/preview/${assesment.id}`}
+            />
             <Conditional visible={assesment.open}>
               <Popup
                 trigger={
                   <div style={{ display: 'inline' }}>
-                    <Button disabled icon="edit" circular size="mini" basic color="blue" as={Link} to={`/course-instance/${courseInstanceId}/selfassessment/edit/${assesment.id}`} />
+                    <Button
+                      disabled
+                      icon="edit"
+                      circular
+                      size="mini"
+                      basic
+                      color="blue"
+                      as={Link}
+                      to={`/course-instance/${courseInstanceId}/selfassessment/edit/${assesment.id}`}
+                    />
                   </div>
                 }
                 content={t('userPage.teacherAssesmentList.cannot_edit_open_assessment')}
               />
             </Conditional>
             <Conditional visible={!assesment.open}>
-              <Button icon="edit" circular size="mini" basic color="blue" as={Link} to={`/course-instance/${courseInstanceId}/selfassessment/edit/${assesment.id}`} />
+              <Button
+                icon="edit"
+                circular
+                size="mini"
+                basic
+                color="blue"
+                as={Link}
+                to={`/course-instance/${courseInstanceId}/selfassessment/edit/${assesment.id}`}
+              />
             </Conditional>
             <DeleteForm
               onExecute={() => removeSelfAssesmentAsync(assesment.id)}
               header={t('userPage.teacherAssesmentList.delete_header')}
-              prompt={[
-                t('userPage.teacherAssesmentList.delete_prompt_1'),
-                assesment.name
-              ]}
+              prompt={[t('userPage.teacherAssesmentList.delete_prompt_1'), assesment.name]}
             />
           </List.Content>
           <List.Content>
@@ -91,14 +104,19 @@ const TeacherAssesmentList = ({
             <Button
               name="feedbackOpen"
               color={assesment.show_feedback ? 'green' : 'red'}
-              content={assesment.show_feedback ? t('userPage.teacherAssesmentList.feedback_open') : t('userPage.teacherAssesmentList.feedback_closed')}
+              content={
+                assesment.show_feedback
+                  ? t('userPage.teacherAssesmentList.feedback_open')
+                  : t('userPage.teacherAssesmentList.feedback_closed')
+              }
               size="small"
               value={assesment.id}
               onClick={toggleAssessment}
               style={{ marginLeft: '5px' }}
             />
           </List.Content>
-        </List.Item>))}
+        </List.Item>
+      ))}
     </List>
   )
 }
@@ -111,6 +129,4 @@ TeacherAssesmentList.propTypes = {
 }
 */
 
-
 export default connect()(TeacherAssesmentList)
-

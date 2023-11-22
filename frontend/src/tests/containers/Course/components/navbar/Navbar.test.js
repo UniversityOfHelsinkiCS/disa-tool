@@ -5,11 +5,7 @@ describe('Navbar component', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(<Navbar
-      matchUrl="course/12"
-      pathname="course/12"
-      translate={() => ''}
-    />)
+    wrapper = shallow(<Navbar matchUrl="course/12" pathname="course/12" translate={() => ''} />)
   })
 
   it('renders', () => {
@@ -25,7 +21,7 @@ describe('Navbar component', () => {
   describe('when user navigates to /matrix', () => {
     beforeEach(() => {
       wrapper.setProps({
-        pathname: 'course/12/matrix'
+        pathname: 'course/12/matrix',
       })
     })
 
@@ -39,7 +35,7 @@ describe('Navbar component', () => {
   describe('when user navigates to /tasks', () => {
     beforeEach(() => {
       wrapper.setProps({
-        pathname: 'course/12/tasks'
+        pathname: 'course/12/tasks',
       })
     })
 
@@ -53,7 +49,7 @@ describe('Navbar component', () => {
   describe('when user navigates to /types', () => {
     beforeEach(() => {
       wrapper.setProps({
-        pathname: 'course/12/types'
+        pathname: 'course/12/types',
       })
     })
 

@@ -1,32 +1,28 @@
 import React from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { Segment, Header, Grid } from 'semantic-ui-react'
+import { useTranslation } from 'react-i18next'
 import { removeGrade } from '../../actions/grades'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditGradeForm from './EditGradeForm'
 import dndItem from '../../../../utils/components/DnDItem'
-import { useTranslation } from 'react-i18next'
 
 const DnDItem = dndItem('grade')
 
-const parseName = object => (object ? object.name : null)
+const parseName = (object) => (object ? object.name : null)
 
 const Grade = (props) => {
-  const {t} = useTranslation("translation", {keyPrefix: "course.grades.grade"})
+  const { t } = useTranslation('translation', { keyPrefix: 'course.grades.grade' })
   const dispatch = useDispatch()
 
-  const asyncRemoveGrade = async ({id}) => {
+  const asyncRemoveGrade = async ({ id }) => {
     const response = await removeGrade({
-      id: id
+      id,
     })
     dispatch(response)
   }
   return (
-    <DnDItem
-      element={props.grade}
-      mover={props.moveGrade}
-      slots={props.slots}
-    >
+    <DnDItem element={props.grade} mover={props.moveGrade} slots={props.slots}>
       <div className="Grade">
         <Segment>
           <Header>{props.grade.name}</Header>
@@ -36,9 +32,7 @@ const Grade = (props) => {
                 <p>
                   <span>{t('skill_level')}</span>
                   <span>: </span>
-                  <strong>
-                    {parseName(props.levels.find(level => level.id === props.grade.skill_level_id))}
-                  </strong>
+                  <strong>{parseName(props.levels.find((level) => level.id === props.grade.skill_level_id))}</strong>
                 </p>
               </Grid.Column>
               <Grid.Column width={4}>
@@ -52,9 +46,7 @@ const Grade = (props) => {
                 <p>
                   <span>{t('prerequisite')}</span>
                   <span>: </span>
-                  <strong>
-                    {parseName(props.grades.find(grade => grade.id === props.grade.prerequisite))}
-                  </strong>
+                  <strong>{parseName(props.grades.find((grade) => grade.id === props.grade.prerequisite))}</strong>
                 </p>
               </Grid.Column>
               <Grid.Column width={2}>
@@ -62,7 +54,7 @@ const Grade = (props) => {
                   <div className="flexBlock">
                     <EditGradeForm
                       gradeId={props.grade.id}
-                      grades={props.grades.filter(grade => grade.id !== props.grade.id)}
+                      grades={props.grades.filter((grade) => grade.id !== props.grade.id)}
                       levels={props.levels}
                     />
                   </div>
@@ -70,10 +62,7 @@ const Grade = (props) => {
                     <DeleteForm
                       onExecute={() => asyncRemoveGrade({ id: props.grade.id })}
                       header={t('delete_header')}
-                      prompt={[
-                        t('delete_prompt_1'),
-                        props.grade.name
-                      ]}
+                      prompt={[t('delete_prompt_1'), props.grade.name]}
                     />
                   </div>
                 </div>

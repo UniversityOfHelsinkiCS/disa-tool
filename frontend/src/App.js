@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBoundary } from 'react-error-boundary'
 import { withRouter } from 'react-router-dom'
-import { useDispatch,connect, useSelector } from 'react-redux'
+import { useDispatch, connect, useSelector } from 'react-redux'
 import { LocalizeProvider } from 'react-localize-redux'
 import * as Sentry from '@sentry/browser'
 import { getUserAction } from './actions/actions'
@@ -12,19 +12,18 @@ import LocalizeWrapper from './containers/Localize/LocalizeWrapper'
 
 const App = (props) => {
   const dispatch = useDispatch()
-  const user = useSelector(state => state.user)
+  const user = useSelector((state) => state.user)
   let sessionAliveInterval = null
 
-  const getUserAsync =async () => {
+  const getUserAsync = async () => {
     await getUserAction(dispatch)
-
   }
 
   useEffect(() => {
     getUserAsync()
     sessionAliveInterval = setInterval(async () => {
       try {
-await getUser()
+        await getUser()
       } catch (e) {}
     }, 60 * 1000)
     return () => {
@@ -33,7 +32,7 @@ await getUser()
         sessionAliveInterval = null
       }
     }
-  },[])
+  }, [])
 
   const logError = (err) => {
     console.log(err)
@@ -43,19 +42,17 @@ await getUser()
     Sentry.captureException(err)
   }
 
-    return (
-      <ErrorBoundary fallback={<div>Something went wrong</div>}  onError={logError}>
-
+  return (
+    <ErrorBoundary fallback={<div>Something went wrong</div>} onError={logError}>
       <LocalizeProvider>
         <LocalizeWrapper>
           <Nav />
           <Main />
         </LocalizeWrapper>
       </LocalizeProvider>
-      </ErrorBoundary>
-
-    )
-  }
+    </ErrorBoundary>
+  )
+}
 /*
 App.propTypes = {
   user: PropTypes.shape({ name: PropTypes.string, id: PropTypes.number }).isRequired,

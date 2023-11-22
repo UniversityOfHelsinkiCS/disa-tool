@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   selfAssesmentName: null,
   responses: [],
   selectedResponses: [],
-  activeResponse: null
+  activeResponse: null,
 }
 
 const selfAssesmentListReducer = (state = INITIAL_STATE, action) => {
@@ -15,48 +15,44 @@ const selfAssesmentListReducer = (state = INITIAL_STATE, action) => {
         ...state,
         selfAssesmentId: action.selfAssesmentId,
         selfAssesmentName: action.selfAssesmentName,
-        responses: action.responses || []
+        responses: action.responses || [],
       }
     case types.SELF_ASSESMENT_LIST_RESET:
       return INITIAL_STATE
     case types.SELF_ASSESMENT_LIST_SELECT_RESPONSE: {
       const { selectedResponses } = state
-      const newSelectedResponses = (
-        selectedResponses.find(resp => resp.id === action.selected.id)
-      ) ? (
-          selectedResponses.filter(resp => resp.id !== action.selected.id)
-        ) : (
-          [...selectedResponses, action.selected]
-        )
+      const newSelectedResponses = selectedResponses.find((resp) => resp.id === action.selected.id)
+        ? selectedResponses.filter((resp) => resp.id !== action.selected.id)
+        : [...selectedResponses, action.selected]
       return {
         ...state,
-        selectedResponses: newSelectedResponses
+        selectedResponses: newSelectedResponses,
       }
     }
     case types.SELF_ASSESMENT_LIST_ACTIVATE_RESPONSE:
       return {
         ...state,
-        activeResponse: action.activated
+        activeResponse: action.activated,
       }
     case types.SELF_ASSESMENT_LIST_SELECT_ALL:
       return {
         ...state,
-        selectedResponses: state.responses
+        selectedResponses: state.responses,
       }
     case types.SELF_ASSESMENT_LIST_DESELECT_ALL:
       return {
         ...state,
-        selectedResponses: []
+        selectedResponses: [],
       }
     case types.SELF_ASSESMENT_LIST_REGENERATE:
       return {
         ...state,
-        selectedResponses: state.selectedResponses.filter((
-          response => !action.newResponses.find(newResponse => newResponse.id === response.id)
-        )).concat(action.newResponses),
-        responses: state.responses.filter((
-          response => !action.newResponses.find(newResponse => newResponse.id === response.id)
-        )).concat(action.newResponses)
+        selectedResponses: state.selectedResponses
+          .filter((response) => !action.newResponses.find((newResponse) => newResponse.id === response.id))
+          .concat(action.newResponses),
+        responses: state.responses
+          .filter((response) => !action.newResponses.find((newResponse) => newResponse.id === response.id))
+          .concat(action.newResponses),
       }
     default:
       return state

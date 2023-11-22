@@ -13,7 +13,7 @@ export const CourseSelfAssessmentList = ({ assesments, isTeacher, toggleAssessme
 CourseSelfAssessmentList.propTypes = {
   assesments: arrayOf(shape({})).isRequired,
   isTeacher: bool.isRequired,
-  toggleAssessment: func.isRequired
+  toggleAssessment: func.isRequired,
 }
 
 export default CourseSelfAssessmentList

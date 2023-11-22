@@ -41,17 +41,17 @@ const mapType = (input) => {
     case 'string':
       return {
         success: input,
-        failure: input
+        failure: input,
       }
     case 'object':
       return {
         success: input.success || defaultSuccess,
-        failure: input.failure || defaultFailure
+        failure: input.failure || defaultFailure,
       }
     default:
       return {
         success: defaultSuccess,
-        failure: defaultFailure
+        failure: defaultFailure,
       }
   }
 }
@@ -68,14 +68,7 @@ const mapType = (input) => {
  * }
  */
 export const testService = (options) => {
-  const {
-    func,
-    data = {},
-    mockResponse = {},
-    apiRoute,
-    apiMethod = 'get',
-    mockStatus = 200
-  } = options
+  const { func, data = {}, mockResponse = {}, apiRoute, apiMethod = 'get', mockStatus = 200 } = options
   const type = mapType(options.type)
 
   if (apiRoute === undefined) {
@@ -106,7 +99,7 @@ export const testService = (options) => {
         await withDispatch(data)
         expect(dispatch).toHaveBeenCalledWith({
           type: type.success,
-          response: mockResponse
+          response: mockResponse,
         })
       })
     })
@@ -122,7 +115,7 @@ export const testService = (options) => {
         await withDispatch(data)
         expect(dispatch).toHaveBeenCalledWith({
           type: type.failure,
-          response: { testFail: true }
+          response: { testFail: true },
         })
       })
     })

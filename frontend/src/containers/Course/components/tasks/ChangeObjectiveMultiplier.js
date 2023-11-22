@@ -9,11 +9,13 @@ const ChangeObjectiveMultiplier = ({
   changeMultiplier,
   defaultText,
   orText,
-  modifyText
+  modifyText,
 }) => (
   <Form.Field key={objective.id}>
     <Container>
-      <Label basic size="large">{objective.name}</Label>
+      <Label basic size="large">
+        {objective.name}
+      </Label>
     </Container>
     <Container>
       <Button.Group size="small">

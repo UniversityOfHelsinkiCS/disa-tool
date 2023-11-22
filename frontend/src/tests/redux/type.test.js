@@ -3,7 +3,7 @@ import typeReducer from '../../redux/type'
 import * as types from '../../redux/action_types'
 
 const INITIAL_STATE = {
-  headers: []
+  headers: [],
 }
 
 const courseGetDataResponse = {
@@ -17,14 +17,14 @@ const courseGetDataResponse = {
           {
             id: 10,
             name: 't0',
-            multiplier: 1
+            multiplier: 1,
           },
           {
             id: 11,
             name: 't1',
-            multiplier: 0.9
-          }
-        ]
+            multiplier: 0.9,
+          },
+        ],
       },
       {
         id: 1,
@@ -33,17 +33,17 @@ const courseGetDataResponse = {
           {
             id: 12,
             name: 't2',
-            multiplier: 0.8
+            multiplier: 0.8,
           },
           {
             id: 13,
             name: 't3',
-            multiplier: 0.7
-          }
-        ]
-      }
-    ]
-  }
+            multiplier: 0.7,
+          },
+        ],
+      },
+    ],
+  },
 }
 
 const courseGetDataExpectation = {
@@ -55,14 +55,14 @@ const courseGetDataExpectation = {
         {
           id: 10,
           name: 't0',
-          multiplier: 1
+          multiplier: 1,
         },
         {
           id: 11,
           name: 't1',
-          multiplier: 0.9
-        }
-      ]
+          multiplier: 0.9,
+        },
+      ],
     },
     {
       id: 1,
@@ -71,24 +71,24 @@ const courseGetDataExpectation = {
         {
           id: 12,
           name: 't2',
-          multiplier: 0.8
+          multiplier: 0.8,
         },
         {
           id: 13,
           name: 't3',
-          multiplier: 0.7
-        }
-      ]
-    }
-  ]
+          multiplier: 0.7,
+        },
+      ],
+    },
+  ],
 }
 
 const typeDeleteResponse = {
   message: 'test message',
   deleted: {
     id: 11,
-    type_header_id: 2
-  }
+    type_header_id: 2,
+  },
 }
 
 const typeDeleteExpectation = {
@@ -100,9 +100,9 @@ const typeDeleteExpectation = {
         {
           id: 10,
           name: 't0',
-          multiplier: 1
-        }
-      ]
+          multiplier: 1,
+        },
+      ],
     },
     {
       id: 1,
@@ -111,16 +111,16 @@ const typeDeleteExpectation = {
         {
           id: 12,
           name: 't2',
-          multiplier: 0.8
+          multiplier: 0.8,
         },
         {
           id: 13,
           name: 't3',
-          multiplier: 0.7
-        }
-      ]
-    }
-  ]
+          multiplier: 0.7,
+        },
+      ],
+    },
+  ],
 }
 
 const typeCreateResponse = {
@@ -129,8 +129,8 @@ const typeCreateResponse = {
     id: 20,
     name: 't10',
     multiplier: 1,
-    type_header_id: 1
-  }
+    type_header_id: 1,
+  },
 }
 
 const typeCreateExpectation = {
@@ -142,14 +142,14 @@ const typeCreateExpectation = {
         {
           id: 10,
           name: 't0',
-          multiplier: 1
+          multiplier: 1,
         },
         {
           id: 11,
           name: 't1',
-          multiplier: 0.9
-        }
-      ]
+          multiplier: 0.9,
+        },
+      ],
     },
     {
       id: 1,
@@ -158,28 +158,28 @@ const typeCreateExpectation = {
         {
           id: 12,
           name: 't2',
-          multiplier: 0.8
+          multiplier: 0.8,
         },
         {
           id: 13,
           name: 't3',
-          multiplier: 0.7
+          multiplier: 0.7,
         },
         {
           id: 20,
           name: 't10',
-          multiplier: 1
-        }
-      ]
-    }
-  ]
+          multiplier: 1,
+        },
+      ],
+    },
+  ],
 }
 
 const typeHeaderDeleteResponse = {
   message: 'test message',
   deleted: {
-    id: 2
-  }
+    id: 2,
+  },
 }
 
 const typeHeaderDeleteExpectation = {
@@ -191,16 +191,16 @@ const typeHeaderDeleteExpectation = {
         {
           id: 12,
           name: 't2',
-          multiplier: 0.8
+          multiplier: 0.8,
         },
         {
           id: 13,
           name: 't3',
-          multiplier: 0.7
-        }
-      ]
-    }
-  ]
+          multiplier: 0.7,
+        },
+      ],
+    },
+  ],
 }
 
 const typeHeaderCreateResponse = {
@@ -208,8 +208,8 @@ const typeHeaderCreateResponse = {
   created: {
     id: 8,
     name: 'th2',
-    types: []
-  }
+    types: [],
+  },
 }
 
 const typeHeaderCreateExpectation = {
@@ -221,14 +221,14 @@ const typeHeaderCreateExpectation = {
         {
           id: 10,
           name: 't0',
-          multiplier: 1
+          multiplier: 1,
         },
         {
           id: 11,
           name: 't1',
-          multiplier: 0.9
-        }
-      ]
+          multiplier: 0.9,
+        },
+      ],
     },
     {
       id: 1,
@@ -237,21 +237,21 @@ const typeHeaderCreateExpectation = {
         {
           id: 12,
           name: 't2',
-          multiplier: 0.8
+          multiplier: 0.8,
         },
         {
           id: 13,
           name: 't3',
-          multiplier: 0.7
-        }
-      ]
+          multiplier: 0.7,
+        },
+      ],
     },
     {
       id: 8,
       name: 'th2',
-      types: []
-    }
-  ]
+      types: [],
+    },
+  ],
 }
 
 describe('type reducer', () => {
@@ -265,7 +265,7 @@ describe('type reducer', () => {
   it('parses data from COURSE_GET_DATA', () => {
     state = typeReducer(state, {
       type: types.COURSE_GET_DATA,
-      response: courseGetDataResponse
+      response: courseGetDataResponse,
     })
     expect(state).toEqual(courseGetDataExpectation)
   })
@@ -274,7 +274,7 @@ describe('type reducer', () => {
     beforeEach(() => {
       state = typeReducer(state, {
         type: types.COURSE_GET_DATA,
-        response: courseGetDataResponse
+        response: courseGetDataResponse,
       })
       deepFreeze(state)
     })
@@ -282,7 +282,7 @@ describe('type reducer', () => {
     it('deletes a type with TYPE_DELETE.', () => {
       state = typeReducer(state, {
         type: types.TYPE_DELETE,
-        response: typeDeleteResponse
+        response: typeDeleteResponse,
       })
       expect(state).toEqual(typeDeleteExpectation)
     })
@@ -290,7 +290,7 @@ describe('type reducer', () => {
     it('appends a type with TYPE_CREATE.', () => {
       state = typeReducer(state, {
         type: types.TYPE_CREATE,
-        response: typeCreateResponse
+        response: typeCreateResponse,
       })
       expect(state).toEqual(typeCreateExpectation)
     })
@@ -298,7 +298,7 @@ describe('type reducer', () => {
     it('deletes a type header with TYPE_HEADER_DELETE.', () => {
       state = typeReducer(state, {
         type: types.TYPE_HEADER_DELETE,
-        response: typeHeaderDeleteResponse
+        response: typeHeaderDeleteResponse,
       })
       expect(state).toEqual(typeHeaderDeleteExpectation)
     })
@@ -306,7 +306,7 @@ describe('type reducer', () => {
     it('appends a type header with TYPE_HEADER_CREATE.', () => {
       state = typeReducer(state, {
         type: types.TYPE_HEADER_CREATE,
-        response: typeHeaderCreateResponse
+        response: typeHeaderCreateResponse,
       })
       expect(state).toEqual(typeHeaderCreateExpectation)
     })

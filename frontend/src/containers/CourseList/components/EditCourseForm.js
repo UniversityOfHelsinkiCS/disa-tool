@@ -10,9 +10,9 @@ import { useTranslation } from 'react-i18next'
 
 export const EditCourseForm = (props) => {
   const [values, setValues] = useState({
-      eng: '',
-      fin: '',
-      swe: ''
+    eng: '',
+    fin: '',
+    swe: '',
   })
   const [loading, setLoading] = useState(true)
   const [triggered, setTriggered] = useState(false)
@@ -23,8 +23,8 @@ export const EditCourseForm = (props) => {
     dispatch(response)
   }
 
-  const editCourseAsync = async ({id,eng_name,fin_name,swe_name}) => {
-    const response = await editCourse({id,eng_name,fin_name,swe_name})
+  const editCourseAsync = async ({ id, eng_name, fin_name, swe_name }) => {
+    const response = await editCourse({ id, eng_name, fin_name, swe_name })
     dispatch(response)
   }
 
@@ -33,7 +33,7 @@ export const EditCourseForm = (props) => {
       id: props.course_id,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
-      swe_name: e.target.swe_name.value
+      swe_name: e.target.swe_name.value,
     })
     getAllCoursesAsync()
     setTriggered(false)
@@ -44,46 +44,41 @@ export const EditCourseForm = (props) => {
     if (triggered) return
     setTriggered(true)
     const courseDetails = await getCourse({
-        id: props.courseId
-      })
+      id: props.courseId,
+    })
     const courseData = courseDetails.data
     const { eng_name, fin_name, swe_name } = courseData
     setValues({
-        eng: eng_name,
-        fin: fin_name,
-        swe: swe_name
+      eng: eng_name,
+      fin: fin_name,
+      swe: swe_name,
     })
     setLoading(false)
   }
 
-  const {t} = useTranslation('translation')
+  const { t } = useTranslation('translation')
 
-    const contentPrompt = t('courseList.editCourseForm.renameCourse')
-    return (
-      <div className="EditCourseForm">
-        <ModalForm
-          header={t('courseList.editCourseForm.rename')}
-          trigger={<Button
-            style={{margin: "10px"}}
-            type="button"
-            color="teal"
-            fluid
-            basic
-            compact
-          >
+  const contentPrompt = t('courseList.editCourseForm.renameCourse')
+  return (
+    <div className="EditCourseForm">
+      <ModalForm
+        header={t('courseList.editCourseForm.rename')}
+        trigger={
+          <Button style={{ margin: '10px' }} type="button" color="teal" fluid basic compact>
             {t('courseList.editCourseForm.rename_trigger')}
-          </Button>}
-          onSubmit={editCourseSubmit}
-          actions={saveActions()}
-          loading={loading}
-          onOpen={loadDetails}
-        >
-          <p>{contentPrompt}.</p>
-          <MultilingualField field="name" fieldDisplay={t('common.name')} values={values} />
-        </ModalForm>
-      </div>
-    )
-  }
+          </Button>
+        }
+        onSubmit={editCourseSubmit}
+        actions={saveActions()}
+        loading={loading}
+        onOpen={loadDetails}
+      >
+        <p>{contentPrompt}.</p>
+        <MultilingualField field="name" fieldDisplay={t('common.name')} values={values} />
+      </ModalForm>
+    </div>
+  )
+}
 /*
 EditCourseForm.propTypes = {
   course_id: PropTypes.number.isRequired,

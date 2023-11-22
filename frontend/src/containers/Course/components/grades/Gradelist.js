@@ -11,38 +11,28 @@ const Gradelist = (props) => {
   const gradesNode = grades.map((grade, index, gradesArray) => {
     const slots = {
       previous: index > 0 ? (grade.order + gradesArray[index - 1].order) / 2 : grade.order - 1,
-      next: index < gradesArray.length - 1 ? (
-        (grade.order + gradesArray[index + 1].order) / 2
-      ) : grade.order + 1
+      next: index < gradesArray.length - 1 ? (grade.order + gradesArray[index + 1].order) / 2 : grade.order + 1,
     }
-    if (index === gradesArray.length - 1) { newOrder = slots.next }
-    return (
-      <Grade
-        key={grade.id}
-        grade={grade}
-        levels={levels}
-        grades={grades}
-        slots={slots}
-      />
-    )
+    if (index === gradesArray.length - 1) {
+      newOrder = slots.next
+    }
+    return <Grade key={grade.id} grade={grade} levels={levels} grades={grades} slots={slots} />
   })
   return (
     <div className="Gradelist">
       {gradesNode}
-      <CreateGradeForm
-        levels={levels}
-        grades={grades}
-        newOrder={newOrder}
-      />
+      <CreateGradeForm levels={levels} grades={grades} newOrder={newOrder} />
     </div>
   )
 }
 
 Gradelist.propTypes = {
-  grades: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired
-  })).isRequired,
-  levels: PropTypes.arrayOf(PropTypes.object).isRequired
+  grades: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+  levels: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 export default Gradelist

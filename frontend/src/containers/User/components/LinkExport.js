@@ -14,8 +14,8 @@ const linkToast = () => {
     type: 'TOAST',
     payload: {
       type: 'message',
-      toast: 'Linkki kopioitu leikepöydälle.'
-    }
+      toast: 'Linkki kopioitu leikepöydälle.',
+    },
   })
 }
 
@@ -32,15 +32,7 @@ const LinkExport = (props) => {
       <Table.Cell>
         <CopyToClipboard text={url} onCopy={linkToast}>
           <div>
-            <Popup
-              trigger={
-                <Button
-                  icon={{ name: 'copy' }}
-                  size="mini"
-                />
-              }
-              content="Kopioi leikepöydälle"
-            />
+            <Popup trigger={<Button icon={{ name: 'copy' }} size="mini" />} content="Kopioi leikepöydälle" />
           </div>
         </CopyToClipboard>
       </Table.Cell>

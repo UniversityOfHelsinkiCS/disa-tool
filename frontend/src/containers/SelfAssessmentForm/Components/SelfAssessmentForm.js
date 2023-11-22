@@ -16,15 +16,18 @@ const SelfAssessmentForm = (props) => {
   const { type } = structure
   const { grade } = structure.headers
   const editMode = edit && !preview
-  const questionModule = editMode ? (type === 'category' ? EditCategoryModule : EditObjectiveModule) : (type === 'category' ? CategoryQuestionModule : ObjectiveQuestionModule) //eslint-disable-line
+  const questionModule = editMode
+    ? type === 'category'
+      ? EditCategoryModule
+      : EditObjectiveModule
+    : type === 'category'
+      ? CategoryQuestionModule
+      : ObjectiveQuestionModule //eslint-disable-line
   const finalGradeModule = editMode ? EditCategoryModule : CategoryQuestionModule
-  const dummyPropToEnsureChange = () => (null)
+  const dummyPropToEnsureChange = () => null
   return (
     <div>
-      <SelfAssessmentInfo
-        formData={formData}
-        edit={editMode}
-      />
+      <SelfAssessmentInfo formData={formData} edit={editMode} />
       <SelfAssessmentSection
         infoBoxTranslationId={editMode ? 'SelfAssessmentQuestionsEdit' : null}
         name={structure.questionModuleName}
@@ -38,7 +41,7 @@ const SelfAssessmentForm = (props) => {
         existingAnswer={questionModuleResponses}
       />
 
-      {structure.openQuestions.questions.length > 0 || editMode ?
+      {structure.openQuestions.questions.length > 0 || editMode ? (
         <SelfAssessmentSection
           infoBoxTranslationId={editMode ? 'SelfAssessmentOpenQuestionsEdit' : null}
           name={structure.openQuestions.name}
@@ -50,11 +53,9 @@ const SelfAssessmentForm = (props) => {
           errors={responseErrors.openQErrors}
           existingAnswer={openQuestionResponses}
         />
-        :
-        null
-      }
+      ) : null}
 
-      {structure.finalGrade.includedInAssesment || editMode ?
+      {structure.finalGrade.includedInAssesment || editMode ? (
         <SelfAssessmentSection
           infoBoxTranslationId={editMode ? 'SelfAssessmentFinalGradeEdit' : null}
           headers={grade}
@@ -69,8 +70,7 @@ const SelfAssessmentForm = (props) => {
           grades={grades}
           existingAnswer={finalGradeResponse}
         />
-        :
-        null}
+      ) : null}
     </div>
   )
 }
@@ -102,4 +102,3 @@ SelfAssessmentForm.propTypes = {
 }
 */
 export default SelfAssessmentForm
-

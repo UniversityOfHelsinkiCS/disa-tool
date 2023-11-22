@@ -4,17 +4,17 @@ import { testService } from '../../../testUtils'
 testService({
   func: getGrades,
   type: {
-    success: 'GRADE_GET_MANY'
+    success: 'GRADE_GET_MANY',
   },
   data: { id: 3 },
   apiRoute: '/grades/course/3',
-  apiMethod: 'get'
+  apiMethod: 'get',
 })
 
 testService({
   func: addGrade,
   type: {
-    success: 'GRADE_CREATE'
+    success: 'GRADE_CREATE',
   },
   data: {
     eng_name: 'en',
@@ -22,26 +22,26 @@ testService({
     swe_name: 'sn',
     skill_level_id: 1,
     needed_for_grade: 0.5,
-    prerequisite: null
+    prerequisite: null,
   },
   apiRoute: '/grades/create',
-  apiMethod: 'post'
+  apiMethod: 'post',
 })
 
 testService({
   func: removeGrade,
   type: {
-    success: 'GRADE_DELETE'
+    success: 'GRADE_DELETE',
   },
   data: { id: 3 },
   apiRoute: '/grades/3',
-  apiMethod: 'delete'
+  apiMethod: 'delete',
 })
 
 testService({
   func: editGrade,
   type: {
-    success: 'GRADE_EDIT'
+    success: 'GRADE_EDIT',
   },
   data: {
     id: 3,
@@ -50,8 +50,8 @@ testService({
     swe_name: 'sn',
     skill_level_id: 1,
     needed_for_grade: 0.5,
-    prerequisite: null
+    prerequisite: null,
   },
   apiRoute: '/grades/3',
-  apiMethod: 'put'
+  apiMethod: 'put',
 })

@@ -6,14 +6,14 @@ import {
   addTypeToTask,
   removeTypeFromTask,
   editTask,
-  editTaskObjectives
+  editTaskObjectives,
 } from '../../../../containers/Course/actions/tasks'
 import { testService } from '../../../testUtils'
 
 testService({
   func: addTask,
   type: {
-    success: 'TASK_CREATE'
+    success: 'TASK_CREATE',
   },
   data: {
     course_instance_id: 1,
@@ -23,80 +23,80 @@ testService({
     info: 'info',
     eng_description: 'ed',
     fin_description: 'fd',
-    swe_description: 'sd'
+    swe_description: 'sd',
   },
   apiRoute: '/tasks/create',
-  apiMethod: 'post'
+  apiMethod: 'post',
 })
 
 testService({
   func: removeTask,
   type: {
-    success: 'TASK_DELETE'
+    success: 'TASK_DELETE',
   },
   data: {
-    id: 3
+    id: 3,
   },
   apiRoute: '/tasks/3',
-  apiMethod: 'delete'
+  apiMethod: 'delete',
 })
 
 testService({
   func: addObjectiveToTask,
   type: {
-    success: 'TASK_ATTACH_OBJECTIVE'
+    success: 'TASK_ATTACH_OBJECTIVE',
   },
   data: {
     task_id: 7,
-    objective_id: 4
+    objective_id: 4,
   },
   apiRoute: '/tasks/objectives/attach',
-  apiMethod: 'post'
+  apiMethod: 'post',
 })
 
 testService({
   func: removeObjectiveFromTask,
   type: {
-    success: 'TASK_DETACH_OBJECTIVE'
+    success: 'TASK_DETACH_OBJECTIVE',
   },
   data: {
     task_id: 11,
-    objective_id: 23
+    objective_id: 23,
   },
   apiRoute: '/tasks/objectives/detach',
-  apiMethod: 'post'
+  apiMethod: 'post',
 })
 
 testService({
   func: addTypeToTask,
   type: {
-    success: 'TASK_ATTACH_TYPE'
+    success: 'TASK_ATTACH_TYPE',
   },
   data: {
     type_id: 7,
-    task_id: 4
+    task_id: 4,
   },
   apiRoute: '/tasks/types/attach',
-  apiMethod: 'post'
+  apiMethod: 'post',
 })
 
 testService({
   func: removeTypeFromTask,
   type: {
-    success: 'TASK_DETACH_TYPE'
+    success: 'TASK_DETACH_TYPE',
   },
   data: {
     type_id: 11,
-    task_id: 23
+    task_id: 23,
   },
   apiRoute: '/tasks/types/detach',
-  apiMethod: 'post'
+  apiMethod: 'post',
 })
 
 testService({
   func: editTask,
   type: {
-    success: 'TASK_EDIT'
+    success: 'TASK_EDIT',
   },
   data: {
     id: 3,
@@ -106,21 +106,21 @@ testService({
     info: 'info',
     eng_description: 'ed',
     fin_description: 'fd',
-    swe_description: 'sd'
+    swe_description: 'sd',
   },
   apiRoute: '/tasks/3',
-  apiMethod: 'put'
+  apiMethod: 'put',
 })
 
 testService({
   func: editTaskObjectives,
   type: {
-    success: 'TASK_EDIT_OBJECTIVE_MULTIPLIERS'
+    success: 'TASK_EDIT_OBJECTIVE_MULTIPLIERS',
   },
   data: {
     task_id: 3,
-    objectives: []
+    objectives: [],
   },
   apiRoute: '/tasks/objectives/edit',
-  apiMethod: 'post'
+  apiMethod: 'post',
 })

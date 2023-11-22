@@ -7,27 +7,29 @@ import Header from '../Header'
 import { useTranslation } from 'react-i18next'
 
 const EditCategorymodule = (props) => {
-  const { name, textFieldOn, id, includedInAssesment,headers } = props.data
+  const { name, textFieldOn, id, includedInAssesment, headers } = props.data
   const { final } = props
-const dispatch = useDispatch()
-  const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.questionModules.editCategoryModule"})
+  const dispatch = useDispatch()
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'selfAssessmentForm.questionModules.editCategoryModule',
+  })
 
   return (
     <div data-testid={`edit-category-module-${id}`}>
-      <Grid columns="4" padded >
+      <Grid columns="4" padded>
         <Grid.Column width={final ? 8 : null}>
           <Header
             name={name}
             edit
             headers={headers}
             editButton={final}
-            style={{ color: (includedInAssesment ? 'black' : 'grey'), textAlign: 'left' }}
+            style={{ color: includedInAssesment ? 'black' : 'grey', textAlign: 'left' }}
           />
           <Checkbox
             data-testid={`show-explanation-button-${id}`}
             style={{ marginTop: '10px' }}
             defaultChecked={textFieldOn}
-            onChange={() => toggleTextField(id,dispatch)}
+            onChange={() => toggleTextField(id, dispatch)}
             label={t('label')}
             disabled={!includedInAssesment}
           />
@@ -40,13 +42,12 @@ const dispatch = useDispatch()
             size="large"
             basic
             color={includedInAssesment ? 'green' : 'red'}
-            onClick={() => toggleFormPartAction(id, 'category',dispatch)}
-          >{includedInAssesment ? t('includedButton') : t('notIncludedButton')}
+            onClick={() => toggleFormPartAction(id, 'category', dispatch)}
+          >
+            {includedInAssesment ? t('includedButton') : t('notIncludedButton')}
           </Button>
         </Grid.Column>
-        <Grid.Column verticalAlign="middle">
-          {!final ? <UpOrDownToggle id={id} /> : null}
-        </Grid.Column>
+        <Grid.Column verticalAlign="middle">{!final ? <UpOrDownToggle id={id} /> : null}</Grid.Column>
       </Grid>
       <Divider fitted />
     </div>

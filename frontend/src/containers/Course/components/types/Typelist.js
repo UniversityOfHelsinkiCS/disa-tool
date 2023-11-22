@@ -13,10 +13,12 @@ const DnDItem = dndItem('type', {
     drop: (props, monitor) => {
       const { element } = props
       const drag = monitor.getItem()
-      if (element.type_header_id === drag.type_header_id) { return }
+      if (element.type_header_id === drag.type_header_id) {
+        return
+      }
       dropSpec.drop(props, monitor)
-    }
-  }
+    },
+  },
 })
 
 export const Typelist = (props) => {
@@ -25,11 +27,11 @@ export const Typelist = (props) => {
   const typesNode = types.map((type, index, typesArray) => {
     const slots = {
       previous: index > 0 ? (type.order + typesArray[index - 1].order) / 2 : type.order - 1,
-      next: index < typesArray.length - 1 ? (
-        (type.order + typesArray[index + 1].order) / 2
-      ) : type.order + 1
+      next: index < typesArray.length - 1 ? (type.order + typesArray[index + 1].order) / 2 : type.order + 1,
     }
-    if (index === typesArray.length - 1) { newOrder = slots.next }
+    if (index === typesArray.length - 1) {
+      newOrder = slots.next
+    }
     return (
       <Type
         key={type.id}
@@ -49,36 +51,36 @@ export const Typelist = (props) => {
         <DnDItem
           element={{
             order: newOrder,
-            type_header_id: props.headerId
+            type_header_id: props.headerId,
           }}
           mover={props.moveType}
         >
           <CreateTypeForm headerId={props.headerId} newOrder={newOrder} />
         </DnDItem>
-      ) : (
-        null
-      )}
+      ) : null}
     </div>
   )
 }
 
 Typelist.propTypes = {
-  types: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number
-  })).isRequired,
+  types: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+    })
+  ).isRequired,
   editing: PropTypes.bool.isRequired,
   headerId: PropTypes.number.isRequired,
   activeTaskId: PropTypes.number,
   activeMap: PropTypes.objectOf(PropTypes.bool).isRequired,
-  moveType: PropTypes.func.isRequired
+  moveType: PropTypes.func.isRequired,
 }
 
 Typelist.defaultProps = {
-  activeTaskId: null
+  activeTaskId: null,
 }
 
-const mapDispatchToProps = dispatch => ({
-  moveType: asyncAction(editType, dispatch)
+const mapDispatchToProps = (dispatch) => ({
+  moveType: asyncAction(editType, dispatch),
 })
 
 export default connect(null, mapDispatchToProps)(Typelist)

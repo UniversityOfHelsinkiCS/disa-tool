@@ -5,11 +5,11 @@ import { findText } from '../../../../testUtils'
 
 const category = {
   id: 3,
-  name: 'Test Category'
+  name: 'Test Category',
 }
 const level = {
   id: 5,
-  name: 'Test Level'
+  name: 'Test Level',
 }
 const mockFn = () => {}
 
@@ -17,15 +17,17 @@ describe('CreateObjectiveForm component', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(<CreateObjectiveForm
-      addObjective={mockFn}
-      category={category}
-      level={level}
-      courseId={1}
-      moveObjective={mockFn}
-      translate={() => ''}
-      newOrder={1}
-    />)
+    wrapper = shallow(
+      <CreateObjectiveForm
+        addObjective={mockFn}
+        category={category}
+        level={level}
+        courseId={1}
+        moveObjective={mockFn}
+        translate={() => ''}
+        newOrder={1}
+      />
+    )
   })
 
   it('renders.', () => {
@@ -37,22 +39,21 @@ describe('CreateObjectiveForm component', () => {
 
     beforeEach(() => {
       try {
-        content = wrapper.find(ModalForm).props().children.map(child => shallow(child))
+        content = wrapper
+          .find(ModalForm)
+          .props()
+          .children.map((child) => shallow(child))
       } catch (e) {
         content = [shallow(wrapper.find(ModalForm).props().content)]
       }
     })
 
     it('renders category name.', () => {
-      expect((
-        content.reduce((acc, curr) => acc + findText(category.name, curr), 0)
-      )).toBeGreaterThan(0)
+      expect(content.reduce((acc, curr) => acc + findText(category.name, curr), 0)).toBeGreaterThan(0)
     })
 
     it('renders level name.', () => {
-      expect((
-        content.reduce((acc, curr) => acc + findText(level.name, curr), 0)
-      )).toBeGreaterThan(0)
+      expect(content.reduce((acc, curr) => acc + findText(level.name, curr), 0)).toBeGreaterThan(0)
     })
   })
 

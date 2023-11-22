@@ -9,32 +9,34 @@ const level = {
   objectives: [
     {
       id: 1,
-      name: '1'
+      name: '1',
     },
     {
       id: 2,
-      name: '2'
+      name: '2',
     },
     {
       id: 3,
-      name: '3'
-    }
-  ]
+      name: '3',
+    },
+  ],
 }
 
 describe('MatrixLevel component', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(<MatrixLevel
-      category={{ id: 1 }}
-      level={level}
-      courseId={1}
-      editing={false}
-      activeMap={{}}
-      activeTaskId={null}
-      moveObjective={() => {}}
-    />)
+    wrapper = shallow(
+      <MatrixLevel
+        category={{ id: 1 }}
+        level={level}
+        courseId={1}
+        editing={false}
+        activeMap={{}}
+        activeTaskId={null}
+        moveObjective={() => {}}
+      />
+    )
   })
 
   it('renders.', () => {
@@ -54,7 +56,7 @@ describe('MatrixLevel component', () => {
   describe('when editing', () => {
     beforeEach(() => {
       wrapper.setProps({
-        editing: true
+        editing: true,
       })
     })
 
@@ -66,13 +68,13 @@ describe('MatrixLevel component', () => {
   describe('when a task is activated', () => {
     const activeMap = {
       1: true,
-      3: true
+      3: true,
     }
 
     beforeEach(() => {
       wrapper.setProps({
         activeTaskId: 4,
-        activeMap
+        activeMap,
       })
     })
 

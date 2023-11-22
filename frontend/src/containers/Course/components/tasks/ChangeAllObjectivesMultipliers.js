@@ -9,11 +9,13 @@ const ChangeAllObjectivesMultipliers = ({
   allText,
   defaultText,
   modifyText,
-  orText
+  orText,
 }) => (
   <Form.Field>
     <Container>
-      <Label basic size="large">{allText}</Label>
+      <Label basic size="large">
+        {allText}
+      </Label>
     </Container>
     <Container>
       <Button.Group size="small">

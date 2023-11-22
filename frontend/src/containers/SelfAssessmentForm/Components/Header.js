@@ -11,7 +11,7 @@ class Header extends React.Component {
     super(props)
     this.state = {
       editHeaders: false,
-      changedHeaders: {}
+      changedHeaders: {},
     }
   }
 
@@ -22,7 +22,7 @@ class Header extends React.Component {
       ? this.props.dispatchChange(changedHeaders)
       : this.props.dispatchHeaderChange({
           changedHeaders,
-          headerType
+          headerType,
         })
     this.setState({ editHeaders: !this.state.editHeaders })
   }
@@ -34,8 +34,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const translate = (id) =>
-      this.props.translate(`SelfAssessmentForm.Header.${id}`)
+    const translate = (id) => this.props.translate(`SelfAssessmentForm.Header.${id}`)
     const { name, edit, headers, style, editButton } = this.props
     const { editHeaders } = this.state
 
@@ -43,11 +42,7 @@ class Header extends React.Component {
       <div>
         {name}
         {edit && (
-          <Button
-            className="editHeadersButton"
-            onClick={this.toggleEdit}
-            style={{ marginLeft: '10px' }}
-          >
+          <Button className="editHeadersButton" onClick={this.toggleEdit} style={{ marginLeft: '10px' }}>
             {editHeaders ? translate('buttonSave') : translate('buttonEdit')}
           </Button>
         )}
@@ -59,7 +54,7 @@ class Header extends React.Component {
     let headerEditForm = editHeaders && (
       <div
         style={{
-          marginBottom: '10px'
+          marginBottom: '10px',
         }}
       >
         <Form>
@@ -68,17 +63,17 @@ class Header extends React.Component {
       </div>
     )
 
-    if(this.props.nestedForms) {
-     headerEditForm = editHeaders && (
-      <div
-        style={{
-          marginBottom: '10px'
-        }}
-      >
+    if (this.props.nestedForms) {
+      headerEditForm = editHeaders && (
+        <div
+          style={{
+            marginBottom: '10px',
+          }}
+        >
           <MultiLangInput headers={headers} handleChange={this.changeHeader} />
-      </div>
-    )
-      }
+        </div>
+      )
+    }
     return (
       <div>
         <h3 style={this.props.style ? style : null} className="cardHead">
@@ -91,7 +86,7 @@ class Header extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchHeaderChange: (data) => dispatch(changeHeaderAction(data))
+  dispatchHeaderChange: (data) => dispatch(changeHeaderAction(data)),
 })
 
 Header.defaultProps = {
@@ -99,7 +94,7 @@ Header.defaultProps = {
   headerType: null,
   style: null,
   editButton: false,
-  headers: []
+  headers: [],
 }
 
 Header.propTypes = {
@@ -111,12 +106,7 @@ Header.propTypes = {
   dispatchHeaderChange: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,
   dispatchChange: PropTypes.func,
-  editButton: PropTypes.bool
+  editButton: PropTypes.bool,
 }
 
-export default withLocalize(
-  connect(
-    null,
-    mapDispatchToProps
-  )(Header)
-)
+export default withLocalize(connect(null, mapDispatchToProps)(Header))

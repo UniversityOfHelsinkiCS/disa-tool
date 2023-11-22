@@ -10,18 +10,18 @@ const category = {
   skill_levels: [
     {
       id: 1,
-      objectives: []
+      objectives: [],
     },
     {
       id: 2,
-      objectives: []
+      objectives: [],
     },
     {
       id: 3,
-      objectives: []
-    }
+      objectives: [],
+    },
   ],
-  order: 1
+  order: 1,
 }
 const mockFn = () => {}
 
@@ -29,17 +29,19 @@ describe('MatrixCategory component', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(<MatrixCategory
-      category={category}
-      courseId={1}
-      editing={false}
-      removeCategory={mockFn}
-      activeMap={{}}
-      activeTaskId={null}
-      translate={() => ''}
-      moveCategory={() => {}}
-      slots={{ previous: 0, next: 2 }}
-    />)
+    wrapper = shallow(
+      <MatrixCategory
+        category={category}
+        courseId={1}
+        editing={false}
+        removeCategory={mockFn}
+        activeMap={{}}
+        activeTaskId={null}
+        translate={() => ''}
+        moveCategory={() => {}}
+        slots={{ previous: 0, next: 2 }}
+      />
+    )
   })
 
   it('renders.', () => {

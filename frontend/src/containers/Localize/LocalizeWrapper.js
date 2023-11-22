@@ -14,14 +14,14 @@ class LocalizeWrapper extends PureComponent {
       languages: [
         { name: 'English', code: 'eng' },
         { name: 'Suomi', code: 'fin' },
-        { name: 'Svenska', code: 'swe' }
+        { name: 'Svenska', code: 'swe' },
       ],
       translation,
       options: {
         renderInnerHtml: true,
         renderToStaticMarkup,
-        onMissingTranslation: this.missingTranslationHandler
-      }
+        onMissingTranslation: this.missingTranslationHandler,
+      },
     })
   }
 
@@ -49,11 +49,7 @@ class LocalizeWrapper extends PureComponent {
   }
 
   render() {
-    return (
-      <div>
-        {this.props.children}
-      </div>
-    )
+    return <div>{this.props.children}</div>
   }
 }
 
@@ -61,7 +57,7 @@ LocalizeWrapper.propTypes = {
   children: PropTypes.node.isRequired,
   initialize: PropTypes.func.isRequired,
   setActiveLanguage: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
 }
 
 export default withLocalize(LocalizeWrapper)

@@ -4,28 +4,14 @@ import { useTranslation } from 'react-i18next'
 
 const AssessmentButtons = (props) => {
   const { onClick, value } = props
-  const {t} = useTranslation("translation", {keyPrefix: "selfAssessment.assessmentButtons"})
+  const { t } = useTranslation('translation', { keyPrefix: 'selfAssessment.assessmentButtons' })
   return (
     <div data-testid="assessment-buttons">
       <Form.Field>
-        <Button
-          size="tiny"
-          toggle
-          type="button"
-          assessment="category"
-          id={value}
-          onClick={onClick}
-        >
+        <Button size="tiny" toggle type="button" assessment="category" id={value} onClick={onClick}>
           {t('categoryButton')}
         </Button>
-        <Button
-          size="tiny"
-          toggle
-          type="button"
-          assessment="objective"
-          id={value}
-          onClick={onClick}
-        >
+        <Button size="tiny" toggle type="button" assessment="objective" id={value} onClick={onClick}>
           {t('objectiveButton')}
         </Button>
       </Form.Field>

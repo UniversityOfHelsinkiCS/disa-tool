@@ -5,7 +5,7 @@ import { Container, Segment } from 'semantic-ui-react'
 import Matrix from './Matrix'
 import InfoBox from '../../../../utils/components/InfoBox'
 
-const EditMatrixTab = props => (
+const EditMatrixTab = (props) => (
   <div className="EditMatrixTab">
     <Container>
       <Segment clearing basic>
@@ -21,7 +21,7 @@ const EditMatrixTab = props => (
 )
 
 EditMatrixTab.propTypes = {
-  courseId: PropTypes.number.isRequired
+  courseId: PropTypes.number.isRequired,
 }
 
 export default EditMatrixTab

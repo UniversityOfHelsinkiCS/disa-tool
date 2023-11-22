@@ -3,7 +3,7 @@ import categoryReducer from '../../redux/category'
 import * as types from '../../redux/action_types'
 
 const INITIAL_STATE = {
-  categories: []
+  categories: [],
 }
 
 const courseGetDataResponse = {
@@ -19,28 +19,28 @@ const courseGetDataResponse = {
             objectives: [
               {
                 id: 100,
-                name: 'o0'
+                name: 'o0',
               },
               {
                 id: 101,
-                name: 'o1'
-              }
-            ]
+                name: 'o1',
+              },
+            ],
           },
           {
             id: 11,
             objectives: [
               {
                 id: 102,
-                name: 'o2'
+                name: 'o2',
               },
               {
                 id: 103,
-                name: 'o3'
-              }
-            ]
-          }
-        ]
+                name: 'o3',
+              },
+            ],
+          },
+        ],
       },
       {
         id: 4,
@@ -51,31 +51,31 @@ const courseGetDataResponse = {
             objectives: [
               {
                 id: 104,
-                name: 'o4'
+                name: 'o4',
               },
               {
                 id: 105,
-                name: 'o5'
-              }
-            ]
+                name: 'o5',
+              },
+            ],
           },
           {
             id: 11,
             objectives: [
               {
                 id: 106,
-                name: 'o6'
+                name: 'o6',
               },
               {
                 id: 107,
-                name: 'o7'
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+                name: 'o7',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 }
 
 const objectiveCreateResponse = {
@@ -84,8 +84,8 @@ const objectiveCreateResponse = {
     id: 200,
     name: 'o100',
     category_id: 4,
-    skill_level_id: 10
-  }
+    skill_level_id: 10,
+  },
 }
 
 const objectiveCreateExpectation = {
@@ -99,28 +99,28 @@ const objectiveCreateExpectation = {
           objectives: [
             {
               id: 100,
-              name: 'o0'
+              name: 'o0',
             },
             {
               id: 101,
-              name: 'o1'
-            }
-          ]
+              name: 'o1',
+            },
+          ],
         },
         {
           id: 11,
           objectives: [
             {
               id: 102,
-              name: 'o2'
+              name: 'o2',
             },
             {
               id: 103,
-              name: 'o3'
-            }
-          ]
-        }
-      ]
+              name: 'o3',
+            },
+          ],
+        },
+      ],
     },
     {
       id: 4,
@@ -131,34 +131,34 @@ const objectiveCreateExpectation = {
           objectives: [
             {
               id: 104,
-              name: 'o4'
+              name: 'o4',
             },
             {
               id: 105,
-              name: 'o5'
+              name: 'o5',
             },
             {
               id: 200,
-              name: 'o100'
-            }
-          ]
+              name: 'o100',
+            },
+          ],
         },
         {
           id: 11,
           objectives: [
             {
               id: 106,
-              name: 'o6'
+              name: 'o6',
             },
             {
               id: 107,
-              name: 'o7'
-            }
-          ]
-        }
-      ]
-    }
-  ]
+              name: 'o7',
+            },
+          ],
+        },
+      ],
+    },
+  ],
 }
 
 const objectiveDeleteResponse = {
@@ -166,8 +166,8 @@ const objectiveDeleteResponse = {
   deleted: {
     id: 103,
     category_id: 3,
-    skill_level_id: 11
-  }
+    skill_level_id: 11,
+  },
 }
 
 const objectiveDeleteExpectation = {
@@ -181,24 +181,24 @@ const objectiveDeleteExpectation = {
           objectives: [
             {
               id: 100,
-              name: 'o0'
+              name: 'o0',
             },
             {
               id: 101,
-              name: 'o1'
-            }
-          ]
+              name: 'o1',
+            },
+          ],
         },
         {
           id: 11,
           objectives: [
             {
               id: 102,
-              name: 'o2'
-            }
-          ]
-        }
-      ]
+              name: 'o2',
+            },
+          ],
+        },
+      ],
     },
     {
       id: 4,
@@ -209,30 +209,30 @@ const objectiveDeleteExpectation = {
           objectives: [
             {
               id: 104,
-              name: 'o4'
+              name: 'o4',
             },
             {
               id: 105,
-              name: 'o5'
-            }
-          ]
+              name: 'o5',
+            },
+          ],
         },
         {
           id: 11,
           objectives: [
             {
               id: 106,
-              name: 'o6'
+              name: 'o6',
             },
             {
               id: 107,
-              name: 'o7'
-            }
-          ]
-        }
-      ]
-    }
-  ]
+              name: 'o7',
+            },
+          ],
+        },
+      ],
+    },
+  ],
 }
 
 const categoryCreateResponse = {
@@ -243,14 +243,14 @@ const categoryCreateResponse = {
     skill_levels: [
       {
         id: 10,
-        objectives: []
+        objectives: [],
       },
       {
         id: 11,
-        objectives: []
-      }
-    ]
-  }
+        objectives: [],
+      },
+    ],
+  },
 }
 
 const categoryCreateExpectation = {
@@ -264,28 +264,28 @@ const categoryCreateExpectation = {
           objectives: [
             {
               id: 100,
-              name: 'o0'
+              name: 'o0',
             },
             {
               id: 101,
-              name: 'o1'
-            }
-          ]
+              name: 'o1',
+            },
+          ],
         },
         {
           id: 11,
           objectives: [
             {
               id: 102,
-              name: 'o2'
+              name: 'o2',
             },
             {
               id: 103,
-              name: 'o3'
-            }
-          ]
-        }
-      ]
+              name: 'o3',
+            },
+          ],
+        },
+      ],
     },
     {
       id: 4,
@@ -296,28 +296,28 @@ const categoryCreateExpectation = {
           objectives: [
             {
               id: 104,
-              name: 'o4'
+              name: 'o4',
             },
             {
               id: 105,
-              name: 'o5'
-            }
-          ]
+              name: 'o5',
+            },
+          ],
         },
         {
           id: 11,
           objectives: [
             {
               id: 106,
-              name: 'o6'
+              name: 'o6',
             },
             {
               id: 107,
-              name: 'o7'
-            }
-          ]
-        }
-      ]
+              name: 'o7',
+            },
+          ],
+        },
+      ],
     },
     {
       id: 7,
@@ -325,22 +325,22 @@ const categoryCreateExpectation = {
       skill_levels: [
         {
           id: 10,
-          objectives: []
+          objectives: [],
         },
         {
           id: 11,
-          objectives: []
-        }
-      ]
-    }
-  ]
+          objectives: [],
+        },
+      ],
+    },
+  ],
 }
 
 const categoryDeleteResponse = {
   message: 'test message',
   deleted: {
-    id: 3
-  }
+    id: 3,
+  },
 }
 
 const categoryDeleteExpectation = {
@@ -354,38 +354,38 @@ const categoryDeleteExpectation = {
           objectives: [
             {
               id: 104,
-              name: 'o4'
+              name: 'o4',
             },
             {
               id: 105,
-              name: 'o5'
-            }
-          ]
+              name: 'o5',
+            },
+          ],
         },
         {
           id: 11,
           objectives: [
             {
               id: 106,
-              name: 'o6'
+              name: 'o6',
             },
             {
               id: 107,
-              name: 'o7'
-            }
-          ]
-        }
-      ]
-    }
-  ]
+              name: 'o7',
+            },
+          ],
+        },
+      ],
+    },
+  ],
 }
 
 const levelCreateResponse = {
   message: 'test_message',
   created: {
     id: 20,
-    name: 'sl10'
-  }
+    name: 'sl10',
+  },
 }
 
 const levelCreateExpectation = {
@@ -399,32 +399,32 @@ const levelCreateExpectation = {
           objectives: [
             {
               id: 100,
-              name: 'o0'
+              name: 'o0',
             },
             {
               id: 101,
-              name: 'o1'
-            }
-          ]
+              name: 'o1',
+            },
+          ],
         },
         {
           id: 11,
           objectives: [
             {
               id: 102,
-              name: 'o2'
+              name: 'o2',
             },
             {
               id: 103,
-              name: 'o3'
-            }
-          ]
+              name: 'o3',
+            },
+          ],
         },
         {
           id: 20,
-          objectives: []
-        }
-      ]
+          objectives: [],
+        },
+      ],
     },
     {
       id: 4,
@@ -435,41 +435,41 @@ const levelCreateExpectation = {
           objectives: [
             {
               id: 104,
-              name: 'o4'
+              name: 'o4',
             },
             {
               id: 105,
-              name: 'o5'
-            }
-          ]
+              name: 'o5',
+            },
+          ],
         },
         {
           id: 11,
           objectives: [
             {
               id: 106,
-              name: 'o6'
+              name: 'o6',
             },
             {
               id: 107,
-              name: 'o7'
-            }
-          ]
+              name: 'o7',
+            },
+          ],
         },
         {
           id: 20,
-          objectives: []
-        }
-      ]
-    }
-  ]
+          objectives: [],
+        },
+      ],
+    },
+  ],
 }
 
 const levelDeleteResponse = {
   message: 'test message',
   deleted: {
-    id: 11
-  }
+    id: 11,
+  },
 }
 
 const levelDeleteExpectation = {
@@ -483,15 +483,15 @@ const levelDeleteExpectation = {
           objectives: [
             {
               id: 100,
-              name: 'o0'
+              name: 'o0',
             },
             {
               id: 101,
-              name: 'o1'
-            }
-          ]
-        }
-      ]
+              name: 'o1',
+            },
+          ],
+        },
+      ],
     },
     {
       id: 4,
@@ -502,17 +502,17 @@ const levelDeleteExpectation = {
           objectives: [
             {
               id: 104,
-              name: 'o4'
+              name: 'o4',
             },
             {
               id: 105,
-              name: 'o5'
-            }
-          ]
-        }
-      ]
-    }
-  ]
+              name: 'o5',
+            },
+          ],
+        },
+      ],
+    },
+  ],
 }
 
 describe('category reducer', () => {
@@ -526,10 +526,10 @@ describe('category reducer', () => {
   it('parses data from COURSE_GET_DATA.', () => {
     state = categoryReducer(state, {
       type: types.COURSE_GET_DATA,
-      response: courseGetDataResponse
+      response: courseGetDataResponse,
     })
     expect(state).toEqual({
-      categories: courseGetDataResponse.data.categories
+      categories: courseGetDataResponse.data.categories,
     })
   })
 
@@ -537,7 +537,7 @@ describe('category reducer', () => {
     beforeEach(() => {
       state = categoryReducer(state, {
         type: types.COURSE_GET_DATA,
-        response: courseGetDataResponse
+        response: courseGetDataResponse,
       })
       deepFreeze(state)
     })
@@ -545,7 +545,7 @@ describe('category reducer', () => {
     it('appends an objective with OBJECTIVE_CREATE.', () => {
       state = categoryReducer(state, {
         type: types.OBJECTIVE_CREATE,
-        response: objectiveCreateResponse
+        response: objectiveCreateResponse,
       })
       expect(state).toEqual(objectiveCreateExpectation)
     })
@@ -553,7 +553,7 @@ describe('category reducer', () => {
     it('deletes an objective with OBJECTIVE_DELETE.', () => {
       state = categoryReducer(state, {
         type: types.OBJECTIVE_DELETE,
-        response: objectiveDeleteResponse
+        response: objectiveDeleteResponse,
       })
       expect(state).toEqual(objectiveDeleteExpectation)
     })
@@ -561,7 +561,7 @@ describe('category reducer', () => {
     it('appends a category with CATEGORY_CREATE.', () => {
       state = categoryReducer(state, {
         type: types.CATEGORY_CREATE,
-        response: categoryCreateResponse
+        response: categoryCreateResponse,
       })
       expect(state).toEqual(categoryCreateExpectation)
     })
@@ -569,7 +569,7 @@ describe('category reducer', () => {
     it('deletes a category with CATEGORY_DELETE.', () => {
       state = categoryReducer(state, {
         type: types.CATEGORY_DELETE,
-        response: categoryDeleteResponse
+        response: categoryDeleteResponse,
       })
       expect(state).toEqual(categoryDeleteExpectation)
     })
@@ -577,7 +577,7 @@ describe('category reducer', () => {
     it('appends a skill level with LEVEL_CREATE.', () => {
       state = categoryReducer(state, {
         type: types.LEVEL_CREATE,
-        response: levelCreateResponse
+        response: levelCreateResponse,
       })
       expect(state).toEqual(levelCreateExpectation)
     })
@@ -585,7 +585,7 @@ describe('category reducer', () => {
     it('deletes a skill level with LEVEL_DELETE.', () => {
       state = categoryReducer(state, {
         type: types.LEVEL_DELETE,
-        response: levelDeleteResponse
+        response: levelDeleteResponse,
       })
       expect(state).toEqual(levelDeleteExpectation)
     })

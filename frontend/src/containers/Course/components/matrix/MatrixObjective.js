@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { connect,useSelector, useDispatch } from 'react-redux'
+import { connect, useSelector, useDispatch } from 'react-redux'
 import { Button, Label, Popup, Header, Loader, Segment, Grid } from 'semantic-ui-react'
 import { removeObjective, editObjective } from '../../actions/objectives'
 import { addObjectiveToTask, removeObjectiveFromTask } from '../../actions/tasks'
@@ -8,7 +8,7 @@ import EditObjectiveForm from './EditObjectiveForm'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import MathJaxText from '../../../../utils/components/MathJaxText'
 import dndItem, { defaults } from '../../../../utils/components/DnDItem'
-import {useTranslation} from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 export const dropSpec = {
   ...defaults.dropSpec,
@@ -16,11 +16,7 @@ export const dropSpec = {
     const drag = monitor.getItem()
     const { element, slots } = props
     let slot
-    if (
-      element.category_id !== drag.category_id
-      ||
-      element.skill_level_id !== drag.skill_level_id
-    ) {
+    if (element.category_id !== drag.category_id || element.skill_level_id !== drag.skill_level_id) {
       slot = slots ? slots.previous : element.order
     } else if (drag.order === element.order) {
       slot = drag.order
@@ -33,22 +29,22 @@ export const dropSpec = {
       id: drag.id,
       order: slot,
       category_id: element.category_id,
-      skill_level_id: element.skill_level_id
+      skill_level_id: element.skill_level_id,
     })
-  }
+  },
 }
 
 const DnDItem = dndItem('objective', {
   dropSpec,
   dragSpec: {
     ...defaults.dragSpec,
-    beginDrag: props => ({
+    beginDrag: (props) => ({
       id: props.element.id,
       order: props.element.order,
       category_id: props.element.category_id,
-      skill_level_id: props.element.skill_level_id
-    })
-  }
+      skill_level_id: props.element.skill_level_id,
+    }),
+  },
 })
 
 export const MatrixObjective = ({
@@ -59,14 +55,13 @@ export const MatrixObjective = ({
   active,
   categoryId,
   skillLevelId,
-  slots
-  
+  slots,
 }) => {
   const [triggered, setTriggered] = useState(false)
   const [loading, setLoading] = useState(true)
   const [cumulativeMultiplier, setCumulativeMultiplier] = useState(0)
   const [tasks, setTasks] = useState([])
-  const lastMultiplierUpdate = useSelector(state => state.task.lastMultiplierUpdate)
+  const lastMultiplierUpdate = useSelector((state) => state.task.lastMultiplierUpdate)
   const dispatch = useDispatch()
 
   const reset = () => {
@@ -76,40 +71,40 @@ export const MatrixObjective = ({
 
   const asyncRemoveObjective = async (props) => {
     const response = await removeObjective(props)
-        dispatch(response)
-    }
+    dispatch(response)
+  }
 
   const asyncToggleObjective = async (props) => {
     let response = null
-    if(active) {
-    response = await removeObjectiveFromTask(props)
-  } else {
-    response = await addObjectiveToTask(props)
-  }
-        dispatch(response)
+    if (active) {
+      response = await removeObjectiveFromTask(props)
+    } else {
+      response = await addObjectiveToTask(props)
     }
+    dispatch(response)
+  }
 
   const asyncTaskDetails = async (props) => {
     const response = await taskDetails(props)
-        dispatch(response)
-    }
+    dispatch(response)
+  }
 
   const asyncMoveObjective = async (props) => {
     const response = await editObjective(props)
-        dispatch(response)
-    }
+    dispatch(response)
+  }
 
   useEffect(() => {
     if (triggered) {
       reset()
     }
-  },[lastMultiplierUpdate])
+  }, [lastMultiplierUpdate])
 
   const toggleObjective = () => {
     if (activeTaskId !== null) {
       asyncToggleObjective({
         objective_id: objective.id,
-        task_id: activeTaskId
+        task_id: activeTaskId,
       })
     }
   }
@@ -119,9 +114,7 @@ export const MatrixObjective = ({
       return
     }
     setTriggered(true)
-    const objectiveDetails = (
-      await asyncTaskDetails({ id: objective.id })
-    ).data.data
+    const objectiveDetails = (await asyncTaskDetails({ id: objective.id })).data.data
     let cumMultiplier = 0
     objectiveDetails.tasks.forEach((task) => {
       cumMultiplier += task.multiplier
@@ -131,123 +124,110 @@ export const MatrixObjective = ({
     setLoading(false)
   }
 
-  const {t} = useTranslation("translation", {keyPrefix: "course.matrix.matrixObjective"})
+  const { t } = useTranslation('translation', { keyPrefix: 'course.matrix.matrixObjective' })
 
-    const content = (
-      <div className="flexContainer">
-        <div className="objectiveBlock flexContainer">
-          {showDetails ? (
-            <Button
-              className="objectiveButton"
-              toggle
-              active={active}
-              compact
-              basic
-              fluid
-              style={{ borderRadius: '0px', cursor: activeTaskId ? undefined : 'default' }}
-              onClick={toggleObjective}
-            >
-              <MathJaxText content={objective.name} />
-            </Button>
-          ) : (
-            <Segment
-              className="objectiveSegment"
-              style={{ borderRadius: '0px' }}
-            >
-              <MathJaxText content={objective.name} />
-            </Segment>
-          )}
-          {showDetails ? (
-            <div>
-              <Popup
-                trigger={<Label
+  const content = (
+    <div className="flexContainer">
+      <div className="objectiveBlock flexContainer">
+        {showDetails ? (
+          <Button
+            className="objectiveButton"
+            toggle
+            active={active}
+            compact
+            basic
+            fluid
+            style={{ borderRadius: '0px', cursor: activeTaskId ? undefined : 'default' }}
+            onClick={toggleObjective}
+          >
+            <MathJaxText content={objective.name} />
+          </Button>
+        ) : (
+          <Segment className="objectiveSegment" style={{ borderRadius: '0px' }}>
+            <MathJaxText content={objective.name} />
+          </Segment>
+        )}
+        {showDetails ? (
+          <div>
+            <Popup
+              trigger={
+                <Label
                   size="large"
                   circular
                   content={objective.task_count}
                   onMouseOver={loadDetails}
                   onFocus={loadDetails}
                   style={{
-                    color: objective.task_count === 0 ? 'red' : undefined
+                    color: objective.task_count === 0 ? 'red' : undefined,
                   }}
-                />}
-                content={
-                  loading ? (
-                    <Loader active inline />
-                  ) : (
+                />
+              }
+              content={
+                loading ? (
+                  <Loader active inline />
+                ) : (
+                  <div>
                     <div>
-                      <div>
-                        <span>{t('cumulative')}</span>
-                        <Label>
-                          <strong>{cumulativeMultiplier.toFixed(2)}</strong>
-                        </Label>
-                      </div>
-                      <Header>
-                        <span className="capitalize">{t('tasks')}</span>
-                      </Header>
-                      <Grid>
-                        {tasks.map(task => (
-                          <Grid.Row key={task.name}>
-                            <Grid.Column width={12}>
-                              <span>{task.name}</span>
-                            </Grid.Column>
-                            <Grid.Column width={4} textAlign="left">
-                              <Label>
-                                {(Number(task.multiplier)).toFixed(2)}
-                              </Label>
-                            </Grid.Column>
-                          </Grid.Row>
-                        ))}
-                      </Grid>
+                      <span>{t('cumulative')}</span>
+                      <Label>
+                        <strong>{cumulativeMultiplier.toFixed(2)}</strong>
+                      </Label>
                     </div>
-                  )}
-              />
-            </div>
-          ) : (
-            null
-          )}
-        </div>
-        {editing ? (
-          <div className="removeBlock">
-            <EditObjectiveForm style={{ margin: '5px auto 5px auto' }} objectiveId={objective.id} />
-            <DeleteForm
-            objectiveId={objective.id}
-              style={{ margin: '5px auto 5px auto' }}
-              onExecute={() => asyncRemoveObjective({ id: objective.id })}
-              prompt={[
-                t('delete_prompt_1'),
-                `"${objective.name}"`
-              ]}
-              header={t('delete_header')}
+                    <Header>
+                      <span className="capitalize">{t('tasks')}</span>
+                    </Header>
+                    <Grid>
+                      {tasks.map((task) => (
+                        <Grid.Row key={task.name}>
+                          <Grid.Column width={12}>
+                            <span>{task.name}</span>
+                          </Grid.Column>
+                          <Grid.Column width={4} textAlign="left">
+                            <Label>{Number(task.multiplier).toFixed(2)}</Label>
+                          </Grid.Column>
+                        </Grid.Row>
+                      ))}
+                    </Grid>
+                  </div>
+                )
+              }
             />
           </div>
-        ) : (
-          null
-        )}
+        ) : null}
       </div>
-    )
-    if (editing) {
-      return (
-        <div className="MatrixObjective">
-          <DnDItem
-            element={{
-              ...objective,
-              category_id: categoryId,
-              skill_level_id: skillLevelId
-            }}
-            mover={asyncMoveObjective}
-            slots={slots}
-          >
-            {content}
-          </DnDItem>
+      {editing ? (
+        <div className="removeBlock">
+          <EditObjectiveForm style={{ margin: '5px auto 5px auto' }} objectiveId={objective.id} />
+          <DeleteForm
+            objectiveId={objective.id}
+            style={{ margin: '5px auto 5px auto' }}
+            onExecute={() => asyncRemoveObjective({ id: objective.id })}
+            prompt={[t('delete_prompt_1'), `"${objective.name}"`]}
+            header={t('delete_header')}
+          />
         </div>
-      )
-    }
+      ) : null}
+    </div>
+  )
+  if (editing) {
     return (
       <div className="MatrixObjective">
-        {content}
+        <DnDItem
+          element={{
+            ...objective,
+            category_id: categoryId,
+            skill_level_id: skillLevelId,
+          }}
+          mover={asyncMoveObjective}
+          slots={slots}
+        >
+          {content}
+        </DnDItem>
       </div>
     )
   }
+  return <div className="MatrixObjective">{content}</div>
+}
 
 /*
 MatrixObjective.propTypes = {
@@ -274,6 +254,5 @@ MatrixObjective.propTypes = {
   }).isRequired
 }
 */
-
 
 export default connect()(MatrixObjective)

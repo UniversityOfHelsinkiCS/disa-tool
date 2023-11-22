@@ -5,26 +5,22 @@ import { selectAll, deselectAll } from '../actions/selfAssesmentList'
 import { useTranslation } from 'react-i18next'
 
 const SelectAllButton = (props) => {
-    const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentList.selectionButtons"})
-    const dispatch = useDispatch()
-    const handleClick = () => {
-        selectAll(dispatch)
-    }
-    return (    
-        <Button basic content={t('select')} onClick={() => handleClick} />
-    )
+  const { t } = useTranslation('translation', { keyPrefix: 'selfAssessmentList.selectionButtons' })
+  const dispatch = useDispatch()
+  const handleClick = () => {
+    selectAll(dispatch)
+  }
+  return <Button basic content={t('select')} onClick={() => handleClick} />
 }
 
 const DeselectAllButton = (props) => {
-    const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentList.selectionButtons"})
+  const { t } = useTranslation('translation', { keyPrefix: 'selfAssessmentList.selectionButtons' })
 
-    const dispatch = useDispatch()
-    const handleClick = () => {
-        deselectAll(dispatch)
-    }
-    return (
-        <Button basic content={t('deselect')} onClick={() => handleClick} />
-    )
+  const dispatch = useDispatch()
+  const handleClick = () => {
+    deselectAll(dispatch)
+  }
+  return <Button basic content={t('deselect')} onClick={() => handleClick} />
 }
 
-export { SelectAllButton,DeselectAllButton }
+export { SelectAllButton, DeselectAllButton }

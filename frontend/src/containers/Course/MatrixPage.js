@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { connect, useDispatch,useSelector } from 'react-redux'
-import { Link,useParams } from 'react-router-dom'
+import { connect, useDispatch, useSelector } from 'react-redux'
+import { Link, useParams } from 'react-router-dom'
 import { Loader, Button, Container, Segment } from 'semantic-ui-react'
 import { getMatrix, resetCourse } from './actions/course'
 import Matrix from './components/matrix/Matrix'
@@ -10,45 +10,47 @@ import { getCourseInstanceDataAction } from '../../actions/actions'
 import { useTranslation } from 'react-i18next'
 
 const MatrixPage = (props) => {
-  const isTeacher = useSelector(state => state.instance.courseRole === "TEACHER")
-  const loading = useSelector(state => state.course.loading)
-  const {t} = useTranslation("translation", {keyPrefix: "course.matrix.common"})
+  const isTeacher = useSelector((state) => state.instance.courseRole === 'TEACHER')
+  const loading = useSelector((state) => state.course.loading)
+  const { t } = useTranslation('translation', { keyPrefix: 'course.matrix.common' })
 
   const dispatch = useDispatch()
   const courseId = Number(useParams().id) || props.courseId
 
-  const getMatrixAsync = async() => {
+  const getMatrixAsync = async () => {
     const response = await getMatrix({
-      id: courseId
+      id: courseId,
     })
     dispatch(response)
   }
 
   useEffect(() => {
-    getCourseInstanceDataAction(courseId,dispatch)
+    getCourseInstanceDataAction(courseId, dispatch)
     getMatrixAsync()
-    return(() =>  resetCourse(dispatch))
-  },[])
+    return () => resetCourse(dispatch)
+  }, [])
 
-    if (loading) {
-      return (<Loader active />)
-    }
-    return (
-      <div className="MatrixPage">
-        {props.hideHeader ? null : <CourseHeader renderReturnLink={false} />}
-        <Conditional visible={isTeacher}>
-          <Button as={Link} to={`/course/${courseId}/matrix`} fluid style={{ marginBottom: '10px' }}>{t("editMatrix")}</Button>
-        </Conditional>
-        <Container>
-          <Segment style={{ overflowX: 'auto', padding: 0 }}>
-            <div style={{ padding: '1em' }}>
-              <Matrix courseId={courseId} editing={false} categoryId={props.categoryId} />
-            </div>
-          </Segment>
-        </Container>
-      </div>
-    )
+  if (loading) {
+    return <Loader active />
   }
+  return (
+    <div className="MatrixPage">
+      {props.hideHeader ? null : <CourseHeader renderReturnLink={false} />}
+      <Conditional visible={isTeacher}>
+        <Button as={Link} to={`/course/${courseId}/matrix`} fluid style={{ marginBottom: '10px' }}>
+          {t('editMatrix')}
+        </Button>
+      </Conditional>
+      <Container>
+        <Segment style={{ overflowX: 'auto', padding: 0 }}>
+          <div style={{ padding: '1em' }}>
+            <Matrix courseId={courseId} editing={false} categoryId={props.categoryId} />
+          </div>
+        </Segment>
+      </Container>
+    </div>
+  )
+}
 
 /*
 MatrixPage.propTypes = {
@@ -62,6 +64,5 @@ MatrixPage.propTypes = {
   isTeacher: PropTypes.bool.isRequired
 }
 */
-
 
 export default connect()(MatrixPage)

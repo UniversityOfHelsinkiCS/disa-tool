@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 const LinkExportList = (props) => {
   const [expanded, setExpanded] = useState(false)
 
-  const {t} = useTranslation("translation", {keyPrefix: "userPage.courseInfo.links"})
+  const { t } = useTranslation('translation', { keyPrefix: 'userPage.courseInfo.links' })
 
   const renderCollapsed = () => (
     <Button
@@ -18,39 +18,24 @@ const LinkExportList = (props) => {
     />
   )
 
- const renderExpanded = () => (
+  const renderExpanded = () => (
     <div>
-      <Button
-        onClick={() => setExpanded(false)}
-        basic
-        color="blue"
-        content={t('close')}
-      />
+      <Button onClick={() => setExpanded(false)} basic color="blue" content={t('close')} />
       <Table>
         <Table.Body>
           <LinkExport
             title={t('registration')}
             url={`/courses?course=${props.course.course_id}&instance=${props.course.id}`}
           />
-          <LinkExport
-            title={t('matrix')}
-            url={`/courses/matrix/${props.course.id}`}
-          />
-          <LinkExport
-            title={t('course_page')}
-            url={`/user/course/${props.course.id}`}
-          />
+          <LinkExport title={t('matrix')} url={`/courses/matrix/${props.course.id}`} />
+          <LinkExport title={t('course_page')} url={`/user/course/${props.course.id}`} />
         </Table.Body>
       </Table>
     </div>
   )
 
-    return (
-      <div className="LinkExportList">
-        {expanded ? renderExpanded() : renderCollapsed()}
-      </div>
-    )
-  }
+  return <div className="LinkExportList">{expanded ? renderExpanded() : renderCollapsed()}</div>
+}
 /*
 LinkExportList.propTypes = {
   course: PropTypes.shape({

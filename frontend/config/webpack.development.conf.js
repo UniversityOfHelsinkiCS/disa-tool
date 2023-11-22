@@ -7,20 +7,18 @@ const apiPort = 8000
 
 module.exports = {
   mode: 'development',
-  entry: ["@babel/polyfill", './src/index.js'],
+  entry: ['@babel/polyfill', './src/index.js'],
   output: {
     path: path.join(__dirname, './dist'),
     filename: 'index.js',
-    publicPath: '/'
+    publicPath: '/',
   },
   resolve: {
-    fallback: { 
-      path: require.resolve("path-browserify") 
+    fallback: {
+      path: require.resolve('path-browserify'),
     },
     extensions: ['.js', '.jsx'],
-    modules: [
-      'node_modules',
-    ],
+    modules: ['node_modules'],
   },
   module: {
     rules: [
@@ -28,8 +26,8 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff2?)(\?v=\d+\.\d+\.\d+)?$/i,
@@ -37,43 +35,40 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-            'style-loader',
-            'css-loader', 
-        ],
-    },
-    {
-      test: /\.mjs$/,
-      include: /node_modules/,
-      type: 'javascript/auto',
-      resolve: {
-          fullySpecified: false
-      }
-  }
-    ]
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
+        resolve: {
+          fullySpecified: false,
+        },
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html'
+      template: './src/index.html',
     }),
     new webpack.DefinePlugin({
       CONFIG: {
-        BASE_PATH: JSON.stringify('')
+        BASE_PATH: JSON.stringify(''),
       },
       'process.env': {
-        NODE_ENV: JSON.stringify('development')
-      }
+        NODE_ENV: JSON.stringify('development'),
+      },
     }),
-    new webpack.ProvidePlugin({ 
-      process: 'process/browser.js', 
+    new webpack.ProvidePlugin({
+      process: 'process/browser.js',
     }),
   ],
   devServer: {
     port: devPort,
     proxy: {
-      '/api': `http://localhost:${apiPort}`
+      '/api': `http://localhost:${apiPort}`,
     },
     historyApiFallback: true,
   },
-  devtool: 'source-map'
+  devtool: 'source-map',
 }

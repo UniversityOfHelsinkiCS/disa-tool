@@ -16,26 +16,20 @@ const splitContent = (content, delimiter) => {
 // Outputs a <span> containing alternating <span> and <MathJax.Node> elements.
 const MathJaxText = (props) => {
   const chunks = props.delimiters.reduce((acc, curr) => splitContent(acc, curr), [props.content])
-  const elements = chunks.map((chunk, i) => (i % 2 === 0 ? (
-    <span key={chunk}>{chunk}</span>
-  ) : (
-    <MathJax.Node key={chunk} inline formula={chunk} />
-  )))
-  return (
-    <span>
-      {elements}
-    </span>
+  const elements = chunks.map((chunk, i) =>
+    i % 2 === 0 ? <span key={chunk}>{chunk}</span> : <MathJax.Node key={chunk} inline formula={chunk} />
   )
+  return <span>{elements}</span>
 }
 
 MathJaxText.propTypes = {
   content: PropTypes.string,
-  delimiters: PropTypes.arrayOf(PropTypes.string)
+  delimiters: PropTypes.arrayOf(PropTypes.string),
 }
 
 MathJaxText.defaultProps = {
   content: '',
-  delimiters: ['$']
+  delimiters: ['$'],
 }
 
 export default MathJaxText

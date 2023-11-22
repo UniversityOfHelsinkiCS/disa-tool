@@ -63,10 +63,7 @@
       "get_all": ["Get all users", "Hae kaikki käyttäjät"],
       "course_roles": ["Course roles", "Roolit kursseilla"],
       "global_role_label": ["GLOBAL ROLE", "GLOBAALI ROOLI"],
-      "search_placeholder": [
-        "Search by name or student number",
-        "Hae nimellä tai opiskelijanumerolla"
-      ]
+      "search_placeholder": ["Search by name or student number", "Hae nimellä tai opiskelijanumerolla"]
     }
   },
   "home": {
@@ -288,9 +285,7 @@
       "machineGrade": "Konearvio"
     },
     "categoryFeedback": {
-      "message": [
-        "Olet jo vastannut tähän itsearviointiin. Voit tarkastella vastauksiasi alla."
-      ],
+      "message": ["Olet jo vastannut tähän itsearviointiin. Voit tarkastella vastauksiasi alla."],
       "general_feedback": "Yleinen palaute",
       "explanation": "perustelut",
       "feedback": "Palaute"
@@ -384,10 +379,7 @@
       "closed_courses": "Suljetut kurssit"
     },
     "courseInfo": {
-      "edit_self_assessments": [
-        "Edit self-asseessments",
-        "Muokkaa itsearviointeja"
-      ],
+      "edit_self_assessments": ["Edit self-asseessments", "Muokkaa itsearviointeja"],
       "edit_course": "Muokkaa kurssia",
       "close_course": "Kurssi avoinna",
       "manage_course_people_tasks": "Hallinnoi kurssin osallistujia ja tehtäviä",
@@ -407,10 +399,7 @@
       "add_teacher": ["Add teacher", "Lisää opettaja"],
       "select_teacher": ["Select teacher(s)", "Valitse lisättävät opettajat"],
       "add_student": ["Add student to course", "Lisää opiskelija kurssille"],
-      "search_student": [
-        "Search people outside of course",
-        "Etsi kurssin ulkopuolisia henkilöitä"
-      ],
+      "search_student": ["Search people outside of course", "Etsi kurssin ulkopuolisia henkilöitä"],
       "teacher": "Opettaja",
       "student": "Opiskelija",
       "manage_course_people": "Hallinnoi kurssin osallistujia",
@@ -418,10 +407,7 @@
     },
     "UploadResponses": {
       "CsvTable": {
-        "look_at_csv": [
-          "Inspect csv file contents",
-          "Katso csv-tiedoston sisältöä"
-        ]
+        "look_at_csv": ["Inspect csv file contents", "Katso csv-tiedoston sisältöä"]
       },
       "PointMapping": {
         "point_mapping_text": [

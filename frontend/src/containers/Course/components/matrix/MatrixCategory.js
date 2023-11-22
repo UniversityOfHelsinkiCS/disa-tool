@@ -1,31 +1,35 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { Table, Segment, Header } from 'semantic-ui-react'
+import { useTranslation } from 'react-i18next'
 import MatrixLevel from './MatrixLevel'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import { removeCategory, editCategory } from '../../actions/categories'
 import EditCategoryForm from './EditCategoryForm'
 import dndItem from '../../../../utils/components/DnDItem'
-import { useTranslation } from 'react-i18next'
 
 const DnDItem = dndItem('category')
 
-export const MatrixCategory = ({  courseId = null,
+export const MatrixCategory = ({
+  courseId = null,
   activeTaskId = null,
   showDetails = false,
-editing, category,slots, activeMap}) => {
-  const {t} = useTranslation("translation", {keyPrefix: "course.matrix.matrixCategory"})
-
-const asyncRemoveCategory = async (props) => {
-  const response = await removeCategory(props)
-  dispatch(response)
-
-}
-
-const asyncEditCategory = async (props) => {
-const response = await editCategory(props)
+  editing,
+  category,
+  slots,
+  activeMap,
+}) => {
+  const { t } = useTranslation('translation', { keyPrefix: 'course.matrix.matrixCategory' })
+  const dispatch = useDispatch()
+  const asyncRemoveCategory = async (props) => {
+    const response = await removeCategory(props)
     dispatch(response)
-}
+  }
+
+  const asyncEditCategory = async (props) => {
+    const response = await editCategory(props)
+    dispatch(response)
+  }
 
   const cellContent = (
     <div>
@@ -38,46 +42,39 @@ const response = await editCategory(props)
           <div className="paddedBlock">
             <DeleteForm
               onExecute={() => asyncRemoveCategory({ id: category.id })}
-              prompt={[
-                t('delete_prompt_1'),
-                `"${category.name}"`
-              ]}
+              prompt={[t('delete_prompt_1'), `"${category.name}"`]}
               header={t('delete_header')}
             />
           </div>
         </div>
-      ) : (
-        null
-      )}
+      ) : null}
     </div>
   )
   return (
     <Table.Row className="MatrixCategory">
       <Table.Cell>
         {editing ? (
-          <DnDItem
-            element={category}
-            mover={asyncEditCategory}
-            slots={slots}
-          >
-            <Segment>
-              {cellContent}
-            </Segment>
+          <DnDItem element={category} mover={asyncEditCategory} slots={slots}>
+            <Segment>{cellContent}</Segment>
           </DnDItem>
-        ) : cellContent}
+        ) : (
+          cellContent
+        )}
       </Table.Cell>
-      {category.skill_levels.sort((a, b) => a.order - b.order).map(level => (
-        <MatrixLevel
-          key={level.id}
-          category={category}
-          level={level}
-          courseId={courseId}
-          editing={editing}
-          activeMap={activeMap}
-          activeTaskId={activeTaskId}
-          showDetails={showDetails}
-        />
-      ))}
+      {category.skill_levels
+        .sort((a, b) => a.order - b.order)
+        .map((level) => (
+          <MatrixLevel
+            key={level.id}
+            category={category}
+            level={level}
+            courseId={courseId}
+            editing={editing}
+            activeMap={activeMap}
+            activeTaskId={activeTaskId}
+            showDetails={showDetails}
+          />
+        ))}
     </Table.Row>
   )
 }

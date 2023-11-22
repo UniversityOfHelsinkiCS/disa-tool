@@ -6,31 +6,25 @@ import { orderBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 const StudentAssesmentList = ({ assesments, translate: baseTranslate }) => {
-  const {t} = useTranslation("translation", {keyPrefix: "UserPage.StudentAssesmentList"})
+  const { t } = useTranslation('translation', { keyPrefix: 'UserPage.StudentAssesmentList' })
   return (
     <List selection divided size="big">
-      {orderBy(assesments, 'name').map(assesment => (
+      {orderBy(assesments, 'name').map((assesment) =>
         !assesment.active ? undefined : (
           <List.Item key={assesment.id} style={{ display: 'flex' }}>
-            <List.Content
-              as={Link}
-              to={`/selfassessment/response/${assesment.id}`}
-              style={{ flexGrow: 1 }}
-            >
+            <List.Content as={Link} to={`/selfassessment/response/${assesment.id}`} style={{ flexGrow: 1 }}>
               {assesment.name}
             </List.Content>
             <List.Content floated="right">
-              <Label
-                color={assesment.open ? 'green' : 'red'}
-                content={assesment.open ? t('open') : t('closed')}
-              />
+              <Label color={assesment.open ? 'green' : 'red'} content={assesment.open ? t('open') : t('closed')} />
               <Label
                 color={assesment.assessment_responses.length > 0 ? 'green' : 'red'}
                 content={assesment.assessment_responses.length > 0 ? t('answered') : t('unanswered')}
               />
             </List.Content>
-          </List.Item>)
-          ))}
+          </List.Item>
+        )
+      )}
     </List>
   )
 }

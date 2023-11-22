@@ -5,16 +5,15 @@ import { Modal, Form, Divider, Button } from 'semantic-ui-react'
 const ModalForm = (props) => {
   const [expanded, setExpanded] = useState(false)
   useEffect(() => {
-if(props.onOpen) {
-    props.onOpen()
-  }
-
-  },[expanded])
+    if (props.onOpen) {
+      props.onOpen()
+    }
+  }, [expanded])
 
   const expand = () => setExpanded(true)
 
   const collapse = () => {
-    if(props.onClose) {
+    if (props.onClose) {
       props.onClose()
     }
     setExpanded(false)
@@ -22,56 +21,55 @@ if(props.onOpen) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if(props.onSubmit) {
+    if (props.onSubmit) {
       props.onSubmit(e)
     }
     collapse()
   }
   const actionHandlers = {
-    reset: collapse
+    reset: collapse,
   }
 
-  const mapAction = (button, i) => (button.props.type ? React.cloneElement(button, {
-    onClick: actionHandlers[button.props.type],
-    key: i
-  }) : React.cloneElement(button, {
-    key: i
-  }))
+  const mapAction = (button, i) =>
+    button.props.type
+      ? React.cloneElement(button, {
+          onClick: actionHandlers[button.props.type],
+          key: i,
+        })
+      : React.cloneElement(button, {
+          key: i,
+        })
 
-    const style = props.trigger.props.style || {}
-    // TODO: Apply trigger margin as margin in this div.
-    const trigger = (
-      <div onClick={expand} style={{ margin: 'auto', display: 'inline-block' }}>
-        {React.cloneElement(props.trigger, {
-          style: { ...style, margin: '0px' } // We need to eliminate margin to make the div no larger than trigger.
-        })}
-      </div>
-    )
-    // The children/content are wrapped in a separate context.
-    // This is a hack and should be fixed to use the outside context instead.
-    return (
-      <Modal
-        trigger={trigger}
-        open={expanded === null ? expanded : expanded}
-        onClose={collapse}
-      >
-        <Modal.Header>{props.header}</Modal.Header>
-        <Modal.Content>
-          <Form onSubmit={handleSubmit} loading={props.loading}>
-            <>
-                {props.children || props.content}
-                {props.actions && props.actions.length > 0 ? (
-                  <div>
-                    <Divider />
-                    {props.actions.map(mapAction)}
-                  </div>
-                ) : null}
-            </>
-          </Form>
-        </Modal.Content>
-      </Modal>
-    )
-  }
+  const style = props.trigger.props.style || {}
+  // TODO: Apply trigger margin as margin in this div.
+  const trigger = (
+    <div onClick={expand} style={{ margin: 'auto', display: 'inline-block' }}>
+      {React.cloneElement(props.trigger, {
+        style: { ...style, margin: '0px' }, // We need to eliminate margin to make the div no larger than trigger.
+      })}
+    </div>
+  )
+  // The children/content are wrapped in a separate context.
+  // This is a hack and should be fixed to use the outside context instead.
+  return (
+    <Modal trigger={trigger} open={expanded === null ? expanded : expanded} onClose={collapse}>
+      <Modal.Header>{props.header}</Modal.Header>
+      <Modal.Content>
+        <Form onSubmit={handleSubmit} loading={props.loading}>
+          <>
+            {props.children || props.content}
+            {props.actions && props.actions.length > 0 ? (
+              <div>
+                <Divider />
+                {props.actions.map(mapAction)}
+              </div>
+            ) : null}
+          </>
+        </Form>
+      </Modal.Content>
+    </Modal>
+  )
+}
 
 /**
  * Import this function, call it and pass the result as the actions prop to ModalForm.
@@ -79,11 +77,16 @@ if(props.onOpen) {
  * @param {function} translate
  */
 export const saveActions = () => {
-  const {t} = useTranslation("translation")
-  return[
-  <Button color="green" style={{ margin: '0px 15px 0px 15px' }}>{t('common.save')}</Button>,
-  <Button type="reset" style={{ margin: '0px 15px 0px 15px' }}>{t('common.cancel')}</Button>
-]}
+  const { t } = useTranslation('translation')
+  return [
+    <Button color="green" style={{ margin: '0px 15px 0px 15px' }}>
+      {t('common.save')}
+    </Button>,
+    <Button type="reset" style={{ margin: '0px 15px 0px 15px' }}>
+      {t('common.cancel')}
+    </Button>,
+  ]
+}
 /*
 ModalForm.propTypes = {
   trigger: PropTypes.element.isRequired,

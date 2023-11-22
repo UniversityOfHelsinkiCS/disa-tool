@@ -5,36 +5,31 @@ import { useTranslation } from 'react-i18next'
 const findVerificationGrade = (verification, categoryName) => {
   if (!verification) return null
   if (!verification.categoryVerifications) return null
-  const category = verification.categoryVerifications.find(c => c.categoryName === categoryName)
+  const category = verification.categoryVerifications.find((c) => c.categoryName === categoryName)
   if (!category) return null
   return category.earnedGrade.name
 }
 
 export const CategoryFeedback = (props) => {
-  const { questionModuleResponses=null, feedback=null, verification=null,teacher=null } = props
+  const { questionModuleResponses = null, feedback = null, verification = null, teacher = null } = props
   const { t } = useTranslation('feedbackPage.categoryFeedback')
   return (
     <div>
-      {props.teacher ? null : (
-        <h2>
-          {t('message')}
-        </h2>
-      )}
-      {feedback ?
+      {props.teacher ? null : <h2>{t('message')}</h2>}
+      {feedback ? (
         <Card fluid color="yellow">
           <Card.Content>
             <Card.Header>
               <h3>{t('general_feedback')}</h3>
             </Card.Header>
-            <Card.Description>
-              {feedback.generalFeedback}
-            </Card.Description>
+            <Card.Description>{feedback.generalFeedback}</Card.Description>
           </Card.Content>
-        </Card> : undefined}
-      {questionModuleResponses.map(questionModule => (
+        </Card>
+      ) : undefined}
+      {questionModuleResponses.map((questionModule) => (
         <Card.Group key={questionModule.id} itemsPerRow={feedback ? 2 : 1}>
-          <Card fluid color="red" >
-            <Card.Content >
+          <Card fluid color="red">
+            <Card.Content>
               <Card.Header textAlign="center">
                 <h3>{questionModule.name}</h3>
               </Card.Header>
@@ -48,62 +43,69 @@ export const CategoryFeedback = (props) => {
                     </Fragment>
                   )}
                 </h4>
-                {questionModule.textFieldOn ?
+                {questionModule.textFieldOn ? (
                   <div>
-                    <h5>{(t('explanation'))}:</h5>
+                    <h5>{t('explanation')}:</h5>
                     <p>{questionModule.responseText}</p>
                   </div>
-                  :
-                  null}
+                ) : null}
               </Card.Description>
             </Card.Content>
           </Card>
-          {feedback ?
+          {feedback ? (
             <Card fluid color="red">
-              <Card.Content >
+              <Card.Content>
                 <Card.Header textAlign="center">
                   <h3>{t('feedback')}</h3>
                 </Card.Header>
                 <Card.Description textAlign="center">
-                  {feedback.categoryFeedback.find(f => f.categoryId === questionModule.id).text}
+                  {feedback.categoryFeedback.find((f) => f.categoryId === questionModule.id).text}
                 </Card.Description>
               </Card.Content>
               <Card.Content>
-                {feedback.categoryFeedback.find(f =>
-                f.categoryId === questionModule.id).skillLevelObjectives.map((skillLevel, i) => (
-                  <Accordion
-                    key={i}
-                    defaultActiveIndex={-1}
-                    styled
-                    fluid
-                    panels={[{
-                      key: skillLevel.skillLevel,
-                      title: skillLevel.skillLevel,
-                      content: {
-                        key: `${skillLevel.skillLevel} objectives`,
-                        content: skillLevel.objectives.map((objective, j) => (
-                          objective.include ?
-                            <div key={j}>
-                              <h5>{objective.name} {objective.percentageDone === 100 ?
-                                <Icon color="yellow" loading name="star" size="large" /> : undefined}
-                              </h5>
-                              <Progress
-                                size="small"
-                                percent={objective.percentageDone.toFixed(1)}
-                                progress={props.teacher}
-                                indicating
-                              />
-                            </div>
-                          : undefined))
-                      }
-                    }]}
-                  />
-                ))}
+                {feedback.categoryFeedback
+                  .find((f) => f.categoryId === questionModule.id)
+                  .skillLevelObjectives.map((skillLevel, i) => (
+                    <Accordion
+                      key={i}
+                      defaultActiveIndex={-1}
+                      styled
+                      fluid
+                      panels={[
+                        {
+                          key: skillLevel.skillLevel,
+                          title: skillLevel.skillLevel,
+                          content: {
+                            key: `${skillLevel.skillLevel} objectives`,
+                            content: skillLevel.objectives.map((objective, j) =>
+                              objective.include ? (
+                                <div key={j}>
+                                  <h5>
+                                    {objective.name}{' '}
+                                    {objective.percentageDone === 100 ? (
+                                      <Icon color="yellow" loading name="star" size="large" />
+                                    ) : undefined}
+                                  </h5>
+                                  <Progress
+                                    size="small"
+                                    percent={objective.percentageDone.toFixed(1)}
+                                    progress={props.teacher}
+                                    indicating
+                                  />
+                                </div>
+                              ) : undefined
+                            ),
+                          },
+                        },
+                      ]}
+                    />
+                  ))}
               </Card.Content>
-            </Card> : undefined}
+            </Card>
+          ) : undefined}
         </Card.Group>
       ))}
-    </div >
+    </div>
   )
 }
 

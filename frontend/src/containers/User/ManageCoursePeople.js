@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { connect,useDispatch } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { Accordion, Button, Dropdown, Icon, List } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 
@@ -11,15 +11,15 @@ const ManageCoursePeople = (props) => {
   const [searchPeople, setSearchPeople] = useState([])
   const [newStudent, setNewStudent] = useState({})
   const { people } = props
-  const {t} = useTranslation('translation', {keyPrefix: 'userPage.manageCoursePeople'})
+  const { t } = useTranslation('translation', { keyPrefix: 'userPage.manageCoursePeople' })
   const dispatch = useDispatch()
 
   const asyncUpdateCoursePersonsAction = async (formattedRequest) => {
-    await updateCoursePersonsAction(formattedRequest,dispatch)
+    await updateCoursePersonsAction(formattedRequest, dispatch)
   }
 
   const asyncDeleteCoursePersonAction = async (formattedRequest) => {
-    await deleteCoursePersonAction(formattedRequest,dispatch)
+    await deleteCoursePersonAction(formattedRequest, dispatch)
   }
 
   const handleAccordion = (e, titleProps) => {
@@ -30,35 +30,40 @@ const ManageCoursePeople = (props) => {
   }
 
   const handleRoleChange = (e, { person, value }) => {
-    const formattedRequest = [{
-      person_id: person.id,
-      course_instance_id: props.activeCourse.id,
-      role: value
-    }]
+    const formattedRequest = [
+      {
+        person_id: person.id,
+        course_instance_id: props.activeCourse.id,
+        role: value,
+      },
+    ]
     asyncUpdateCoursePersonsAction(formattedRequest)
   }
 
   const handleSearchChange = (e, { searchQuery }) => {
     if (searchQuery.length > 2) {
-      findPeople(searchQuery).then(res => setState({
-        // filter out people already on course
-        searchPeople: res.data.filter(person => !props.people.find(p => p.id === person.id))
-      }))
+      findPeople(searchQuery).then((res) =>
+        setState({
+          // filter out people already on course
+          searchPeople: res.data.filter((person) => !props.people.find((p) => p.id === person.id)),
+        })
+      )
     }
   }
 
   const handleAddStudentToCourse = (e, { value }) => {
     if (e.target.name === 'studentAddButton') {
-      const formattedRequest = [{
-        person_id: newStudent.id,
-        course_instance_id: props.activeCourse.id,
-        role: 'STUDENT'
-      }]
-      asyncUpdateCoursePersonsAction(formattedRequest)
-        .then(() => setNewStudent({}))
+      const formattedRequest = [
+        {
+          person_id: newStudent.id,
+          course_instance_id: props.activeCourse.id,
+          role: 'STUDENT',
+        },
+      ]
+      asyncUpdateCoursePersonsAction(formattedRequest).then(() => setNewStudent({}))
     } else {
       setState({
-        newStudent: searchPeople.find(person => person.id === value) || {}
+        newStudent: searchPeople.find((person) => person.id === value) || {},
       })
     }
   }
@@ -66,101 +71,93 @@ const ManageCoursePeople = (props) => {
   const handleRemoveFromCourse = (e, { value }) => {
     const formattedRequest = {
       id: value,
-      course_instance_id: props.activeCourse.id
+      course_instance_id: props.activeCourse.id,
     }
     asyncDeleteCoursePersonAction(formattedRequest)
   }
 
-  const isTeacher = person => (
-    person.course_instances[0].course_person.role === 'TEACHER'
-  )
+  const isTeacher = (person) => person.course_instances[0].course_person.role === 'TEACHER'
 
-    return (
-      <Accordion styled fluid>
-        <Accordion.Title active={activeIndex === 0} index={0} onClick={handleAccordion}>
-          <Icon name="dropdown" />
-          {t('manage_course_people')}
-        </Accordion.Title>
-        <Accordion.Content active={activeIndex === 0}>
-          <h5>{t('add_a_user')}</h5>
-          <Dropdown
-            name="studentSelector"
-            closeOnChange
-            closeOnBlur
-            selection
-            search
-            placeholder={t('search_student')}
-            value={newStudent.id}
-            options={searchPeople.map(person => (
-            { key: person.id, text: person.name, value: person.id }
-          ))}
-            onChange={handleAddStudentToCourse}
-            onSearchChange={handleSearchChange}
-          />
-          {newStudent && newStudent.id ?
-            <div>
-              <Button
-                name="studentAddButton"
-                basic
-                color="pink"
-                content={t('add_student')}
-                onClick={handleAddStudentToCourse}
-              />
-              <Button
-                basic
-                color="red"
-                circular
-                icon="delete"
-                size="tiny"
-                value=""
-                onClick={handleAddStudentToCourse}
-              />
-            </div> : undefined}
-          <List divided siz="tiny" verticalAlign="middle">
-            {people.map(person => (
-              <List.Item key={person.id}>
-                <List.Content floated="right">
-                  <Button.Group size="tiny" compact>
-                    <Button
-                      content={t('student')}
-                      person={person}
-                      positive={!isTeacher(person)}
-                      value="STUDENT"
-                      onClick={handleRoleChange}
-                    />
-                    <Button.Or />
-                    <Button
-                      content={t('teacher')}
-                      person={person}
-                      positive={isTeacher(person)}
-                      value="TEACHER"
-                      onClick={handleRoleChange}
-                    />
-                  </Button.Group>
-                  &nbsp;
+  return (
+    <Accordion styled fluid>
+      <Accordion.Title active={activeIndex === 0} index={0} onClick={handleAccordion}>
+        <Icon name="dropdown" />
+        {t('manage_course_people')}
+      </Accordion.Title>
+      <Accordion.Content active={activeIndex === 0}>
+        <h5>{t('add_a_user')}</h5>
+        <Dropdown
+          name="studentSelector"
+          closeOnChange
+          closeOnBlur
+          selection
+          search
+          placeholder={t('search_student')}
+          value={newStudent.id}
+          options={searchPeople.map((person) => ({
+            key: person.id,
+            text: person.name,
+            value: person.id,
+          }))}
+          onChange={handleAddStudentToCourse}
+          onSearchChange={handleSearchChange}
+        />
+        {newStudent && newStudent.id ? (
+          <div>
+            <Button
+              name="studentAddButton"
+              basic
+              color="pink"
+              content={t('add_student')}
+              onClick={handleAddStudentToCourse}
+            />
+            <Button basic color="red" circular icon="delete" size="tiny" value="" onClick={handleAddStudentToCourse} />
+          </div>
+        ) : undefined}
+        <List divided siz="tiny" verticalAlign="middle">
+          {people.map((person) => (
+            <List.Item key={person.id}>
+              <List.Content floated="right">
+                <Button.Group size="tiny" compact>
                   <Button
-                    basic
-                    color="red"
-                    compact
-                    content={t('remove_from_course')}
-                    size="tiny"
-                    value={person.id}
-                    onClick={handleRemoveFromCourse}
+                    content={t('student')}
+                    person={person}
+                    positive={!isTeacher(person)}
+                    value="STUDENT"
+                    onClick={handleRoleChange}
                   />
-                </List.Content>
-                <List.Content>
-                  <List.Header>
-                    {person.studentnumber} - {person.name}
-                  </List.Header>
-                </List.Content>
-              </List.Item>
+                  <Button.Or />
+                  <Button
+                    content={t('teacher')}
+                    person={person}
+                    positive={isTeacher(person)}
+                    value="TEACHER"
+                    onClick={handleRoleChange}
+                  />
+                </Button.Group>
+                &nbsp;
+                <Button
+                  basic
+                  color="red"
+                  compact
+                  content={t('remove_from_course')}
+                  size="tiny"
+                  value={person.id}
+                  onClick={handleRemoveFromCourse}
+                />
+              </List.Content>
+              <List.Content>
+                <List.Header>
+                  {person.studentnumber} - {person.name}
+                </List.Header>
+              </List.Content>
+            </List.Item>
           ))}
-          </List>
-        </Accordion.Content>
-      </Accordion>
-
-    )
-  }
+        </List>
+      </Accordion.Content>
+    </Accordion>
+  )
+}
 /*
 ManageCoursePeople.propTypes = {
   activeCourse: shape().isRequired,

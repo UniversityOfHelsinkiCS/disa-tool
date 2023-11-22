@@ -8,7 +8,7 @@ import InfoBox from '../../utils/components/InfoBox'
 
 export const CourseInfo = (props) => {
   const { course } = props
-  const {t} = useTranslation('translation')
+  const { t } = useTranslation('translation')
 
   return (
     <Fragment>
@@ -17,8 +17,12 @@ export const CourseInfo = (props) => {
           <Header name="course-info-header" as="h1" floated="left">
             {course.name}
           </Header>
-          <Conditional visible={props.isTeacher}>{
-            <Button floated="right" color={course.active ? 'green' : 'red'} onClick={props.toggleActivation}>{t(course.active ? 'userPage.courseInfo.close_course' : 'userPage.courseInfo.start_course')}</Button>}
+          <Conditional visible={props.isTeacher}>
+            {
+              <Button floated="right" color={course.active ? 'green' : 'red'} onClick={props.toggleActivation}>
+                {t(course.active ? 'userPage.courseInfo.close_course' : 'userPage.courseInfo.start_course')}
+              </Button>
+            }
           </Conditional>
           <InfoBox translationid="userPage" buttonProps={{ floated: 'right' }} useCourseRole />
         </Grid.Column>
@@ -27,7 +31,15 @@ export const CourseInfo = (props) => {
         <Grid.Column>
           <Header as="h2" color={course.active ? 'green' : 'red'}>
             <Header.Subheader style={{ display: 'inline' }}>{t('userPage.courseInfo.this_course_is')}</Header.Subheader>
-            {course.active ? <span><b>{t('common.open')}</b></span> : <span><b>{t('common.closed')}</b></span>}
+            {course.active ? (
+              <span>
+                <b>{t('common.open')}</b>
+              </span>
+            ) : (
+              <span>
+                <b>{t('common.closed')}</b>
+              </span>
+            )}
           </Header>
           <Button.Group vertical>
             <Button
@@ -57,7 +69,10 @@ export const CourseInfo = (props) => {
               </Button>
               <Button
                 as={Link}
-                to={{ pathname: `user/course/${course.id}/tasksAndPeople`, state: { courseId: course.id } }}
+                to={{
+                  pathname: `user/course/${course.id}/tasksAndPeople`,
+                  state: { courseId: course.id },
+                }}
                 basic
                 color="blue"
                 icon
@@ -77,10 +92,8 @@ export const CourseInfo = (props) => {
           <Grid.Column>
             <Header as="h3">{t('userPage.courseInfo.course_teachers')}</Header>
             <List name="course-info-teacher-list">
-              {props.teachers.map(teacher => (
-                <List.Item key={teacher.id}>
-                  {teacher.name}
-                </List.Item>
+              {props.teachers.map((teacher) => (
+                <List.Item key={teacher.id}>{teacher.name}</List.Item>
               ))}
             </List>
           </Grid.Column>

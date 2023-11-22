@@ -12,65 +12,61 @@ import { getCourseInstanceDataAction } from '../../../../actions/actions'
 import { useTranslation } from 'react-i18next'
 
 export const Task = (props) => {
-
-  const {t} = useTranslation("translation", { keyPrefix: 'course.tasks.task' })
+  const { t } = useTranslation('translation', { keyPrefix: 'course.tasks.task' })
   const dispatch = useDispatch()
-  
-  const removeTaskAsync = async ({id}) => {
+
+  const removeTaskAsync = async ({ id }) => {
     asyncAction(removeTask(id), dispatch)
   }
 
   const updateCourseInfo = async (courseId) => {
-
     await getCourseInstanceDataAction(courseId, dispatch)
   }
 
-    return (
-      <Segment
-        className="Task"
-        textAlign="center"
-        style={{ padding: '2px' }}
-      >
-        <Grid>
-          <Grid.Row>
-            <Grid.Column width={14}>
-              <Header style={{ marginTop: '5px' }}>{props.task.name}</Header>
-            </Grid.Column>
-            <Grid.Column width={1}>
-              <DeleteForm
-                onExecute={() => {
-                  removeTaskAsync({ id: props.task.id })
-                    .then(() => { updateCourseInfo(props.courseId) })
-                }}
-                prompt={[
-                  t('deletePrompt1'),
-                  `"${props.task.name}"`
-                ]}
-                header={t('deleteHeader')}
-              />
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={13}>
-              <MathJaxText content={props.task.description} />
-              <p><b>{t('info')}: </b>{props.task.info}</p>
-              <p><b>{t('maxPoints')}: </b>{props.task.max_points}</p>
-            </Grid.Column>
-            <Grid.Column stretched width={3} verticalAlign="middle">
-              <div className="taskControlButton">
-                <EditTaskForm taskId={props.task.id} />
-              </div>
-              <div className="taskControlButton">
-                <EditTaskObjectivesForm
-                  taskId={props.task.id}
-                />
-              </div>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Segment>
-    )
-  }
+  return (
+    <Segment className="Task" textAlign="center" style={{ padding: '2px' }}>
+      <Grid>
+        <Grid.Row>
+          <Grid.Column width={14}>
+            <Header style={{ marginTop: '5px' }}>{props.task.name}</Header>
+          </Grid.Column>
+          <Grid.Column width={1}>
+            <DeleteForm
+              onExecute={() => {
+                removeTaskAsync({ id: props.task.id }).then(() => {
+                  updateCourseInfo(props.courseId)
+                })
+              }}
+              prompt={[t('deletePrompt1'), `"${props.task.name}"`]}
+              header={t('deleteHeader')}
+            />
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column width={13}>
+            <MathJaxText content={props.task.description} />
+            <p>
+              <b>{t('info')}: </b>
+              {props.task.info}
+            </p>
+            <p>
+              <b>{t('maxPoints')}: </b>
+              {props.task.max_points}
+            </p>
+          </Grid.Column>
+          <Grid.Column stretched width={3} verticalAlign="middle">
+            <div className="taskControlButton">
+              <EditTaskForm taskId={props.task.id} />
+            </div>
+            <div className="taskControlButton">
+              <EditTaskObjectivesForm taskId={props.task.id} />
+            </div>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </Segment>
+  )
+}
 /*
 Task.propTypes = {
   task: PropTypes.shape({

@@ -42,7 +42,9 @@
   flex-grow: 1;
 }
 
-.editBlock, .removeBlock, .multiplierBlock {
+.editBlock,
+.removeBlock,
+.multiplierBlock {
   display: inline-block;
   margin: 2px 0px 2px 5px !important;
 }

@@ -1,7 +1,6 @@
 // @ts-check
-const { defineConfig, devices } = require('@playwright/test');
-import path from 'path';
-
+const { defineConfig, devices } = require('@playwright/test')
+import path from 'path'
 
 /**
  * Read environment variables from file.
@@ -9,8 +8,7 @@ import path from 'path';
  */
 // require('dotenv').config();
 
-export const STORAGE_STATE = path.join(__dirname, 'playwright/.auth/users.json');
-
+export const STORAGE_STATE = path.join(__dirname, 'playwright/.auth/users.json')
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -23,7 +21,7 @@ module.exports = defineConfig({
     toHaveScreenshot: {
       maxDiffPixels: 500,
     },
-    toMatchSnapshot:  {
+    toMatchSnapshot: {
       maxDiffPixelRatio: 0.2,
     },
   },
@@ -40,23 +38,23 @@ module.exports = defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    baseURL: "http://localhost:8080",
+    baseURL: 'http://localhost:8080',
     //storageState: 'users.json',
     trace: 'on',
     screenshot: 'only-on-failure', // Capture screenshot after each test failure.
-    video: 'on-first-retry', 
+    video: 'on-first-retry',
     headless: true,
     viewport: { width: 1280, height: 720 },
     launchOptions: {
-        slowMo: 50,
-        logger: {
-            isEnabled: (name, severity) => name === 'browser',
-            log: (name, severity, message, args) => console.log(`${name} ${message}`)
-        }
+      slowMo: 50,
+      logger: {
+        isEnabled: (name, severity) => name === 'browser',
+        log: (name, severity, message, args) => console.log(`${name} ${message}`),
+      },
     },
     //actionTimeout: 10 * 1000,
     //navigationTimeout: 30 * 1000
-},
+  },
   /* Configure projects for major browsers */
   projects: [
     {
@@ -67,7 +65,7 @@ module.exports = defineConfig({
       name: 'setup',
       testMatch: '**/*.setup.js',
     },
-   /* {
+    /* {
       name: 'logged in as kimgjon',
       dependencies: ['setup'],
       use: {
@@ -79,7 +77,7 @@ module.exports = defineConfig({
       use: { ...devices['Desktop Chrome'] },
       dependencies: ['setup'],
     },
- /*   {
+    /*   {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
       dependencies: ['setup'],
@@ -117,5 +115,4 @@ module.exports = defineConfig({
   //   url: 'http://127.0.0.1:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
-});
-
+})

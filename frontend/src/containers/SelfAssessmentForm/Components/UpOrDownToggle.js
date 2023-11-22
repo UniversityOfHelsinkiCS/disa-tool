@@ -7,14 +7,14 @@ import { useTranslation } from 'react-i18next'
 const UpOrDownToggle = (props) => {
   const { id } = props
   const dispatch = useDispatch()
-  const {t} = useTranslation("translation", {keyPrefix: "selfAssessmentForm.upOrDownToggle"})
+  const { t } = useTranslation('translation', { keyPrefix: 'selfAssessmentForm.upOrDownToggle' })
 
   const asyncToggleUp = async (id) => {
-    toggleUp(id,dispatch)
+    toggleUp(id, dispatch)
   }
 
   const asyncToggleDown = async (id) => {
-    toggleDown(id,dispatch)
+    toggleDown(id, dispatch)
   }
 
   return (
@@ -22,23 +22,25 @@ const UpOrDownToggle = (props) => {
       <Popup
         trigger={
           <Icon
-          data-testid={`toggle-down-button-${id}`}
+            data-testid={`toggle-down-button-${id}`}
             color="red"
             name="arrow circle down"
             size="big"
             onClick={() => asyncToggleDown(id)}
-          />}
+          />
+        }
         content={t('downButton')}
       />
       <Popup
         trigger={
           <Icon
-          data-testid={`toggle-up-button-${id}`}
+            data-testid={`toggle-up-button-${id}`}
             color="green"
             name="arrow circle up"
             size="big"
             onClick={() => asyncToggleUp(id)}
-          />}
+          />
+        }
         content={t('upButton')}
       />
     </div>

@@ -3,7 +3,7 @@ import levelReducer from '../../redux/level'
 import * as types from '../../redux/action_types'
 
 const INITIAL_STATE = {
-  levels: []
+  levels: [],
 }
 
 const courseGetDataResponse = {
@@ -12,68 +12,68 @@ const courseGetDataResponse = {
     levels: [
       {
         id: 10,
-        name: 'sl0'
+        name: 'sl0',
       },
       {
         id: 11,
-        name: 'sl1'
-      }
-    ]
-  }
+        name: 'sl1',
+      },
+    ],
+  },
 }
 
 const courseGetDataExpectation = {
   levels: [
     {
       id: 10,
-      name: 'sl0'
+      name: 'sl0',
     },
     {
       id: 11,
-      name: 'sl1'
-    }
-  ]
+      name: 'sl1',
+    },
+  ],
 }
 
 const levelCreateResponse = {
   message: 'test_message',
   created: {
     id: 20,
-    name: 'sl10'
-  }
+    name: 'sl10',
+  },
 }
 
 const levelCreateExpectation = {
   levels: [
     {
       id: 10,
-      name: 'sl0'
+      name: 'sl0',
     },
     {
       id: 11,
-      name: 'sl1'
+      name: 'sl1',
     },
     {
       id: 20,
-      name: 'sl10'
-    }
-  ]
+      name: 'sl10',
+    },
+  ],
 }
 
 const levelDeleteResponse = {
   message: 'test message',
   deleted: {
-    id: 11
-  }
+    id: 11,
+  },
 }
 
 const levelDeleteExpectation = {
   levels: [
     {
       id: 10,
-      name: 'sl0'
-    }
-  ]
+      name: 'sl0',
+    },
+  ],
 }
 
 describe('level reducer', () => {
@@ -87,7 +87,7 @@ describe('level reducer', () => {
   it('parses data from COURSE_GET_DATA', () => {
     state = levelReducer(state, {
       type: types.COURSE_GET_DATA,
-      response: courseGetDataResponse
+      response: courseGetDataResponse,
     })
     expect(state).toEqual(courseGetDataExpectation)
   })
@@ -96,7 +96,7 @@ describe('level reducer', () => {
     beforeEach(() => {
       state = levelReducer(state, {
         type: types.COURSE_GET_DATA,
-        response: courseGetDataResponse
+        response: courseGetDataResponse,
       })
       deepFreeze(state)
     })
@@ -104,7 +104,7 @@ describe('level reducer', () => {
     it('appends a skill level with LEVEL_CREATE.', () => {
       state = levelReducer(state, {
         type: types.LEVEL_CREATE,
-        response: levelCreateResponse
+        response: levelCreateResponse,
       })
       expect(state).toEqual(levelCreateExpectation)
     })
@@ -112,7 +112,7 @@ describe('level reducer', () => {
     it('deletes a skill level with LEVEL_DELETE.', () => {
       state = levelReducer(state, {
         type: types.LEVEL_DELETE,
-        response: levelDeleteResponse
+        response: levelDeleteResponse,
       })
       expect(state).toEqual(levelDeleteExpectation)
     })

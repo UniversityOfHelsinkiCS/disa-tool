@@ -18,21 +18,21 @@ export const initForm = (payload) => {
       prefix: 'Fin',
       header: 'Ohjeita',
       value: 'Ohjeet itsearvioon',
-      type: 'fin_instructions'
+      type: 'fin_instructions',
     },
     {
       id: 5,
       prefix: 'Eng',
       header: 'Instructions',
       value: 'Instructions for self assessment',
-      type: 'eng_instructions'
+      type: 'eng_instructions',
     },
     {
       id: 6,
       prefix: 'Swe',
       header: 'Anvisning',
       value: 'Instruktioner för självbedömning',
-      type: 'swe_instructions'
+      type: 'swe_instructions',
     }
   )
 
@@ -45,21 +45,19 @@ export const initForm = (payload) => {
   data.name = formInfo.slice(0, 3).find((f) => f.type === name).value
   data.instructions = {
     header: formInfo.slice(3, 6).find((f) => f.type === instructions).header,
-    value: formInfo.slice(3, 6).find((f) => f.type === instructions).value
+    value: formInfo.slice(3, 6).find((f) => f.type === instructions).value,
   }
 
   const { structure } = data
 
   if (!structure.displayCoursename) {
-    structure.displayCoursename =
-      courseInfo[`${localStorage.getItem('lang')}_name`]
+    structure.displayCoursename = courseInfo[`${localStorage.getItem('lang')}_name`]
   }
   structure.formInfo = formInfo
   structure.openQuestions = {}
   structure.openQuestions.questions = []
   if (courseData.length === 0) return null
-  const id =
-    parseInt(courseData.reduce((c, d) => (c.id > d.id ? c : d)).id, 10) + 1
+  const id = parseInt(courseData.reduce((c, d) => (c.id > d.id ? c : d)).id, 10) + 1
   structure.openQuestions.incrementId = id + 1
 
   const headers = []
@@ -69,19 +67,19 @@ export const initForm = (payload) => {
       id: 1,
       prefix: 'Fin:',
       value: 'Anna itsellesi loppuarvosana kurssista',
-      type: 'fin_name'
+      type: 'fin_name',
     },
     {
       id: 2,
       prefix: 'Eng:',
       value: 'Give yourself a final grade for the course',
-      type: 'eng_name'
+      type: 'eng_name',
     },
     {
       id: 3,
       prefix: 'Swe:',
       value: 'Ge dig själv ett slutvitsord för kursen',
-      type: 'swe_name'
+      type: 'swe_name',
     }
   )
 
@@ -91,7 +89,7 @@ export const initForm = (payload) => {
     includedInAssesment: true,
     id,
     header: null,
-    name: headers.find((h) => h.type === name).value
+    name: headers.find((h) => h.type === name).value,
   }
 
   structure.headers = {}
@@ -104,7 +102,7 @@ export const initForm = (payload) => {
         id: ciO.id,
         name: ciO.name,
         textFieldOn: true,
-        includedInAssesment: true
+        includedInAssesment: true,
       })
     )
   } else {
@@ -117,10 +115,10 @@ export const initForm = (payload) => {
         objectives: ciO.objectives.map((o) => ({
           id: o.id,
           name: o.name,
-          includedInAssesment: true
+          includedInAssesment: true,
         })),
         includedInAssesment: true,
-        options: ['osaan huonosti', 'osaan keskinkertaisesti', 'osaan hyvin']
+        options: ['osaan huonosti', 'osaan keskinkertaisesti', 'osaan hyvin'],
       })
     )
   }
@@ -128,29 +126,23 @@ export const initForm = (payload) => {
   structure.headers.questionHeaders = [
     { id: 1, prefix: 'Fin:', value: 'Kurssin osa-alueet', type: 'fin_name' },
     { id: 2, prefix: 'Eng:', value: 'Course topics', type: 'eng_name' },
-    { id: 3, prefix: 'Swe:', value: 'Frågor', type: 'swe_name' }
+    { id: 3, prefix: 'Swe:', value: 'Frågor', type: 'swe_name' },
   ]
 
   data.structure.headers.openQ = [
     { id: 3, prefix: 'Fin:', value: 'Avoimet kysymykset', type: 'fin_name' },
     { id: 4, prefix: 'Eng:', value: 'Open questions', type: 'eng_name' },
-    { id: 5, prefix: 'Swe:', value: 'Öppna frågor', type: 'swe_name' }
+    { id: 5, prefix: 'Swe:', value: 'Öppna frågor', type: 'swe_name' },
   ]
 
   data.structure.headers.grade = [
     { id: 6, prefix: 'Fin:', value: 'Loppuarvio', type: 'fin_name' },
     { id: 7, prefix: 'Eng:', value: 'Final grade', type: 'eng_name' },
-    { id: 8, prefix: 'Swe:', value: 'Slutvitsord', type: 'swe_name' }
+    { id: 8, prefix: 'Swe:', value: 'Slutvitsord', type: 'swe_name' },
   ]
-  data.structure.finalGrade.header = data.structure.headers.grade.find(
-    (h) => h.type === name
-  ).value
-  data.structure.questionModuleName = structure.headers.questionHeaders.find(
-    (h) => h.type === name
-  ).value //eslint-disable-line
-  data.structure.openQuestions.name = data.structure.headers.openQ.find(
-    (h) => h.type === name
-  ).value //eslint-disable-line
+  data.structure.finalGrade.header = data.structure.headers.grade.find((h) => h.type === name).value
+  data.structure.questionModuleName = structure.headers.questionHeaders.find((h) => h.type === name).value //eslint-disable-line
+  data.structure.openQuestions.name = data.structure.headers.openQ.find((h) => h.type === name).value //eslint-disable-line
   return data
 }
 
@@ -173,7 +165,7 @@ export const initResponseForm = (data) => {
             textFieldOn: qm.textFieldOn,
             grade: null,
             grade_name: null,
-            name: qm.name
+            name: qm.name,
           })
         : null
     )
@@ -187,7 +179,7 @@ export const initResponseForm = (data) => {
                   grade: null,
                   name: qmO.name,
                   header: qm.name,
-                  category: qm.id
+                  category: qm.id,
                 })
               : null
           )
@@ -199,7 +191,7 @@ export const initResponseForm = (data) => {
     response.openQuestionResponses.push({
       id: q.id,
       responseText: '',
-      name: q.name
+      name: q.name,
     })
   )
 
@@ -226,17 +218,16 @@ export const respond = (state, payload, typeOfResponse) => {
       ...state,
       assesmentResponse: {
         ...state.assesmentResponse,
-        questionModuleResponses: state.assesmentResponse.questionModuleResponses.map(
-          (qmRes) =>
-            qmRes.id === id
-              ? {
-                  ...qmRes,
-                  [typeOfResponse]: value,
-                  grade_name: name || qmRes.grade_name
-                }
-              : qmRes
-        )
-      }
+        questionModuleResponses: state.assesmentResponse.questionModuleResponses.map((qmRes) =>
+          qmRes.id === id
+            ? {
+                ...qmRes,
+                [typeOfResponse]: value,
+                grade_name: name || qmRes.grade_name,
+              }
+            : qmRes
+        ),
+      },
     }
   }
   return {
@@ -246,9 +237,8 @@ export const respond = (state, payload, typeOfResponse) => {
       finalGradeResponse: {
         ...state.assesmentResponse.finalGradeResponse,
         [typeOfResponse]: value,
-        grade_name:
-          name || state.assesmentResponse.finalGradeResponse.grade_name
-      }
-    }
+        grade_name: name || state.assesmentResponse.finalGradeResponse.grade_name,
+      },
+    },
   }
 }
