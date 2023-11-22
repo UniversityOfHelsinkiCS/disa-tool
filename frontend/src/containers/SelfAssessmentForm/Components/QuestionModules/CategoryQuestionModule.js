@@ -1,14 +1,13 @@
 import { Form, Card, Grid, Dropdown, Accordion, Icon, Message } from 'semantic-ui-react'
 import React, { useState } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { gradeCategoryAction, textfieldResponseAction, clearErrorAction } from '../../actions/selfAssesment'
 import MatrixPage from '../../../Course/MatrixPage'
-import { useTranslation } from 'react-i18next'
 
 export const CategoryQuestionModule = (props) => {
   const [showMatrix, setShowMatrix] = useState(false)
   const [value, setValue] = useState(null)
-  const answers = useSelector((state) => state.selfAssesment.assesmentResponse)
   const { edit, final, responseTextError, gradeError, courseInstanceId, grades } = props
   const existingAnswer = props.existingAnswer || [
     {

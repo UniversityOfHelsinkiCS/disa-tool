@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import { bool, func, number, string, shape } from 'prop-types'
+import React from 'react'
 import { Button, Input, Popup } from 'semantic-ui-react'
 
 const TaskUpdatePopup = (props) => {

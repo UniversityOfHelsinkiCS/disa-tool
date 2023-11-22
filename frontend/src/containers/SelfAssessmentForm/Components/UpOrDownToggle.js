@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { Icon, Popup } from 'semantic-ui-react'
-import { toggleUp, toggleDown } from '../actions/selfAssesment'
 import { useTranslation } from 'react-i18next'
+import { toggleUp, toggleDown } from '../actions/selfAssesment'
 
 const UpOrDownToggle = (props) => {
   const { id } = props

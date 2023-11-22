@@ -3,6 +3,7 @@ import { connect, useSelector, useDispatch } from 'react-redux'
 import { Redirect, Prompt, useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import { Button, Loader, Container, Modal, Header, Segment } from 'semantic-ui-react'
+import { useTranslation } from 'react-i18next'
 import FeedbackPage from '../Feedback/FeedbackPage'
 import { getCourseInstance } from '../../api/courses'
 import { getCourseData } from '../../api/categories'
@@ -26,7 +27,6 @@ import SelfAssessmentForm from './Components/SelfAssessmentForm'
 import AssessmentMessage from './Components/AssessmentMessage'
 import './Components/selfAssesment.css'
 import { validationErrors, gradeOptions } from './utils'
-import { useTranslation } from 'react-i18next'
 
 export const SelfAssessmentFormPage = (props) => {
   const formData = useSelector((state) => state.selfAssesment.createForm)
@@ -149,6 +149,7 @@ export const SelfAssessmentFormPage = (props) => {
       dispatch
     )
     clearValidationAction(dispatch)
+    return true
   }
 
   const togglePreview = () => {
@@ -262,7 +263,7 @@ export const SelfAssessmentFormPage = (props) => {
 
   return (
     <div>
-      <Prompt when={unsavedChanges} message={'selfAssessmentForm.selfAssessmentFormPage.prompt'} />
+      <Prompt when={unsavedChanges} message="selfAssessmentForm.selfAssessmentFormPage.prompt" />
       {renderContent()}
     </div>
   )

@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { orderBy } from 'lodash'
 import { Button, List, Popup } from 'semantic-ui-react'
+import { useTranslation } from 'react-i18next'
 import DeleteForm from '../../../utils/components/DeleteForm'
 import { removeSelfAssesment } from '../actions/selfAssesment'
 import Conditional from '../../../utils/components/Conditional'
-import { useTranslation } from 'react-i18next'
 
 const TeacherAssesmentList = ({ assesments, toggleAssessment }) => {
   const courseInstanceId = useSelector((state) => state.instance.id)
@@ -20,7 +20,7 @@ const TeacherAssesmentList = ({ assesments, toggleAssessment }) => {
 
   const { t } = useTranslation('translation')
   return (
-    <List data-testid={`teacher-assessment-list`} selection divided size="big">
+    <List data-testid="teacher-assessment-list" selection divided size="big">
       {orderBy(assesments, 'name').map((assesment) => (
         <List.Item key={assesment.id} style={{ display: 'flex' }}>
           <List.Content as={Link} to={`/selfassessment/list/${assesment.id}`} style={{ flexGrow: 1 }}>

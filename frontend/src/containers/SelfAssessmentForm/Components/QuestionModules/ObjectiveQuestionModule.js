@@ -4,7 +4,7 @@ import { connect, useDispatch } from 'react-redux'
 import { gradeObjectiveAction, clearErrorAction } from '../../actions/selfAssesment'
 import MathJaxText from '../../../../utils/components/MathJaxText'
 import { objectiveGrades } from '../../utils'
-import '../../Components/selfAssesment.css'
+import '../selfAssesment.css'
 
 const ObjectiveQuestionModule = (props) => {
   const [ratings, setRatings] = useState({})

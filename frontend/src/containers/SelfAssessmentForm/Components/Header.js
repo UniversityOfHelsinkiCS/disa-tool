@@ -1,104 +1,88 @@
-import React from 'react'
-import { withLocalize } from 'react-localize-redux'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React, { useState } from 'react'
+import { connect, useDispatch } from 'react-redux'
 import { Form, Button } from 'semantic-ui-react'
+import { useTranslation } from 'react-i18next'
 import MultiLangInput from './MultiLangInput'
 import { changeHeaderAction } from '../actions/selfAssesment'
 
-class Header extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      editHeaders: false,
-      changedHeaders: {},
-    }
+const Header = ({
+  dispatchChange = null,
+  headerType = null,
+  style = null,
+  editButton = false,
+  headers = [],
+  headerName,
+  edit,
+  nestedForms,
+}) => {
+  const [editHeaders, setEditHeaders] = useState(false)
+  const [changedHeaders, setChangedHeaders] = useState({})
+  const dispatch = useDispatch()
+
+  const toggleEdit = () => {
+    dispatchChange //eslint-disable-line
+      ? dispatchChange(changedHeaders)
+      : dispatch(changeHeaderAction(changedHeaders, headerType))
+    setEditHeaders(!editHeaders)
   }
 
-  toggleEdit = () => {
-    const { changedHeaders } = this.state
-    const { headerType } = this.props
-    this.props.dispatchChange //eslint-disable-line
-      ? this.props.dispatchChange(changedHeaders)
-      : this.props.dispatchHeaderChange({
-          changedHeaders,
-          headerType,
-        })
-    this.setState({ editHeaders: !this.state.editHeaders })
-  }
-
-  changeHeader = (id, value) => {
-    const oldState = this.state.changedHeaders
+  const changeHeader = (id, value) => {
+    const oldState = changedHeaders
     oldState[id] = value
-    this.setState({ editHeaders: oldState })
+    setEditHeaders(oldState)
   }
 
-  render() {
-    const translate = (id) => this.props.translate(`SelfAssessmentForm.Header.${id}`)
-    const { name, edit, headers, style, editButton } = this.props
-    const { editHeaders } = this.state
+  const { t } = useTranslation('selfAssessmentForm.header')
 
-    const header = editButton ? (
-      <div>
-        {name}
-        {edit && (
-          <Button className="editHeadersButton" onClick={this.toggleEdit} style={{ marginLeft: '10px' }}>
-            {editHeaders ? translate('buttonSave') : translate('buttonEdit')}
-          </Button>
-        )}
-      </div>
-    ) : (
-      name
-    )
+  const header = editButton ? (
+    <div>
+      {headerName}
+      {edit && (
+        <Button className="editHeadersButton" onClick={toggleEdit} style={{ marginLeft: '10px' }}>
+          {editHeaders ? t('buttonSave') : t('buttonEdit')}
+        </Button>
+      )}
+    </div>
+  ) : (
+    headerName
+  )
 
-    let headerEditForm = editHeaders && (
+  let headerEditForm = editHeaders && (
+    <div
+      style={{
+        marginBottom: '10px',
+      }}
+    >
+      <Form>
+        <MultiLangInput headers={headers} handleChange={changeHeader} />
+      </Form>
+    </div>
+  )
+
+  if (nestedForms) {
+    headerEditForm = editHeaders && (
       <div
         style={{
           marginBottom: '10px',
         }}
       >
-        <Form>
-          <MultiLangInput headers={headers} handleChange={this.changeHeader} />
-        </Form>
-      </div>
-    )
-
-    if (this.props.nestedForms) {
-      headerEditForm = editHeaders && (
-        <div
-          style={{
-            marginBottom: '10px',
-          }}
-        >
-          <MultiLangInput headers={headers} handleChange={this.changeHeader} />
-        </div>
-      )
-    }
-    return (
-      <div>
-        <h3 style={this.props.style ? style : null} className="cardHead">
-          {header}
-        </h3>
-        {headerEditForm}
+        <MultiLangInput headers={headers} handleChange={changeHeader} />
       </div>
     )
   }
+  return (
+    <div>
+      <h3 style={style || null} className="cardHead">
+        {header}
+      </h3>
+      {headerEditForm}
+    </div>
+  )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatchHeaderChange: (data) => dispatch(changeHeaderAction(data)),
-})
-
-Header.defaultProps = {
-  dispatchChange: null,
-  headerType: null,
-  style: null,
-  editButton: false,
-  headers: [],
-}
-
+/*
 Header.propTypes = {
-  name: PropTypes.string.isRequired,
+  headerName: PropTypes.string.isRequired,
   edit: PropTypes.bool.isRequired,
   headerType: PropTypes.string,
   headers: PropTypes.arrayOf(PropTypes.shape()),
@@ -108,5 +92,5 @@ Header.propTypes = {
   dispatchChange: PropTypes.func,
   editButton: PropTypes.bool,
 }
-
-export default withLocalize(connect(null, mapDispatchToProps)(Header))
+*/
+export default connect()(Header)

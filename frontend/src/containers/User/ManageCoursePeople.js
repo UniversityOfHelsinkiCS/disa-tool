@@ -43,10 +43,10 @@ const ManageCoursePeople = (props) => {
   const handleSearchChange = (e, { searchQuery }) => {
     if (searchQuery.length > 2) {
       findPeople(searchQuery).then((res) =>
-        setState({
+        setSearchPeople(
           // filter out people already on course
-          searchPeople: res.data.filter((person) => !props.people.find((p) => p.id === person.id)),
-        })
+          res.data.filter((person) => !props.people.find((p) => p.id === person.id))
+        )
       )
     }
   }
@@ -62,9 +62,7 @@ const ManageCoursePeople = (props) => {
       ]
       asyncUpdateCoursePersonsAction(formattedRequest).then(() => setNewStudent({}))
     } else {
-      setState({
-        newStudent: searchPeople.find((person) => person.id === value) || {},
-      })
+      setNewStudent(searchPeople.find((person) => person.id === value) || {})
     }
   }
 

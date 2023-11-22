@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { Form, Card, Grid, Icon, Popup, Button, Message } from 'semantic-ui-react'
+import { useTranslation } from 'react-i18next'
 import ModalForm from '../../../../utils/components/ModalForm'
 import { removeOpenQuestion, openQuestionResponseAction, clearErrorAction } from '../../actions/selfAssesment'
-import { useTranslation } from 'react-i18next'
 
 const OpenQuestionModule = (props) => {
   const { edit, responseTextError, existingAnswer } = props

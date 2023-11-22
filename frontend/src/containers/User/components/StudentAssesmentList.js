@@ -1,11 +1,10 @@
 import React from 'react'
-import { arrayOf, shape, func } from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Label, List } from 'semantic-ui-react'
 import { orderBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
-const StudentAssesmentList = ({ assesments, translate: baseTranslate }) => {
+const StudentAssesmentList = ({ assesments }) => {
   const { t } = useTranslation('translation', { keyPrefix: 'UserPage.StudentAssesmentList' })
   return (
     <List selection divided size="big">

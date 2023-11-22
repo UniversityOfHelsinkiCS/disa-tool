@@ -75,7 +75,7 @@ const TaskResponseEdit = (props) => {
   }
 
   const submitTaskUpdates = async () => {
-    const response = await postTaskResponseActions(
+    await postTaskResponseActions(
       {
         tasks: updatedTasks,
         courseId: activeCourse.id,
@@ -112,7 +112,7 @@ const TaskResponseEdit = (props) => {
           <Segment>
             <InfoBox translationid="TasksInspect" buttonProps={{ floated: 'right' }} />
             <Button color="green" content="Tallenna muutokset" onClick={submitTaskUpdates} />
-            <Button color="red" content="Peru kaikki muutokset" onClick={() => setState({ updatedTasks: [] })} />
+            <Button color="red" content="Peru kaikki muutokset" onClick={() => setUpdatedTasks([])} />
             {!selectedType ? (
               <TaskResponseTypeTable
                 typeHeaders={activeCourse.type_headers}

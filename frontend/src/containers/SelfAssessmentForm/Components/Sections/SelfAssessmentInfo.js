@@ -3,10 +3,10 @@ import { connect, useDispatch } from 'react-redux'
 import { Form, Button, Card, TextArea } from 'semantic-ui-react'
 import ReactMarkdown from 'react-markdown'
 
+import { useTranslation } from 'react-i18next'
 import Header from '../Header'
 import { changeTextField } from '../../actions/selfAssesment'
 import InfoBox from '../../../../utils/components/InfoBox'
-import { useTranslation } from 'react-i18next'
 
 const SelfAssessmentInfo = (props) => {
   const [values, setValues] = useState({})
@@ -38,14 +38,7 @@ const SelfAssessmentInfo = (props) => {
   return (
     <Form style={{ padding: '20px' }}>
       <Form.Field>
-        <Header
-          name={formData.name}
-          edit={edit}
-          editButton
-          headers={names}
-          dispatchChange={toggleHeader}
-          nestedForms={true}
-        />
+        <Header name={formData.name} edit={edit} editButton headers={names} dispatchChange={toggleHeader} nestedForms />
       </Form.Field>
       <Form.Field>
         <Card centered fluid>
@@ -72,7 +65,7 @@ const SelfAssessmentInfo = (props) => {
                     id={d.id}
                     value={values[d.id] ? values[d.id] : d.value}
                     onChange={handleChange}
-                  ></TextArea>
+                  />
                 </Form.Field>
               ))
             )}

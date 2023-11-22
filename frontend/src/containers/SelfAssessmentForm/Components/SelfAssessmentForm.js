@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import ObjectiveQuestionModule from './QuestionModules/ObjectiveQuestionModule'
 import CategoryQuestionModule from './QuestionModules/CategoryQuestionModule'
 import OpenQuestionModule from './QuestionModules/OpenQuestionModule'
@@ -16,13 +15,18 @@ const SelfAssessmentForm = (props) => {
   const { type } = structure
   const { grade } = structure.headers
   const editMode = edit && !preview
-  const questionModule = editMode
-    ? type === 'category'
-      ? EditCategoryModule
-      : EditObjectiveModule
-    : type === 'category'
-      ? CategoryQuestionModule
-      : ObjectiveQuestionModule //eslint-disable-line
+  let questionModule = null
+  if (editMode) {
+    if (type === 'category') {
+      questionModule = EditCategoryModule
+    } else {
+      questionModule = EditObjectiveModule
+    }
+  } else if (type === 'category') {
+    questionModule = CategoryQuestionModule
+  } else {
+    questionModule = ObjectiveQuestionModule
+  }
   const finalGradeModule = editMode ? EditCategoryModule : CategoryQuestionModule
   const dummyPropToEnsureChange = () => null
   return (

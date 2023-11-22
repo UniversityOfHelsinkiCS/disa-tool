@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Dropdown, Form } from 'semantic-ui-react'
+import { useTranslation } from 'react-i18next'
 import AssessmentButtons from './AssessmentButtons'
 import SelfAssessmentList from './SelfAssessmentList'
-import { useTranslation } from 'react-i18next'
 
 export const EditOrNewForm = (props) => {
   const [dropDownValue, setDropDownValue] = useState(null)

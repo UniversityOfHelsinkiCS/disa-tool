@@ -11,18 +11,16 @@ export const CourseInfo = (props) => {
   const { t } = useTranslation('translation')
 
   return (
-    <Fragment>
+    <>
       <Grid.Row>
         <Grid.Column>
-          <Header name="course-info-header" as="h1" floated="left">
+          <Header headerName="course-info-header" as="h1" floated="left">
             {course.name}
           </Header>
           <Conditional visible={props.isTeacher}>
-            {
-              <Button floated="right" color={course.active ? 'green' : 'red'} onClick={props.toggleActivation}>
-                {t(course.active ? 'userPage.courseInfo.close_course' : 'userPage.courseInfo.start_course')}
-              </Button>
-            }
+            <Button floated="right" color={course.active ? 'green' : 'red'} onClick={props.toggleActivation}>
+              {t(course.active ? 'userPage.courseInfo.close_course' : 'userPage.courseInfo.start_course')}
+            </Button>
           </Conditional>
           <InfoBox translationid="userPage" buttonProps={{ floated: 'right' }} useCourseRole />
         </Grid.Column>
@@ -99,7 +97,7 @@ export const CourseInfo = (props) => {
           </Grid.Column>
         </Conditional>
       </Grid.Row>
-    </Fragment>
+    </>
   )
 }
 /*

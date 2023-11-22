@@ -1,9 +1,9 @@
 import { Grid, Button, List, Accordion, Icon } from 'semantic-ui-react'
 import React, { useState } from 'react'
 import { connect, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { toggleFormPartAction } from '../../actions/selfAssesment'
 import MathJaxText from '../../../../utils/components/MathJaxText'
-import { useTranslation } from 'react-i18next'
 
 export const EditObjectiveModule = (props) => {
   const [active, setActive] = useState(false)
@@ -14,6 +14,17 @@ export const EditObjectiveModule = (props) => {
   })
 
   const handleClick = () => setActive(!active)
+
+  let buttonText = null
+  if (includedInAssesment) {
+    if (objectives.every((o) => o.includedInAssesment)) {
+      buttonText = t('includedButton')
+    } else if (objectives.every((o) => !o.includedInAssesment)) {
+      buttonText = t('notIncludedButton')
+    } else {
+      buttonText = t('partiallyIncludedButton')
+    }
+  }
 
   return (
     <Accordion data-testid="edit-objective-module" style={{ marginTop: '20px', marginBottom: '20px' }} fluid styled>
@@ -34,7 +45,7 @@ export const EditObjectiveModule = (props) => {
                   size="small"
                   basic
                   color={includedInAssesment ? 'green' : 'red'}
-                  onClick={() => this.props.dispatchToggleFormPartAction(id, 'category')}
+                  onClick={() => toggleFormPartAction(id, 'category', dispatch)}
                 >
                   {includedInAssesment ? t('includedButton') : t('notIncludedButton')}
                 </Button>
@@ -60,13 +71,7 @@ export const EditObjectiveModule = (props) => {
                   onClick={() => toggleFormPartAction(o.id, 'objective', dispatch)}
                 >
                   {' '}
-                  {
-                    includedInAssesment
-                      ? o.includedInAssesment
-                        ? t('includedButton')
-                        : t('notIncludedButton')
-                      : t('notIncludedButton') /* eslint-disable-line */
-                  }
+                  {buttonText}
                 </Button>
               </List.Content>
               <List.Content style={{ margin: '0' }}>

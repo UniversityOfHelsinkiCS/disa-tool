@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Header, Menu } from 'semantic-ui-react'
-import { arrayOf, shape, func } from 'prop-types'
 import { orderBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
 

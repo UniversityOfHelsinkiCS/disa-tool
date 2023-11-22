@@ -1,10 +1,10 @@
 import React from 'react'
 import { Button } from 'semantic-ui-react'
 import { connect, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import ModalForm, { saveActions } from '../../../utils/components/NewModalForm'
 import { addOpenQuestion } from '../actions/selfAssesment'
 import MultilingualField from '../../../utils/components/MultilingualField'
-import { useTranslation } from 'react-i18next'
 
 const AddOpenQuestion = () => {
   const dispatch = useDispatch()

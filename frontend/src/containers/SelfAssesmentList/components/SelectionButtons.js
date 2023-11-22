@@ -1,10 +1,10 @@
 import React from 'react'
-import { connect, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Button } from 'semantic-ui-react'
-import { selectAll, deselectAll } from '../actions/selfAssesmentList'
 import { useTranslation } from 'react-i18next'
+import { selectAll, deselectAll } from '../actions/selfAssesmentList'
 
-const SelectAllButton = (props) => {
+const SelectAllButton = () => {
   const { t } = useTranslation('translation', { keyPrefix: 'selfAssessmentList.selectionButtons' })
   const dispatch = useDispatch()
   const handleClick = () => {
@@ -13,7 +13,7 @@ const SelectAllButton = (props) => {
   return <Button basic content={t('select')} onClick={() => handleClick} />
 }
 
-const DeselectAllButton = (props) => {
+const DeselectAllButton = () => {
   const { t } = useTranslation('translation', { keyPrefix: 'selfAssessmentList.selectionButtons' })
 
   const dispatch = useDispatch()

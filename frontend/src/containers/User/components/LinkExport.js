@@ -1,6 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { Button, Popup, Table } from 'semantic-ui-react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
@@ -9,18 +8,20 @@ const getBaseUrl = () => {
   return `${window.location.protocol}//${window.location.host}`
 }
 
-const linkToast = () => {
-  dispatch({
-    type: 'TOAST',
-    payload: {
-      type: 'message',
-      toast: 'Linkki kopioitu leikepöydälle.',
-    },
-  })
-}
-
 const LinkExport = (props) => {
   const url = `${getBaseUrl()}${props.url}`
+  const dispatch = useDispatch()
+
+  const linkToast = () => {
+    dispatch({
+      type: 'TOAST',
+      payload: {
+        type: 'message',
+        toast: 'Linkki kopioitu leikepöydälle.',
+      },
+    })
+  }
+
   return (
     <Table.Row>
       <Table.Cell>

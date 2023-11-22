@@ -1,10 +1,10 @@
 import { Grid, Checkbox, Button, Divider } from 'semantic-ui-react'
 import React from 'react'
 import { connect, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import UpOrDownToggle from '../UpOrDownToggle'
 import { toggleTextField, toggleFormPartAction } from '../../actions/selfAssesment'
 import Header from '../Header'
-import { useTranslation } from 'react-i18next'
 
 const EditCategorymodule = (props) => {
   const { name, textFieldOn, id, includedInAssesment, headers } = props.data

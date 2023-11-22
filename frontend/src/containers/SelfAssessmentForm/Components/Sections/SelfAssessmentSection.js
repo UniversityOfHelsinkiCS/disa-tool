@@ -1,6 +1,5 @@
 import React from 'react'
 import { Card } from 'semantic-ui-react'
-import PropTypes from 'prop-types'
 import AddOpenQuestion from '../addOpenQuestion'
 import Header from '../Header'
 import InfoBox from '../../../../utils/components/InfoBox'

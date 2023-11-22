@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { connect, useDispatch, useSelector } from 'react-redux'
-import { Redirect, Link, useParams } from 'react-router-dom'
-import { shape, string, arrayOf, func, number } from 'prop-types'
+import { Link, useParams } from 'react-router-dom'
 import { Accordion, Dimmer, Header, Grid, Item, Loader, Button } from 'semantic-ui-react'
 
+import { useTranslation } from 'react-i18next'
 import {
   getUserCoursesAction,
   getUserSelfAssesments,
@@ -19,12 +19,10 @@ import CourseSelfAssessmentsList from './CourseSelfAssessmentsList'
 import CourseInfo from './CourseInfo'
 import Conditional from '../../utils/components/Conditional'
 import InfoBox from '../../utils/components/InfoBox'
-import { useTranslation } from 'react-i18next'
 
 const UserPage = (props) => {
   const user = useSelector((state) => state.user)
   const courses = useSelector((state) => state.courses)
-  const selfAssesments = useSelector((state) => state.selfAssesment.userSelfAssesments)
   const activeCourse = useSelector((state) => state.instance)
   const [loading, setLoading] = useState(false)
   const [selectedType, setSelectedType] = useState(undefined)
@@ -33,7 +31,6 @@ const UserPage = (props) => {
 
   const { t, i18n } = useTranslation('translation', { keyPrefix: 'userPage.common' })
 
-  let course = null
   useEffect(() => {
     const onMount = async () => {
       setLoading(true)
@@ -43,11 +40,10 @@ const UserPage = (props) => {
         await getCourseInstanceDataAction(courseId, dispatch)
       }
       setLoading(false)
-      course = courses.find((c) => c.id === courseId)
     }
     onMount()
     return () => {
-      if (courseId && id) {
+      if (courseId && activeCourse.id) {
         dispatch(resetCourseInstanceAction)
       }
     }
@@ -55,7 +51,9 @@ const UserPage = (props) => {
 
   const handleActivityToggle = async () => {
     await toggleCourseActivityAction(activeCourse.id, dispatch)
+      // eslint-disable-next-line no-console
       .then((res) => console.log(res))
+      // eslint-disable-next-line no-console
       .catch((err) => console.log(err))
   }
 
@@ -103,18 +101,19 @@ const UserPage = (props) => {
         toggleAssessmentAction(value, 'show_feedback', dispatch)
         break
       default:
+        // eslint-disable-next-line no-console
         console.log('Something went wrong here now')
     }
   }
 
-  const { self_assessments: assessments, tasks, id } = activeCourse
-  if (!activeCourse.people) return <div></div>
+  const { self_assessments: assessments, tasks } = activeCourse
+  if (!activeCourse.people) return <div />
   const isTeacher = activeCourse.courseRole === 'TEACHER'
   const isGlobalTeacher = user.role === 'TEACHER' || user.role === 'ADMIN'
-  const students =
+  /*  const students =
     activeCourse.id && isTeacher
       ? activeCourse.people.filter((person) => person.course_instances[0].course_person.role !== 'TEACHER')
-      : []
+      : [] */
   const teachers = activeCourse.id
     ? activeCourse.people.filter((person) => person.course_instances[0].course_person.role === 'TEACHER')
     : []
@@ -125,11 +124,9 @@ const UserPage = (props) => {
       </Dimmer>
       <Grid.Row>
         <Grid.Column>
-          {
-            <Header as="h1">
-              {t('hello')} {props.user && props.user.name}
-            </Header>
-          }
+          <Header as="h1">
+            {t('hello')} {props.user && props.user.name}
+          </Header>
         </Grid.Column>
       </Grid.Row>
       <Grid.Row>
