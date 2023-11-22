@@ -59,7 +59,7 @@ export const EditInstanceForm = (props) => {
           onOpen={loadDetails}
         >
           <p>{t('prompt_1')}.</p>
-          <MultilingualField field="name" fieldDisplay={t('name')} values={values.name}/>
+          <MultilingualField field="name" fieldDisplay={t('name')} values={values}/>
         </ModalForm>
       </div>
     )
