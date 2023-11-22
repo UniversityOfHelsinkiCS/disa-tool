@@ -96,7 +96,7 @@ export const EditTaskForm = (props) => {
               loading={values.loading}
             >
               <p>{contentPrompt}.</p>
-              <MultilingualField required field="name" fieldDisplay={label.name} values={values.name} />
+              <MultilingualField required field="name" fieldDisplay={label.name} values={values} />
               <MultilingualField field="description" fieldDisplay={label.description} values={values.description} />
               <Form.Field>
                 <Label>{label.info}</Label>

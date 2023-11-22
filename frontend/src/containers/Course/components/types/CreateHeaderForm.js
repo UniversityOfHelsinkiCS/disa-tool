@@ -25,7 +25,7 @@ export const CreateHeaderForm = (props) => {
 
     const contentPrompt = t('course.types.createHeaderForm.prompt_1')
     const label = {
-      name: t('name')
+      name: t('common.name')
     }
     return (
       <div className="CreateHeaderForm">
@@ -36,7 +36,7 @@ export const CreateHeaderForm = (props) => {
           onSubmit={addHeaderSubmit}
         >
           <p>{contentPrompt}.</p>
-          <MultilingualField field="name" fieldDisplay={label.name} />
+          <MultilingualField field="name" fieldDisplay={label.name}/>
         </ModalForm>
       </div>
     )

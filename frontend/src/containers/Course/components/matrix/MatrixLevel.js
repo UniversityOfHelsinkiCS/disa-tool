@@ -67,7 +67,7 @@ export const MatrixLevel = ({
     )
   })
   return (
-    <Table.Cell textAlign="center" key={level.id} className="MatrixLevel">
+    <Table.Cell textAlign="center" key={level.id} className="MatrixLevel" data-testid={`matrix-level-${category.id}-${level.id}`}>
       <div>
         {objectivesNode}
       </div>

@@ -2,9 +2,16 @@ import React, { useState,useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Form, Segment, Label, Input, Button } from 'semantic-ui-react'
 
-export const MultilingualField = (props) => {
+export const MultilingualField = ({
+  id,
+values,
+fieldDisplay, 
+type, 
+field, 
+required
+}) => {
   const [multilingual, setMultilingual] = useState(false)
-  const [values, setValues] = useState({
+  const [localValue, setLocalValue] = useState({
     eng: '',
   fin: '',
   swe: ''
@@ -12,23 +19,22 @@ export const MultilingualField = (props) => {
   const {t} = useTranslation('translation')
 
   useEffect(() => {
-    if (props.values) {
-      setValues(props.values)
-      if(props.values.eng !== props.values.fin || props.values.fin !== props.values.swe) {
+    if(values) {
+      setLocalValue(values)
+      if(values.eng !== values.fin || values.fin !== values.swe) {
         setMultilingual(true)
-      }
     }
-
-  },[props.values])
+  }
+  },[values])
 
   const changeValue = key => (key === 'all' ? (
-    e => setValues({
+    e => setLocalValue({
         eng: e.target.value,
         fin: e.target.value,
         swe: e.target.value
     })
   ) : (
-    e => setValues({
+    e => setLocalValue({
        ...values,
        [key]: e.target.value
       }
@@ -36,21 +42,20 @@ export const MultilingualField = (props) => {
   )))
 
   const allValue = () => {
-    if (values.eng !== '') {
-      return values.eng
+    if (localValue.eng !== '' ) {
+      return localValue.eng
     }
-    if (values.fin !== '') {
-      return values.fin
+    if (localValue.fin !== '') {
+      return localValue.fin
     }
-    return values.swe
+    return localValue.swe
   }
 
-    const { required } = props
     return (
       <Form.Field className="MultilingualField">
         <div style={{ display: 'flex' }}>
           <div style={{ flexGrow: 1 }}>
-            <Label style={{ fontSize: '18px' }}>{props.fieldDisplay}</Label>
+            <Label style={{ fontSize: '18px' }}>{fieldDisplay}</Label>
           </div>
           <Button.Group>
             <Button
@@ -74,7 +79,8 @@ export const MultilingualField = (props) => {
         </div>
         {!multilingual ? (
           <Input
-            name={`${props.field}-input`}
+            data-testid={`multilingual-field-single-${type}-${id}`}
+            name={`${field}-input`}
             type="text"
             fluid
             value={allValue()}
@@ -88,10 +94,11 @@ export const MultilingualField = (props) => {
           <Form.Field>
             <Label>english</Label>
             <Input
-              name={`eng_${props.field}`}
+              name={`eng_${field}`}
+              data-testid={`multilingual-field-multi-english-${type}-${id}`}
               type="text"
               fluid
-              value={values.eng}
+              value={localValue.eng}
               onChange={changeValue('eng')}
               required={multilingual && required}
             />
@@ -99,10 +106,11 @@ export const MultilingualField = (props) => {
           <Form.Field>
             <Label>suomi</Label>
             <Input
-              name={`fin_${props.field}`}
+              name={`fin_${field}`}
+              data-testid={`multilingual-field-multi-finnish-${type}-${id}`}
               type="text"
               fluid
-              value={values.fin}
+              value={localValue.fin}
               onChange={changeValue('fin')}
               required={multilingual && required}
             />
@@ -110,10 +118,11 @@ export const MultilingualField = (props) => {
           <Form.Field>
             <Label>svenska</Label>
             <Input
-              name={`swe_${props.field}`}
+              name={`swe_${field}`}
+              data-testid={`multilingual-field-multi-swedish-${type}-${id}`}
               type="text"
               fluid
-              value={values.swe}
+              value={localValue.swe}
               onChange={changeValue('swe')}
               required={multilingual && required}
             />

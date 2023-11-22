@@ -7,21 +7,19 @@ import ModalForm, { saveActions } from '../../../../utils/components/NewModalFor
 import MultilingualField from '../../../../utils/components/MultilingualField'
 import { useTranslation } from 'react-i18next'
 
-const EditCategoryForm = (props) => {
+const EditCategoryForm = ({categoryId}) => {
   const [loading, setLoading] = useState(true)
   const [values, setValues] = useState({
-    name: {
       eng: '',
       fin: '',
       swe: ''
-    }
   })
   const dispatch = useDispatch()
   const {t} = useTranslation('translation')
 
   const editCategorySubmitAsync = async (e) => {
     const response = await editCategory({
-      id: props.categoryId,
+      id: categoryId,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
       swe_name: e.target.swe_name.value
@@ -31,15 +29,13 @@ const EditCategoryForm = (props) => {
 
   const loadDetails = async () => {
     const categoryDetails = (await details({
-      id: props.categoryId
+      id: categoryId
     })).data.data
     setLoading(false)
     setValues({
-      name: {
         eng: categoryDetails.eng_name,
         fin: categoryDetails.fin_name,
         swe: categoryDetails.swe_name
-      }
     })
   }
 
@@ -56,7 +52,13 @@ const EditCategoryForm = (props) => {
           onSubmit={editCategorySubmitAsync}
           loading={loading}
         >
-          <MultilingualField field="name" fieldDisplay={t('common.name')} values={values.name} />
+          <MultilingualField 
+          field="name" 
+          fieldDisplay={t('common.name')} 
+          values={values} 
+          type="category-form" 
+          id={categoryId}
+          />
         </ModalForm>
       </div>
     )

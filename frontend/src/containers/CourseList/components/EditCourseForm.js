@@ -10,11 +10,9 @@ import { useTranslation } from 'react-i18next'
 
 export const EditCourseForm = (props) => {
   const [values, setValues] = useState({
-    name: {
       eng: '',
       fin: '',
       swe: ''
-    }
   })
   const [loading, setLoading] = useState(true)
   const [triggered, setTriggered] = useState(false)
@@ -51,11 +49,9 @@ export const EditCourseForm = (props) => {
     const courseData = courseDetails.data
     const { eng_name, fin_name, swe_name } = courseData
     setValues({
-      name: {
         eng: eng_name,
         fin: fin_name,
         swe: swe_name
-      }
     })
     setLoading(false)
   }
@@ -83,7 +79,7 @@ export const EditCourseForm = (props) => {
           onOpen={loadDetails}
         >
           <p>{contentPrompt}.</p>
-          <MultilingualField field="name" fieldDisplay={t('common.name')} values={values.name} />
+          <MultilingualField field="name" fieldDisplay={t('common.name')} values={values} />
         </ModalForm>
       </div>
     )

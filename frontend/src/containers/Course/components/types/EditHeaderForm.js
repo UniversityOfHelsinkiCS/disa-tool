@@ -10,11 +10,9 @@ import { useTranslation } from 'react-i18next'
 const EditHeaderForm = (props) => {
   const [loading, setLoading] = useState(true)
   const [values, setValues] = useState({
-    name: {
       eng: '',
       fin: '',
       swe: ''
-    }
   })
   const dispatch = useDispatch()
 
@@ -37,11 +35,9 @@ const EditHeaderForm = (props) => {
     })).data.data
     setLoading(false)
     setValues({
-      name: {
         eng: details.eng_name,
         fin: details.fin_name,
         swe: details.swe_name
-      }
     })
   }
 console.log(t('common.name'))
@@ -54,7 +50,7 @@ console.log(t('common.name'))
           onSubmit={asyncEditHeaderSubmit}
           loading={loading}
         >
-          <MultilingualField field="name" fieldDisplay={t('common.name')} values={values.name} />
+          <MultilingualField field="name" fieldDisplay={t('common.name')} values={values} />
         </ModalForm>
       </div>
     )

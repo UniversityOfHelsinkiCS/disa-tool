@@ -12,10 +12,10 @@ export const DeleteForm = (props) => {
     return (
       <ModalForm
         header={props.header}
-        trigger={<Button negative basic circular icon={{ name: 'delete' }} size="mini" />}
+        trigger={<Button data-testid={`open-delete-objective-modal-${props.objectiveId}`} negative basic circular icon={{ name: 'delete' }} size="mini" />}
         actions={[
-          <Button negative style={{ margin: '0px 15px 0px 15px' }}>{t('utils.components.deleteForm.remove')}</Button>,
-          <Button type="reset" style={{ margin: '0px 15px 0px 15px' }}>{t('common.cancel')}</Button>
+          <Button data-testid={`modal-delete-objective-${props.objectiveId}`} negative style={{ margin: '0px 15px 0px 15px' }}>{t('utils.components.deleteForm.remove')}</Button>,
+          <Button data-testid={`modal-cancel-objective-${props.objectiveId}`} type="reset" style={{ margin: '0px 15px 0px 15px' }}>{t('common.cancel')}</Button>
         ]}
         onSubmit={props.onExecute}
       >

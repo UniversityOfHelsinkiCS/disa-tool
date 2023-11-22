@@ -8,21 +8,19 @@ import ModalForm, { saveActions } from '../../../../utils/components/NewModalFor
 import MultilingualField from '../../../../utils/components/MultilingualField'
 import { useTranslation } from 'react-i18next'
 
-const EditObjectiveForm = (props) => {
+const EditObjectiveForm = ({objectiveId}) => {
   const [loading, setLoading] = useState(true)
   const [values, setValues] = useState({
-    name: {
       eng: '',
       fin: '',
       swe: ''
-    }
   })
   const dispatch = useDispatch()
   const {t} = useTranslation('translation')
 
   const editObjectiveSubmitAsync = async (e) => {
     const response = await editObjective({
-      id: props.objectiveId,
+      id: objectiveId,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
       swe_name: e.target.swe_name.value
@@ -32,15 +30,13 @@ const EditObjectiveForm = (props) => {
 
   const loadDetails = async () => {
     const objectiveDetails = (await details({
-      id: props.objectiveId
+      id: objectiveId
     })).data.data
     setLoading(false)
     setValues({
-        name: {
           eng: objectiveDetails.eng_name,
           fin: objectiveDetails.fin_name,
           swe: objectiveDetails.swe_name
-        }
     })
   }
 
@@ -52,12 +48,12 @@ const EditObjectiveForm = (props) => {
       <div className="EditObjectiveForm">
         <ModalForm
           header={labels.header}
-          trigger={<Button basic circular onClick={loadDetails} icon={{ name: 'edit' }} size="mini" />}
+          trigger={<Button data-testid={`open-edit-objective-modal-${objectiveId}`} basic circular onClick={loadDetails} icon={{ name: 'edit' }} size="mini" />}
           actions={saveActions(t)}
           onSubmit={editObjectiveSubmitAsync}
           loading={loading}
         >
-          <MultilingualField field="name" fieldDisplay={t('common.name')} values={values.name} />
+          <MultilingualField type="objective-form" id={objectiveId} field="name" fieldDisplay={t('common.name')} values={values}/>
         </ModalForm>
       </div>
     )

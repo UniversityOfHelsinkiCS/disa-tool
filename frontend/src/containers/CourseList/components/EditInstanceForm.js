@@ -12,11 +12,9 @@ import MultilingualField from '../../../utils/components/MultilingualField'
 export const EditInstanceForm = (props) => {
   const dispatch = useDispatch()
   const [values, setValues] = useState({
-    name: {
       eng: '',
       fin: '',
       swe: ''
-    }
   })
   const [loading, setLoading] = useState(true)
   const [triggered, setTriggered] = useState(false)
@@ -43,11 +41,9 @@ export const EditInstanceForm = (props) => {
       id: props.course_instance_id
     })).data.data
     setValues({
-      name: {
         eng: instanceDetails.eng_name,
         fin: instanceDetails.fin_name,
         swe: instanceDetails.swe_name
-      }
     })
     setLoading(false)
   }
@@ -63,7 +59,7 @@ export const EditInstanceForm = (props) => {
           onOpen={loadDetails}
         >
           <p>{t('prompt_1')}.</p>
-          <MultilingualField field="name" fieldDisplay={t('name')} values={values.name} />
+          <MultilingualField field="name" fieldDisplay={t('name')} values={values.name}/>
         </ModalForm>
       </div>
     )

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { connect,useSelector } from 'react-redux'
+import { connect,useSelector, useDispatch } from 'react-redux'
 import { Button, Label, Popup, Header, Loader, Segment, Grid } from 'semantic-ui-react'
 import { removeObjective, editObjective } from '../../actions/objectives'
 import { addObjectiveToTask, removeObjectiveFromTask } from '../../actions/tasks'
@@ -67,6 +67,7 @@ export const MatrixObjective = ({
   const [cumulativeMultiplier, setCumulativeMultiplier] = useState(0)
   const [tasks, setTasks] = useState([])
   const lastMultiplierUpdate = useSelector(state => state.task.lastMultiplierUpdate)
+  const dispatch = useDispatch()
 
   const reset = () => {
     setTriggered(false)
@@ -209,6 +210,7 @@ export const MatrixObjective = ({
           <div className="removeBlock">
             <EditObjectiveForm style={{ margin: '5px auto 5px auto' }} objectiveId={objective.id} />
             <DeleteForm
+            objectiveId={objective.id}
               style={{ margin: '5px auto 5px auto' }}
               onExecute={() => asyncRemoveObjective({ id: objective.id })}
               prompt={[

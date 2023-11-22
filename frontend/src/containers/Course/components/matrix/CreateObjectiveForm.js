@@ -42,7 +42,7 @@ export const CreateObjectiveForm = (props) => {
             onSubmit={addObjectiveSubmit}
           >
             <p>{contentPrompt}.</p>
-            <MultilingualField field="name" fieldDisplay={t('common.name')} />
+            <MultilingualField field="name" fieldDisplay={t('common.name')}/>
           </ModalForm>
         </div>
       )

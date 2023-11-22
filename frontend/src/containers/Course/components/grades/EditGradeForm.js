@@ -9,24 +9,22 @@ import MultilingualField from '../../../../utils/components/MultilingualField'
 import InfoBox from '../../../../utils/components/InfoBox'
 import { useTranslation } from 'react-i18next'
 
-const EditGradeForm = (props) => {
+const EditGradeForm = ({gradeId,objectiveId,levels,grades}) => {
   const [loading, setLoading] = useState(true)
   const [skillLevel, setSkillLevel] = useState(null)
   const [neededForGrade, setNeededForGrade] = useState(0)
   const [prerequisite, setPrerequisite] = useState(null)
   const [values, setValues] = useState({
-    name: {
       eng: '',
       fin: '',
       swe: ''
-    },
   })
   const {t} = useTranslation('translation', {keyPrefix: 'course.grades.editGradeForm'})
   const dispatch = useDispatch()
 
   const editGradeSubmitAsync = async () => {
     const response = await editGrade({
-      id: props.gradeId,
+      id: gradeId,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
       swe_name: e.target.swe_name.value,
@@ -39,17 +37,15 @@ const EditGradeForm = (props) => {
 
   const loadDetails = async () => {
     if (!loading) return
-    const gradeDetails = (await details({ id: props.gradeId })).data.data
+    const gradeDetails = (await details({ id: gradeId })).data.data
     setLoading(false)
     setSkillLevel(gradeDetails.skill_level_id)
     setNeededForGrade(gradeDetails.needed_for_grade)
     setPrerequisite(gradeDetails.prerequisite)
     setValues({
-      name: {
         eng: gradeDetails.eng_name,
         fin: gradeDetails.fin_name,
         swe: gradeDetails.swe_name
-      }
     })
   }
 
@@ -69,7 +65,7 @@ const EditGradeForm = (props) => {
     return (
       <div className="EditGradeForm">
         <ModalForm
-          header={<Fragment>{t('header')}<InfoBox tFunc={props.t} translationid="EditGradeModal" buttonProps={{ floated: 'right' }} /></Fragment>}
+          header={<Fragment>{t('header')}<InfoBox translationid="EditGradeModal" buttonProps={{ floated: 'right' }} /></Fragment>}
           trigger={<Button basic circular icon={{ name: 'edit' }} size="small" onClick={loadDetails} />}
           actions={saveActions(t)}
           onSubmit={editGradeSubmitAsync}
@@ -78,7 +74,9 @@ const EditGradeForm = (props) => {
           <MultilingualField
             field="name"
             fieldDisplay={label.name}
-            values={values.name}
+            values={values}
+            type="grade-form" 
+            id={objectiveId} 
           />
           <Form.Field>
             <Label content={label.skill_level} />
@@ -86,7 +84,7 @@ const EditGradeForm = (props) => {
               value={skillLevel}
               onChange={changeValue('skill_level')}
               selection
-              options={props.levels.map(level => ({
+              options={levels.map(level => ({
                 key: level.id,
                 value: level.id,
                 text: level.name
@@ -110,7 +108,7 @@ const EditGradeForm = (props) => {
               value={prerequisite}
               onChange={changeValue('prerequisite')}
               selection
-              options={[{ key: 0, value: null, text: '' }].concat(props.grades.map(grade => ({
+              options={[{ key: 0, value: null, text: '' }].concat(grades.map(grade => ({
                 key: grade.id,
                 value: grade.id,
                 text: grade.name

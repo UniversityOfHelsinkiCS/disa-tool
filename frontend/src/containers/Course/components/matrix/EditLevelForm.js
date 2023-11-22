@@ -10,11 +10,9 @@ import { useTranslation } from 'react-i18next'
 
 const EditLevelForm = (props) =>  {
   const [values, setValues] = useState({
-    name: {
       eng: '',
       fin: '',
       swe: ''
-    }
   })
 const [loading, setLoading] = useState(true)
 const dispatch = useDispatch()
@@ -35,11 +33,9 @@ const dispatch = useDispatch()
       id: props.levelId
     })).data.data
     setValues({
-      name: {
         eng: levelDetails.eng_name,
         fin: levelDetails.fin_name,
         swe: levelDetails.swe_name
-      }
     })
     setLoading(false)
   }
@@ -59,7 +55,7 @@ const dispatch = useDispatch()
           loading={loading}
           actions={saveActions()}
         >
-          <MultilingualField field="name" fieldDisplay={t('common.name')} values={values.name} />
+          <MultilingualField field="name" fieldDisplay={t('common.name')} values={values}/>
         </ModalForm>
       </div>
     )

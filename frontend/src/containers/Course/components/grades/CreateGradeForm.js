@@ -44,7 +44,7 @@ const {t} = useTranslation("translation", {keyPrefix: "course.grades"})
           actions={saveActions(t)}
           onSubmit={asyncAddGrade}
         >
-          <MultilingualField field="name" fieldDisplay={label.name} />
+          <MultilingualField field="name" fieldDisplay={label.name} type="grade" id={`placeholderId`} values={values}/>
           <Form.Field>
             <Label content={label.skill_level} />
             <Dropdown

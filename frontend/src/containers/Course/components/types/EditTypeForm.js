@@ -12,11 +12,9 @@ export const EditTypeForm = (props) => {
   const [loading, setLoading] = useState(true)
   const [multiplier, setMultiplier] = useState(0)
   const [values, setValues] = useState({
-    name: {
       eng: '',
       fin: '',
       swe: ''
-    },
   })
   const dispatch = useDispatch()
   const {t} = useTranslation('translation')
@@ -40,18 +38,16 @@ export const EditTypeForm = (props) => {
     setLoading(false)
     setMultiplier(typeDetails.multiplier)
     setValues({
-      name: {
         eng: typeDetails.eng_name,
         fin: typeDetails.fin_name,
         swe: typeDetails.swe_name
-      }
     })
   }
 
     const contentPrompt = t('course.types.editTypeForm.prompt_1')
     const label = {
       name: t('common.name'),
-      multiplier: t('course.types.editTypeForm.multiplier')
+      multiplier: t('course.types.common.multiplier')
     }
     console.log(label.name)
     return (
@@ -64,7 +60,7 @@ export const EditTypeForm = (props) => {
           loading={loading}
         >
           <p>{contentPrompt}.</p>
-          <MultilingualField field="name" fieldDisplay={label.name} values={values.name} />
+          <MultilingualField field="name" fieldDisplay={label.name} values={values}/>
           <Form.Field inline>
             <Label size="large">{label.multiplier}</Label>
             <Input

@@ -169,12 +169,9 @@
         "delete_prompt_1": "Poistetaanko osio"
       },
       "matrixObjective": {
-        "delete_header": ["Delete objective", "Poista oppimistavoite"],
-        "delete_prompt_1": [
-          "Really remove objective",
-          "Poistetaanko oppimistavoite"
-        ],
-        "cumulative": ["Cumulative multiplier: ", "Kerroin yhteensä: "]
+        "delete_header": "Poista oppimistavoite",
+        "delete_prompt_1": "Poistetaanko oppimistavoite",
+        "cumulative": "Kerroin yhteensä: "
       }
     },
     "tasks": {

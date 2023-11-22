@@ -7,15 +7,15 @@ import ModalForm, { saveActions } from '../../../../utils/components/NewModalFor
 import MultilingualField from '../../../../utils/components/MultilingualField'
 import { useTranslation } from 'react-i18next'
 
-export const CreateLevelForm = (props) => {
+export const CreateLevelForm = ({courseId, newOrder}) => {
   const dispatch = useDispatch()
   const addLevelSubmit = async (e) => {
     const response = await addLevel({
-      course_instance_id: props.courseId,
+      course_instance_id: courseId,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
       swe_name: e.target.swe_name.value,
-      order: props.newOrder
+      order: newOrder
     })
     dispatch(response)
   }
@@ -36,7 +36,12 @@ export const CreateLevelForm = (props) => {
           onSubmit={addLevelSubmit}
         >
           <p>{labels.prompt_1}.</p>
-          <MultilingualField field="name" fieldDisplay={t('common.name')} />
+          <MultilingualField 
+          field="name" 
+          fieldDisplay={t('common.name')} 
+          type="level-form" 
+          id={courseId}
+          />
         </ModalForm>
       </Table.HeaderCell>
     )
