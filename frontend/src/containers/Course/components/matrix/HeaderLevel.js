@@ -1,10 +1,8 @@
 import React from 'react'
-import { shape, bool, func, number } from 'prop-types'
-import { connect } from 'react-redux'
-import { withLocalize } from 'react-localize-redux'
+import { connect, useDispatch } from 'react-redux'
 import { Table, Header, Segment } from 'semantic-ui-react'
 
-import asyncAction from '../../../../utils/asyncAction'
+import { useTranslation } from 'react-i18next'
 import { removeLevel, editLevel } from '../../actions/levels'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditLevelForm from './EditLevelForm'
@@ -13,8 +11,17 @@ import dndItem from '../../../../utils/components/DnDItem'
 const DnDItem = dndItem('skill_level')
 
 const HeaderLevel = (props) => {
-  const translate = (id) => props.translate(`Course.matrix.HeaderLevel.${id}`)
-  const { level, editing, moveLevel, slots } = props
+  const dispatch = useDispatch()
+  const { t } = useTranslation('translation', { keyPrefix: 'course.matrix.headerLevel' })
+  const { level, editing, slots } = props
+  const removeLevelAsync = async (props) => {
+    const response = await removeLevel(props)
+    dispatch(response)
+  }
+  const moveLevelAsync = async (props) => {
+    const response = await editLevel(props)
+    dispatch(response)
+  }
   const cellContent = (
     <div className="flexContainer">
       <div className="flexGrower">
@@ -27,9 +34,9 @@ const HeaderLevel = (props) => {
           </div>
           <div className="paddedBlock">
             <DeleteForm
-              onExecute={() => props.removeLevel({ id: level.id })}
-              prompt={[translate('delete_prompt_1'), `"${level.name}"`]}
-              header={translate('delete_header')}
+              onExecute={() => removeLevelAsync({ id: level.id })}
+              prompt={[t('delete_prompt_1'), `"${level.name}"`]}
+              header={t('delete_header')}
             />
           </div>
         </div>
@@ -39,7 +46,7 @@ const HeaderLevel = (props) => {
   return (
     <Table.HeaderCell key={level.id} textAlign="center">
       {editing ? (
-        <DnDItem element={level} mover={moveLevel} slots={slots}>
+        <DnDItem element={level} mover={moveLevelAsync} slots={slots}>
           <Segment>{cellContent}</Segment>
         </DnDItem>
       ) : (
@@ -48,7 +55,7 @@ const HeaderLevel = (props) => {
     </Table.HeaderCell>
   )
 }
-
+/*
 HeaderLevel.propTypes = {
   level: shape({}).isRequired,
   editing: bool.isRequired,
@@ -60,10 +67,6 @@ HeaderLevel.propTypes = {
     next: number.isRequired,
   }).isRequired,
 }
+*/
 
-const mapDispatchToProps = (dispatch) => ({
-  removeLevel: asyncAction(removeLevel, dispatch),
-  moveLevel: asyncAction(editLevel, dispatch),
-})
-
-export default connect(null, mapDispatchToProps)(withLocalize(HeaderLevel))
+export default connect()(HeaderLevel)

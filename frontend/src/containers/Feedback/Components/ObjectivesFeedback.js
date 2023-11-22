@@ -1,30 +1,29 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Table } from 'semantic-ui-react'
-import { withLocalize } from 'react-localize-redux'
+import { useTranslation } from 'react-i18next'
 import { objectiveGrades } from '../../SelfAssessmentForm/utils'
 import MathJaxText from '../../../utils/components/MathJaxText'
 
-export const ObjectivesFeedback = (props) => {
-  const { objectives, teacher } = props
-  const translate = (id) => props.translate(`FeedbackPage.ObjectivesFeedback.${id}`)
+export const ObjectivesFeedback = ({ teacher = false, objectives = {} }) => {
+  const { t } = useTranslation('translation', { keyPrefix: 'feedbackPage.objectivesFeedback' })
 
   const deepCalculations = (data) => {
     let assesmentGrade = null
-    assesmentGrade = Object.keys(data).reduce((eka, toka) => eka + parseInt(data[toka].grade, 0), 0)
+    // Fix might need fixes from "parseInt(data[toka].grade, 0)"
+    assesmentGrade = Object.keys(data).reduce((eka, toka) => eka + parseInt(data[toka].grade, 10), 0)
     assesmentGrade = Math.round(assesmentGrade / Object.keys(data).length)
     if (!Number.isInteger(assesmentGrade)) {
       return 'Kaikkia ei ole arvioitu'
     }
     if (assesmentGrade > 0) {
       if (assesmentGrade > 1) {
-        const wut = translate('objectiveAssessment.good')
+        const wut = t('objectiveAssessment.good')
         return wut
       }
-      const wut = translate('objectiveAssessment.decent')
+      const wut = t('objectiveAssessment.decent')
       return wut
     }
-    const wut = translate('objectiveAssessment.poor')
+    const wut = t('objectiveAssessment.poor')
     return wut
   }
 
@@ -32,7 +31,7 @@ export const ObjectivesFeedback = (props) => {
 
   return (
     <div>
-      {teacher ? null : <h2>{translate('message')}</h2>}
+      {teacher ? null : <h2>{t('message')}</h2>}
       {Object.keys(objectives).map((objective) => (
         <div key={objective}>
           <p>{objective.id}</p>
@@ -48,8 +47,8 @@ export const ObjectivesFeedback = (props) => {
                 <Table.HeaderCell colSpan="2" />
               </Table.Row>
               <Table.Row>
-                <Table.HeaderCell>{translate('objective')}</Table.HeaderCell>
-                <Table.HeaderCell>{translate('assessment')}</Table.HeaderCell>
+                <Table.HeaderCell>{t('objective')}</Table.HeaderCell>
+                <Table.HeaderCell>{t('assessment')}</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -69,14 +68,11 @@ export const ObjectivesFeedback = (props) => {
   )
 }
 
-ObjectivesFeedback.defaultProps = {
-  teacher: false,
-  objectives: {},
-}
-
+/*
 ObjectivesFeedback.propTypes = {
   teacher: PropTypes.bool,
   objectives: PropTypes.shape(),
   translate: PropTypes.func.isRequired,
 }
-export default withLocalize(ObjectivesFeedback)
+*/
+export default ObjectivesFeedback

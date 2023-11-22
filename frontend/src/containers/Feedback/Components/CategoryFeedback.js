@@ -11,7 +11,7 @@ const findVerificationGrade = (verification, categoryName) => {
 }
 
 export const CategoryFeedback = (props) => {
-  const { questionModuleResponses = null, feedback = null, verification = null, teacher = null } = props
+  const { questionModuleResponses = null, feedback = null, verification = null } = props
   const { t } = useTranslation('feedbackPage.categoryFeedback')
   return (
     <div>
@@ -37,10 +37,10 @@ export const CategoryFeedback = (props) => {
                 <h4>
                   {t('selfAssessedGrade')}: {questionModule.grade_name || questionModule.grade}
                   {props.teacher && verification && (
-                    <Fragment>
+                    <>
                       <br />
                       {t('machineGrade')}: {findVerificationGrade(verification, questionModule.name)}
-                    </Fragment>
+                    </>
                   )}
                 </h4>
                 {questionModule.textFieldOn ? (
@@ -65,9 +65,9 @@ export const CategoryFeedback = (props) => {
               <Card.Content>
                 {feedback.categoryFeedback
                   .find((f) => f.categoryId === questionModule.id)
-                  .skillLevelObjectives.map((skillLevel, i) => (
+                  .skillLevelObjectives.map((skillLevel) => (
                     <Accordion
-                      key={i}
+                      key={skillLevel.skillLevel}
                       defaultActiveIndex={-1}
                       styled
                       fluid
@@ -77,9 +77,9 @@ export const CategoryFeedback = (props) => {
                           title: skillLevel.skillLevel,
                           content: {
                             key: `${skillLevel.skillLevel} objectives`,
-                            content: skillLevel.objectives.map((objective, j) =>
+                            content: skillLevel.objectives.map((objective) =>
                               objective.include ? (
-                                <div key={j}>
+                                <div key={objective.name}>
                                   <h5>
                                     {objective.name}{' '}
                                     {objective.percentageDone === 100 ? (

@@ -2,8 +2,8 @@ import React from 'react'
 import { Grid, Header } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 
-export const HomePage = (props) => {
-  const { t, i18n } = useTranslation('translation')
+export const HomePage = () => {
+  const { t } = useTranslation('translation')
 
   return (
     <Grid container>
@@ -45,5 +45,5 @@ export const HomePage = (props) => {
 /*
 HomePage.propTypes = {
   t: PropTypes.func.isRequired
-}*/
+} */
 export default HomePage
