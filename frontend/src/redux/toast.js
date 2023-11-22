@@ -24,7 +24,8 @@ const toastReducer = (state = INITIAL_STATE, action) => {
         message: action.payload.data.error,
         options: options.error,
       }
-    } else if (action.payload.message) {
+    }
+    if (action.payload.message) {
       return {
         message: action.payload.message,
         options: options.message,

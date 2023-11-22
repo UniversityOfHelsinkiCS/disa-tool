@@ -422,7 +422,7 @@
         "course_page": "Course page"
       }
     },
-    "ManageCoursePeople": {
+    "manageCoursePeople": {
       "add_a_user": "Add a user to the course",
 
       "add_teacher": "Add teacher",

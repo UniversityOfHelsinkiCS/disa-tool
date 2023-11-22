@@ -395,11 +395,11 @@
       }
     },
     "manageCoursePeople": {
-      "add_a_user": ["Add a user to the course", "Lisää käyttäjä kurssille"],
-      "add_teacher": ["Add teacher", "Lisää opettaja"],
-      "select_teacher": ["Select teacher(s)", "Valitse lisättävät opettajat"],
-      "add_student": ["Add student to course", "Lisää opiskelija kurssille"],
-      "search_student": ["Search people outside of course", "Etsi kurssin ulkopuolisia henkilöitä"],
+      "add_a_user": "Lisää käyttäjä kurssille",
+      "add_teacher": "Lisää opettaja",
+      "select_teacher": "Valitse lisättävät opettajat",
+      "add_student": "Lisää opiskelija kurssille",
+      "search_student": "Etsi kurssin ulkopuolisia henkilöitä",
       "teacher": "Opettaja",
       "student": "Opiskelija",
       "manage_course_people": "Hallinnoi kurssin osallistujia",

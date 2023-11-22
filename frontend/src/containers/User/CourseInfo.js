@@ -14,7 +14,7 @@ export const CourseInfo = (props) => {
     <>
       <Grid.Row>
         <Grid.Column>
-          <Header headerName="course-info-header" as="h1" floated="left">
+          <Header name="course-info-header" as="h1" floated="left">
             {course.name}
           </Header>
           <Conditional visible={props.isTeacher}>

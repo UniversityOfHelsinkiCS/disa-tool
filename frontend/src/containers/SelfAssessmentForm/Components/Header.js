@@ -32,7 +32,7 @@ const Header = ({
     setEditHeaders(oldState)
   }
 
-  const { t } = useTranslation('selfAssessmentForm.header')
+  const { t } = useTranslation('translation', { keyPrefix: 'selfAssessmentForm.header' })
 
   const header = editButton ? (
     <div>

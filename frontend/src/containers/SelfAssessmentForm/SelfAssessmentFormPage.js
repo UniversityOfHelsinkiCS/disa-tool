@@ -86,21 +86,28 @@ export const SelfAssessmentFormPage = (props) => {
     if (formData) {
       // Fetch the grades for the course
       const grades = await gradeOptions(courseInstanceId)
-      setGrades(grades)
-    } else {
-      dispatch({
-        type: '',
-        payload: {
-          toast: t('defineMatrixFirstError'),
-          type: 'error',
-        },
-      })
+      return grades
     }
+    dispatch({
+      type: '',
+      payload: {
+        toast: t('defineMatrixFirstError'),
+        type: 'error',
+      },
+    })
+    return false
   }
 
   useEffect(() => {
-    asyncMount()
+    let isMounted = true
+    asyncMount().then((grades) => {
+      if (isMounted) {
+        setGrades(grades)
+      }
+    })
+
     return () => {
+      isMounted = false
       if (error) {
         resetErrorAction(dispatch)
       }
@@ -142,7 +149,6 @@ export const SelfAssessmentFormPage = (props) => {
 
     if (error) return false
     if (softErrors && !modal) return false
-
     setRedirect(true)
     await createSelfAssessmentResponseAction(
       { ...assessmentResponse, finalHeaders: formData.structure.headers.grade },

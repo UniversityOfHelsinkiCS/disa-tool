@@ -39,12 +39,12 @@ const reducers = combineReducers({
 })
 
 const rootReducer = (state, action) => {
+  let newState = state
   if (action.type === 'USER_LOGOUT') {
     const { toast } = state
-    state = undefined
-    state = { ...state, toast }
+    newState = { undefined, toast }
   }
-  return reducers(state, action)
+  return reducers(newState, action)
 }
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))

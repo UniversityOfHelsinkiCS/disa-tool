@@ -38,7 +38,14 @@ const SelfAssessmentInfo = (props) => {
   return (
     <Form style={{ padding: '20px' }}>
       <Form.Field>
-        <Header name={formData.name} edit={edit} editButton headers={names} dispatchChange={toggleHeader} nestedForms />
+        <Header
+          headerName={formData.name}
+          edit={edit}
+          editButton
+          headers={names}
+          dispatchChange={toggleHeader}
+          nestedForms
+        />
       </Form.Field>
       <Form.Field>
         <Card centered fluid>

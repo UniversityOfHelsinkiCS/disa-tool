@@ -13,17 +13,17 @@ const failure = (resolve, action) => (error) => {
       ...action,
       response: error.response.data,
     })
-  } else if (error.request) {
+  }
+  if (error.request) {
     return resolve({
       ...action,
       response: error.request,
     })
-  } else {
-    return resolve({
-      ...action,
-      response: error.message,
-    })
   }
+  return resolve({
+    ...action,
+    response: error.message,
+  })
 }
 
 const successToast = (resolve) => success(resolve, { type: defaultSuccess })
@@ -31,10 +31,10 @@ const successToast = (resolve) => success(resolve, { type: defaultSuccess })
 const failureToast = (resolve) => failure(resolve, { type: defaultFailure })
 
 const apiPromise = (apiCall, param, actions = {}) =>
-  new Promise((resolve) =>
+  new Promise((resolve) => {
     apiCall(param)
       .then(actions.success ? success(resolve, actions.success) : successToast(resolve))
       .catch(actions.failure ? failure(resolve, actions.failure) : failureToast(resolve))
-  )
+  })
 
 export default apiPromise

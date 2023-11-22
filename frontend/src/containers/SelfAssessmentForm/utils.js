@@ -3,6 +3,7 @@ import { getByCourse } from '../../api/grades'
 const lang = localStorage.getItem('lang')
 
 export const gradeOptions = async (courseInstanceId) => {
+  console.log(courseInstanceId)
   const grades = await getByCourse({ id: courseInstanceId })
   const { data } = grades.data
   return data.map((d) => ({ text: d.name, value: d.id }))

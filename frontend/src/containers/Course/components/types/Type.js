@@ -61,8 +61,8 @@ export const Type = ({ activeTaskId = null, active, editing, type, slots, header
     dispatch(response)
   }
 
-  const moveTypeAsync = async () => {
-    const response = await editType()
+  const moveTypeAsync = async (props) => {
+    const response = await editType(props)
     dispatch(response)
   }
 

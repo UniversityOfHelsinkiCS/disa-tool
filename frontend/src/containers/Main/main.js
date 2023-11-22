@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { withRouter, Switch, Route } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import MathJax from 'react-mathjax'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -24,6 +22,11 @@ import CourseTasksPage from '../Course/CourseTasksPage'
 
 const Main = () => {
   const [keyState, setKeyState] = useState({ user: 0, anon: 0 })
+  const toastData = useSelector((state) => state.toast)
+
+  useEffect(() => {
+    toast(toastData.message, toastData.options)
+  }, [toastData])
 
   const getAnonymousKey = () => {
     const key = `user${keyState.anon}`
@@ -84,7 +87,6 @@ const Main = () => {
     <Route exact path="/courses/register" component={RegisterRedirect} key={() => getUserKey()} />,
     <Route component={HomePage} key={() => getUserKey()} />,
   ]
-  const reload = () => window.location.reload()
 
   const anonymousRoutes = [
     <Route path="/courses/matrix/:id" render={(props) => <MatrixPage {...props} />} key={() => getAnonymousKey()} />,
@@ -93,7 +95,6 @@ const Main = () => {
     </Route>,
     <Route exact path="/" component={HomePage} key={() => getAnonymousKey()} />,
   ]
-
   return (
     <main>
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
@@ -108,6 +109,7 @@ const Main = () => {
     </main>
   )
 }
+
 /*
 Main.propTypes = {
   toast: PropTypes.shape({
@@ -117,6 +119,6 @@ Main.propTypes = {
   user: PropTypes.shape({
     role: PropTypes.string
   }).isRequired
-}*/
+} */
 
 export default withRouter(connect()(Main))
