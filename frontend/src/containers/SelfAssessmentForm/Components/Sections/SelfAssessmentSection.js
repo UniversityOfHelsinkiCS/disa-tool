@@ -53,7 +53,7 @@ const SelfAssessmentSection = (props) => {
           {infoBoxTranslationId && <InfoBox translationid={infoBoxTranslationId} buttonProps={{ floated: 'right' }} />}
           <Header
             editButton={final}
-            name={final ? formData[0].header : name}
+            headerName={final ? formData[0].header : name}
             edit={edit}
             headerType={props.headerType}
             headers={headers}

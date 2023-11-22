@@ -19,7 +19,7 @@ const EditCategorymodule = (props) => {
       <Grid columns="4" padded>
         <Grid.Column width={final ? 8 : null}>
           <Header
-            name={name}
+            headerName={name}
             edit
             headers={headers}
             editButton={final}
