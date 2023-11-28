@@ -7,6 +7,10 @@
   "extends": ["airbnb", "eslint:recommended", "plugin:prettier/recommended"],
   "plugins": ["prettier", "react", "import", "prefer-object-spread", "babel", "react-hooks"],
   "rules": {
+    "import/no-extraneous-dependencies": [
+      "error",
+      { "devDependencies": true, "optionalDependencies": false, "peerDependencies": false }
+    ],
     "import/no-named-as-default": 0,
     "react/no-did-mount-set-state": "off",
     "react/destructuring-assignment": "off",
@@ -53,6 +57,6 @@
     "default-param-last": ["off"]
   },
   "parserOptions": {
-    "ecmaVersion": 2020
+    "ecmaVersion": "latest"
   }
 }
