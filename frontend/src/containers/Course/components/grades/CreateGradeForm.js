@@ -81,7 +81,7 @@ const CreateGradeForm = (props) => {
                 key: grade.id,
                 value: grade.id,
                 text: grade.name,
-              }))
+              })),
             )}
           />
         </Form.Field>

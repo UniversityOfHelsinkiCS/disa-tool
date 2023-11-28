@@ -27,7 +27,7 @@ test('test', async ({ page }) => {
   await expect(page).toHaveScreenshot('type-added.png')
   await page
     .locator(
-      'div:nth-child(3) > div > .Typelist > div > div > div:nth-child(3) > .editBlock > .EditTypeForm > div > .ui'
+      'div:nth-child(3) > div > .Typelist > div > div > div:nth-child(3) > .editBlock > .EditTypeForm > div > .ui',
     )
     .click()
   await page.locator('input[name="name-input"]').click()

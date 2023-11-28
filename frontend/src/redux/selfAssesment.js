@@ -57,7 +57,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
         assesmentResponse: {
           ...state.assesmentResponse,
           openQuestionResponses: state.assesmentResponse.openQuestionResponses.map((oQ) =>
-            oQ.id === id ? { ...oQ, responseText: value } : oQ
+            oQ.id === id ? { ...oQ, responseText: value } : oQ,
           ),
         },
       }
@@ -85,7 +85,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
             ...state.createForm.structure,
             questionModules: [
               ...state.createForm.structure.questionModules.map((o) =>
-                o.id !== id ? o : { ...o, textFieldOn: !o.textFieldOn }
+                o.id !== id ? o : { ...o, textFieldOn: !o.textFieldOn },
               ),
             ],
           },
@@ -189,7 +189,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       }
 
       const toChange = state.createForm.structure.formInfo.find(
-        (h) => h.type === (type === 'instructions' ? langInstructions : langName)
+        (h) => h.type === (type === 'instructions' ? langInstructions : langName),
       )
       let value = null
       if (ids.includes(toChange.id.toString())) {
@@ -206,7 +206,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
           structure: {
             ...state.createForm.structure,
             formInfo: state.createForm.structure.formInfo.map((inst) =>
-              ids.includes(inst.id.toString()) ? { ...inst, value: values[inst.id] } : inst
+              ids.includes(inst.id.toString()) ? { ...inst, value: values[inst.id] } : inst,
             ),
           },
           [type]: value,
@@ -225,7 +225,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
         structure.questionModules = structure.questionModules.map((qm) => ({
           ...qm,
           objectives: qm.objectives.map((qmo) =>
-            qmo.id === id ? { ...qmo, includedInAssesment: !qmo.includedInAssesment } : qmo
+            qmo.id === id ? { ...qmo, includedInAssesment: !qmo.includedInAssesment } : qmo,
           ),
         }))
         return { ...state, createForm: copy }
@@ -254,7 +254,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
           structure: {
             ...state.createForm.structure,
             questionModules: state.createForm.structure.questionModules.map((qm) =>
-              qm.id === id ? { ...qm, includedInAssesment: !qm.includedInAssesment } : qm
+              qm.id === id ? { ...qm, includedInAssesment: !qm.includedInAssesment } : qm,
             ),
           },
         },
@@ -289,7 +289,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
                 [headerType]: state.createForm.structure.headers[headerType].map((secHeader) =>
                   ids.includes(secHeader.id.toString())
                     ? { ...secHeader, value: changedHeaders[secHeader.id] }
-                    : secHeader
+                    : secHeader,
                 ),
               },
               finalGrade: {
@@ -314,7 +314,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
             finalGrade: {
               ...state.createForm.structure.finalGrade,
               headers: state.createForm.structure.finalGrade.headers.map((fg) =>
-                ids.includes(fg.id.toString()) ? { ...fg, value: changedHeaders[fg.id] } : fg
+                ids.includes(fg.id.toString()) ? { ...fg, value: changedHeaders[fg.id] } : fg,
               ),
               name,
             },

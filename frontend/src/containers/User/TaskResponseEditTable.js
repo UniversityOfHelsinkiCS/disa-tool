@@ -5,7 +5,7 @@ import TaskUpdatePopup from './components/TaskUpdatePopup'
 
 const findPersonTask = (person, updatedTasks, task) => {
   const taskUpdated = updatedTasks.find(
-    (updatedTask) => person.id === updatedTask.personId && updatedTask.taskId === task.id
+    (updatedTask) => person.id === updatedTask.personId && updatedTask.taskId === task.id,
   )
   if (taskUpdated) {
     return {

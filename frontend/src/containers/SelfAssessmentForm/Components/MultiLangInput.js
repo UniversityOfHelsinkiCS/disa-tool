@@ -40,7 +40,7 @@ MultiLangInput.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       value: PropTypes.string.isRequired,
-    })
+    }),
   ).isRequired,
   handleChange: PropTypes.func.isRequired,
   handleBlur: PropTypes.func,

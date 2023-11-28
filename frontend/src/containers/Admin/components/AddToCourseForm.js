@@ -18,11 +18,11 @@ const AddToCourseForm = (props) => {
       ...acc,
       [curr.course_instance_id]: true,
     }),
-    {}
+    {},
   )
   const { courses, selectedInstance, selectedCourse } = useSelector((state) => state.listCourses)
   const { instances } = useSelector((state) =>
-    state.listCourses.instances.filter((instance) => !alreadyOnCourse[instance.id])
+    state.listCourses.instances.filter((instance) => !alreadyOnCourse[instance.id]),
   )
 
   const getAllCoursesAsync = async () => {

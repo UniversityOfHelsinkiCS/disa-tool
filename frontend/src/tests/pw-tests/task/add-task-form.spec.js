@@ -47,7 +47,7 @@ test('Test adding a task', async ({ page }) => {
       .filter({
         hasText: 'Tärkeä tehtäväReverse-engineered stable solutionEnhanced directional circuitUniv',
       })
-      .first()
+      .first(),
   ).toBeTruthy()
   expect(page.getByText('Tehtävän lisätiedot: Tehtävän info')).toBeTruthy()
   expect(page.getByText('Maksimipisteet: 1')).toBeTruthy()

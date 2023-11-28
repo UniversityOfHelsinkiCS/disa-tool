@@ -20,7 +20,7 @@ const defaultMultiplier = (task, taskId, type) => {
           if (!type) return multiplier
           return type.multiplier
         }, 0),
-      1
+      1,
     )
   return multiplier
 }
@@ -54,12 +54,12 @@ const EditTaskObjectivesForm = (props) => {
                 .map((objective) => ({
                   ...objective,
                   multiplier: taskObjectives[objective.id].multiplier,
-                }))
+                })),
             ),
-          []
-        )
+          [],
+        ),
       ),
-    []
+    [],
   )
 
   const { t, i18n } = useTranslation('translation')
@@ -94,7 +94,7 @@ const EditTaskObjectivesForm = (props) => {
           }))
           .filter((objective) => objective.modified !== null),
       }),
-      dispatch
+      dispatch,
     ).then(collapse)
     setLoading(true)
   }
@@ -167,7 +167,7 @@ const EditTaskObjectivesForm = (props) => {
                       orText={t('common.or')}
                       modifyText={t('course.tasks.editTaskObjectivesForm.modify')}
                     />
-                  ) : null
+                  ) : null,
                 )
               ) : (
                 <ChangeAllObjectivesMultipliers

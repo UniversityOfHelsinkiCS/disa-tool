@@ -40,7 +40,7 @@ test.describe('Task', () => {
     await page.getByRole('option', { name: 'Matriisikertolasku ruokakaupassa' }).click()
     expect(page.getByText('Matriisikertolasku ruokakaupassa')).toBeTruthy()
     expect(
-      page.getByText('Tehtävässä tutustutaan matriisikertolaskuun käytännön sovelluksen avulla.Tehtävä')
+      page.getByText('Tehtävässä tutustutaan matriisikertolaskuun käytännön sovelluksen avulla.Tehtävä'),
     ).toBeTruthy()
     expect(page.getByText('Default Multiplier: 0.14Viikko 5Sarja A')).toBeTruthy()
     await page.getByRole('button', { name: 'Muokkaa tehtävää' }).click()
@@ -65,7 +65,7 @@ test.describe('Task', () => {
     await page.getByRole('button', { name: 'save' }).click()
     expect(page.getByText('Matriisikertolasku rautakaupassa')).toBeTruthy()
     expect(
-      page.getByText('Tehtävässä tutustutaan matriisikertolaskuun teoreettisen sovelluksen avulla.Tehtävä')
+      page.getByText('Tehtävässä tutustutaan matriisikertolaskuun teoreettisen sovelluksen avulla.Tehtävä'),
     ).toBeTruthy()
     expect(page.getByText('Default Multiplier: 0.14Viikko 5Sarja A')).toBeTruthy()
     await page.waitForTimeout(200)

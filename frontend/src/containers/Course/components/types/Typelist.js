@@ -66,7 +66,7 @@ Typelist.propTypes = {
   types: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
-    })
+    }),
   ).isRequired,
   editing: PropTypes.bool.isRequired,
   headerId: PropTypes.number.isRequired,

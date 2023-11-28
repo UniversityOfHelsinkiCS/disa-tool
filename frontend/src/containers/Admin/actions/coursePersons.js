@@ -19,7 +19,7 @@ export const addPersonToCourse = (data) =>
         course_instance: data.course_instance,
         type: types.ADMIN_ADD_TO_COURSE,
       },
-    }
+    },
   )
 
 export const removeCoursePerson = (data) =>

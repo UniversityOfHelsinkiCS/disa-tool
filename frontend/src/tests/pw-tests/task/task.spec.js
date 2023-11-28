@@ -8,7 +8,7 @@ test('Individual task renders correctly', async ({ page }) => {
   await page.getByRole('option', { name: 'Tehtävä 1. (Tee voltti)' }).click()
   await expect(page.getByText('Tehtävä 1. (Tee voltti)').nth(2)).toBeVisible()
   await expect(
-    page.getByText('Tässä tehtävässä sinun tulee tehdä voltti, eli hypätä ja pyörähtää täysi kierros')
+    page.getByText('Tässä tehtävässä sinun tulee tehdä voltti, eli hypätä ja pyörähtää täysi kierros'),
   ).toBeVisible()
   await expect(page.getByText('Maksimipisteet: 3')).toBeVisible()
   await expect(page.getByText('Oletusarvoinen kerroin: 0.14')).toBeVisible()

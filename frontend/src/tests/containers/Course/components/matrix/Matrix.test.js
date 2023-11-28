@@ -51,7 +51,7 @@ describe.skip('Matrix component', () => {
         removeLevel={mockFn}
         activeTask={null}
         translate={() => ''}
-      />
+      />,
     )
   })
 

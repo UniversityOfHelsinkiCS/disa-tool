@@ -21,7 +21,7 @@ export const calculateDifference = (response) => {
   const { length } = categoryVerifications
   const mean = categoryVerifications.reduce((acc, cur) => acc + cur.wantedGrade.difference / length, 0)
   const sd = Math.sqrt(
-    (1 / (length - 1)) * categoryVerifications.reduce((acc, cur) => acc + (cur.wantedGrade.difference - mean) ** 2, 0)
+    (1 / (length - 1)) * categoryVerifications.reduce((acc, cur) => acc + (cur.wantedGrade.difference - mean) ** 2, 0),
   )
   return { mean, sd }
 }

@@ -29,7 +29,7 @@ const CsvTable = ({ csv }) => {
                   {csv.data[0].map((cell, i) => (
                     // Using indexes should be fine here, since the table is read-only
                     // eslint-disable-next-line
-                      <Table.HeaderCell key={`${cell},${i}`}>{cell}</Table.HeaderCell>
+                    <Table.HeaderCell key={`${cell},${i}`}>{cell}</Table.HeaderCell>
                   ))}
                 </Table.Row>
               </Table.Header>
@@ -37,13 +37,13 @@ const CsvTable = ({ csv }) => {
                 {csv.data.map((row, i) =>
                   i === 0 ? undefined : (
                     // eslint-disable-next-line
-                      <Table.Row key={i}>
+                    <Table.Row key={i}>
                       {/* eslint-disable-next-line */}
-                        {row.map((cell, j) => (
+                      {row.map((cell, j) => (
                         <Table.Cell key={`${cell}`}>{cell}</Table.Cell>
                       ))}
                     </Table.Row>
-                  )
+                  ),
                 )}
               </Table.Body>
             </Table>

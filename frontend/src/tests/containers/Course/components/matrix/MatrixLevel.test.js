@@ -35,7 +35,7 @@ describe('MatrixLevel component', () => {
         activeMap={{}}
         activeTaskId={null}
         moveObjective={() => {}}
-      />
+      />,
     )
   })
 

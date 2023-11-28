@@ -93,7 +93,7 @@ export const CategoryFeedback = (props) => {
                                     indicating
                                   />
                                 </div>
-                              ) : undefined
+                              ) : undefined,
                             ),
                           },
                         },

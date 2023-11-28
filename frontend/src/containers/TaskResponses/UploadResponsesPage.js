@@ -31,7 +31,7 @@ export const UploadResponsesPage = (props) => {
     getByCourse({ id: props.activeCourse.id }).then((response) =>
       setState({
         types: state.types.concat(response.data.data),
-      })
+      }),
     )
 
   const mapCsvToTasks = () => {
@@ -113,7 +113,7 @@ export const UploadResponsesPage = (props) => {
             }
           }
           const existingResponse = student.task_responses.find(
-            (resp) => resp.task_id === response.taskId && resp.person_id === response.personId
+            (resp) => resp.task_id === response.taskId && resp.person_id === response.personId,
           )
           if (existingResponse) {
             response.responseId = existingResponse.id

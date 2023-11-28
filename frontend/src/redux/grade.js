@@ -34,7 +34,7 @@ const gradeReducer = (state = INITIAL_STATE, action) => {
                 ...grade,
                 ...action.response.edited,
               }
-            : grade
+            : grade,
         ),
       }
     case types.GRADE_UPDATE_CATEGORY_GRADES_SUCCESS: {

@@ -48,7 +48,7 @@ const TaskResponseTypeTable = (props) => {
                       </Button>
                     </Table.HeaderCell>
                   )
-                })
+                }),
               )}
           </Table.Row>
         </Table.Header>
@@ -65,11 +65,11 @@ const TaskResponseTypeTable = (props) => {
                     <Table.Cell key={type.id}>
                       {person.task_responses &&
                         person.task_responses.filter((response) =>
-                          getTasksForType(tasks, type.id).find((t) => t.id === response.task_id)
+                          getTasksForType(tasks, type.id).find((t) => t.id === response.task_id),
                         ).length}{' '}
                       / {getTasksForType(tasks, type.id).length}
                     </Table.Cell>
-                  ))
+                  )),
                 )}
             </Table.Row>
           ))}

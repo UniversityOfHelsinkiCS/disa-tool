@@ -40,7 +40,7 @@ Headerlist.propTypes = {
   headers: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
-    })
+    }),
   ).isRequired,
   editing: PropTypes.bool.isRequired,
   courseId: PropTypes.number.isRequired,

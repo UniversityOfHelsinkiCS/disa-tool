@@ -35,7 +35,7 @@ const ResponseList = ({ responses, responsesOnPage = 20, selected = false, regen
           (e) =>
             e.person &&
             ((e.person.studentnumber && e.person.studentnumber.toLowerCase().includes(searchedLower)) ||
-              (e.person.name && e.person.name.toLowerCase().includes(searchedLower)))
+              (e.person.name && e.person.name.toLowerCase().includes(searchedLower))),
         )
   let sortedResponses
   switch (sorted.headerindex) {
@@ -52,7 +52,7 @@ const ResponseList = ({ responses, responsesOnPage = 20, selected = false, regen
           const diff = calculateDifference(o)
           return diff ? [diff.mean, diff.sd] : [0]
         },
-        sorted.asc ? 'asc' : 'desc'
+        sorted.asc ? 'asc' : 'desc',
       )
       break
     case 3:

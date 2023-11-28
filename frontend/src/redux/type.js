@@ -15,7 +15,7 @@ const edit = (state, edited) => {
               ...header,
               types: header.types.map((type) => (type.id === edited.id ? edited : type)),
             }
-          : header
+          : header,
       ),
     }
   }
@@ -58,7 +58,7 @@ const typeReducer = (state = INITIAL_STATE, action) => {
                 ...header,
                 types: header.types.filter((type) => type.id !== action.response.deleted.id),
               }
-            : header
+            : header,
         ),
       }
     case types.TYPE_CREATE:
@@ -76,7 +76,7 @@ const typeReducer = (state = INITIAL_STATE, action) => {
                   },
                 ],
               }
-            : header
+            : header,
         ),
       }
     case types.TYPE_HEADER_CREATE:
@@ -98,7 +98,7 @@ const typeReducer = (state = INITIAL_STATE, action) => {
                 ...header,
                 ...action.response.edited,
               }
-            : header
+            : header,
         ),
       }
     default:

@@ -73,7 +73,7 @@ const CourseListPage = (props) => {
 
   const courseOptions = orderBy(
     courses.map((course) => ({ key: course.id, text: course.name, value: course.id })),
-    'text'
+    'text',
   )
   return (
     <Grid padded="vertically">

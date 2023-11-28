@@ -16,7 +16,7 @@ const AddOpenQuestion = () => {
         eng_name: e.target.eng_name.value,
         fin_name: e.target.fin_name.value,
         swe_name: e.target.swe_name.value,
-      })
+      }),
     )
   }
   return (

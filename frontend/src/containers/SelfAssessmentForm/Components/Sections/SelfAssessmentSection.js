@@ -43,7 +43,7 @@ const SelfAssessmentSection = (props) => {
                 grades={grades}
               />
             </li>
-          )
+          ),
       )
 
   return (

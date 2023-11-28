@@ -28,7 +28,7 @@ const formatToCsv = (responses) => {
           }
         : {
             [question.name]: objectiveGrades()[question.grade],
-          }
+          },
     )
     const openResponses = response.response.openQuestionResponses.map((question) => ({
       [`${question.name}_text`]: replaceQuotesAndLineBreaks(question.responseText),

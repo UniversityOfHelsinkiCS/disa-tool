@@ -45,7 +45,7 @@ TypesDisplay.propTypes = {
       id: number.isRequired,
       name: string.isRequired,
       header: string.isRequired,
-    })
+    }),
   ).isRequired,
   defaultText: string.isRequired,
   defaultMultiplier: number.isRequired,

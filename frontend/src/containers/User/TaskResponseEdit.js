@@ -80,7 +80,7 @@ const TaskResponseEdit = (props) => {
         tasks: updatedTasks,
         courseId: activeCourse.id,
       },
-      dispatch
+      dispatch,
     )
     setUpdatedTasks([])
   }

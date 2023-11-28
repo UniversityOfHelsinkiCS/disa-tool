@@ -74,7 +74,7 @@ const UserPage = (props) => {
             { name: 'open', value: false },
             { name: 'active', value: false },
           ],
-          dispatch
+          dispatch,
         )
         break
       case 'assessmentShown':
@@ -84,7 +84,7 @@ const UserPage = (props) => {
             { name: 'open', value: false },
             { name: 'active', value: true },
           ],
-          dispatch
+          dispatch,
         )
         break
       case 'assessmentOpen':
@@ -94,7 +94,7 @@ const UserPage = (props) => {
             { name: 'open', value: true },
             { name: 'active', value: true },
           ],
-          dispatch
+          dispatch,
         )
         break
       case 'feedbackOpen':

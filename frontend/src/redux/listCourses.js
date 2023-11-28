@@ -50,7 +50,7 @@ const listCoursesReducer = (state = INITIAL_STATE, action) => {
                 ...instance,
                 name: action.response.edited.name,
               }
-            : instance
+            : instance,
         ),
         selectedInstance:
           state.selectedInstance.id === action.response.edited.id

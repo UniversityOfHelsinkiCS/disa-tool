@@ -20,7 +20,7 @@ const adminReducer = (state = INITIAL_STATE, action) => {
                 ...user,
                 role: action.response.data.role,
               }
-            : user
+            : user,
         ),
       }
     case types.ADMIN_COURSE_CHANGE_ROLE:
@@ -36,10 +36,10 @@ const adminReducer = (state = INITIAL_STATE, action) => {
                         ...cp,
                         role: action.response.data.role,
                       }
-                    : cp
+                    : cp,
                 ),
               }
-            : user
+            : user,
         ),
       }
     case types.ADMIN_ADD_TO_COURSE:
@@ -57,7 +57,7 @@ const adminReducer = (state = INITIAL_STATE, action) => {
                   },
                 ],
               }
-            : user
+            : user,
         ),
       }
     case types.ADMIN_DELETE_ROLE:
@@ -69,7 +69,7 @@ const adminReducer = (state = INITIAL_STATE, action) => {
                 ...user,
                 course_people: user.course_people.filter((cp) => cp.id !== action.response.deleted.id),
               }
-            : user
+            : user,
         ),
       }
     case types.ADMIN_RESET:

@@ -52,7 +52,7 @@ export const checkResponseErrors = (assessmentResponse) => {
           grade = grade.map((e) =>
             e.id === qmRes.category
               ? { ...e, errors: { ...e.errors, [qmRes.id]: { error: errorMessages.exists[lang] } } }
-              : e
+              : e,
           )
         } else {
           grade = [

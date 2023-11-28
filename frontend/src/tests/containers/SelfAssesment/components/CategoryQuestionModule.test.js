@@ -45,7 +45,7 @@ beforeEach(() => {
           responseText: null,
         },
       ]}
-    />
+    />,
   )
 })
 

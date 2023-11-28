@@ -114,7 +114,7 @@ const EditGradeForm = ({ gradeId, objectiveId, levels, grades }) => {
                 key: grade.id,
                 value: grade.id,
                 text: grade.name,
-              }))
+              })),
             )}
           />
         </Form.Field>

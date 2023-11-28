@@ -36,7 +36,7 @@ const levelReducer = (state = INITIAL_STATE, action) => {
                 name: action.response.edited.name || level.name,
                 order: action.response.edited.order || level.order,
               }
-            : level
+            : level,
         ),
       }
     default:

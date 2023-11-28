@@ -33,5 +33,5 @@ ReactDOM.render(
       </I18nextProvider>
     </BrowserRouter>
   </Provider>,
-  document.getElementById('app')
+  document.getElementById('app'),
 )

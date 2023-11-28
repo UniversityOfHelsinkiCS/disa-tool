@@ -32,7 +32,7 @@ export const dropSpec = {
         order: slot,
         type_header_id: element.type_header_id,
       },
-      true
+      true,
     )
   },
 }

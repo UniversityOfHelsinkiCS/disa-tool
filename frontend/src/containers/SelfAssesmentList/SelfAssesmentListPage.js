@@ -35,7 +35,7 @@ const SelfAssesmentListPage = (props) => {
         selfAssesmentId: selfAssesmentResponse.data.data.id,
         selfAssesmentName: selfAssesmentResponse.data.data.name,
       },
-      dispatch
+      dispatch,
     )
     setLoading(false)
   }
@@ -63,7 +63,7 @@ const SelfAssesmentListPage = (props) => {
             setUnSuccessful(unSuccessful + 1)
             return null
           }
-        })
+        }),
       )
     ).filter((response) => response !== null)
     regenerate(newSelected, dispatch)

@@ -12,7 +12,7 @@ test.describe('Course page', () => {
     await expect(page.getByRole('cell', { name: 'osio' })).toBeVisible()
     await expect(page.getByRole('cell', { name: 'Yhtälöryhmät' })).toBeVisible()
     await expect(
-      page.getByText('Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoidu')
+      page.getByText('Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoidu'),
     ).toBeVisible()
     await expect(page.getByTestId('matrix-table').locator('div').filter({ hasText: '1-2' }).nth(2)).toBeVisible()
     await expect(courseHeader).toHaveText('Lineaarialgebra ja matriisilaskenta I kevät 2018')

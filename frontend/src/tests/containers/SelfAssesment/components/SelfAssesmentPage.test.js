@@ -32,7 +32,7 @@ describe('Self assessment page', () => {
         role="TEACHER"
         error={false}
         translate={() => ''}
-      />
+      />,
     )
     user = {
       id: 422,

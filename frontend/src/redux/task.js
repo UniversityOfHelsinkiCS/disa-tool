@@ -106,7 +106,7 @@ const detachOneType = (state, action) => ({
         types: task.types.filter((type) => type !== action.response.deleted.type_id),
         objectives: [
           ...task.objectives.filter(
-            (objective) => !action.response.taskObjectives.find((taskObjective) => taskObjective.id === objective.id)
+            (objective) => !action.response.taskObjectives.find((taskObjective) => taskObjective.id === objective.id),
           ),
           ...action.response.taskObjectives,
         ],
@@ -127,7 +127,7 @@ const attachType = (state, action) => ({
         types: [...task.types, action.response.created.type_id],
         objectives: [
           ...task.objectives.filter(
-            (objective) => !action.response.taskObjectives.find((taskObjective) => taskObjective.id === objective.id)
+            (objective) => !action.response.taskObjectives.find((taskObjective) => taskObjective.id === objective.id),
           ),
           ...action.response.taskObjectives,
         ],
@@ -192,7 +192,7 @@ const taskReducer = (state = INITIAL_STATE, action) => {
                 objectives: task.objectives,
                 defaultMultiplier: task.defaultMultiplier,
               }
-            : task
+            : task,
         ),
       }
     case types.TASK_EDIT_OBJECTIVE_MULTIPLIERS:
@@ -204,7 +204,7 @@ const taskReducer = (state = INITIAL_STATE, action) => {
                 ...task,
                 objectives: task.objectives.map((objective) => {
                   const editedObjective = action.response.edited.task_objectives.find(
-                    (to) => to.objective_id === objective.id
+                    (to) => to.objective_id === objective.id,
                   )
                   return editedObjective
                     ? {
@@ -214,7 +214,7 @@ const taskReducer = (state = INITIAL_STATE, action) => {
                     : objective
                 }),
               }
-            : task
+            : task,
         ),
         lastMultiplierUpdate: new Date(),
       }

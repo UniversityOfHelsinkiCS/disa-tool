@@ -48,7 +48,7 @@ const SelectTaskDropdown = (props) => {
                 </DnDItem>
               ),
               value: task.id,
-            }))
+            })),
           )}
           placeholder={t('placeholder')}
           scrolling

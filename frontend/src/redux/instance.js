@@ -106,7 +106,7 @@ export const instanceReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         self_assessments: state.self_assessments.map((assesment) =>
-          assesment.id === action.payload.data.id ? action.payload.data : assesment
+          assesment.id === action.payload.data.id ? action.payload.data : assesment,
         ),
       }
     default:

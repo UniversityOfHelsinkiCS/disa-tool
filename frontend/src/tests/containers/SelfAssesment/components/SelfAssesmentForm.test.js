@@ -46,7 +46,7 @@ describe('Self assessment form', () => {
         clearError={jest.fn}
         responseErrors={{}}
         translate={() => ''}
-      />
+      />,
     )
   })
 

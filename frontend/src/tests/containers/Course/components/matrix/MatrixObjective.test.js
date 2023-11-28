@@ -33,7 +33,7 @@ describe('MatrixObjective component', () => {
         cut={mockFn}
         translate={() => ''}
         moveObjective={() => {}}
-      />
+      />,
     )
   })
 

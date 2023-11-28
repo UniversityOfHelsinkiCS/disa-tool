@@ -17,7 +17,7 @@ const apiCall = (success) => (data) =>
       ? resolve({
           data: { success: true, data },
         })
-      : reject(responseError(data))
+      : reject(responseError(data)),
   )
 
 describe('apiPromise utility', () => {

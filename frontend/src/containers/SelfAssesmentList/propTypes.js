@@ -13,7 +13,7 @@ export const responseProp = shape({
       categoryVerifications: arrayOf(
         shape({
           wantedGrade: shape({ difference: number.isRequired }).isRequired,
-        })
+        }),
       ).isRequired,
     }),
     finalGradeResponse: shape({ grade_name: string }),

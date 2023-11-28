@@ -68,7 +68,7 @@ export const SelfAssessmentFormPage = (props) => {
             courseInfo: courseInfo.data.data,
             type,
           },
-          dispatch
+          dispatch,
         )
       } else {
         // Fetch the selfassesment data by given id
@@ -152,7 +152,7 @@ export const SelfAssessmentFormPage = (props) => {
     setRedirect(true)
     await createSelfAssessmentResponseAction(
       { ...assessmentResponse, finalHeaders: formData.structure.headers.grade },
-      dispatch
+      dispatch,
     )
     clearValidationAction(dispatch)
     return true

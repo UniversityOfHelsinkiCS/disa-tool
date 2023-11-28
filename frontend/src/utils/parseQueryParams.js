@@ -14,7 +14,7 @@ const parseQueryParams = (location) => {
         ...acc,
         [curr[0]]: curr[1],
       }),
-      {}
+      {},
     )
   return {
     ...location,

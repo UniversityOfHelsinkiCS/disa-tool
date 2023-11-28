@@ -40,7 +40,7 @@ describe('MatrixCategory component', () => {
         translate={() => ''}
         moveCategory={() => {}}
         slots={{ previous: 0, next: 2 }}
-      />
+      />,
     )
   })
 

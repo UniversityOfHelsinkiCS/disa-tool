@@ -45,8 +45,8 @@ const ManageCoursePeople = (props) => {
       findPeople(searchQuery).then((res) =>
         setSearchPeople(
           // filter out people already on course
-          res.data.filter((person) => !props.people.find((p) => p.id === person.id))
-        )
+          res.data.filter((person) => !props.people.find((p) => p.id === person.id)),
+        ),
       )
     }
   }

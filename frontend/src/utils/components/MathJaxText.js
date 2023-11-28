@@ -17,7 +17,7 @@ const splitContent = (content, delimiter) => {
 const MathJaxText = (props) => {
   const chunks = props.delimiters.reduce((acc, curr) => splitContent(acc, curr), [props.content])
   const elements = chunks.map((chunk, i) =>
-    i % 2 === 0 ? <span key={chunk}>{chunk}</span> : <MathJax.Node key={chunk} inline formula={chunk} />
+    i % 2 === 0 ? <span key={chunk}>{chunk}</span> : <MathJax.Node key={chunk} inline formula={chunk} />,
   )
   return <span>{elements}</span>
 }

@@ -22,7 +22,7 @@ const StudentAssesmentList = ({ assesments }) => {
               />
             </List.Content>
           </List.Item>
-        )
+        ),
       )}
     </List>
   )

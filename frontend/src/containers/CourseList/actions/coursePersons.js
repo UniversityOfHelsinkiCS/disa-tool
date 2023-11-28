@@ -7,7 +7,7 @@ export const registerToCourse = (data) =>
       resolve({
         type: types.COURSELIST_REGISTER,
         response: response.data,
-      })
+      }),
     )
   })
 
@@ -17,6 +17,6 @@ export const unregisterFromCourse = (data) =>
       resolve({
         type: types.COURSELIST_UNREGISTER,
         response: response.data,
-      })
+      }),
     )
   })

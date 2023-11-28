@@ -52,9 +52,9 @@ ListTasks.propTypes = {
           id: PropTypes.number.isRequired,
           header: PropTypes.string,
           name: PropTypes.string,
-        })
+        }),
       ).isRequired,
-    })
+    }),
   ).isRequired,
 }
 

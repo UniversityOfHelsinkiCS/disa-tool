@@ -42,7 +42,7 @@ test.describe('Task objective tests', () => {
     await page.getByRole('textbox').press('Enter')
     await page.goto('http://localhost:8080/course/1/matrix')
     await expect(page.locator("[data-testid='matrix-level-3-1']")).toHaveScreenshot(
-      'remove-objective-module-before.png'
+      'remove-objective-module-before.png',
     )
     await page
       .getByRole('cell', {
@@ -54,7 +54,7 @@ test.describe('Task objective tests', () => {
     await page.locator("[data-testid='modal-delete-objective-16']").click()
     await expect(page.locator("[data-testid='matrix-level-3-1']")).toHaveScreenshot('remove-objective-module-after.png')
     await expect(
-      page.getByText('Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio')
+      page.getByText('Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio'),
     ).not.toBeVisible()
   })
 })

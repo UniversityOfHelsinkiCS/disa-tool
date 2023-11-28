@@ -10,7 +10,7 @@ test('test', async ({ page }) => {
   await page.getByRole('link', { name: 'Lineaarialgebra ja matriisilaskenta I kevät 2019' }).click()
   await page.getByRole('button', { name: 'Luo kategoriapohjainen itsearviointi' }).click()
   await expect(page.locator("[data-testid='self-assessment-form-page']")).toHaveScreenshot(
-    'self-assessment-category-page.png'
+    'self-assessment-category-page.png',
   )
   await page.getByRole('heading', { name: 'Itsearviointitehtävä Muokkaa' }).getByRole('button').click()
   await page.getByRole('button', { name: 'Aseta' }).click()
@@ -25,14 +25,14 @@ test('test', async ({ page }) => {
   await expect(page.getByTestId('toggle-category-included-button-10')).toHaveText('Mukana itsearviossa')
   await expect(page.getByTestId('show-explanation-button-10').getByRole('checkbox')).toBeChecked()
   await expect(page.locator("div[data-testid='edit-category-module-10']")).toHaveScreenshot(
-    'edit-category-module-before-clicks.png'
+    'edit-category-module-before-clicks.png',
   )
   await page.getByTestId('show-explanation-button-10').getByText('Perustelut arvosanalle').click()
   await page.getByTestId('toggle-category-included-button-10').click()
   await expect(page.getByTestId('toggle-category-included-button-10')).toHaveText('Ei mukana itsearviossa')
   await expect(page.getByTestId('show-explanation-button-10').getByRole('checkbox')).not.toBeChecked()
   await expect(page.locator("[data-testid='edit-category-module-10']")).toHaveScreenshot(
-    'edit-category-module-after-clicks.png'
+    'edit-category-module-after-clicks.png',
   )
 
   // Can be toggled back
@@ -44,15 +44,15 @@ test('test', async ({ page }) => {
 
   // Categories can be moved toggle-down-button-
   await expect(
-    page.getByTestId('self-assessment-section-list-Kurssin osa-alueet').getByRole('listitem').nth(0)
+    page.getByTestId('self-assessment-section-list-Kurssin osa-alueet').getByRole('listitem').nth(0),
   ).toContainText('Yhtälöryhmät')
   await page.getByTestId('toggle-down-button-10').click()
   await expect(
-    page.getByTestId('self-assessment-section-list-Kurssin osa-alueet').getByRole('listitem').nth(0)
+    page.getByTestId('self-assessment-section-list-Kurssin osa-alueet').getByRole('listitem').nth(0),
   ).toContainText('Vektoriavaruudet')
   await page.getByTestId('toggle-up-button-12').click()
   await expect(
-    page.getByTestId('self-assessment-section-list-Kurssin osa-alueet').getByRole('listitem').nth(1)
+    page.getByTestId('self-assessment-section-list-Kurssin osa-alueet').getByRole('listitem').nth(1),
   ).toContainText('Virittäminen ja vapaus')
 
   // Add open question

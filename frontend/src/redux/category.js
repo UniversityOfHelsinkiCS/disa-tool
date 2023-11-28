@@ -31,13 +31,13 @@ const objectiveEdit = (state, edited) => {
                   ? {
                       ...level,
                       objectives: level.objectives.map((objective) =>
-                        objective.id === edited.id ? newObjective : objective
+                        objective.id === edited.id ? newObjective : objective,
                       ),
                     }
-                  : level
+                  : level,
               ),
             }
-          : category
+          : category,
       ),
     }
   }
@@ -54,7 +54,7 @@ const objectiveEdit = (state, edited) => {
                   ...level,
                   objectives: level.objectives.filter((objective) => objective.id !== edited.id),
                 }
-              : level
+              : level,
           ),
         }
       }
@@ -67,7 +67,7 @@ const objectiveEdit = (state, edited) => {
                   ...level,
                   objectives: [...level.objectives, newObjective],
                 }
-              : level
+              : level,
           ),
         }
       }
@@ -128,13 +128,13 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
                     ? {
                         ...skillLevel,
                         objectives: skillLevel.objectives.filter(
-                          (objective) => objective.id !== action.response.deleted.id
+                          (objective) => objective.id !== action.response.deleted.id,
                         ),
                       }
-                    : skillLevel
+                    : skillLevel,
                 ),
               }
-            : category
+            : category,
         ),
       }
     case types.CATEGORY_CREATE:
@@ -180,7 +180,7 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
                   ...level,
                   order: action.response.edited.order,
                 }
-              : level
+              : level,
           ),
         })),
       }
@@ -197,7 +197,7 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
                     ...objective,
                     task_count: objective.task_count + 1,
                   }
-                : objective
+                : objective,
             ),
           })),
         })),
@@ -215,7 +215,7 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
                     ...objective,
                     task_count: objective.task_count - 1,
                   }
-                : objective
+                : objective,
             ),
           })),
         })),
@@ -232,7 +232,7 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
                 name: action.response.edited.name || category.name,
                 order: action.response.edited.order || category.order,
               }
-            : category
+            : category,
         ),
       }
     default:
