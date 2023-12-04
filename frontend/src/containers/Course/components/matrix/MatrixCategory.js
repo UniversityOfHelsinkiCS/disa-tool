@@ -2,13 +2,12 @@ import React from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { Table, Segment, Header } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
+import { useDrag } from 'react-dnd'
 import MatrixLevel from './MatrixLevel'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import { removeCategory, editCategory } from '../../actions/categories'
 import EditCategoryForm from './EditCategoryForm'
-import dndItem from '../../../../utils/components/DnDItem'
-
-const DnDItem = dndItem('category')
+import DnDItem from '../../../../utils/components/DnDItem'
 
 export const MatrixCategory = ({
   courseId = null,
@@ -21,6 +20,17 @@ export const MatrixCategory = ({
 }) => {
   const { t } = useTranslation('translation', { keyPrefix: 'course.matrix.matrixCategory' })
   const dispatch = useDispatch()
+
+  const [{ isDragging }, drag, dragPreview] = useDrag(
+    () => ({
+      type: 'category',
+      item: { type: 'category' },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+    }),
+    [],
+  )
   const asyncRemoveCategory = async (props) => {
     const response = await removeCategory(props)
     dispatch(response)
@@ -54,7 +64,14 @@ export const MatrixCategory = ({
     <Table.Row className="MatrixCategory">
       <Table.Cell>
         {editing ? (
-          <DnDItem element={category} mover={asyncEditCategory} slots={slots}>
+          <DnDItem
+            target={{ order: category.order }}
+            mover={asyncEditCategory}
+            slots={slots}
+            drag={drag}
+            isDragging={isDragging}
+            dragPreview={dragPreview}
+          >
             <Segment>{cellContent}</Segment>
           </DnDItem>
         ) : (

@@ -11,8 +11,6 @@ import App from './App'
 
 import store from './store'
 
-import './i18n'
-
 const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
 try {

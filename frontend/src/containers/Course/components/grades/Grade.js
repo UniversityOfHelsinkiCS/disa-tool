@@ -2,18 +2,28 @@ import React from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { Segment, Header, Grid } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
+import { useDrag } from 'react-dnd'
 import { removeGrade } from '../../actions/grades'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditGradeForm from './EditGradeForm'
-import dndItem from '../../../../utils/components/DnDItem'
-
-const DnDItem = dndItem('grade')
+import DnDItem from '../../../../utils/components/DnDItem'
 
 const parseName = (object) => (object ? object.name : null)
 
-const Grade = (props) => {
+const Grade = ({ currentGrade, slots, moveGrade, levels, grades }) => {
   const { t } = useTranslation('translation', { keyPrefix: 'course.grades.grade' })
   const dispatch = useDispatch()
+
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: 'grade',
+      item: { id: currentGrade.id, type: 'grade' },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+    }),
+    [],
+  )
 
   const asyncRemoveGrade = async ({ id }) => {
     const response = await removeGrade({
@@ -22,47 +32,47 @@ const Grade = (props) => {
     dispatch(response)
   }
   return (
-    <DnDItem element={props.grade} mover={props.moveGrade} slots={props.slots}>
+    <DnDItem target={currentGrade} mover={moveGrade} slots={slots} drag={drag} isDragging={isDragging}>
       <div className="Grade">
         <Segment>
-          <Header>{props.grade.name}</Header>
+          <Header>{currentGrade.name}</Header>
           <Grid columns={4}>
             <Grid.Row>
               <Grid.Column width={5}>
                 <p>
                   <span>{t('skill_level')}</span>
                   <span>: </span>
-                  <strong>{parseName(props.levels.find((level) => level.id === props.grade.skill_level_id))}</strong>
+                  <strong>{parseName(levels.find((level) => level.id === currentGrade.skill_level_id))}</strong>
                 </p>
               </Grid.Column>
               <Grid.Column width={4}>
                 <p>
                   <span>{t('needed_for_grade')}</span>
                   <span>: </span>
-                  <strong>{props.grade.needed_for_grade * 100}%</strong>
+                  <strong>{currentGrade.needed_for_grade * 100}%</strong>
                 </p>
               </Grid.Column>
               <Grid.Column width={5}>
                 <p>
                   <span>{t('prerequisite')}</span>
                   <span>: </span>
-                  <strong>{parseName(props.grades.find((grade) => grade.id === props.grade.prerequisite))}</strong>
+                  <strong>{parseName(grades.find((grade) => grade.id === grade.prerequisite))}</strong>
                 </p>
               </Grid.Column>
               <Grid.Column width={2}>
                 <div className="flexContainer">
                   <div className="flexBlock">
                     <EditGradeForm
-                      gradeId={props.grade.id}
-                      grades={props.grades.filter((grade) => grade.id !== props.grade.id)}
-                      levels={props.levels}
+                      gradeId={currentGrade.id}
+                      grades={grades.filter((grade) => grade.id !== currentGrade.id)}
+                      levels={levels}
                     />
                   </div>
                   <div className="flexBlock">
                     <DeleteForm
-                      onExecute={() => asyncRemoveGrade({ id: props.grade.id })}
+                      onExecute={() => asyncRemoveGrade({ id: currentGrade.id })}
                       header={t('delete_header')}
-                      prompt={[t('delete_prompt_1'), props.grade.name]}
+                      prompt={[t('delete_prompt_1'), currentGrade.name]}
                     />
                   </div>
                 </div>

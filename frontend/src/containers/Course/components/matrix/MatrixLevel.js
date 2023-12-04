@@ -1,27 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { Table } from 'semantic-ui-react'
 
+import { useDrag } from 'react-dnd'
 import CreateObjectiveForm from './CreateObjectiveForm'
-import MatrixObjective, { dropSpec } from './MatrixObjective'
-import dndItem from '../../../../utils/components/DnDItem'
+import MatrixObjective from './MatrixObjective'
 import { editObjective } from '../../actions/objectives'
-import asyncAction from '../../../../utils/asyncAction'
-
-const DnDItem = dndItem('objective', {
-  source: false,
-  dropSpec: {
-    drop: (props, monitor) => {
-      const { element } = props
-      const drag = monitor.getItem()
-      if (element.category_id === drag.category_id && element.skill_level_id === drag.skill_level_id) {
-        return
-      }
-      dropSpec.drop(props, monitor)
-    },
-  },
-})
+import DnDItem from '../../../../utils/components/DnDItem'
 
 export const MatrixLevel = ({
   courseId = null,
@@ -34,7 +19,18 @@ export const MatrixLevel = ({
 }) => {
   const objectives = level.objectives.sort((a, b) => a.order - b.order)
   let newOrder = 1
+  const dispatch = useDispatch()
 
+  const [{ isDragging }, drag, dragPreview] = useDrag(
+    () => ({
+      type: 'objective',
+      item: { type: 'objective' },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+    }),
+    [],
+  )
   const asyncEditObjective = async (props) => {
     const response = await editObjective(props)
     dispatch(response)
@@ -51,9 +47,10 @@ export const MatrixLevel = ({
     if (index === objectivesArray.length - 1) {
       newOrder = slots.next
     }
+
     return (
       <MatrixObjective
-        key={objective.id}
+        key={objective.order}
         objective={objective}
         editing={editing}
         active={Boolean(activeMap[objective.id])}
@@ -75,12 +72,15 @@ export const MatrixLevel = ({
       <div>{objectivesNode}</div>
       {editing ? (
         <DnDItem
-          element={{
-            order: newOrder,
-            category_id: category.id,
-            skill_level_id: level.id,
+          data-testid={`matrix-level-${category.id}-${level.id}-testing-this-thing`}
+          target={{
+            categoryId: category.id,
+            skillLevelId: level.id,
           }}
+          isDragging={isDragging}
           mover={asyncEditObjective}
+          drag={drag}
+          dragPreview={dragPreview}
         >
           <CreateObjectiveForm levelId={level.id} category={category} courseId={courseId} newOrder={newOrder} />
         </DnDItem>

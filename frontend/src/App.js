@@ -10,7 +10,7 @@ import Nav from './containers/Nav/navbar'
 import Main from './containers/Main/main'
 import LocalizeWrapper from './containers/Localize/LocalizeWrapper'
 
-const App = (props) => {
+const App = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   let sessionAliveInterval = null
@@ -19,12 +19,23 @@ const App = (props) => {
     await getUserAction(dispatch)
   }
 
+  const logError = (err) => {
+    // eslint-disable-next-line no-console
+    console.log(err)
+    Sentry.configureScope((context) => {
+      context.setUser({ id: user.id, username: user.name })
+    })
+    Sentry.captureException(err)
+  }
+
   useEffect(() => {
     getUserAsync()
     sessionAliveInterval = setInterval(async () => {
       try {
         await getUser()
-      } catch (e) {}
+      } catch (e) {
+        logError(e)
+      }
     }, 60 * 1000)
     return () => {
       if (sessionAliveInterval !== null) {
@@ -33,14 +44,6 @@ const App = (props) => {
       }
     }
   }, [])
-
-  const logError = (err) => {
-    console.log(err)
-    Sentry.configureScope((context) => {
-      context.setUser({ id: props.user.id, username: props.user.name })
-    })
-    Sentry.captureException(err)
-  }
 
   return (
     <ErrorBoundary fallback={<div>Something went wrong</div>} onError={logError}>
@@ -59,6 +62,6 @@ App.propTypes = {
   getUserAction: PropTypes.func.isRequired,
 }
 */
-//const mapStateToProps = ({ user }) => ({ user })
+// const mapStateToProps = ({ user }) => ({ user })
 
 export default withRouter(connect()(App))

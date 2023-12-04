@@ -3,17 +3,27 @@ import { connect, useDispatch } from 'react-redux'
 import { Table, Header, Segment } from 'semantic-ui-react'
 
 import { useTranslation } from 'react-i18next'
+import { useDrag } from 'react-dnd'
 import { removeLevel, editLevel } from '../../actions/levels'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditLevelForm from './EditLevelForm'
-import dndItem from '../../../../utils/components/DnDItem'
+import DnDItem from '../../../../utils/components/DnDItem'
 
-const DnDItem = dndItem('skill_level')
-
-const HeaderLevel = (props) => {
+const HeaderLevel = ({ level, editing, slots }) => {
   const dispatch = useDispatch()
   const { t } = useTranslation('translation', { keyPrefix: 'course.matrix.headerLevel' })
-  const { level, editing, slots } = props
+
+  const [{ isDragging }, drag, dragPreview] = useDrag(
+    () => ({
+      type: 'skill_level',
+      item: { id: level.id, type: 'skill_level' },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+    }),
+    [level],
+  )
+
   const removeLevelAsync = async (props) => {
     const response = await removeLevel(props)
     dispatch(response)
@@ -46,7 +56,14 @@ const HeaderLevel = (props) => {
   return (
     <Table.HeaderCell key={level.id} textAlign="center">
       {editing ? (
-        <DnDItem element={level} mover={moveLevelAsync} slots={slots}>
+        <DnDItem
+          target={level}
+          mover={moveLevelAsync}
+          slots={slots}
+          drag={drag}
+          isDragging={isDragging}
+          dragPreview={dragPreview}
+        >
           <Segment>{cellContent}</Segment>
         </DnDItem>
       ) : (

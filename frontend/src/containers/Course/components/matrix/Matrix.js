@@ -17,7 +17,6 @@ export const Matrix = ({ courseId = null, categoryId, editing, showDetails = fal
   const activeTask = task.active === null ? null : task.tasks.find((t) => t.id === task.active)
 
   const categoriesFiltered = categoryId ? categories.filter((c) => c.id === categoryId) : categories
-
   const activeMap = {}
   let activeTaskId = null
   if (activeTask !== null) {

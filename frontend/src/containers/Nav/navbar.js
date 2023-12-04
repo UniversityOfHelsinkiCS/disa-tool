@@ -14,7 +14,7 @@ const languageOptions = [
   { key: 'eng', value: 'eng', text: 'English' },
 ]
 
-const Nav = (props) => {
+const Nav = () => {
   const [activeItem, setActiveItem] = useState('home')
   const [language, setLanguage] = useState('fin')
   const { t, i18n } = useTranslation('translation', {

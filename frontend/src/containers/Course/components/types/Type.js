@@ -3,53 +3,26 @@ import { useTranslation } from 'react-i18next'
 import { connect, useDispatch } from 'react-redux'
 import { Segment, Header, Label } from 'semantic-ui-react'
 
+import { useDrag } from 'react-dnd'
 import { removeType, editType } from '../../actions/types'
 import { addTypeToTask, removeTypeFromTask } from '../../actions/tasks'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditTypeForm from './EditTypeForm'
-import dndItem, { defaults } from '../../../../utils/components/DnDItem'
-
-export const dropSpec = {
-  ...defaults.dropSpec,
-  drop: (props, monitor) => {
-    const drag = monitor.getItem()
-    const { slots, element } = props
-    let slot
-    if (drag.type_header_id === element.type_header_id) {
-      if (drag.order === element.order) {
-        slot = drag.order
-      } else if (drag.order > element.order) {
-        slot = slots.previous
-      } else {
-        slot = slots.next
-      }
-    } else {
-      slot = slots ? slots.previous : element.order
-    }
-    props.mover(
-      {
-        id: drag.id,
-        order: slot,
-        type_header_id: element.type_header_id,
-      },
-      true,
-    )
-  },
-}
-
-const DnDItem = dndItem('type', {
-  dropSpec,
-  dragSpec: {
-    ...defaults.dragSpec,
-    beginDrag: (props) => ({
-      ...defaults.dragSpec.beginDrag(props),
-      type_header_id: props.element.type_header_id,
-    }),
-  },
-})
+import DnDItem from '../../../../utils/components/DnDItem'
 
 export const Type = ({ activeTaskId = null, active, editing, type, slots, headerId }) => {
   const dispatch = useDispatch()
+
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: 'type',
+      item: { type: 'type', type_header_id: headerId },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+    }),
+    [],
+  )
 
   const toggleTypeAsync = async ({ typeId, taskId }) => {
     let response = null
@@ -115,11 +88,10 @@ export const Type = ({ activeTaskId = null, active, editing, type, slots, header
   if (editing) {
     return (
       <DnDItem
-        element={{
-          ...type,
-          type_header_id: headerId,
-        }}
+        target={{ ...type, type_header_id: headerId }}
         slots={slots}
+        drag={drag}
+        isDragging={isDragging}
         mover={moveTypeAsync}
       >
         {content}

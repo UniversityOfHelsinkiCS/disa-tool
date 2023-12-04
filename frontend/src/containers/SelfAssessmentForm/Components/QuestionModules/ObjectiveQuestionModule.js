@@ -92,7 +92,7 @@ const ObjectiveQuestionModule = (props) => {
                     </Grid>
                   </List.Content>
                 </List.Item>
-              ) : null
+              ) : null,
             )}
           </List>
         </Form>
