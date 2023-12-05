@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { Loader, Button, Container, Segment } from 'semantic-ui-react'
+import { useTranslation } from 'react-i18next'
 import { getMatrix, resetCourse } from './actions/course'
 import Matrix from './components/matrix/Matrix'
 import CourseHeader from './components/header/CourseHeader'
 import Conditional from '../../utils/components/Conditional'
 import { getCourseInstanceDataAction } from '../../actions/actions'
-import { useTranslation } from 'react-i18next'
 
 const MatrixPage = (props) => {
   const isTeacher = useSelector((state) => state.instance.courseRole === 'TEACHER')

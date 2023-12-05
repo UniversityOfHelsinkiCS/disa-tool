@@ -19,7 +19,7 @@ export const Headerlist = (props) => {
     }
     return (
       <TypeHeader
-        key={header.id}
+        key={header.order}
         header={header}
         editing={props.editing}
         courseId={props.courseId}

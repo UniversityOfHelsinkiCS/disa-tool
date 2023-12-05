@@ -82,7 +82,7 @@ export const MatrixCategory = ({
         .sort((a, b) => a.order - b.order)
         .map((level) => (
           <MatrixLevel
-            key={level.id}
+            key={level.order}
             category={category}
             level={level}
             courseId={courseId}

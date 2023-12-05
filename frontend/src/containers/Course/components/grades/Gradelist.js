@@ -1,6 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
 import Grade from './Grade'
 import CreateGradeForm from './CreateGradeForm'
 
@@ -16,7 +14,7 @@ const Gradelist = (props) => {
     if (index === gradesArray.length - 1) {
       newOrder = slots.next
     }
-    return <Grade key={grade.id} grade={grade} levels={levels} grades={grades} slots={slots} />
+    return <Grade key={grade.id} currentGrade={grade} levels={levels} grades={grades} slots={slots} />
   })
   return (
     <div className="Gradelist">
@@ -25,7 +23,7 @@ const Gradelist = (props) => {
     </div>
   )
 }
-
+/*
 Gradelist.propTypes = {
   grades: PropTypes.arrayOf(
     PropTypes.shape({
@@ -34,5 +32,5 @@ Gradelist.propTypes = {
   ).isRequired,
   levels: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
-
+*/
 export default Gradelist

@@ -4,6 +4,8 @@ import { withRouter } from 'react-router-dom'
 import { useDispatch, connect, useSelector } from 'react-redux'
 import { LocalizeProvider } from 'react-localize-redux'
 import * as Sentry from '@sentry/browser'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
 import { getUserAction } from './actions/actions'
 import { getUser } from './api/persons'
 import Nav from './containers/Nav/navbar'
@@ -50,7 +52,9 @@ const App = () => {
       <LocalizeProvider>
         <LocalizeWrapper>
           <Nav />
-          <Main />
+          <DndProvider backend={HTML5Backend}>
+            <Main />
+          </DndProvider>
         </LocalizeWrapper>
       </LocalizeProvider>
     </ErrorBoundary>

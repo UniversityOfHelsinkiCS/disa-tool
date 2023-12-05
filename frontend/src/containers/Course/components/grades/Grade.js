@@ -11,10 +11,10 @@ import DnDItem from '../../../../utils/components/DnDItem'
 const parseName = (object) => (object ? object.name : null)
 
 const Grade = ({ currentGrade, slots, moveGrade, levels, grades }) => {
-  const { t } = useTranslation('translation', { keyPrefix: 'course.grades.grade' })
+  const { t } = useTranslation('translation')
   const dispatch = useDispatch()
 
-  const [{ isDragging }, drag] = useDrag(
+  const [{ isDragging }, drag, dragPreview] = useDrag(
     () => ({
       type: 'grade',
       item: { id: currentGrade.id, type: 'grade' },
@@ -31,8 +31,24 @@ const Grade = ({ currentGrade, slots, moveGrade, levels, grades }) => {
     })
     dispatch(response)
   }
+  const label = {
+    grade: 'course.grades.common.grade',
+    skill_level: 'course.grades.common.skill_level',
+    prerequisite: 'course.grades.common.prerequisite',
+    needed_for_grade: 'course.grades.common.needed_for_grade',
+    delete_prompt_1: 'course.grades.grade.delete_prompt_1',
+    delete_header: 'course.grades.grade.delete_header',
+  }
+
   return (
-    <DnDItem target={currentGrade} mover={moveGrade} slots={slots} drag={drag} isDragging={isDragging}>
+    <DnDItem
+      target={currentGrade}
+      mover={moveGrade}
+      slots={slots}
+      drag={drag}
+      isDragging={isDragging}
+      dragPreview={dragPreview}
+    >
       <div className="Grade">
         <Segment>
           <Header>{currentGrade.name}</Header>
@@ -40,21 +56,21 @@ const Grade = ({ currentGrade, slots, moveGrade, levels, grades }) => {
             <Grid.Row>
               <Grid.Column width={5}>
                 <p>
-                  <span>{t('skill_level')}</span>
+                  <span>{t(label.skill_level)}</span>
                   <span>: </span>
                   <strong>{parseName(levels.find((level) => level.id === currentGrade.skill_level_id))}</strong>
                 </p>
               </Grid.Column>
               <Grid.Column width={4}>
                 <p>
-                  <span>{t('needed_for_grade')}</span>
+                  <span>{t(label.needed_for_grade)}</span>
                   <span>: </span>
                   <strong>{currentGrade.needed_for_grade * 100}%</strong>
                 </p>
               </Grid.Column>
               <Grid.Column width={5}>
                 <p>
-                  <span>{t('prerequisite')}</span>
+                  <span>{t(label.prerequisite)}</span>
                   <span>: </span>
                   <strong>{parseName(grades.find((grade) => grade.id === grade.prerequisite))}</strong>
                 </p>
@@ -71,8 +87,8 @@ const Grade = ({ currentGrade, slots, moveGrade, levels, grades }) => {
                   <div className="flexBlock">
                     <DeleteForm
                       onExecute={() => asyncRemoveGrade({ id: currentGrade.id })}
-                      header={t('delete_header')}
-                      prompt={[t('delete_prompt_1'), currentGrade.name]}
+                      header={t(label.delete_header)}
+                      prompt={[t(label.delete_prompt_1), currentGrade.name]}
                     />
                   </div>
                 </div>

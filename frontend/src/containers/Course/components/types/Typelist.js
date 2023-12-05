@@ -9,7 +9,7 @@ import asyncAction from '../../../../utils/asyncAction'
 import DnDItem from '../../../../utils/components/DnDItem'
 
 export const Typelist = (props) => {
-  const [{ isDragging }, drag] = useDrag(
+  const [{ isDragging }, drag, dragPreview] = useDrag(
     () => ({
       type: 'type',
       item: { type: 'type', type_header_id: props.headerId },
@@ -31,7 +31,7 @@ export const Typelist = (props) => {
     }
     return (
       <Type
-        key={type.id}
+        key={type.order}
         type={type}
         editing={props.editing}
         active={Boolean(props.activeMap[type.id])}
@@ -50,6 +50,7 @@ export const Typelist = (props) => {
           mover={props.moveType}
           drag={drag}
           isDragging={isDragging}
+          dragPreview={dragPreview}
         >
           <CreateTypeForm headerId={props.headerId} newOrder={newOrder} />
         </DnDItem>

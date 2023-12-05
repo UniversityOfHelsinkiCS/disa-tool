@@ -16,7 +16,7 @@ const searchFilter = (options, query) => {
 const SelectTaskDropdown = (props) => {
   const dispatch = useDispatch()
 
-  const [{ isDragging }, drag] = useDrag(
+  const [{ isDragging }, drag, dragPreview] = useDrag(
     () => ({
       type: 'task',
       collect: (monitor) => ({
@@ -52,7 +52,14 @@ const SelectTaskDropdown = (props) => {
               key: task.id,
               searchlabel: task.name,
               text: (
-                <DnDItem element={task} mover={moveTask} slots={slots[index]} drag={drag} isDragging={isDragging}>
+                <DnDItem
+                  element={task}
+                  mover={moveTask}
+                  slots={slots[index]}
+                  drag={drag}
+                  isDragging={isDragging}
+                  dragPreview={dragPreview}
+                >
                   <div style={{ margin: '-11px 0px -11px 0px', padding: '8px 0px 8px 0px' }}>{task.name}</div>
                 </DnDItem>
               ),

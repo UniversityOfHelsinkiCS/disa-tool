@@ -19,7 +19,7 @@ export const TypeHeader = ({ header, activeTask = null, editing, moveHeader, slo
     })
   }
 
-  const [{ isDragging }, drag] = useDrag(
+  const [{ isDragging }, drag, dragPreview] = useDrag(
     () => ({
       type: 'type_header',
       item: { id: header.id, type: 'type_header' },
@@ -65,7 +65,14 @@ export const TypeHeader = ({ header, activeTask = null, editing, moveHeader, slo
   )
   if (editing) {
     return (
-      <DnDItem target={header} mover={moveHeader} slots={slots} isDragging={isDragging} drag={drag}>
+      <DnDItem
+        target={header}
+        mover={moveHeader}
+        slots={slots}
+        isDragging={isDragging}
+        drag={drag}
+        dragPreview={dragPreview}
+      >
         {content}
       </DnDItem>
     )

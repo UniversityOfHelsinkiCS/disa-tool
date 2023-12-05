@@ -6,16 +6,23 @@ import MathJaxText from '../../../../utils/components/MathJaxText'
 import { objectiveGrades } from '../../utils'
 import '../selfAssesment.css'
 
-const ObjectiveQuestionModule = (props) => {
+const ObjectiveQuestionModule = ({
+  gradeError = { errors: {} },
+  existingAnswer = [],
+  data = {
+    options: [],
+    name: 'Nothing',
+    objectives: [],
+    id: null,
+  },
+}) => {
   const [ratings, setRatings] = useState({})
   const [grades, setGrades] = useState({})
   const dispatch = useDispatch()
 
-  const { objectives, name, id } = props.data
-  const { gradeError, existingAnswer } = props
-
+  const { objectives, name, id } = data
   useEffect(() => {
-    props.data.objectives.forEach((value) => {
+    data.objectives.forEach((value) => {
       ratings[value.id] = -1
     })
     const grades = objectiveGrades()
@@ -69,7 +76,7 @@ const ObjectiveQuestionModule = (props) => {
                             {Object.keys(grades).map((og) => (
                               <div key={og} style={{ flexGrow: 1, textAlign: 'center' }}>
                                 <Form.Checkbox
-                                  error={gradeError.errors[o.id] !== undefined} //eslint-disable-line
+                                  error={gradeError?.errors[o.id] !== undefined} //eslint-disable-line
                                   objective={o.id}
                                   value={og}
                                   checked={
@@ -85,7 +92,7 @@ const ObjectiveQuestionModule = (props) => {
                           <Message
                             error
                             style={{ textAlign: 'center' }}
-                            content={gradeError.errors[o.id] && gradeError.errors[o.id].error}
+                            content={gradeError?.errors[o.id] && gradeError.errors[o.id].error}
                           />
                         </Grid.Column>
                       </Grid.Row>

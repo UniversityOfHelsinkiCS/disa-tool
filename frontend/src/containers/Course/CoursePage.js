@@ -2,8 +2,6 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Route, Switch, Redirect, withRouter, useParams, useRouteMatch } from 'react-router-dom'
 import { Loader } from 'semantic-ui-react'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import { DndProvider } from 'react-dnd'
 
 import { getCourseData, resetCourse } from './actions/course'
 import EditMatrixTab from './components/matrix/EditMatrixTab'
@@ -36,17 +34,15 @@ export const CoursePage = () => {
   }
   return (
     <div className="CoursePage" data-testid="course-page">
-      <DndProvider backend={HTML5Backend}>
-        <CourseHeader />
-        <Navbar matchUrl={url} pathname={window.location.pathname} />
-        <Switch>
-          <Route path={`${url}/matrix`} render={() => <EditMatrixTab courseId={Number(id)} />} />
-          <Route path={`${url}/types`} render={() => <EditTypesTab courseId={Number(id)} />} />
-          <Route path={`${url}/tasks`} render={() => <EditTasksTab courseId={Number(id)} />} />
-          <Route path={`${url}/grades`} render={() => <EditGradesTab courseId={Number(id)} />} />
-          <Route component={() => RedirectToMatrix({ url })} />
-        </Switch>
-      </DndProvider>
+      <CourseHeader />
+      <Navbar matchUrl={url} pathname={window.location.pathname} />
+      <Switch>
+        <Route path={`${url}/matrix`} render={() => <EditMatrixTab courseId={Number(id)} />} />
+        <Route path={`${url}/types`} render={() => <EditTypesTab courseId={Number(id)} />} />
+        <Route path={`${url}/tasks`} render={() => <EditTasksTab courseId={Number(id)} />} />
+        <Route path={`${url}/grades`} render={() => <EditGradesTab courseId={Number(id)} />} />
+        <Route component={() => RedirectToMatrix({ url })} />
+      </Switch>
     </div>
   )
 }

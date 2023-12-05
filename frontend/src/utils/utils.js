@@ -11,23 +11,7 @@ export const saveLanguage = (lang) => {
   }
 }
 
-export const reactDndTypes = [
-  'objective',
-  'task',
-  'category',
-  'level',
-  'course',
-  'matrix',
-  'matrixObjective',
-  'matrixLevel',
-  'matrixCategory',
-  'matrixCourse',
-  'matrixTask',
-  'matrixTaskObjective',
-  'matrixTaskLevel',
-  'matrixTaskCategory',
-  'matrixTaskCourse',
-]
+export const reactDndTypes = ['objective', 'task', 'category', 'level', 'course', 'grade']
 
 export const getLanguage = () => {
   const language = localStorage.getItem('lang')

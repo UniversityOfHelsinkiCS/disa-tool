@@ -21,7 +21,7 @@ const HeaderLevel = ({ level, editing, slots }) => {
         isDragging: monitor.isDragging(),
       }),
     }),
-    [level],
+    [],
   )
 
   const removeLevelAsync = async (props) => {
@@ -57,7 +57,7 @@ const HeaderLevel = ({ level, editing, slots }) => {
     <Table.HeaderCell key={level.id} textAlign="center">
       {editing ? (
         <DnDItem
-          target={level}
+          target={{ level }}
           mover={moveLevelAsync}
           slots={slots}
           drag={drag}

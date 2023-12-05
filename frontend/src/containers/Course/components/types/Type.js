@@ -13,7 +13,7 @@ import DnDItem from '../../../../utils/components/DnDItem'
 export const Type = ({ activeTaskId = null, active, editing, type, slots, headerId }) => {
   const dispatch = useDispatch()
 
-  const [{ isDragging }, drag] = useDrag(
+  const [{ isDragging }, drag, dragPreview] = useDrag(
     () => ({
       type: 'type',
       item: { type: 'type', type_header_id: headerId },
@@ -93,6 +93,7 @@ export const Type = ({ activeTaskId = null, active, editing, type, slots, header
         drag={drag}
         isDragging={isDragging}
         mover={moveTypeAsync}
+        dragPreview={dragPreview}
       >
         {content}
       </DnDItem>

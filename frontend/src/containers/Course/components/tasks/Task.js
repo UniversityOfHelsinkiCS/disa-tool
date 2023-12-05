@@ -2,6 +2,7 @@ import React from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { Grid, Segment, Header } from 'semantic-ui-react'
 
+import { useTranslation } from 'react-i18next'
 import asyncAction from '../../../../utils/asyncAction'
 import { removeTask } from '../../actions/tasks'
 import DeleteForm from '../../../../utils/components/DeleteForm'
@@ -9,7 +10,6 @@ import EditTaskForm from './EditTaskForm'
 import MathJaxText from '../../../../utils/components/MathJaxText'
 import EditTaskObjectivesForm from './EditTaskObjectivesForm'
 import { getCourseInstanceDataAction } from '../../../../actions/actions'
-import { useTranslation } from 'react-i18next'
 
 export const Task = (props) => {
   const { t } = useTranslation('translation', { keyPrefix: 'course.tasks.task' })
