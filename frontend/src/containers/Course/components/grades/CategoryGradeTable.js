@@ -78,7 +78,7 @@ const CategoryGradeTable = (props) => {
 
   return (
     <Container>
-      <Segment>
+      <Segment data-testid="edit-category-grades">
         <InfoBox translationid="EditCategoryGradesPage" buttonProps={{ floated: 'right' }} />
         <Header as="h3" content={t('course.grades.categoryGradeTable.header')} />
         <Button color="green" content={t('common.save')} onClick={submitChanges} />
@@ -88,17 +88,20 @@ const CategoryGradeTable = (props) => {
             <Table.Row>
               <Table.HeaderCell>{t('course.grades.categoryGradeTable.header_cell')}</Table.HeaderCell>
               {props.grades.map((grade) => (
-                <Table.HeaderCell key={grade.id}>{grade.name}</Table.HeaderCell>
+                <Table.HeaderCell data-testid={`category-grade-table-grade-header-${grade.id}`} key={grade.id}>
+                  {grade.name}
+                </Table.HeaderCell>
               ))}
             </Table.Row>
           </Table.Header>
           <Table.Body>
             {props.categories.map((category) => (
-              <Table.Row key={category.id}>
+              <Table.Row data-testid={`category-grade-table-grade-category-${category.id}`} key={category.id}>
                 <Table.Cell>{category.name}</Table.Cell>
                 {props.grades.map((grade) => (
                   <Table.Cell key={findName(category.id, grade)}>
                     <Input
+                      data-testid={`category-grade-table-grade-input-${grade.id}`}
                       type="number"
                       max="1"
                       min="0"
@@ -130,6 +133,4 @@ CategoryGradeTable.propTypes = {
 }
 */
 
-export default connect(null, {
-  dispatchUpdateCategoryGrades: updateCategoryGradesAction,
-})(CategoryGradeTable)
+export default connect()(CategoryGradeTable)

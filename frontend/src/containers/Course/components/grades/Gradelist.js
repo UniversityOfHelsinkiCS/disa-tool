@@ -14,7 +14,7 @@ const Gradelist = (props) => {
     if (index === gradesArray.length - 1) {
       newOrder = slots.next
     }
-    return <Grade key={grade.id} currentGrade={grade} levels={levels} grades={grades} slots={slots} />
+    return <Grade type={props.type} key={grade.id} currentGrade={grade} levels={levels} grades={grades} slots={slots} />
   })
   return (
     <div className="Gradelist">

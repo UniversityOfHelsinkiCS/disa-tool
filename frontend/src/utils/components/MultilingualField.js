@@ -5,35 +5,33 @@ import { Form, Segment, Label, Input, Button } from 'semantic-ui-react'
 export const MultilingualField = ({ id, values, fieldDisplay, type, field, required }) => {
   const [multilingual, setMultilingual] = useState(false)
   const [localValue, setLocalValue] = useState({
-    eng: '',
-    fin: '',
-    swe: '',
+    eng: values?.eng || '',
+    fin: values?.fin || '',
+    swe: values?.swe || '',
   })
   const { t } = useTranslation('translation')
 
   useEffect(() => {
     if (values) {
-      setLocalValue(values)
       if (values.eng !== values.fin || values.fin !== values.swe) {
         setMultilingual(true)
       }
     }
-  }, [values])
-
-  const changeValue = (key) =>
-    key === 'all'
-      ? (e) =>
-          setLocalValue({
-            eng: e.target.value,
-            fin: e.target.value,
-            swe: e.target.value,
-          })
-      : (e) =>
-          setLocalValue({
-            ...values,
-            [key]: e.target.value,
-          })
-
+  }, [])
+  const changeValue = (value, key) => {
+    if (key === 'all') {
+      setLocalValue({
+        eng: value,
+        fin: value,
+        swe: value,
+      })
+    } else {
+      setLocalValue({
+        ...values,
+        [key]: value,
+      })
+    }
+  }
   const allValue = () => {
     if (localValue.eng !== '') {
       return localValue.eng
@@ -63,11 +61,11 @@ export const MultilingualField = ({ id, values, fieldDisplay, type, field, requi
       {!multilingual ? (
         <Input
           data-testid={`multilingual-field-single-${type}-${id}`}
-          name={`${field}-input`}
+          name={`all-${field}-input`}
           type="text"
           fluid
           value={allValue()}
-          onChange={changeValue('all')}
+          onChange={(e) => changeValue(e.target.value, 'all')}
           required={required}
         />
       ) : null}
@@ -80,7 +78,7 @@ export const MultilingualField = ({ id, values, fieldDisplay, type, field, requi
             type="text"
             fluid
             value={localValue.eng}
-            onChange={changeValue('eng')}
+            onChange={(e) => changeValue(e.target.value, 'eng')}
             required={multilingual && required}
           />
         </Form.Field>
@@ -92,7 +90,7 @@ export const MultilingualField = ({ id, values, fieldDisplay, type, field, requi
             type="text"
             fluid
             value={localValue.fin}
-            onChange={changeValue('fin')}
+            onChange={(e) => changeValue(e.target.value, 'fin')}
             required={multilingual && required}
           />
         </Form.Field>
@@ -104,7 +102,7 @@ export const MultilingualField = ({ id, values, fieldDisplay, type, field, requi
             type="text"
             fluid
             value={localValue.swe}
-            onChange={changeValue('swe')}
+            onChange={(e) => changeValue(e.target.value, 'swe')}
             required={multilingual && required}
           />
         </Form.Field>

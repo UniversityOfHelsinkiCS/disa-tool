@@ -11,7 +11,6 @@ const CreateGradeForm = (props) => {
   const [values, setValues] = useState({})
   const dispatch = useDispatch()
   const { t } = useTranslation('translation', { keyPrefix: 'course.grades' })
-
   const asyncAddGrade = async (e) => {
     const response = await addGrade({
       eng_name: e.target.eng_name.value,

@@ -10,7 +10,7 @@ import DnDItem from '../../../../utils/components/DnDItem'
 
 const parseName = (object) => (object ? object.name : null)
 
-const Grade = ({ currentGrade, slots, moveGrade, levels, grades }) => {
+const Grade = ({ currentGrade, slots, moveGrade, levels, grades, type }) => {
   const { t } = useTranslation('translation')
   const dispatch = useDispatch()
 
@@ -39,7 +39,6 @@ const Grade = ({ currentGrade, slots, moveGrade, levels, grades }) => {
     delete_prompt_1: 'course.grades.grade.delete_prompt_1',
     delete_header: 'course.grades.grade.delete_header',
   }
-
   return (
     <DnDItem
       target={currentGrade}
@@ -50,25 +49,25 @@ const Grade = ({ currentGrade, slots, moveGrade, levels, grades }) => {
       dragPreview={dragPreview}
     >
       <div className="Grade">
-        <Segment>
+        <Segment data-testid={`${type}-grade-${currentGrade.id}`}>
           <Header>{currentGrade.name}</Header>
           <Grid columns={4}>
             <Grid.Row>
-              <Grid.Column width={5}>
+              <Grid.Column width={5} data-testid={`${type}-skill_level`}>
                 <p>
                   <span>{t(label.skill_level)}</span>
                   <span>: </span>
                   <strong>{parseName(levels.find((level) => level.id === currentGrade.skill_level_id))}</strong>
                 </p>
               </Grid.Column>
-              <Grid.Column width={4}>
+              <Grid.Column width={4} data-testid={`${type}-needed_for_grade`}>
                 <p>
                   <span>{t(label.needed_for_grade)}</span>
                   <span>: </span>
                   <strong>{currentGrade.needed_for_grade * 100}%</strong>
                 </p>
               </Grid.Column>
-              <Grid.Column width={5}>
+              <Grid.Column width={5} data-testid={`${type}-prerequisite`}>
                 <p>
                   <span>{t(label.prerequisite)}</span>
                   <span>: </span>
@@ -79,6 +78,7 @@ const Grade = ({ currentGrade, slots, moveGrade, levels, grades }) => {
                 <div className="flexContainer">
                   <div className="flexBlock">
                     <EditGradeForm
+                      type={`${type}-edit-grades-form`}
                       gradeId={currentGrade.id}
                       grades={grades.filter((grade) => grade.id !== currentGrade.id)}
                       levels={levels}
