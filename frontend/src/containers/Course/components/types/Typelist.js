@@ -51,6 +51,7 @@ export const Typelist = (props) => {
           drag={drag}
           isDragging={isDragging}
           dragPreview={dragPreview}
+          itemName={`type-list-${props.headerId}`}
         >
           <CreateTypeForm headerId={props.headerId} newOrder={newOrder} />
         </DnDItem>

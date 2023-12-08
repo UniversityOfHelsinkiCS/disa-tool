@@ -44,9 +44,7 @@ export const MatrixObjective = ({
     },
     [],
   )
-  /* if (objective.id === 3 || objective.id === 4) {
-    console.log(objective)
-  } */
+
   const reset = () => {
     setTriggered(false)
     setLoading(true)
@@ -73,7 +71,6 @@ export const MatrixObjective = ({
   }
 
   const asyncMoveObjective = async (props) => {
-    //    console.log(props)
     const response = await editObjective(props)
     dispatch(response)
   }
@@ -204,6 +201,7 @@ export const MatrixObjective = ({
           drag={drag}
           isDragging={isDragging}
           dragPreview={dragPreview}
+          itemName={`matrix-objective-${objective.id}`}
         >
           {content}
         </DnDItem>

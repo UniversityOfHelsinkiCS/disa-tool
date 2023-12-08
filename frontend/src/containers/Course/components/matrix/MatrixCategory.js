@@ -71,6 +71,7 @@ export const MatrixCategory = ({
             drag={drag}
             isDragging={isDragging}
             dragPreview={dragPreview}
+            itemName={`matrix-category-${category.id}`}
           >
             <Segment>{cellContent}</Segment>
           </DnDItem>

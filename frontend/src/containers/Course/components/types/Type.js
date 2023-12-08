@@ -94,6 +94,7 @@ export const Type = ({ activeTaskId = null, active, editing, type, slots, header
         isDragging={isDragging}
         mover={moveTypeAsync}
         dragPreview={dragPreview}
+        itemName={`type-${type.id}`}
       >
         {content}
       </DnDItem>

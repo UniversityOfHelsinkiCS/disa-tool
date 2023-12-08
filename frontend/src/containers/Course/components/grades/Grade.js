@@ -47,6 +47,7 @@ const Grade = ({ currentGrade, slots, moveGrade, levels, grades, type }) => {
       drag={drag}
       isDragging={isDragging}
       dragPreview={dragPreview}
+      itemName={`${type}-grade-${currentGrade.id}`}
     >
       <div className="Grade">
         <Segment data-testid={`${type}-grade-${currentGrade.id}`}>

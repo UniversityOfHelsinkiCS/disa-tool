@@ -72,8 +72,8 @@ export const MatrixLevel = ({
       <div>{objectivesNode}</div>
       {editing ? (
         <DnDItem
-          data-testid={`matrix-level-${category.id}-${level.id}-testing-this-thing`}
           target={{
+            order: newOrder,
             categoryId: category.id,
             skillLevelId: level.id,
           }}
@@ -81,6 +81,7 @@ export const MatrixLevel = ({
           mover={asyncEditObjective}
           drag={drag}
           dragPreview={dragPreview}
+          itemName={`matrix-level-${category.id}-${level.id}`}
         >
           <CreateObjectiveForm levelId={level.id} category={category} courseId={courseId} newOrder={newOrder} />
         </DnDItem>

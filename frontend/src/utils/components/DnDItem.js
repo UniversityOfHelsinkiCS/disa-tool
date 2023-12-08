@@ -6,7 +6,6 @@ const handleDrop = (props, drag) => {
   const { mover, slots, target } = props
   let slot
   if (drag.type === 'objective') {
-    //   console.log('target: ', target, ', drag: ', drag)
     if (target.categoryId !== drag.category_id || target.skillLevelId !== drag.skill_level_id) {
       slot = slots ? slots.previous : target.order
     } else if (drag.order === target.order) {
@@ -14,7 +13,6 @@ const handleDrop = (props, drag) => {
     } else if (drag.order > target.order) {
       if (slots) slot = slots.previous
     } else if (slots) slot = slots.next
-    //  console.log(slot)
     mover(
       {
         id: drag.id,
@@ -48,7 +46,7 @@ const handleDrop = (props, drag) => {
   return true
 }
 
-const DnDItem = ({ slots, mover, children, drag, isDragging, target, dragPreview }) => {
+const DnDItem = ({ slots, mover, children, drag, isDragging, target, dragPreview, itemName }) => {
   const realRef = useRef(null)
   const previewRef = useRef(null)
   const [, drop] = useDrop(
@@ -76,6 +74,7 @@ const DnDItem = ({ slots, mover, children, drag, isDragging, target, dragPreview
   ) : (
     <div
       ref={realRef}
+      id={itemName}
       style={{
         opacity: isDragging ? 0 : 1,
         cursor: 'move',

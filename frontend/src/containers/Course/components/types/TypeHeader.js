@@ -72,6 +72,7 @@ export const TypeHeader = ({ header, activeTask = null, editing, moveHeader, slo
         isDragging={isDragging}
         drag={drag}
         dragPreview={dragPreview}
+        itemName={`type-header-${header.id}`}
       >
         {content}
       </DnDItem>

@@ -63,6 +63,7 @@ const HeaderLevel = ({ level, editing, slots }) => {
           drag={drag}
           isDragging={isDragging}
           dragPreview={dragPreview}
+          itemName={`header-level-${level.id}`}
         >
           <Segment>{cellContent}</Segment>
         </DnDItem>

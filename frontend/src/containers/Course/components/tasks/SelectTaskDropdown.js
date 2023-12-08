@@ -59,6 +59,7 @@ const SelectTaskDropdown = (props) => {
                   drag={drag}
                   isDragging={isDragging}
                   dragPreview={dragPreview}
+                  itemName={`select-task-dropdown-${task.id}`}
                 >
                   <div style={{ margin: '-11px 0px -11px 0px', padding: '8px 0px 8px 0px' }}>{task.name}</div>
                 </DnDItem>
