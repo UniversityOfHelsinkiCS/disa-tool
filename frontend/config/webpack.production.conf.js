@@ -43,7 +43,7 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        reslolve: {
+        resolve: {
           fullySpecified: false,
         },
         use: {
