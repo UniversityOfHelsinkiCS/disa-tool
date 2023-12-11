@@ -3,13 +3,13 @@ import { connect, useDispatch } from 'react-redux'
 import { Segment, Header } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 import { useDrag } from 'react-dnd'
-import { removeHeader } from '../../actions/types'
+import { editHeader, removeHeader } from '../../actions/types'
 import Typelist from './Typelist'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditHeaderForm from './EditHeaderForm'
 import DnDItem from '../../../../utils/components/DnDItem'
 
-export const TypeHeader = ({ header, activeTask = null, editing, moveHeader, slots }) => {
+export const TypeHeader = ({ header, activeTask = null, editing, slots }) => {
   const { t } = useTranslation('translation', { keyPrefix: 'course.types.typeHeader' })
   const dispatch = useDispatch()
   const activeMap = {}
@@ -21,8 +21,8 @@ export const TypeHeader = ({ header, activeTask = null, editing, moveHeader, slo
 
   const [{ isDragging }, drag, dragPreview] = useDrag(
     () => ({
-      type: 'type_header',
-      item: { id: header.id, type: 'type_header' },
+      type: 'type',
+      item: { id: header.id, type: 'type' },
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
@@ -35,10 +35,16 @@ export const TypeHeader = ({ header, activeTask = null, editing, moveHeader, slo
     dispatch(response)
   }
 
+  const asyncMoveHeader = async (props) => {
+    const response = await editHeader(props)
+    dispatch(response)
+  }
   const content = (
     <Segment className="TypeHeader">
       <div className="flexContainer">
-        <Header className="typeHeaderHeader">{header.name}</Header>
+        <Header data-testid={`type-header-${header.id}`} className="typeHeaderHeader">
+          {header.name}
+        </Header>
         {editing ? (
           <div className="flexContainer">
             <div className="paddedBlock">
@@ -67,12 +73,11 @@ export const TypeHeader = ({ header, activeTask = null, editing, moveHeader, slo
     return (
       <DnDItem
         target={header}
-        mover={moveHeader}
+        mover={asyncMoveHeader}
         slots={slots}
         isDragging={isDragging}
         drag={drag}
         dragPreview={dragPreview}
-        itemName={`type-header-${header.id}`}
       >
         {content}
       </DnDItem>

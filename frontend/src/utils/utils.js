@@ -11,7 +11,17 @@ export const saveLanguage = (lang) => {
   }
 }
 
-export const reactDndTypes = ['objective', 'task', 'category', 'level', 'course', 'grade']
+export const reactDndTypes = [
+  'objective',
+  'task',
+  'category',
+  'level',
+  'course',
+  'grade',
+  'type',
+  'typeList',
+  'typeHeader',
+]
 
 export const getLanguage = () => {
   const language = localStorage.getItem('lang')

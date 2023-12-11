@@ -16,14 +16,13 @@ export const Type = ({ activeTaskId = null, active, editing, type, slots, header
   const [{ isDragging }, drag, dragPreview] = useDrag(
     () => ({
       type: 'type',
-      item: { type: 'type', type_header_id: headerId },
+      item: { type: 'type', typeHeaderId: headerId, order: type.order, id: type.id },
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
     }),
     [],
   )
-
   const toggleTypeAsync = async ({ typeId, taskId }) => {
     let response = null
     if (active) {
@@ -43,6 +42,7 @@ export const Type = ({ activeTaskId = null, active, editing, type, slots, header
     const response = await removeType({ id })
     dispatch(response)
   }
+
   const toggleType = () => {
     if (activeTaskId) {
       toggleTypeAsync({
@@ -88,7 +88,7 @@ export const Type = ({ activeTaskId = null, active, editing, type, slots, header
   if (editing) {
     return (
       <DnDItem
-        target={{ ...type, type_header_id: headerId }}
+        target={{ ...type, typeHeaderId: headerId }}
         slots={slots}
         drag={drag}
         isDragging={isDragging}

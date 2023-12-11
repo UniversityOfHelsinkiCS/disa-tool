@@ -67,9 +67,9 @@ export const MatrixLevel = ({
       textAlign="center"
       key={level.id}
       className="MatrixLevel"
-      data-testid={`matrix-level-${category.id}-${level.id}`}
+      data-testid={`matrix-level-container-${category.id}-${level.id}`}
     >
-      <div>{objectivesNode}</div>
+      <div data-testid={`matrix-level-objectives-${category.id}-${level.id}`}>{objectivesNode}</div>
       {editing ? (
         <DnDItem
           target={{

@@ -6,7 +6,7 @@ import Headerlist from './Headerlist'
 import InfoBox from '../../../../utils/components/InfoBox'
 
 const EditTypesTab = (props) => (
-  <div className="EditTypesTab">
+  <div className="EditTypesTab" data-testid="edit-types-tab-container">
     <Container>
       <Segment clearing basic>
         <InfoBox translationid="EditTypesPage" buttonProps={{ floated: 'right' }} />

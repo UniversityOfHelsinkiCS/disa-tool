@@ -1,15 +1,18 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 
 import './types.css'
 import TypeHeader from './TypeHeader'
 import CreateHeaderForm from './CreateHeaderForm'
 
-export const Headerlist = (props) => {
-  const headers = props.headers.sort((a, b) => a.order - b.order)
+export const Headerlist = ({ courseId, editing }) => {
+  const headers = useSelector((state) => state.type.headers)
+  const activeTask = useSelector((state) =>
+    state.task.active === null ? null : state.task.tasks.find((task) => task.id === state.task.active),
+  )
+  const sortedHeaders = headers.sort((a, b) => a.order - b.order)
   let newOrder = 1
-  const headersNode = headers.map((header, index, headersArray) => {
+  const headersNode = sortedHeaders.map((header, index, headersArray) => {
     const slots = {
       previous: index > 0 ? (header.order + headersArray[index - 1].order) / 2 : header.order - 1,
       next: index < headersArray.length - 1 ? (header.order + headersArray[index + 1].order) / 2 : header.order + 1,
@@ -21,21 +24,21 @@ export const Headerlist = (props) => {
       <TypeHeader
         key={header.order}
         header={header}
-        editing={props.editing}
-        courseId={props.courseId}
-        activeTask={props.activeTask}
+        editing={editing}
+        courseId={courseId}
+        activeTask={activeTask}
         slots={slots}
       />
     )
   })
   return (
-    <div className="Headerlist">
+    <div className="Headerlist" data-testid="header-list">
       {headersNode}
-      {props.editing ? <CreateHeaderForm courseId={props.courseId} newOrder={newOrder} /> : null}
+      {editing ? <CreateHeaderForm courseId={courseId} newOrder={newOrder} /> : null}
     </div>
   )
 }
-
+/*
 Headerlist.propTypes = {
   headers: PropTypes.arrayOf(
     PropTypes.shape({
@@ -49,14 +52,5 @@ Headerlist.propTypes = {
     types: PropTypes.arrayOf(PropTypes.number).isRequired,
   }),
 }
-
-Headerlist.defaultProps = {
-  activeTask: null,
-}
-
-const mapStateToProps = (state) => ({
-  headers: state.type.headers,
-  activeTask: state.task.active === null ? null : state.task.tasks.find((task) => task.id === state.task.active),
-})
-
-export default connect(mapStateToProps, null)(Headerlist)
+*/
+export default connect()(Headerlist)

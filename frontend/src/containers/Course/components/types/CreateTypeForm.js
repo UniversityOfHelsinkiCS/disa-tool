@@ -1,17 +1,17 @@
 import React, { useState, Fragment } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { Button, Form, Label, Input } from 'semantic-ui-react'
+import { useTranslation } from 'react-i18next'
 import { addType } from '../../actions/types'
 
 import ModalForm, { saveActions } from '../../../../utils/components/NewModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 import InfoBox from '../../../../utils/components/InfoBox'
-import { useTranslation } from 'react-i18next'
 
 export const CreateTypeForm = (props) => {
   const [expanded, setExpanded] = useState(false)
   const dispatch = useDispatch()
-  const { t } = useTranslation('translation', { keyPrefix: 'course.types.createTypeForm' })
+  const { t } = useTranslation('translation')
 
   const addTypeSubmit = async (e) => {
     const response = await addType({
@@ -25,19 +25,19 @@ export const CreateTypeForm = (props) => {
     dispatch(response)
   }
 
-  const contentPrompt = t('prompt_1')
+  const contentPrompt = t('course.types.createTypeForm.prompt_1')
   const label = {
-    name: t('name'),
-    multiplier: t('multiplier'),
+    name: t('common.name'),
+    multiplier: t('course.types.common.multiplier'),
   }
   return (
     <div className="CreateTypeForm">
       <ModalForm
         header={
-          <Fragment>
+          <>
             {t('header')}
             <InfoBox buttonProps={{ floated: 'right' }} />
-          </Fragment>
+          </>
         }
         trigger={
           <Button basic onClick={() => setExpanded(!expanded)} className="addTypeButton" icon={{ name: 'add' }} />

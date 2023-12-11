@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import { connect, useSelector } from 'react-redux'
+import { connect, useSelector, useDispatch } from 'react-redux'
 import { Button, Form, Modal, Container } from 'semantic-ui-react'
+import { useTranslation } from 'react-i18next'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { objectivesDetails } from '../../../../api/tasks'
 import { editTaskObjectives } from '../../actions/tasks'
 import ChangeObjectiveMultiplier from './ChangeObjectiveMultiplier'
 import ChangeAllObjectivesMultipliers from './ChangeAllObjectivesMultipliers'
-import { useTranslation } from 'react-i18next'
 
 const defaultMultiplier = (task, taskId, type) => {
   const multiplier = task.tasks
@@ -38,7 +38,7 @@ const EditTaskObjectivesForm = (props) => {
       modified: false,
     },
   })
-
+  const dispatch = useDispatch()
   const taskObjectives = task.tasks
     .find((task) => task.id === props.taskId)
     .objectives.reduce((acc, curr) => ({ ...acc, [curr.id]: { multiplier: curr.multiplier } }), {})
@@ -62,7 +62,7 @@ const EditTaskObjectivesForm = (props) => {
     [],
   )
 
-  const { t, i18n } = useTranslation('translation')
+  const { t } = useTranslation('translation')
 
   const changeMultiplier = (id) => (e) =>
     setValues({
@@ -82,6 +82,12 @@ const EditTaskObjectivesForm = (props) => {
         modified,
       },
     })
+
+  const collapse = () => {
+    if (expanded) {
+      setExpanded(false)
+    }
+  }
 
   const asyncEditTaskObjectives = async () => {
     asyncAction(
@@ -119,11 +125,6 @@ const EditTaskObjectivesForm = (props) => {
     setValues(newValues)
   }
 
-  const collapse = () => {
-    if (expanded) {
-      setExpanded(false)
-    }
-  }
   return (
     <div className="EditTaskObjectivesForm">
       <Modal

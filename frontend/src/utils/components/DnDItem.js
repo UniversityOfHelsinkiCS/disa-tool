@@ -23,7 +23,7 @@ const handleDrop = (props, drag) => {
       true,
     )
   } else if (drag.type === 'type') {
-    if (drag.type_header_id === target.typeHeaderId) {
+    if (drag.typeHeaderId === target.typeHeaderId) {
       if (drag.order === target.order) {
         slot = drag.order
       } else if (drag.order > target.order) {
@@ -38,7 +38,6 @@ const handleDrop = (props, drag) => {
       {
         id: drag.id,
         order: slot,
-        type_header_id: target.typeHeaderId,
       },
       true,
     )
@@ -60,7 +59,7 @@ const DnDItem = ({ slots, mover, children, drag, isDragging, target, dragPreview
       },
       collect: (monitor) => ({
         isOver: monitor.isOver(),
-        canDrop: monitor.canDrop(),
+        isDragging,
         draggingColor: monitor.getItemType(),
       }),
     }),

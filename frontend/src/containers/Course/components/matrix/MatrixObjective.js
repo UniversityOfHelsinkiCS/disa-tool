@@ -192,7 +192,7 @@ export const MatrixObjective = ({
   )
   if (editing) {
     return (
-      <div className="MatrixObjective">
+      <div className="MatrixObjective" data-testid={`matrix-objective-${objective.id}`}>
         <DnDItem
           key={objective.id}
           target={{ ...objective, categoryId, skillLevelId }}
