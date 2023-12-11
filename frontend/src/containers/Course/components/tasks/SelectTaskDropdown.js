@@ -3,11 +3,10 @@ import { connect, useDispatch } from 'react-redux'
 import { Header, Dropdown } from 'semantic-ui-react'
 import _ from 'lodash'
 import { useTranslation } from 'react-i18next'
+import { useDrag } from 'react-dnd'
 import { editTask } from '../../actions/tasks'
-import dndItem from '../../../../utils/components/DnDItem'
+import DnDItem from '../../../../utils/components/DnDItem'
 import asyncAction from '../../../../utils/asyncAction'
-
-const DnDItem = dndItem('task')
 
 const searchFilter = (options, query) => {
   const re = new RegExp(_.escapeRegExp(query), 'i')
@@ -16,6 +15,16 @@ const searchFilter = (options, query) => {
 
 const SelectTaskDropdown = (props) => {
   const dispatch = useDispatch()
+
+  const [{ isDragging }, drag, dragPreview] = useDrag(
+    () => ({
+      type: 'task',
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+    }),
+    [],
+  )
 
   const moveTask = async () => {
     asyncAction(editTask, dispatch)
@@ -43,7 +52,15 @@ const SelectTaskDropdown = (props) => {
               key: task.id,
               searchlabel: task.name,
               text: (
-                <DnDItem element={task} mover={moveTask} slots={slots[index]}>
+                <DnDItem
+                  element={task}
+                  mover={moveTask}
+                  slots={slots[index]}
+                  drag={drag}
+                  isDragging={isDragging}
+                  dragPreview={dragPreview}
+                  itemName={`select-task-dropdown-${task.id}`}
+                >
                   <div style={{ margin: '-11px 0px -11px 0px', padding: '8px 0px 8px 0px' }}>{task.name}</div>
                 </DnDItem>
               ),

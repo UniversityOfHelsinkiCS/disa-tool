@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test('test', async ({ page }) => {
+test('Category question', async ({ page }) => {
   await page.goto('http://localhost:8080/')
   await page.getByRole('textbox').click()
   await page.getByRole('textbox').fill('terhit')
@@ -57,8 +57,8 @@ test('test', async ({ page }) => {
 
   // Add open question
   await page.getByRole('button', { name: 'Lisää avoin kysymys' }).click()
-  await page.locator('input[name="name-input"]').click()
-  await page.locator('input[name="name-input"]').fill('Mikä meni hyvin')
+  await page.locator('input[name="all-name-input"]').click()
+  await page.locator('input[name="all-name-input"]').fill('Mikä meni hyvin')
   await page.getByRole('button', { name: 'Tallenna' }).nth(2).click()
 
   // Add answer for the question

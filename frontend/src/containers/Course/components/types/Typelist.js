@@ -1,30 +1,32 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 
-import Type, { dropSpec } from './Type'
+import { useDrag } from 'react-dnd'
+import Type from './Type'
 import CreateTypeForm from './CreateTypeForm'
 import { editType } from '../../actions/types'
-import dndItem from '../../../../utils/components/DnDItem'
 import asyncAction from '../../../../utils/asyncAction'
+import DnDItem from '../../../../utils/components/DnDItem'
 
-const DnDItem = dndItem('type', {
-  dropSpec: {
-    drop: (props, monitor) => {
-      const { element } = props
-      const drag = monitor.getItem()
-      if (element.type_header_id === drag.type_header_id) {
-        return
-      }
-      dropSpec.drop(props, monitor)
-    },
-  },
-})
+export const Typelist = ({ activeTaskId, headerId, editing, activeMap, types }) => {
+  const dispatch = useDispatch()
+  const [{ isDragging }, drag, dragPreview] = useDrag(
+    () => ({
+      type: 'type',
+      item: { type: 'type', typeHeaderId: headerId },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+    }),
+    [],
+  )
 
-export const Typelist = (props) => {
-  const types = props.types.sort((a, b) => a.order - b.order)
+  const asyncMoveTypeList = async (props) => {
+    asyncAction(editType(props), dispatch)
+  }
+  const sortedTypes = types.sort((a, b) => a.order - b.order)
   let newOrder = 1
-  const typesNode = types.map((type, index, typesArray) => {
+  const typesNode = sortedTypes.map((type, index, typesArray) => {
     const slots = {
       previous: index > 0 ? (type.order + typesArray[index - 1].order) / 2 : type.order - 1,
       next: index < typesArray.length - 1 ? (type.order + typesArray[index + 1].order) / 2 : type.order + 1,
@@ -34,34 +36,34 @@ export const Typelist = (props) => {
     }
     return (
       <Type
-        key={type.id}
+        key={type.order}
         type={type}
-        editing={props.editing}
-        active={Boolean(props.activeMap[type.id])}
-        activeTaskId={props.activeTaskId}
-        headerId={props.headerId}
+        editing={editing}
+        active={Boolean(activeMap[type.id])}
+        activeTaskId={activeTaskId}
+        headerId={headerId}
         slots={slots}
       />
     )
   })
   return (
-    <div className="Typelist">
+    <div className="Typelist" data-testid={`type-list-${headerId}`}>
       {typesNode}
-      {props.editing ? (
+      {editing ? (
         <DnDItem
-          element={{
-            order: newOrder,
-            type_header_id: props.headerId,
-          }}
-          mover={props.moveType}
+          target={{ order: newOrder, typeHeaderId: headerId }}
+          mover={asyncMoveTypeList}
+          drag={drag}
+          isDragging={isDragging}
+          dragPreview={dragPreview}
         >
-          <CreateTypeForm headerId={props.headerId} newOrder={newOrder} />
+          <CreateTypeForm headerId={headerId} newOrder={newOrder} />
         </DnDItem>
       ) : null}
     </div>
   )
 }
-
+/*
 Typelist.propTypes = {
   types: PropTypes.arrayOf(
     PropTypes.shape({
@@ -74,13 +76,6 @@ Typelist.propTypes = {
   activeMap: PropTypes.objectOf(PropTypes.bool).isRequired,
   moveType: PropTypes.func.isRequired,
 }
+*/
 
-Typelist.defaultProps = {
-  activeTaskId: null,
-}
-
-const mapDispatchToProps = (dispatch) => ({
-  moveType: asyncAction(editType, dispatch),
-})
-
-export default connect(null, mapDispatchToProps)(Typelist)
+export default connect()(Typelist)

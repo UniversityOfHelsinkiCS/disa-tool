@@ -12,17 +12,15 @@ const SelfAssessmentForm = (props) => {
   const { edit, formData, responseErrors, preview, grades, existingAnswer } = props
   const { finalGradeResponse, openQuestionResponses, questionModuleResponses } = existingAnswer
   const { structure } = formData
-  const { type } = structure
-  const { grade } = structure.headers
   const editMode = edit && !preview
   let questionModule = null
   if (editMode) {
-    if (type === 'category') {
+    if (structure.type === 'category') {
       questionModule = EditCategoryModule
     } else {
       questionModule = EditObjectiveModule
     }
-  } else if (type === 'category') {
+  } else if (structure.type === 'category') {
     questionModule = CategoryQuestionModule
   } else {
     questionModule = ObjectiveQuestionModule
@@ -62,7 +60,7 @@ const SelfAssessmentForm = (props) => {
       {structure.finalGrade.includedInAssesment || editMode ? (
         <SelfAssessmentSection
           infoBoxTranslationId={editMode ? 'SelfAssessmentFinalGradeEdit' : null}
-          headers={grade}
+          headers={structure.headers.grade}
           headerType="grade"
           formData={[structure.finalGrade]}
           edit={edit ? !preview : false}

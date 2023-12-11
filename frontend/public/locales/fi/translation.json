@@ -125,7 +125,7 @@
       "editGradesTab": {
         "header": "Lisää ja muokkaa kurssin arvosanoja"
       },
-      "Grade": {
+      "grade": {
         "delete_header": "Poista arvosana",
         "delete_prompt_1": "Poistetaanko arvosana"
       }

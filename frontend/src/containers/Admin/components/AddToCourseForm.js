@@ -1,19 +1,17 @@
 import React, { useState } from 'react'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { Button, Dropdown, Form, Label } from 'semantic-ui-react'
-import asyncAction from '../../../utils/asyncAction'
 
+import { useTranslation } from 'react-i18next'
 import { getAllCourses, selectCourse } from '../../CourseList/actions/courses'
 import { getInstancesOfCourse, selectInstance } from '../../CourseList/actions/courseInstances'
-import { addPersonToCourse } from '../actions/coursePersons'
 
 import ModalForm, { saveActions } from '../../../utils/components/ModalForm'
-import { useTranslation } from 'react-i18next'
 
 const AddToCourseForm = (props) => {
   const [role, setRole] = useState('STUDENT')
   const dispatch = useDispatch()
-  const alreadyOnCourse = ownProps.person.course_people.reduce(
+  const alreadyOnCourse = props.person.course_people.reduce(
     (acc, curr) => ({
       ...acc,
       [curr.course_instance_id]: true,
@@ -45,7 +43,7 @@ const AddToCourseForm = (props) => {
     props.addPersonToCourse({
       courseInstanceId: selectedInstance.id,
       personId: props.person.id,
-      role: state.role,
+      role,
       course_instance: { name: selectedInstance.name },
     })
   }
@@ -110,7 +108,7 @@ const AddToCourseForm = (props) => {
         </Form.Field>
         <Form.Field>
           <Button.Group>
-            <Button type="button" onClick={changeRole('STUDENT')} inverted={state.role !== 'STUDENT'} color="green">
+            <Button type="button" onClick={changeRole('STUDENT')} inverted={role !== 'STUDENT'} color="green">
               {t('student_button')}
             </Button>
             <Button type="button" onClick={changeRole('TEACHER')} inverted={role !== 'TEACHER'} color="green">

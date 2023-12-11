@@ -17,13 +17,17 @@ module.exports = {
     fallback: {
       path: require.resolve('path-browserify'),
     },
+    alias: {
+      'react/jsx-dev-runtime': require.resolve('react/jsx-dev-runtime'),
+      'react/jsx-runtime': require.resolve('react/jsx-runtime'),
+    },
     extensions: ['.js', '.jsx'],
     modules: ['node_modules'],
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',

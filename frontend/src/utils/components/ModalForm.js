@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { LocalizeProvider } from 'react-localize-redux'
 import { Modal, Form, Divider, Button } from 'semantic-ui-react'
 

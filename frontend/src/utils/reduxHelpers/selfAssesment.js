@@ -10,7 +10,7 @@ export const initForm = (payload) => {
   formInfo.push(
     { id: 1, prefix: 'Fin', value: 'Itsearviointitehtävä', type: 'fin_name' },
     { id: 2, prefix: 'Eng', value: 'Self-assessment task', type: 'eng_name' },
-    { id: 3, prefix: 'Swe', value: 'Självbedömning', type: 'swe_name' }
+    { id: 3, prefix: 'Swe', value: 'Självbedömning', type: 'swe_name' },
   )
   formInfo.push(
     {
@@ -33,7 +33,7 @@ export const initForm = (payload) => {
       header: 'Anvisning',
       value: 'Instruktioner för självbedömning',
       type: 'swe_instructions',
-    }
+    },
   )
 
   data.open = false
@@ -80,7 +80,7 @@ export const initForm = (payload) => {
       prefix: 'Swe:',
       value: 'Ge dig själv ett slutvitsord för kursen',
       type: 'swe_name',
-    }
+    },
   )
 
   structure.finalGrade = {
@@ -103,7 +103,7 @@ export const initForm = (payload) => {
         name: ciO.name,
         textFieldOn: true,
         includedInAssesment: true,
-      })
+      }),
     )
   } else {
     structure.questionModules = []
@@ -119,7 +119,7 @@ export const initForm = (payload) => {
         })),
         includedInAssesment: true,
         options: ['osaan huonosti', 'osaan keskinkertaisesti', 'osaan hyvin'],
-      })
+      }),
     )
   }
 
@@ -167,7 +167,7 @@ export const initResponseForm = (data) => {
             grade_name: null,
             name: qm.name,
           })
-        : null
+        : null,
     )
   } else {
     questionModules.map((qm) =>
@@ -181,9 +181,9 @@ export const initResponseForm = (data) => {
                   header: qm.name,
                   category: qm.id,
                 })
-              : null
+              : null,
           )
-        : null
+        : null,
     )
   }
 
@@ -192,7 +192,7 @@ export const initResponseForm = (data) => {
       id: q.id,
       responseText: '',
       name: q.name,
-    })
+    }),
   )
 
   response.finalGradeResponse = {}
@@ -225,7 +225,7 @@ export const respond = (state, payload, typeOfResponse) => {
                 [typeOfResponse]: value,
                 grade_name: name || qmRes.grade_name,
               }
-            : qmRes
+            : qmRes,
         ),
       },
     }

@@ -116,22 +116,22 @@
 
         "prerequisite": "Prerequisite grade for earning this grade"
       },
-      "CategoryGradeTable": {
+      "categoryGradeTable": {
         "header": "Edit grades by category",
 
         "header_cell": "Grade/Category",
         "cancel_button": "Undo changes"
       },
-      "CreateGradeForm": {
+      "createGradeForm": {
         "header": "Create a new grade"
       },
-      "EditGradeForm": {
+      "editGradeForm": {
         "header": "Edit grade"
       },
-      "EditGradesTab": {
+      "editGradesTab": {
         "header": "Create and modify the grading criteria"
       },
-      "Grade": {
+      "grade": {
         "delete_header": "Delete grade",
         "delete_prompt_1": "Are you sure you want to remove the grade"
       }

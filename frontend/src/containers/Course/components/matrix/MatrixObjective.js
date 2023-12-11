@@ -1,51 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { connect, useSelector, useDispatch } from 'react-redux'
 import { Button, Label, Popup, Header, Loader, Segment, Grid } from 'semantic-ui-react'
+import { useTranslation } from 'react-i18next'
+import { useDrag } from 'react-dnd'
 import { removeObjective, editObjective } from '../../actions/objectives'
 import { addObjectiveToTask, removeObjectiveFromTask } from '../../actions/tasks'
 import { taskDetails } from '../../../../api/objectives'
 import EditObjectiveForm from './EditObjectiveForm'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import MathJaxText from '../../../../utils/components/MathJaxText'
-import dndItem, { defaults } from '../../../../utils/components/DnDItem'
-import { useTranslation } from 'react-i18next'
-
-export const dropSpec = {
-  ...defaults.dropSpec,
-  drop: (props, monitor) => {
-    const drag = monitor.getItem()
-    const { element, slots } = props
-    let slot
-    if (element.category_id !== drag.category_id || element.skill_level_id !== drag.skill_level_id) {
-      slot = slots ? slots.previous : element.order
-    } else if (drag.order === element.order) {
-      slot = drag.order
-    } else if (drag.order > element.order) {
-      slot = slots.previous
-    } else {
-      slot = slots.next
-    }
-    props.mover({
-      id: drag.id,
-      order: slot,
-      category_id: element.category_id,
-      skill_level_id: element.skill_level_id,
-    })
-  },
-}
-
-const DnDItem = dndItem('objective', {
-  dropSpec,
-  dragSpec: {
-    ...defaults.dragSpec,
-    beginDrag: (props) => ({
-      id: props.element.id,
-      order: props.element.order,
-      category_id: props.element.category_id,
-      skill_level_id: props.element.skill_level_id,
-    }),
-  },
-})
+import DnDItem from '../../../../utils/components/DnDItem'
 
 export const MatrixObjective = ({
   activeTaskId = null,
@@ -63,6 +27,23 @@ export const MatrixObjective = ({
   const [tasks, setTasks] = useState([])
   const lastMultiplierUpdate = useSelector((state) => state.task.lastMultiplierUpdate)
   const dispatch = useDispatch()
+
+  const [{ isDragging }, drag, dragPreview] = useDrag(
+    {
+      type: 'objective',
+      item: {
+        type: 'objective',
+        id: objective.id,
+        order: objective.order,
+        category_id: categoryId,
+        skill_level_id: skillLevelId,
+      },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+    },
+    [],
+  )
 
   const reset = () => {
     setTriggered(false)
@@ -211,15 +192,16 @@ export const MatrixObjective = ({
   )
   if (editing) {
     return (
-      <div className="MatrixObjective">
+      <div className="MatrixObjective" data-testid={`matrix-objective-${objective.id}`}>
         <DnDItem
-          element={{
-            ...objective,
-            category_id: categoryId,
-            skill_level_id: skillLevelId,
-          }}
+          key={objective.id}
+          target={{ ...objective, categoryId, skillLevelId }}
           mover={asyncMoveObjective}
           slots={slots}
+          drag={drag}
+          isDragging={isDragging}
+          dragPreview={dragPreview}
+          itemName={`matrix-objective-${objective.id}`}
         >
           {content}
         </DnDItem>

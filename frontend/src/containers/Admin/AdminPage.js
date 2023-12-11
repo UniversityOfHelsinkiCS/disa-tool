@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import { connect, useSelector, useDispatch } from 'react-redux'
 import { Container, Form, Button, Icon, Loader, Grid, Accordion, Pagination } from 'semantic-ui-react'
-import asyncAction from '../../utils/asyncAction'
+import { useTranslation } from 'react-i18next'
 
 import { adminGetUsers, adminChangeGlobalRole } from './actions/persons'
 import { adminChangeCourseRole, removeCoursePerson } from './actions/coursePersons'
 import RoleList from './components/RoleList'
-import { useTranslation } from 'react-i18next'
 
-const AdminPage = (props) => {
+const AdminPage = () => {
   const users = useSelector((state) => state.admin.users)
   const dispatch = useDispatch()
   const [activeIndex, setActiveIndex] = useState(-1)
@@ -16,7 +15,6 @@ const AdminPage = (props) => {
   const [getAll, setGetAll] = useState(false)
   const [loading, setLoading] = useState(false)
   const [crash, setCrash] = useState(false)
-  const [edit, setEdit] = useState(false)
 
   const adminGetUsersAsync = async ({ studentInfo, getAll }) => {
     const response = await adminGetUsers({
@@ -55,11 +53,11 @@ const AdminPage = (props) => {
   const handleSubmit = async (event) => {
     const studentInfo = event.target.userInfo.value
     if (!getAll && studentInfo === '') {
-      await props.dispatchToast({
-        type: '',
+      dispatch({
+        type: 'TOAST',
         payload: {
-          toast: 'Syötä hakuparametri tai valitse kaikki',
           type: 'error',
+          toast: 'Syötä hakuparametri tai valitse kaikki',
         },
       })
       return true
@@ -67,22 +65,20 @@ const AdminPage = (props) => {
     setLoading(true)
     await adminGetUsersAsync({
       studentInfo: getAll ? undefined : studentInfo,
-      getAll: getAll,
+      getAll,
     })
     setLoading(false)
     setActivePage(1)
+    return true
   }
 
   const handleClick = (e, titleProps) => {
     const { index } = titleProps
-    const { activeIndex } = state
     const newIndex = activeIndex === index ? -1 : index
     setActiveIndex(newIndex)
   }
 
   const handlePaginationChange = (e, { activePage }) => setActivePage(activePage)
-
-  const toggleEdit = () => setEdit(!edit)
 
   const changeRole = async (personId, courseInstanceId, role) => {
     if (courseInstanceId) {
@@ -98,8 +94,8 @@ const AdminPage = (props) => {
 
   const deleteRole = (personId, courseInstanceId) => () =>
     removeCoursePersonAsync({
-      personId: personId,
-      courseInstanceId: courseInstanceId,
+      personId,
+      courseInstanceId,
     })
 
   const { t } = useTranslation('translation', { keyPrefix: 'admin.adminPage.' })
@@ -129,16 +125,16 @@ const AdminPage = (props) => {
           <Grid.Column width={10}>
             {loading && <Loader active />}
 
-            {props.users.length > 0 && (
+            {users.length > 0 && (
               <Accordion fluid styled>
-                {props.users.slice((activePage - 1) * 20, activePage * 20).map((u) => (
+                {users.slice((activePage - 1) * 20, activePage * 20).map((u) => (
                   <div key={u.id}>
                     <Accordion.Title active={activeIndex === u.id} index={u.id} onClick={handleClick}>
                       <Icon name="dropdown" />
                       {u.name}
                     </Accordion.Title>
                     <Accordion.Content active={activeIndex === u.id}>
-                      <RoleList t={props.t} user={u} deleteRole={deleteRole} changeRole={changeRole} />
+                      <RoleList t={t} user={u} deleteRole={deleteRole} changeRole={changeRole} />
                     </Accordion.Content>
                   </div>
                 ))}
@@ -150,11 +146,11 @@ const AdminPage = (props) => {
         <Grid.Row>
           <Grid.Column width={5} />
           <Grid.Column width={8}>
-            {props.users.length > 20 ? (
+            {users.length > 20 ? (
               <Pagination
                 activePage={activePage}
                 onPageChange={handlePaginationChange}
-                totalPages={Math.ceil(props.users.length / 20)}
+                totalPages={Math.ceil(users.length / 20)}
               />
             ) : null}
           </Grid.Column>
@@ -178,13 +174,5 @@ AdminPage.propTypes = {
   t: PropTypes.func.isRequired
 }
 */
-
-const mapDispatchToProps = (dispatch) => ({
-  adminGetUsers: asyncAction(adminGetUsers, dispatch),
-  adminChangeCourseRole: asyncAction(adminChangeCourseRole, dispatch),
-  adminChangeGlobalRole: asyncAction(adminChangeGlobalRole, dispatch),
-  dispatchToast: (data) => dispatch(data),
-  removeCoursePerson: asyncAction(removeCoursePerson, dispatch),
-})
 
 export default connect()(AdminPage)

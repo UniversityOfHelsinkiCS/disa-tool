@@ -35,7 +35,7 @@ const EditGradesTab = ({ courseId }) => {
         <Segment>
           <InfoBox translationid="EditGradesPage" buttonProps={{ floated: 'right' }} />
           <Header as="h1" content={t('header')} />
-          <Gradelist grades={grade.grades} levels={levels} />
+          <Gradelist type="edit-grades-tab" grades={grade.grades} levels={levels} />
         </Segment>
         <CategoryGradeTable courseId={courseId} grades={grade.grades} levels={levels} categories={categories} />
       </Container>
