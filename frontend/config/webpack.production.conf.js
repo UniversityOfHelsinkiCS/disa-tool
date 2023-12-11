@@ -27,6 +27,8 @@ module.exports = {
       'react/jsx-dev-runtime': require.resolve('react/jsx-dev-runtime'),
       'react/jsx-runtime': require.resolve('react/jsx-runtime'),
     },
+    extensions: ['.js', '.jsx'],
+    modules: ['node_modules'],
   },
   optimization: {
     runtimeChunk: 'single',
