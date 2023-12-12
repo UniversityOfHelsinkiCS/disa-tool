@@ -1,6 +1,6 @@
-// @ts-check
+const path = require('path')
+
 const { defineConfig, devices } = require('@playwright/test')
-import path from 'path'
 
 /**
  * Read environment variables from file.
@@ -8,14 +8,14 @@ import path from 'path'
  */
 // require('dotenv').config();
 
-export const STORAGE_STATE = path.join(__dirname, 'playwright/.auth/users.json')
+const STORAGE_STATE = path.join(__dirname, 'playwright/.auth/users.json')
 
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
 module.exports = defineConfig({
-  //globalSetup: require.resolve('./global-setup'),
-  //globalTeardown: require.resolve('./global-teardown'),
+  // globalSetup: require.resolve('./global-setup'),
+  // globalTeardown: require.resolve('./global-teardown'),
   expect: {
     timeout: 5000,
     toHaveScreenshot: {
@@ -39,7 +39,7 @@ module.exports = defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL: 'http://localhost:8080',
-    //storageState: 'users.json',
+    // storageState: 'users.json',
     trace: 'on',
     screenshot: 'only-on-failure', // Capture screenshot after each test failure.
     video: 'on-first-retry',
@@ -52,8 +52,8 @@ module.exports = defineConfig({
         log: (name, severity, message, args) => console.log(`${name} ${message}`),
       },
     },
-    //actionTimeout: 10 * 1000,
-    //navigationTimeout: 30 * 1000
+    // actionTimeout: 10 * 1000,
+    // navigationTimeout: 30 * 1000
   },
   /* Configure projects for major browsers */
   projects: [
@@ -71,7 +71,7 @@ module.exports = defineConfig({
       use: {
         storageState: STORAGE_STATE,
       },
-    },*/
+    }, */
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
@@ -92,7 +92,7 @@ module.exports = defineConfig({
        name: 'Mobile Chrome',
        use: { ...devices['Pixel 5'] },
        dependencies: ['setup'],
-     },*/
+     }, */
     // {
     //   name: 'Mobile Safari',
     //   use: { ...devices['iPhone 12'] },
@@ -116,3 +116,5 @@ module.exports = defineConfig({
   //   reuseExistingServer: !process.env.CI,
   // },
 })
+
+export default STORAGE_STATE

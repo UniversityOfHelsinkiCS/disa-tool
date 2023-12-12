@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test('test', async ({ page }) => {
+test('Grades', async ({ page }) => {
   await page.goto('http://localhost:8080/')
   await page.getByRole('textbox').click()
   await page.getByRole('textbox').fill('terhit')
@@ -10,6 +10,7 @@ test('test', async ({ page }) => {
   await page.getByRole('button', { name: 'Kurssin tavoitematriisi' }).click()
   await page.getByRole('button', { name: 'Muokkaa matriisia' }).click()
   await page.getByRole('link', { name: 'Arvosteluperusteet' }).click()
+  await page.waitForTimeout(200)
   await expect(page.getByTestId('edit-category-grades')).toHaveScreenshot('edit-category-grades-before-creating.png')
   await expect(page.locator('tbody')).toContainText('Vektoriavaruudet')
   await page.getByRole('cell', { name: 'Yhtälöryhmät' }).click()

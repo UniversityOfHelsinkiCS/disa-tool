@@ -49,6 +49,7 @@ test.describe('Task objective tests', () => {
     await page.getByRole('textbox').fill('kimgjon')
     await page.getByRole('textbox').press('Enter')
     await page.goto('http://localhost:8080/course/1/matrix')
+    await page.waitForTimeout(200)
     await expect(page.locator("[data-testid='matrix-level-container-3-1']")).toHaveScreenshot(
       'remove-objective-module-before.png',
     )
