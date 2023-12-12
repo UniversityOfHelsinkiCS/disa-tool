@@ -7,7 +7,7 @@ const webpack = require('webpack')
 
 module.exports = {
   mode: 'production',
-  entry: ['@babel/polyfill', './src/index.js'],
+  entry: ['./src/index.js'],
   node: {
     global: true,
   },
@@ -27,7 +27,7 @@ module.exports = {
       'react/jsx-dev-runtime': require.resolve('react/jsx-dev-runtime'),
       'react/jsx-runtime': require.resolve('react/jsx-runtime'),
     },
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.json'],
     modules: ['node_modules'],
   },
   optimization: {
@@ -41,13 +41,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(?:js|mjs|cjs|jsx)$/,
         exclude: /node_modules/,
-        resolve: {
-          fullySpecified: false,
-        },
         use: {
           loader: 'babel-loader',
+          options: {
+            presets: [['@babel/preset-env', { targets: 'defaults' }]],
+          },
         },
       },
       {
@@ -68,6 +68,7 @@ module.exports = {
           fullySpecified: false,
         },
       },
+      { test: /\.json$/, type: 'json' },
     ],
   },
   plugins: [

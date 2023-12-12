@@ -7,7 +7,7 @@ const apiPort = 8000
 
 module.exports = {
   mode: 'development',
-  entry: ['@babel/polyfill', './src/index.js'],
+  entry: ['./src/index.js'],
   output: {
     path: path.join(__dirname, './dist'),
     filename: 'index.js',
@@ -21,16 +21,19 @@ module.exports = {
       'react/jsx-dev-runtime': require.resolve('react/jsx-dev-runtime'),
       'react/jsx-runtime': require.resolve('react/jsx-runtime'),
     },
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.json'],
     modules: ['node_modules'],
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(?:js|mjs|cjs|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
+          options: {
+            presets: [['@babel/preset-env', { targets: 'defaults' }]],
+          },
         },
       },
       {
@@ -51,6 +54,7 @@ module.exports = {
           fullySpecified: false,
         },
       },
+      { test: /\.json$/, type: 'json' },
     ],
   },
   plugins: [
