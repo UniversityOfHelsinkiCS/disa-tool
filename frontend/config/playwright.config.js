@@ -48,11 +48,10 @@ module.exports = defineConfig({
     launchOptions: {
       slowMo: 50,
       logger: {
-        isEnabled: (name, severity) => name === 'browser',
-        log: (name, severity, message, args) => console.log(`${name} ${message}`),
+        isEnabled: (name) => name === 'browser',
+        log: (name, severity, message) => console.log(`${name} ${message}`),
       },
     },
-    // actionTimeout: 10 * 1000,
     // navigationTimeout: 30 * 1000
   },
   /* Configure projects for major browsers */
