@@ -50,9 +50,10 @@ test.describe('Task objective tests', () => {
     await page.getByRole('textbox').press('Enter')
     await page.goto('http://localhost:8080/course/1/matrix')
     await page.waitForTimeout(1000)
-    await expect(page.locator("[data-testid='matrix-level-objectives-3-1']")).toHaveScreenshot(
-      'remove-objective-module-before.png',
-    )
+    await expect(page.locator("[data-testid='matrix-level-objectives-3-1']")).toHaveScreenshot({
+      path: 'remove-objective-module-before.png',
+      animations: 'disabled',
+    })
     await page
       .getByRole('cell', {
         name: 'Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio',
@@ -61,9 +62,10 @@ test.describe('Task objective tests', () => {
       .nth(1)
       .click()
     await page.locator("[data-testid='modal-delete-objective-16']").click()
-    await expect(page.locator("[data-testid='matrix-level-objectives-3-1']")).toHaveScreenshot(
-      'remove-objective-module-after.png',
-    )
+    await expect(page.locator("[data-testid='matrix-level-objectives-3-1']")).toHaveScreenshot({
+      path: 'remove-objective-module-after.png',
+      animations: 'disabled',
+    })
     await expect(
       page.getByText('Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio'),
     ).not.toBeVisible()
