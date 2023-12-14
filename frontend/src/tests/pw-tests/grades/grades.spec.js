@@ -11,7 +11,9 @@ test('Grades', async ({ page }) => {
   await page.getByRole('button', { name: 'Muokkaa matriisia' }).click()
   await page.getByRole('link', { name: 'Arvosteluperusteet' }).click()
   await page.waitForTimeout(1000)
-  await expect(page.getByTestId('edit-category-grades')).toHaveScreenshot('edit-category-grades-before-creating.png')
+  await expect(page.getByTestId('category-grade-table-grade-category-10')).toHaveScreenshot(
+    'edit-category-grades-before-creating.png',
+  )
   await expect(page.locator('tbody')).toContainText('Vektoriavaruudet')
   await page.getByRole('cell', { name: 'Yhtälöryhmät' }).click()
   await page
@@ -46,5 +48,7 @@ test('Grades', async ({ page }) => {
     'Vaadittu alempi arvosanasuoritus:',
   )
 
-  await expect(page.getByTestId('edit-category-grades')).toHaveScreenshot('edit-category-grades-after-creating.png')
+  await expect(page.getByTestId('category-grade-table-grade-category-10')).toHaveScreenshot(
+    'edit-category-grades-after-creating.png',
+  )
 })
