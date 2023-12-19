@@ -43,7 +43,7 @@ module.exports = defineConfig({
     trace: 'on',
     screenshot: 'only-on-failure', // Capture screenshot after each test failure.
     video: 'on-first-retry',
-    headless: true,
+    headless: false,
     viewport: { width: 1280, height: 720 },
     launchOptions: {
       slowMo: 50,
