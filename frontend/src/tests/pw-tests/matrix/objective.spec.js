@@ -49,7 +49,9 @@ test.describe('Task objective tests', () => {
     await page.getByRole('textbox').fill('kimgjon')
     await page.getByRole('textbox').press('Enter')
     await page.goto('http://localhost:8080/course/1/matrix')
-    await page.getByTestId('matrix-level-container-3-1').scrollIntoViewIfNeeded()
+    await expect(page.getByTestId('matrix-level-container-3-1')).toContainText(
+      'Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio',
+    )
     await expect(page.getByTestId('matrix-level-container-3-1')).toHaveScreenshot({
       path: 'remove-objective-module-before.png',
       animations: 'disabled',
