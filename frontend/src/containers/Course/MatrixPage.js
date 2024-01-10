@@ -12,6 +12,10 @@ import { getCourseInstanceDataAction } from '../../actions/actions'
 const MatrixPage = (props) => {
   const isTeacher = useSelector((state) => state.instance.courseRole === 'TEACHER')
   const loading = useSelector((state) => state.course.loading)
+  const levels = useSelector((state) => state.level.levels)
+  const categories = useSelector((state) => state.category.categories)
+  const tasks = useSelector((state) => state.instance.tasks)
+
   const { t } = useTranslation('translation', { keyPrefix: 'course.matrix.common' })
 
   const dispatch = useDispatch()
@@ -25,8 +29,13 @@ const MatrixPage = (props) => {
   }
 
   useEffect(() => {
-    getCourseInstanceDataAction(courseId, dispatch)
-    getMatrixAsync()
+    if (tasks.length === 0) {
+      getCourseInstanceDataAction(courseId, dispatch)
+    }
+    if (levels.length === 0 && categories.length === 0) {
+      getMatrixAsync()
+    }
+
     return () => resetCourse(dispatch)
   }, [])
 
