@@ -28,7 +28,7 @@ const InfoBox = ({ translationid, buttonProps = {}, popupProps = {}, useCourseRo
       wide="very"
       position="left center"
       trigger={<Button circular icon="info" {...buttonProps} />}
-      content={<ReactMarkdown children={text} rehypePlugins={[rehypeRaw]} />}
+      content={<ReactMarkdown rehypePlugins={[rehypeRaw]}>{text}</ReactMarkdown>}
       {...popupProps}
     />
   )

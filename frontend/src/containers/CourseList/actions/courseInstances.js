@@ -18,8 +18,8 @@ export const addInstance = (data) =>
     })
   })
 
-export const getInstancesOfCourse = (courseId) =>
-  new Promise((resolve) => {
+export const getInstancesOfCourse = (courseId) => {
+  return new Promise((resolve) => {
     getByCourse(courseId).then((response) => {
       resolve({
         type: types.COURSELIST_GET_INSTANCES,
@@ -27,9 +27,10 @@ export const getInstancesOfCourse = (courseId) =>
       })
     })
   })
+}
 
-export const getTemplateInstances = (templateCourseId) =>
-  new Promise((resolve) => {
+export const getTemplateInstances = (templateCourseId) => {
+  return new Promise((resolve) => {
     getByCourse(templateCourseId).then((response) => {
       resolve({
         type: types.COURSELIST_GET_TEMPLATE_INSTANCES,
@@ -37,6 +38,7 @@ export const getTemplateInstances = (templateCourseId) =>
       })
     })
   })
+}
 
 export const editInstance = (data) =>
   apiPromise(edit, data, {

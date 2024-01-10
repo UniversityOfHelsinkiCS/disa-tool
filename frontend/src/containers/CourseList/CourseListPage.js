@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { connect, useDispatch, useSelector } from 'react-redux'
-import { Link, useParams, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { orderBy } from 'lodash'
 import { Button, Header, List, Grid, Dropdown, Icon, Message, Form } from 'semantic-ui-react'
+import { useTranslation } from 'react-i18next'
 import { getAllCourses, selectCourse } from './actions/courses'
 import { getInstancesOfCourse, selectInstance, getTemplateInstances } from './actions/courseInstances'
 import CreateInstanceForm from './components/CreateInstanceForm'
@@ -11,9 +12,8 @@ import EditInstanceForm from './components/EditInstanceForm'
 import EditCourseForm from './components/EditCourseForm'
 import Conditional from '../../utils/components/Conditional'
 import InfoBox from '../../utils/components/InfoBox'
-import { useTranslation } from 'react-i18next'
 
-const CourseListPage = (props) => {
+const CourseListPage = () => {
   const { courses, selectedCourse, selectedInstance, instances } = useSelector((state) => state.listCourses)
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
@@ -27,8 +27,8 @@ const CourseListPage = (props) => {
     dispatch(response)
   }
 
-  const getTemplateInstancesAsync = async () => {
-    const response = await getTemplateInstances()
+  const getTemplateInstancesAsync = async (templateCourseId) => {
+    const response = await getTemplateInstances(templateCourseId)
     dispatch(response)
   }
 
@@ -43,7 +43,7 @@ const CourseListPage = (props) => {
       const templateCourse = courses.find((e) => ['KURSSIPOHJAT', 'COURSE TEMPLATES', 'KURSMALL'].includes(e.name))
 
       if (templateCourse != null) {
-        await getTemplateInstancesAsync()
+        await getTemplateInstancesAsync(templateCourse.id)
       }
       if (search && searchQuery.get('course')) {
         dispatch(selectCourse(Number(searchQuery.get('course'))))

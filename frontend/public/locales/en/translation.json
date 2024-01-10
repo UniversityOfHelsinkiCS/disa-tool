@@ -450,7 +450,7 @@
         "add": "add"
       }
     },
-    "StudentAssesmentList": {
+    "studentAssesmentList": {
       "open": "open",
       "answered": "answered",
       "unanswered": "unanswered"

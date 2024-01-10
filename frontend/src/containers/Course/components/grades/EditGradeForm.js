@@ -19,7 +19,7 @@ const EditGradeForm = ({ gradeId, objectiveId, levels, grades }) => {
     fin: '',
     swe: '',
   })
-  const { t } = useTranslation('translation', { keyPrefix: 'course.grades.editGradeForm' })
+  const { t } = useTranslation('translation', { keyPrefix: 'course.grades' })
   const dispatch = useDispatch()
 
   const editGradeSubmitAsync = async (e) => {
@@ -59,17 +59,17 @@ const EditGradeForm = ({ gradeId, objectiveId, levels, grades }) => {
     }
 
   const label = {
-    name: t('grade'),
-    skill_level: t('skill_level'),
-    needed_for_grade: t('needed_for_grade'),
-    prerequisite: t('prerequisite'),
+    name: t('common.grade'),
+    skill_level: t('common.skill_level'),
+    needed_for_grade: t('common.needed_for_grade'),
+    prerequisite: t('common.prerequisite'),
   }
   return (
     <div className="EditGradeForm">
       <ModalForm
         header={
           <>
-            {t('header')}
+            {t('editGradeForm.header')}
             <InfoBox translationid="EditGradeModal" buttonProps={{ floated: 'right' }} />
           </>
         }

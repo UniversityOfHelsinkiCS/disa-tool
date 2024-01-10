@@ -1,5 +1,5 @@
 const { Op } = require('sequelize')
-const { Task, TaskResponse, Type, Objective, TaskObjective, TaskType, TypeHeader } = require('../database/models.js')
+const { Task, TaskResponse, Type, Objective, TaskObjective, TaskType, TypeHeader } = require('../database/models')
 const editServices = require('../utils/editServices')
 
 const taskAttributes = (lang) => ['id', [`${lang}_name`, 'name'], [`${lang}_description`, 'description'], 'max_points']
@@ -70,7 +70,7 @@ const createOrUpdateTaskResponses = (taskResponses) => {
   return Promise.all(uniqueResponses.map(async (resp) => {
     if (resp.personId && resp.task_id && resp.points) {
       // find an existing response or build a new one
-      const [response, created] = await TaskResponse.findOrBuild({
+      const [response] = await TaskResponse.findOrBuild({
         where: {
           personId: resp.personId,
           task_id: resp.task_id

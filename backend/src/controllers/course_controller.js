@@ -32,7 +32,6 @@ router.put('/instance/:courseId/toggle', async (req, res) => {
   }])
   if (!isTeacher) {
     res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
-    return
   }
   const instance = await courseService.toggleActivity(courseId)
   res.status(200).json(instance)
@@ -44,7 +43,6 @@ router.post('/instance/:courseId/tasks', async (req, res) => {
     const { id } = instance
     if (!instance) {
       res.status(401).json({ error: 'Instance not found' })
-      return
     }
 
     const isTeacher = await checkPrivilege(req, [{
@@ -53,7 +51,6 @@ router.post('/instance/:courseId/tasks', async (req, res) => {
     }])
     if (!isTeacher) {
       res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
-      return
     }
 
     const people = await personService.getPeopleOnCourse(id, instance.tasks.map((task) => task.id))
@@ -84,11 +81,10 @@ router.get('/instance/:courseId', async (req, res) => {
   const { user } = req
   const instance = await courseService.getInstanceWithRelatedData(courseId, req.lang, user.id)
   if (!instance) {
-    res.status(404).json({
+    return res.status(404).json({
       toast: errors.notfound.toast,
       error: errors.notfound[req.lang]
     })
-    return
   }
   const hasPrivilege = await checkPrivilege(req, [
     {
@@ -97,18 +93,17 @@ router.get('/instance/:courseId', async (req, res) => {
     }
   ])
   if (!hasPrivilege) {
-    res.status(403).json({
+    return res.status(403).json({
       course_id: instance.course_id,
       id: instance.id
     })
-    return
   }
   const teachers = await personService.getCourseTeachers(courseId)
   instance.dataValues.people = teachers
 
   instance.dataValues.courseRole = instance.people[0].course_person.role
 
-  res.status(200).json(instance)
+  return res.status(200).json(instance)
 })
 
 router.get('/user', async (req, res) => {

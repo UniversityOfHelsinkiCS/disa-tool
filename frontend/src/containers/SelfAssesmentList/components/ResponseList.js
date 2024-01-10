@@ -1,12 +1,19 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState } from 'react'
 import { Header, Pagination, Segment, Form, Button, Message } from 'semantic-ui-react'
 import _ from 'lodash'
+import { useTranslation } from 'react-i18next'
 import ResponseTable, { calculateDifference } from './ResponseTable'
 import { DeselectAllButton, SelectAllButton } from './SelectionButtons'
 import SelfAssesmentCSVDownload from './SelfAssesmentCSVDownload'
-import { useTranslation } from 'react-i18next'
 
-const ResponseList = ({ responses, responsesOnPage = 20, selected = false, regenarateFeedback = null, subheader }) => {
+const ResponseList = ({
+  responses,
+  responsesOnPage = 20,
+  selected = false,
+  regenarateFeedback = null,
+  subheader,
+  header,
+}) => {
   const [activePage, setActivePage] = useState(1)
   const [headerIndex, setHeaderIndex] = useState(0)
   const [asc, setAsc] = useState(true)
@@ -38,12 +45,12 @@ const ResponseList = ({ responses, responsesOnPage = 20, selected = false, regen
               (e.person.name && e.person.name.toLowerCase().includes(searchedLower))),
         )
   let sortedResponses
-  switch (sorted.headerindex) {
+  switch (headerIndex) {
     case 0:
-      sortedResponses = _.orderBy(responsesFiltered, 'person.studentnumber', sorted.asc ? 'asc' : 'desc')
+      sortedResponses = _.orderBy(responsesFiltered, 'person.studentnumber', asc ? 'asc' : 'desc')
       break
     case 1:
-      sortedResponses = _.orderBy(responsesFiltered, 'person.name', sorted.asc ? 'asc' : 'desc')
+      sortedResponses = _.orderBy(responsesFiltered, 'person.name', asc ? 'asc' : 'desc')
       break
     case 2:
       sortedResponses = _.orderBy(
@@ -52,11 +59,11 @@ const ResponseList = ({ responses, responsesOnPage = 20, selected = false, regen
           const diff = calculateDifference(o)
           return diff ? [diff.mean, diff.sd] : [0]
         },
-        sorted.asc ? 'asc' : 'desc',
+        asc ? 'asc' : 'desc',
       )
       break
     case 3:
-      sortedResponses = _.orderBy(responsesFiltered, 'updated_at', sorted.asc ? 'asc' : 'desc')
+      sortedResponses = _.orderBy(responsesFiltered, 'updated_at', asc ? 'asc' : 'desc')
       break
     default:
       sortedResponses = responsesFiltered
@@ -68,26 +75,26 @@ const ResponseList = ({ responses, responsesOnPage = 20, selected = false, regen
   return (
     <Segment>
       <Header as="h2">
-        {props.header}
-        {props.subheader ? <Header.Subheader>{props.subheader}</Header.Subheader> : null}
+        {header}
+        {subheader ? <Header.Subheader>{subheader}</Header.Subheader> : null}
       </Header>
       <Form>
         <Form.Group>
           <Form.Field>
             {selected ? (
-              <Fragment>
+              <>
                 <DeselectAllButton />
                 {regenarateFeedback && (
                   <Button
                     disabled={responses.length === 0}
                     basic
                     color="blue"
-                    content={translate('selfAssessmentListPage.generate_feedback')}
+                    content={t('selfAssessmentListPage.generate_feedback')}
                     onClick={regenarateFeedback}
                   />
                 )}
                 <SelfAssesmentCSVDownload />
-              </Fragment>
+              </>
             ) : (
               <SelectAllButton />
             )}
@@ -95,17 +102,22 @@ const ResponseList = ({ responses, responsesOnPage = 20, selected = false, regen
         </Form.Group>
       </Form>
       {selected && responses.length === 0 ? (
-        <Message warning content={translate('responseList.selectWarning')} />
+        <Message warning content={t('responseList.selectWarning')} />
       ) : (
-        <Fragment>
+        <>
           <Form>
             <Form.Field>
-              <Form.Input placeholder={translate('responseList.filter')} onChange={handleOnSearch} />
+              <Form.Input placeholder={t('responseList.filter')} onChange={handleOnSearch} />
             </Form.Field>
           </Form>
-          <ResponseTable responses={displayed} selected={selected} onSort={handleOnSort} sortedHeader={sorted} />
+          <ResponseTable
+            responses={displayed}
+            selected={selected}
+            onSort={handleOnSort}
+            sortedHeader={{ headerIndex, asc }}
+          />
           <Pagination activePage={activePageReal} onPageChange={handlePaginationChange} totalPages={totalPages} />
-        </Fragment>
+        </>
       )}
     </Segment>
   )

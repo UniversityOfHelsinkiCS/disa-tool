@@ -56,7 +56,7 @@ export const toggleFormPartAction = (id, type, dispatch) => {
   })
 }
 
-export const changeHeaderAction = (data) => (dispatch) => {
+export const changeHeaderAction = (data, dispatch) => {
   dispatch({
     type: types.CHANGE_HEADER,
     payload: data,

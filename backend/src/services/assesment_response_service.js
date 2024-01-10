@@ -308,7 +308,7 @@ const generateCategoryFeedback = (category, lang) => {
     // Simply get the percentages done of the category's objectives
     const objectives = skillLevel.objectivePoints.map((objective) => ({
       name: objective.objectiveName,
-      percentageDone: (objective.userPoints / objective.maxPoints * 100),
+      percentageDone: ((objective.userPoints / objective.maxPoints) * 100),
       // Small safety check: if the objective has no points to be gotten, don't display it
       include: objective.maxPoints > 0
     }))

@@ -42,7 +42,7 @@ export const SelfAssessmentFormPage = (props) => {
   const [redirect, setRedirect] = useState(false)
   const [preview, setPreview] = useState(false)
   const [grades, setGrades] = useState([])
-  const { courseInstanceId, type, selfAssessmentId } = useParams()
+  const { type, selfAssessmentId } = useParams()
   const dispatch = useDispatch()
   const { newAssessment = false, edit = false } = props
   const { t } = useTranslation('translation', {
@@ -58,8 +58,8 @@ export const SelfAssessmentFormPage = (props) => {
         // courseData includes all objectives and categories related to course
         // course info includes the names in eng, fin and swe
 
-        const courseData = await getCourseData(courseInstanceId)
-        const courseInfo = await getCourseInstance(courseInstanceId)
+        const courseData = await getCourseData(courseInstance.id)
+        const courseInfo = await getCourseInstance(courseInstance.id)
 
         // dispatch the call to reducer to generate the required form data with given parameters
         initNewFormAction(
@@ -81,11 +81,11 @@ export const SelfAssessmentFormPage = (props) => {
       await getAssesmentResponseAction(selfAssessmentId, dispatch)
     }
     if (!role) {
-      await getCourseInstanceDataAction(courseInstanceId, dispatch)
+      await getCourseInstanceDataAction(courseInstance.id, dispatch)
     }
     if (formData) {
       // Fetch the grades for the course
-      const grades = await gradeOptions(courseInstanceId)
+      const grades = await gradeOptions(courseInstance.id)
       return grades
     }
     dispatch({
@@ -259,7 +259,7 @@ export const SelfAssessmentFormPage = (props) => {
 
   const renderContent = () => {
     if (!formData) {
-      return <Redirect to={`/user/course/${courseInstanceId}`} />
+      return <Redirect to={`/user/course/${courseInstance.id}`} />
     }
     if (Object.keys(formData).length > 0 && (Object.keys(assessmentResponse).length > 0 || edit) && role) {
       return renderForm()
@@ -269,7 +269,7 @@ export const SelfAssessmentFormPage = (props) => {
 
   return (
     <div>
-      <Prompt when={unsavedChanges} message="selfAssessmentForm.selfAssessmentFormPage.prompt" />
+      <Prompt when={unsavedChanges} message={t('prompt')} />
       {renderContent()}
     </div>
   )

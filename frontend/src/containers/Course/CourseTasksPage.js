@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { Grid, Dimmer, Loader } from 'semantic-ui-react'
-import CourseHeader from '../Course/components/header/CourseHeader'
+import CourseHeader from './components/header/CourseHeader'
 import ManageCoursePeople from '../User/ManageCoursePeople'
 import TaskResponseEdit from '../User/TaskResponseEdit'
 import InfoBox from '../../utils/components/InfoBox'
@@ -54,7 +54,7 @@ export const CourseTasksPage = (props) => {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
-              <InfoBox translationid="TasksAndPeople" buttonProps={{ floated: 'right' }} />
+              <InfoBox translationid="tasksAndPeople" buttonProps={{ floated: 'right' }} />
             </Grid.Column>
           </Grid.Row>
           {isGlobalTeacher && (

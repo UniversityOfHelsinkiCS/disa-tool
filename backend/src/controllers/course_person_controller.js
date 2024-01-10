@@ -1,8 +1,8 @@
 const router = require('express').Router()
 const logger = require('../utils/logger')
-const coursePersonService = require('../services/course_person_service.js')
-const { checkPrivilege } = require('../services/privilege.js')
-const { errors, messages } = require('../messages/global.js')
+const coursePersonService = require('../services/course_person_service')
+const { checkPrivilege } = require('../services/privilege')
+const { errors, messages } = require('../messages/global')
 
 router.post('/register', async (req, res) => {
   try {

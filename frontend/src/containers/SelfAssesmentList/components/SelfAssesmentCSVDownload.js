@@ -59,7 +59,7 @@ const SelfAssesmentCSVDownload = () => {
   const [data, setData] = useState('')
   const filePrefix = useSelector((state) => state.selfAssesmentList.selfAssesmentName)
   const responses = useSelector((state) => state.selfAssesmentList.selectedResponses)
-  const { t } = useTranslation('translation', { keyPrefix: 'selfAssessmentList.SelfAssesmentCSVDownload' })
+  const { t } = useTranslation('translation', { keyPrefix: 'selfAssessmentList.selfAssesmentCSVDownload' })
 
   const prepare = async () => {
     const formattedCsv = await formatToCsv(responses)

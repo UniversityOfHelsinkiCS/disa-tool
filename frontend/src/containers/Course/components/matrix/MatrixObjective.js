@@ -67,7 +67,7 @@ export const MatrixObjective = ({
 
   const asyncTaskDetails = async (props) => {
     const response = await taskDetails(props)
-    dispatch(response)
+    return response
   }
 
   const asyncMoveObjective = async (props) => {
@@ -105,8 +105,13 @@ export const MatrixObjective = ({
     setLoading(false)
   }
 
-  const { t } = useTranslation('translation', { keyPrefix: 'course.matrix.matrixObjective' })
+  const { t } = useTranslation('translation')
 
+  const labels = {
+    cumulative: 'course.matrix.matrixObjective.cumulative',
+    delete_prompt_1: 'course.matrix.matrixObjective.delete_prompt_1',
+    delete_header: 'course.matrix.matrixObjective.delete_header',
+  }
   const content = (
     <div className="flexContainer">
       <div className="objectiveBlock flexContainer">
@@ -149,13 +154,13 @@ export const MatrixObjective = ({
                 ) : (
                   <div>
                     <div>
-                      <span>{t('cumulative')}</span>
+                      <span>{t(labels.cumulative)}</span>
                       <Label>
                         <strong>{cumulativeMultiplier.toFixed(2)}</strong>
                       </Label>
                     </div>
                     <Header>
-                      <span className="capitalize">{t('tasks')}</span>
+                      <span className="capitalize">{t('common.tasks')}</span>
                     </Header>
                     <Grid>
                       {tasks.map((task) => (
@@ -183,8 +188,8 @@ export const MatrixObjective = ({
             objectiveId={objective.id}
             style={{ margin: '5px auto 5px auto' }}
             onExecute={() => asyncRemoveObjective({ id: objective.id })}
-            prompt={[t('delete_prompt_1'), `"${objective.name}"`]}
-            header={t('delete_header')}
+            prompt={[t(labels.delete_prompt_1), `"${objective.name}"`]}
+            header={t(labels.delete_header)}
           />
         </div>
       ) : null}

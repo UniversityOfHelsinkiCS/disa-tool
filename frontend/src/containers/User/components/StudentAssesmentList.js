@@ -5,7 +5,14 @@ import { orderBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 const StudentAssesmentList = ({ assesments }) => {
-  const { t } = useTranslation('translation', { keyPrefix: 'UserPage.StudentAssesmentList' })
+  const { t } = useTranslation('translation')
+
+  const labels = {
+    open: t('userPage.studentAssesmentList.open'),
+    closed: t('common.closed'),
+    answered: t('userPage.studentAssesmentList.answered'),
+    unanswered: t('userPage.studentAssesmentList.unanswered'),
+  }
   return (
     <List selection divided size="big">
       {orderBy(assesments, 'name').map((assesment) =>
@@ -15,10 +22,13 @@ const StudentAssesmentList = ({ assesments }) => {
               {assesment.name}
             </List.Content>
             <List.Content floated="right">
-              <Label color={assesment.open ? 'green' : 'red'} content={assesment.open ? t('open') : t('closed')} />
+              <Label
+                color={assesment.open ? 'green' : 'red'}
+                content={assesment.open ? t(labels.open) : t(labels.closed)}
+              />
               <Label
                 color={assesment.assessment_responses.length > 0 ? 'green' : 'red'}
-                content={assesment.assessment_responses.length > 0 ? t('answered') : t('unanswered')}
+                content={assesment.assessment_responses.length > 0 ? t(labels.answered) : t(labels.unanswered)}
               />
             </List.Content>
           </List.Item>

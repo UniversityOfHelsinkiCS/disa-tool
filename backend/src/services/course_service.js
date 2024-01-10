@@ -8,12 +8,14 @@ const {
   SelfAssessment,
   AssessmentResponse,
   TypeHeader
-} = require('../database/models.js')
+} = require('../database/models')
 
 const getCourse = (courseId) => Course.findOne({ where: { id: courseId } })
 
+// eslint-disable-next-line camelcase
 const editCourse = async ({ id, eng_name, fin_name, swe_name }) => {
   const response = await Course.update({
+    // eslint-disable-next-line camelcase
     eng_name, fin_name, swe_name },
   { returning: true, where: { id }
   })

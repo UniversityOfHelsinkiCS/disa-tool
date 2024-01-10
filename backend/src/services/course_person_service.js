@@ -1,4 +1,4 @@
-const { CoursePerson } = require('../database/models.js')
+const { CoursePerson } = require('../database/models')
 
 const create = {
   prepare: (data, user) => CoursePerson.build({

@@ -337,7 +337,8 @@
       "editCategoryModule": {
         "label": "Perustelut arvosanalle",
         "includedButton": "Mukana itsearviossa",
-        "notIncludedButton": "Ei mukana itsearviossa"
+        "notIncludedButton": "Ei mukana itsearviossa",
+        "partiallyIncludedButton": "Osittain mukana itsearviossa"
       },
       "openQuestionModule": {
         "placeholder": "Kirjoita vastaus tähän",
@@ -420,9 +421,9 @@
       }
     },
     "studentAssesmentList": {
-      "open": ["open", "avoin"],
-      "answered": ["answered", "vastattu"],
-      "unanswered": ["unanswered", "vastaamatta"]
+      "open": "avoin",
+      "answered": "vastattu",
+      "unanswered": "vastaamatta"
     },
     "teacherAssesmentList": {
       "open": "avoin",

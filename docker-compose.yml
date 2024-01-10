@@ -6,6 +6,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     image: disa_app
+    restart: always
     volumes:
       - ./:/app-root/src/frontend
     environment:

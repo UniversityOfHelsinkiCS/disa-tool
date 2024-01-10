@@ -11,8 +11,8 @@ const {
   CoursePerson,
   Grade,
   CategoryGrade
-} = require('../database/models.js')
-const editServices = require('../utils/editServices.js')
+} = require('../database/models')
+const editServices = require('../utils/editServices')
 
 const getOne = (courseInstanceId) => CourseInstance.findOne({ where: { id: courseInstanceId } })
 

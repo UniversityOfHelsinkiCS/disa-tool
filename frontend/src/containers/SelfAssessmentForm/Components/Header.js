@@ -16,13 +16,13 @@ const Header = ({
   nestedForms,
 }) => {
   const [editHeaders, setEditHeaders] = useState(false)
-  const [changedHeaders, setChangedHeaders] = useState({})
+  const [changedHeaders] = useState({})
   const dispatch = useDispatch()
 
   const toggleEdit = () => {
     dispatchChange //eslint-disable-line
       ? dispatchChange(changedHeaders)
-      : dispatch(changeHeaderAction(changedHeaders, headerType))
+      : changeHeaderAction({ changedHeaders, headerType }, dispatch)
     setEditHeaders(!editHeaders)
   }
 
