@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { Form, Button, Card, TextArea } from 'semantic-ui-react'
 import ReactMarkdown from 'react-markdown'
@@ -20,12 +20,13 @@ const SelfAssessmentInfo = (props) => {
   const handleChange = (e, { id }) => {
     const oldValue = values
     oldValue[id] = e.target.value
-    setValues({ ...values, [id]: e.target.value })
+    setValues(oldValue)
   }
 
   const toggleInstructions = () => {
     changeTextField({ values, type: 'instructions' }, dispatch)
     setEditInstructions(!editInstructions)
+    setValues({})
   }
 
   const toggleHeader = async (values) => {
@@ -34,15 +35,6 @@ const SelfAssessmentInfo = (props) => {
 
   const instructions = formInfo.filter((d) => d.type.includes('instruction'))
   const names = formInfo.filter((d) => d.type.includes('name'))
-  useEffect(() => {
-    const newValues = {}
-    instructions.map((d) => {
-      newValues[d.id] = d.value
-      return true
-    })
-    setValues(newValues)
-  }, [])
-
   return (
     <Form style={{ padding: '20px' }}>
       <Form.Field>
@@ -72,14 +64,17 @@ const SelfAssessmentInfo = (props) => {
                 <ReactMarkdown>{formData.instructions.value}</ReactMarkdown>
               </Card.Description>
             ) : (
-              instructions.map((d) => {
-                return (
-                  <Form.Field key={d.id}>
-                    <label>{d.prefix}</label>
-                    <TextArea autoheight="true" id={d.id} value={values[d.id]} onChange={handleChange} />
-                  </Form.Field>
-                )
-              })
+              instructions.map((d) => (
+                <Form.Field key={d.id}>
+                  <label>{d.prefix}</label>
+                  <TextArea
+                    autoheight="true"
+                    id={d.id}
+                    value={values[d.id] ? values[d.id] : d.value}
+                    onChange={handleChange}
+                  />
+                </Form.Field>
+              ))
             )}
           </Card.Content>
         </Card>

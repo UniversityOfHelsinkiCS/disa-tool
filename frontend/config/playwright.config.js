@@ -40,7 +40,7 @@ module.exports = defineConfig({
   use: {
     baseURL: 'http://localhost:8080',
     // storageState: 'users.json',
-    trace: 'on-first-retry',
+    trace: 'on',
     screenshot: 'only-on-failure', // Capture screenshot after each test failure.
     video: 'on-first-retry',
     headless: true,
