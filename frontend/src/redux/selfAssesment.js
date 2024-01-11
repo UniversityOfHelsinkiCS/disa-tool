@@ -191,13 +191,8 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       const toChange = state.createForm.structure.formInfo.find(
         (h) => h.type === (type === 'instructions' ? langInstructions : langName),
       )
-      state.createForm.structure.formInfo.map((inst) => {
-        console.log(inst)
-        return true
-      })
-      console.log(state.createForm.structure.formInfo)
+
       let value = null
-      console.log(toChange)
       if (ids.includes(toChange.id.toString())) {
         value =
           type === 'instructions' ? { ...state.createForm[type], value: values[toChange.id] } : values[toChange.id]
