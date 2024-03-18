@@ -44,7 +44,7 @@ test.describe('Task objective tests', () => {
     await expect(page.getByText('Editoitu oppimistavoite')).toBeVisible()
   })
 
-  test.only('Remove objective', async ({ page }) => {
+  test('Remove objective', async ({ page }) => {
     await page.goto('http://localhost:8080/')
     await page.getByRole('textbox').fill('kimgjon')
     await page.getByRole('textbox').press('Enter')
