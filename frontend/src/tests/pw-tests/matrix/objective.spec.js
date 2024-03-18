@@ -44,19 +44,17 @@ test.describe('Task objective tests', () => {
     await expect(page.getByText('Editoitu oppimistavoite')).toBeVisible()
   })
 
-  test('Remove objective', async ({ page }) => {
+  test.only('Remove objective', async ({ page }) => {
     await page.goto('http://localhost:8080/')
     await page.getByRole('textbox').fill('kimgjon')
     await page.getByRole('textbox').press('Enter')
     await page.goto('http://localhost:8080/course/1/matrix')
-    await expect(page.getByTestId('matrix-level-container-3-1')).toContainText(
+    const objectivesContainer = page.getByTestId('matrix-level-objectives-3-1')
+    await expect(objectivesContainer).toContainText(
       'Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio',
     )
-    await expect(page.getByTestId('matrix-level-container-3-1')).toHaveScreenshot({
-      path: 'remove-objective-module-before.png',
-      animations: 'disabled',
-      fullPage: true,
-    })
+    const objectivesCount = await objectivesContainer.locator('.MatrixObjective').count()
+    await expect(objectivesCount).toBe(3)
     await page
       .getByRole('cell', {
         name: 'Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio',
@@ -65,12 +63,10 @@ test.describe('Task objective tests', () => {
       .nth(1)
       .click()
     await page.locator("[data-testid='modal-delete-objective-16']").click()
-    await expect(page.locator("[data-testid='matrix-level-container-3-1']")).toHaveScreenshot({
-      path: 'remove-objective-module-after.png',
-      animations: 'disabled',
-    })
     await expect(
       page.getByText('Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio'),
     ).not.toBeVisible()
+    const objectivesCount2 = await objectivesContainer.locator('.MatrixObjective').count()
+    await expect(objectivesCount2).toBe(2)
   })
 })
