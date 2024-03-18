@@ -29,7 +29,7 @@ const MatrixPage = (props) => {
   }
 
   useEffect(() => {
-    if (tasks.length === 0) {
+    if (tasks && tasks.length === 0) {
       getCourseInstanceDataAction(courseId, dispatch)
     }
     if (levels.length === 0 && categories.length === 0) {
