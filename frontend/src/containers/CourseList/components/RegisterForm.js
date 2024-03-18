@@ -1,13 +1,13 @@
 import React from 'react'
-import { connect, useSelector } from 'react-redux'
+import { connect, useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button } from 'semantic-ui-react'
-import { registerToCourse, unregisterFromCourse } from '../actions/coursePersons'
 import { useTranslation } from 'react-i18next'
+import { registerToCourse, unregisterFromCourse } from '../actions/coursePersons'
 
 const RegisterForm = (props) => {
   const user = useSelector((state) => state.user)
-
+  const dispatch = useDispatch()
   const { t } = useTranslation('translation', { keyPrefix: 'courseList.registerForm' })
 
   const registerAction = async () => {
@@ -17,8 +17,7 @@ const RegisterForm = (props) => {
     } else {
       response = await registerToCourse({ course_instance_id: props.instanceId })
     }
-
-    response && dispatch(response)
+    dispatch(response)
   }
 
   if (user.id) {
